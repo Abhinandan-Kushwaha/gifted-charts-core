@@ -1,0 +1,49 @@
+{
+  "name": "gifted-charts-core",
+  "version": "0.0.1",
+  "description": "Mathematical and logical utilities used by react-gifted-charts and react-native-gifted-charts",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "repository": "https://github.com/Abhinandan-Kushwaha/gifted-charts-core",
+  "author": "Abhinandan Kushwaha <kushabhi5@gmail.com> (https://github.com/Abhinandan-Kushwaha)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Abhinandan-Kushwaha/gifted-charts-core/issues"
+  },
+  "homepage": "https://github.com/Abhinandan-Kushwaha/gifted-charts-core#readme",
+  "keywords": [
+    "gifted-charts",
+    "react-gifted-charts",
+    "react-native-gifted-charts"
+  ]
+}
