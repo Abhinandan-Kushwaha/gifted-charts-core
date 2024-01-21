@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Mathematical and logical utilities used by react-gifted-charts and react-native-gifted-charts",
   "main": "index.ts",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -41,6 +44,9 @@
     "url": "https://github.com/Abhinandan-Kushwaha/gifted-charts-core/issues"
   },
   "homepage": "https://github.com/Abhinandan-Kushwaha/gifted-charts-core#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "keywords": [
     "gifted-charts",
     "react-gifted-charts",
