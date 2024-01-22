@@ -4,6 +4,7 @@ import {
   LineDefaults,
   SEGMENT_END,
   SEGMENT_START,
+  chartTypes,
   defaultArrowConfig,
   defaultPointerConfig,
   screenWidth,
@@ -13,6 +14,7 @@ import {
   computeMaxAndMinItems,
   getAllArrowProperties,
   getArrowPoints,
+  getAxesAndRulesProps,
   getCurvePathWithSegments,
   getExtendedContainerHeightWithPadding,
   getPathWithHighlight,
@@ -21,7 +23,7 @@ import {
   svgPath,
 } from "../utils";
 import { LineChartPropsType } from "./types";
-import { EdgePosition } from "../utils/types";
+import { BarAndLineChartsWrapperTypes, EdgePosition } from "../utils/types";
 
 interface extendedLineChartPropsType extends LineChartPropsType {
   animations;
@@ -1696,6 +1698,74 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     setPointerY5(y5);
   };
 
+  const barAndLineChartsWrapperProps:BarAndLineChartsWrapperTypes = {
+    chartType: chartTypes.LINE,
+    containerHeight,
+    noOfSectionsBelowXAxis,
+    stepHeight,
+    labelsExtraHeight,
+    yAxisLabelWidth,
+    horizontal,
+    rtl: false,
+    shiftX: 0,
+    shiftY: 0,
+    yAxisAtTop,
+    initialSpacing,
+    data: data0 ?? data,
+    stackData: undefined, // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    secondaryData: secondaryData,
+    barWidth: 0, // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    xAxisThickness,
+    totalWidth,
+    disableScroll,
+    showScrollIndicator,
+    scrollToEnd,
+    scrollToIndex: props.scrollToIndex,
+    scrollAnimation,
+    scrollEventThrottle,
+    indicatorColor: props.indicatorColor,
+    setSelectedIndex,
+    spacing,
+    showLine: false,
+    lineConfig: null, // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    lineConfig2: null, // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    maxValue,
+    lineData: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    lineData2: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    lineBehindBars: false,
+    points,
+    points2: '', // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    arrowPoints: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+
+    //horizSectionProps-
+    width: props.width,
+    horizSections,
+    endSpacing,
+    horizontalRulesStyle,
+    noOfSections,
+    showFractionalValues,
+
+    axesAndRulesProps: getAxesAndRulesProps(props, stepValue, undefined),
+
+    yAxisLabelTexts: props.yAxisLabelTexts,
+    yAxisOffset: props.yAxisOffset,
+    rotateYAxisTexts: 0,
+    hideAxesAndRules: props.hideAxesAndRules,
+
+    showXAxisIndices,
+    xAxisIndicesHeight,
+    xAxisIndicesWidth,
+    xAxisIndicesColor,
+    pointerConfig,
+    getPointerProps,
+    pointerIndex,
+    pointerX,
+    pointerY,
+
+    endReached: props.endReached,
+    startReached: props.startReached,
+  }
+
   return {
     curvature,
     curveType,
@@ -2037,5 +2107,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     getPointerY,
     initialisePointers,
     setPointerConfig,
+    barAndLineChartsWrapperProps,
   };
 };

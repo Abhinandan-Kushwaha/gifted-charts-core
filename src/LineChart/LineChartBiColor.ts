@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { AxesAndRulesDefaults, LineDefaults } from "../utils/constants";
-import { getExtendedContainerHeightWithPadding } from "../utils";
+import { AxesAndRulesDefaults, LineDefaults, chartTypes } from "../utils/constants";
+import { getAxesAndRulesProps, getExtendedContainerHeightWithPadding } from "../utils";
 import { bicolorLineDataItem } from "./types";
+import { BarAndLineChartsWrapperTypes } from "../utils/types";
 
 let initialData: Array<bicolorLineDataItem> | null = null;
 
@@ -427,6 +428,74 @@ export const useLineChartBiColor = (props) => {
     });
   }
 
+  const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
+    chartType: chartTypes.LINE_BI_COLOR,
+    containerHeight,
+    noOfSectionsBelowXAxis,
+    stepHeight,
+    labelsExtraHeight,
+    yAxisLabelWidth,
+    horizontal,
+    rtl: false,
+    shiftX: 0,
+    shiftY: 0,
+    yAxisAtTop,
+    initialSpacing,
+    data,
+    stackData: undefined, // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    secondaryData: [],
+    barWidth: 0, // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    xAxisThickness,
+    totalWidth,
+    disableScroll,
+    showScrollIndicator,
+    scrollToEnd,
+    scrollToIndex: props.scrollToIndex,
+    scrollAnimation,
+    scrollEventThrottle,
+    indicatorColor: props.indicatorColor,
+    setSelectedIndex,
+    spacing,
+    showLine: false,
+    lineConfig: null, // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    lineConfig2: null, // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    maxValue,
+    lineData: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    lineData2: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    lineBehindBars: false,
+    points: pointsArray,
+    points2: '', // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    arrowPoints: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    remainingScrollViewProps: {},
+
+    //horizSectionProps-
+    width: props.width,
+    horizSections,
+    endSpacing,
+    horizontalRulesStyle,
+    noOfSections,
+    showFractionalValues,
+
+    axesAndRulesProps: getAxesAndRulesProps(props, stepValue, undefined),
+
+    yAxisLabelTexts: props.yAxisLabelTexts,
+    yAxisOffset: props.yAxisOffset,
+    rotateYAxisTexts: 0,
+    hideAxesAndRules: props.hideAxesAndRules,
+
+    showXAxisIndices,
+    xAxisIndicesHeight,
+    xAxisIndicesWidth,
+    xAxisIndicesColor,
+
+    // These are Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    pointerConfig: undefined,
+    getPointerProps: null,
+    pointerIndex: 0,
+    pointerX: 0,
+    pointerY: 0,
+  }
+
   return {
     toggle,
     setToggle,
@@ -513,5 +582,6 @@ export const useLineChartBiColor = (props) => {
     unFocusOnPressOut,
     delayBeforeUnFocus,
     horizSections,
+    barAndLineChartsWrapperProps,
   };
 };

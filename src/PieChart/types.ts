@@ -75,3 +75,8 @@ export type pieDataItem = {
   peripheral?: boolean;
   pieInnerComponent?: (item?: pieDataItem, index?: number) => any;
 };
+
+export interface PieChartMainProps extends PieChartPropsType {
+  setSelectedIndex: Function;
+  isBiggerPie?: boolean;
+}

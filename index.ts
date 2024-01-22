@@ -36,7 +36,7 @@ export {
 
 export { usePieChart } from "./src/PieChart";
 export { getPieChartMainProps } from "./src/PieChart/main";
-export { PieChartPropsType, pieDataItem } from "./src/PieChart/types";
+export { PieChartPropsType, pieDataItem, PieChartMainProps } from "./src/PieChart/types";
 
 /***********************************************************************************************************************/
 /************************************          Population Pyramid Chart             ************************************/
@@ -115,6 +115,8 @@ export {
   RuleType,
   RuleTypes,
   RulesConfig,
+  CurveType,
+  EdgePosition,
   PointerEvents,
   secondaryYAxisType,
   secondaryLineConfigType,

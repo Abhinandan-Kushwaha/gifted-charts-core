@@ -1,11 +1,8 @@
-import {
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BarChartPropsType, barDataItem } from "./types";
 import {
   getArrowPoints,
+  getAxesAndRulesProps,
   getExtendedContainerHeightWithPadding,
   getLineConfigForBarChart,
   getSecondaryDataWithOffsetIncluded,
@@ -17,9 +14,11 @@ import {
 import {
   AxesAndRulesDefaults,
   BarDefaults,
+  chartTypes,
   defaultLineConfig,
   defaultPointerConfig,
 } from "../utils/constants";
+import { BarAndLineChartsWrapperTypes } from "../utils/types";
 
 interface extendedBarChartPropsType extends BarChartPropsType {
   heightValue;
@@ -28,8 +27,7 @@ interface extendedBarChartPropsType extends BarChartPropsType {
 }
 
 export const useBarChart = (props: extendedBarChartPropsType) => {
-  const { heightValue, widthValue, opacValue } =
-    props;
+  const { heightValue, widthValue, opacValue } = props;
   const [points, setPoints] = useState("");
   const [points2, setPoints2] = useState("");
   const [arrowPoints, setArrowPoints] = useState("");
@@ -554,6 +552,140 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     outputRange: [0, totalWidth],
   });
 
+  const getPropsCommonForBarAndStack = (item, index) => {
+    return {
+      key: index,
+      item: item,
+      index: index,
+      containerHeight: containerHeight,
+      maxValue: maxValue,
+      spacing: item.spacing ?? spacing,
+      propSpacing: spacing,
+      xAxisThickness: xAxisThickness,
+      barWidth: props.barWidth,
+      opacity: opacity,
+      disablePress: item.disablePress || props.disablePress,
+      rotateLabel: rotateLabel,
+      showXAxisIndices: showXAxisIndices,
+      xAxisIndicesHeight: xAxisIndicesHeight,
+      xAxisIndicesWidth: xAxisIndicesWidth,
+      xAxisIndicesColor: xAxisIndicesColor,
+      horizontal: horizontal,
+      rtl: rtl,
+      intactTopLabel: intactTopLabel,
+      showValuesAsTopLabel: props.showValuesAsTopLabel,
+      topLabelContainerStyle: props.topLabelContainerStyle,
+      topLabelTextStyle: props.topLabelTextStyle,
+      barBorderWidth: props.barBorderWidth,
+      barBorderColor: barBorderColor,
+      barBorderRadius: props.barBorderRadius,
+      barBorderTopLeftRadius: props.barBorderTopLeftRadius,
+      barBorderTopRightRadius: props.barBorderTopRightRadius,
+      barBorderBottomLeftRadius: props.barBorderBottomLeftRadius,
+      barBorderBottomRightRadius: props.barBorderBottomRightRadius,
+      barInnerComponent,
+      color: props.color,
+      showGradient: props.showGradient,
+      gradientColor: props.gradientColor,
+      barBackgroundPattern: props.barBackgroundPattern,
+      patternId: props.patternId,
+      onPress: props.onPress,
+      xAxisTextNumberOfLines: xAxisTextNumberOfLines,
+      xAxisLabelsHeight: props.xAxisLabelsHeight,
+      xAxisLabelsVerticalShift,
+      renderTooltip: props.renderTooltip,
+      leftShiftForTooltip: props.leftShiftForTooltip || 0,
+      initialSpacing: initialSpacing,
+      selectedIndex: selectedIndex,
+      setSelectedIndex: setSelectedIndex,
+      activeOpacity: props.activeOpacity || 0.2,
+
+      leftShiftForLastIndexTooltip: props.leftShiftForLastIndexTooltip || 0,
+      label:
+        item.label ||
+        (props.xAxisLabelTexts && props.xAxisLabelTexts[index]
+          ? props.xAxisLabelTexts[index]
+          : ""),
+      labelTextStyle: item.labelTextStyle || props.xAxisLabelTextStyle,
+      pointerConfig,
+    };
+  };
+
+  const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
+    chartType: chartTypes.BAR,
+    containerHeight,
+    noOfSectionsBelowXAxis,
+    stepHeight,
+    labelsExtraHeight,
+    yAxisLabelWidth,
+    horizontal,
+    rtl,
+    shiftX: props.shiftX ?? 0,
+    shiftY: props.shiftY ?? 0,
+    yAxisAtTop,
+    initialSpacing,
+    data,
+    stackData: props.stackData,
+    secondaryData: secondaryData,
+    barWidth: props.barWidth || BarDefaults.barWidth,
+    xAxisThickness,
+    totalWidth,
+    disableScroll,
+    showScrollIndicator,
+    scrollToEnd,
+    scrollToIndex: props.scrollToIndex,
+    scrollAnimation,
+    scrollEventThrottle,
+    indicatorColor: props.indicatorColor,
+    setSelectedIndex,
+    spacing,
+    showLine,
+    lineConfig,
+    lineConfig2,
+    maxValue,
+    lineData,
+    lineData2,
+    animatedWidth,
+    lineBehindBars,
+    points,
+    points2,
+    arrowPoints,
+
+    //horizSectionProps-
+    width: widthFromProps,
+    horizSections,
+    endSpacing,
+    horizontalRulesStyle,
+    noOfSections,
+    showFractionalValues,
+
+    axesAndRulesProps: getAxesAndRulesProps(
+      props,
+      stepValue,
+      secondaryMaxValue
+    ),
+
+    yAxisLabelTexts: props.yAxisLabelTexts,
+    yAxisOffset: props.yAxisOffset,
+    rotateYAxisTexts: props.rotateYAxisTexts,
+    hideAxesAndRules: props.hideAxesAndRules,
+
+    showXAxisIndices,
+    xAxisIndicesHeight,
+    xAxisIndicesWidth,
+    xAxisIndicesColor,
+
+    // These are Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    pointerConfig,
+    getPointerProps,
+    pointerIndex,
+    pointerX,
+    pointerY,
+
+    endReached: props.endReached,
+    startReached: props.startReached,
+  };
+
   return {
     lineConfig,
     hidePointer1,
@@ -592,6 +724,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     setPointerIndex,
     maxValue,
     responderStartTime,
+    responderActive,
     setResponderActive,
     activatePointersDelay,
     persistPointer,
@@ -642,8 +775,11 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     animatedWidth,
     lineBehindBars,
     points,
+    setPoints,
     points2,
+    setPoints2,
     arrowPoints,
+    setArrowPoints,
     horizSections,
     endSpacing,
     horizontalRulesStyle,
@@ -654,5 +790,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     secondaryMaxValue,
     getPointerProps,
     pointerIndex,
+    getPropsCommonForBarAndStack,
+    barAndLineChartsWrapperProps,
   };
 };

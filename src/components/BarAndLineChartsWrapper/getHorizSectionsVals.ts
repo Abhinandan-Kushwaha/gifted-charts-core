@@ -1,6 +1,6 @@
 import { AxesAndRulesDefaults } from "../../utils/constants";
 import { HorizSectionsType, secondaryYAxisType } from "../../utils/types";
-import { computeMaxAndMinItems } from "../../utils";
+import { computeMaxAndMinItems, getLabelTextUtil } from "../../utils";
 
 export const getHorizSectionVals = (props) => {
   const {
@@ -42,6 +42,9 @@ export const getHorizSectionVals = (props) => {
 
     stepValue,
     roundToDigits,
+
+    yAxisOffset,
+    formatYLabel,
 
     secondaryData,
     secondaryYAxis,
@@ -335,6 +338,43 @@ export const getHorizSectionVals = (props) => {
       }
     : defaultReferenceConfig;
 
+    const getLabelTexts = (val, index) => {
+      return getLabelTextUtil(
+        val,
+        index,
+        showFractionalValues,
+        yAxisLabelTexts,
+        yAxisOffset,
+        yAxisLabelPrefix,
+        yAxisLabelSuffix,
+        roundToDigits ?? AxesAndRulesDefaults.roundToDigits,
+        formatYLabel,
+      );
+    };
+  
+    const getLabelTextsForSecondaryYAxis = (val, index) => {
+      const {
+        showFractionalValues,
+        yAxisLabelTexts,
+        yAxisOffset,
+        yAxisLabelPrefix,
+        yAxisLabelSuffix,
+        roundToDigits,
+        formatYLabel,
+      } = secondaryYAxisConfig;
+      return getLabelTextUtil(
+        val,
+        index,
+        showFractionalValues,
+        yAxisLabelTexts,
+        yAxisOffset,
+        yAxisLabelPrefix,
+        yAxisLabelSuffix,
+        roundToDigits ?? AxesAndRulesDefaults.roundToDigits,
+        formatYLabel,
+      );
+    };
+
   return {
     secondaryYAxisConfig,
     horizSections,
@@ -351,5 +391,7 @@ export const getHorizSectionVals = (props) => {
     referenceLine3Position,
     horizSectionsBelow,
     secondaryHorizSectionsBelow,
+    getLabelTexts,
+    getLabelTextsForSecondaryYAxis,
   };
 };

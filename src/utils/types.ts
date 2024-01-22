@@ -197,7 +197,7 @@ export type BarAndLineChartsWrapperTypes = {
   rtl: boolean;
   shiftX: number;
   shiftY: number;
-  scrollRef: any;
+  scrollRef?: any;
   yAxisAtTop: boolean;
   initialSpacing: number;
   data: Array<any>;
@@ -220,13 +220,13 @@ export type BarAndLineChartsWrapperTypes = {
   maxValue: number;
   lineData: Array<any>;
   lineData2: Array<any>;
-  animatedWidth: any;
+  animatedWidth?: any;
   lineBehindBars: boolean;
   points: string | Array<any>;
   points2: string | Array<any>;
   arrowPoints: any;
-  renderChartContent: any;
-  remainingScrollViewProps: any;
+  renderChartContent?: any;
+  remainingScrollViewProps?: any;
 
   width: number | undefined;
   horizSections: HorizSectionsType;
@@ -253,6 +253,9 @@ export type BarAndLineChartsWrapperTypes = {
   pointerY: number;
 
   scrollEventThrottle: number;
+
+  endReached?: () => void;
+  startReached?: () => void;
 };
 
 export type Pointer = {

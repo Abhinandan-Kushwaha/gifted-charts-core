@@ -1,11 +1,6 @@
-import { PieChartPropsType, pieDataItem } from "./types";
+import { PieChartMainProps, pieDataItem } from "./types";
 
-interface propTypes extends PieChartPropsType {
-  setSelectedIndex: Function;
-  isBiggerPie?: boolean;
-}
-
-export const getPieChartMainProps = (props: propTypes) => {
+export const getPieChartMainProps = (props: PieChartMainProps) => {
   const { isThreeD, isBiggerPie } = props;
   const propData = props.data;
   const data: Array<pieDataItem> = [];

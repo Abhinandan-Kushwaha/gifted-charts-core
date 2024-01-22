@@ -84,6 +84,12 @@ export const getPropsForAnimated2DWithGradient = (props) => {
       borderTopRightRadius: (item.barWidth || barWidth || 30) / 2,
     });
   }
+  const barStyleWithBackground: ViewStyle[] = [
+    ...commonStyleForBar,
+    {
+      backgroundColor: item.frontColor || props.frontColor || "black",
+    },
+  ];
 
   const commonPropsFor2Dand3Dbars = {
     barBackgroundPattern: item.barBackgroundPattern || barBackgroundPattern,
@@ -107,6 +113,7 @@ export const getPropsForAnimated2DWithGradient = (props) => {
 
   return {
     commonStyleForBar,
+    barStyleWithBackground,
     commonPropsFor2Dand3Dbars,
   };
 };
