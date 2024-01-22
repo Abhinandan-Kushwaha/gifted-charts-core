@@ -1762,8 +1762,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     pointerX,
     pointerY,
 
-    endReached: props.endReached,
-    startReached: props.startReached,
+    onEndReached: props.onEndReached,
+    onStartReached: props.onStartReached,
   }
 
   return {

@@ -682,8 +682,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     pointerX,
     pointerY,
 
-    endReached: props.endReached,
-    startReached: props.startReached,
+    onEndReached: props.onEndReached,
+    onStartReached: props.onStartReached,
   };
 
   return {

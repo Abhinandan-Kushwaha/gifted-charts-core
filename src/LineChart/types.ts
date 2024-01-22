@@ -316,8 +316,8 @@ export type LineChartPropsType = {
   lineSegments5?: Array<LineSegment>;
   highlightedRange?: HighlightedRange;
 
-  endReached?: () => void;
-  startReached?: () => void;
+  onEndReached?: () => void;
+  onStartReached?: () => void;
 };
 
 export type lineDataItem = {

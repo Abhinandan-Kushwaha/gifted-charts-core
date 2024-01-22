@@ -286,8 +286,8 @@ export type BarChartPropsType = {
   getPointerProps?: Function;
   formatYLabel?: (label: string) => string;
 
-  endReached?: () => void;
-  startReached?: () => void;
+  onEndReached?: () => void;
+  onStartReached?: () => void;
 };
 type lineConfigType = {
   initialSpacing?: number;
