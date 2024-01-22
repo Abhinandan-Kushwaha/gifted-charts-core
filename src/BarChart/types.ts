@@ -1,5 +1,5 @@
-import {ColorValue, GestureResponderEvent} from 'react-native';
-import {yAxisSides} from '../utils/constants';
+import { ColorValue, GestureResponderEvent } from "react-native";
+import { yAxisSides } from "../utils/constants";
 import {
   CurveType,
   Pointer,
@@ -7,8 +7,8 @@ import {
   RulesConfig,
   referenceConfigType,
   secondaryYAxisType,
-} from '../utils/types';
-import {Component, ReactNode} from 'react';
+} from "../utils/types";
+import { Component, ReactNode } from "react";
 
 export type stackDataItem = {
   onPress?: any;
@@ -90,7 +90,10 @@ export type StackedBarChartPropsType = {
   barBorderTopRightRadius?: number;
   barBorderBottomLeftRadius?: number;
   barBorderBottomRightRadius?: number;
-  barInnerComponent?: (item?: barDataItem | stackDataItem, index?: number) => ReactNode;
+  barInnerComponent?: (
+    item?: barDataItem | stackDataItem,
+    index?: number
+  ) => ReactNode;
   stackBorderRadius?: number;
   stackBorderTopLeftRadius?: number;
   stackBorderTopRightRadius?: number;
@@ -219,7 +222,7 @@ export type BarChartPropsType = {
 
   disableScroll?: boolean;
   showScrollIndicator?: boolean;
-  indicatorColor?: 'black' | 'default' | 'white';
+  indicatorColor?: "black" | "default" | "white";
   roundedTop?: boolean;
   roundedBottom?: boolean;
   disablePress?: boolean;
@@ -278,7 +281,10 @@ export type BarChartPropsType = {
   leftShiftForTooltip?: number;
   leftShiftForLastIndexTooltip?: number;
   barStyle?: object;
-  barInnerComponent?: (item?: stackDataItem | barDataItem, index?: number) => ReactNode;
+  barInnerComponent?: (
+    item?: stackDataItem | barDataItem,
+    index?: number
+  ) => ReactNode;
 
   secondaryData?: Array<barDataItem>;
   secondaryYAxis?: secondaryYAxisType | boolean;
@@ -288,6 +294,7 @@ export type BarChartPropsType = {
 
   onEndReached?: () => void;
   onStartReached?: () => void;
+  endReachedOffset?: number;
 };
 type lineConfigType = {
   initialSpacing?: number;
@@ -546,4 +553,3 @@ export type animatedBarPropTypes = {
   item: any;
   index: number;
 };
-

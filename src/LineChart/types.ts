@@ -1,5 +1,5 @@
-import {ColorValue} from 'react-native';
-import {yAxisSides} from '../utils/constants';
+import { ColorValue } from "react-native";
+import { yAxisSides } from "../utils/constants";
 import {
   CurveType,
   DataSet,
@@ -13,7 +13,7 @@ import {
   referenceConfigType,
   secondaryLineConfigType,
   secondaryYAxisType,
-} from '../utils/types';
+} from "../utils/types";
 
 export type LineChartPropsType = {
   height?: number;
@@ -121,7 +121,7 @@ export type LineChartPropsType = {
   disableScroll?: boolean;
   pointerConfig?: Pointer;
   showScrollIndicator?: boolean;
-  indicatorColor?: 'black' | 'default' | 'white';
+  indicatorColor?: "black" | "default" | "white";
 
   //Indices
 
@@ -318,6 +318,7 @@ export type LineChartPropsType = {
 
   onEndReached?: () => void;
   onStartReached?: () => void;
+  endReachedOffset?: number;
 };
 
 export type lineDataItem = {
@@ -489,7 +490,7 @@ export type LineChartBicolorPropsType = {
 
   disableScroll?: boolean;
   showScrollIndicator?: boolean;
-  indicatorColor?: 'black' | 'default' | 'white';
+  indicatorColor?: "black" | "default" | "white";
 
   //Indices
 

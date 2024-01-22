@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { AxesAndRulesDefaults, BarDefaults } from "../../utils/constants";
-import { horizSectionPropTypes } from "../../utils/types";
+import {
+  BarAndLineChartsWrapperTypes,
+  horizSectionPropTypes,
+} from "../../utils/types";
 
-export const useBarAndLineChartsWrapper = (props) => {
+export const useBarAndLineChartsWrapper = (
+  props: BarAndLineChartsWrapperTypes
+) => {
   const {
     chartType,
     containerHeight,
@@ -52,6 +57,7 @@ export const useBarAndLineChartsWrapper = (props) => {
     pointerY,
 
     scrollEventThrottle,
+    endReachedOffset,
   } = props;
 
   let yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop;
@@ -313,7 +319,7 @@ export const useBarAndLineChartsWrapper = (props) => {
   const isCloseToEnd = ({ layoutMeasurement, contentOffset, contentSize }) => {
     return (
       layoutMeasurement.width + contentOffset.x >=
-      contentSize.width - initialSpacing
+      contentSize.width - initialSpacing - endReachedOffset
     );
   };
 

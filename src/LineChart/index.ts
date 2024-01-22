@@ -1698,7 +1698,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     setPointerY5(y5);
   };
 
-  const barAndLineChartsWrapperProps:BarAndLineChartsWrapperTypes = {
+  const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
     chartType: chartTypes.LINE,
     containerHeight,
     noOfSectionsBelowXAxis,
@@ -1734,7 +1734,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     lineData2: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
     lineBehindBars: false,
     points,
-    points2: '', // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    points2: "", // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
     arrowPoints: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
 
     //horizSectionProps-
@@ -1764,7 +1764,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
     onEndReached: props.onEndReached,
     onStartReached: props.onStartReached,
-  }
+    endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset,
+  };
 
   return {
     curvature,

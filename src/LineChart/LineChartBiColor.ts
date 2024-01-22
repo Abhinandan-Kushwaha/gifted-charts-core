@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { AxesAndRulesDefaults, LineDefaults, chartTypes } from "../utils/constants";
-import { getAxesAndRulesProps, getExtendedContainerHeightWithPadding } from "../utils";
+import {
+  AxesAndRulesDefaults,
+  LineDefaults,
+  chartTypes,
+} from "../utils/constants";
+import {
+  getAxesAndRulesProps,
+  getExtendedContainerHeightWithPadding,
+} from "../utils";
 import { bicolorLineDataItem } from "./types";
 import { BarAndLineChartsWrapperTypes } from "../utils/types";
 
@@ -464,7 +471,7 @@ export const useLineChartBiColor = (props) => {
     lineData2: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
     lineBehindBars: false,
     points: pointsArray,
-    points2: '', // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
+    points2: "", // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
     arrowPoints: [], // Not needed but passing this prop to maintain consistency (between LineChart and BarChart props)
     remainingScrollViewProps: {},
 
@@ -494,7 +501,8 @@ export const useLineChartBiColor = (props) => {
     pointerIndex: 0,
     pointerX: 0,
     pointerY: 0,
-  }
+    endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset,
+  };
 
   return {
     toggle,

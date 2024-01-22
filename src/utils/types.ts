@@ -1,8 +1,8 @@
-import {ColorValue} from 'react-native';
-import {chartTypes, yAxisSides} from './constants';
-import {lineDataItem} from '../LineChart/types';
+import { ColorValue } from "react-native";
+import { chartTypes, yAxisSides } from "./constants";
+import { lineDataItem } from "../LineChart/types";
 
-export type RuleType = 'solid' | 'dashed' | 'dotted' | string;
+export type RuleType = "solid" | "dashed" | "dotted" | string;
 
 export type RuleTypes = {
   SOLID: RuleType;
@@ -29,7 +29,7 @@ export type RulesConfig = {
   dashGap?: number;
 };
 
-export type PointerEvents = 'box-none' | 'none' | 'box-only' | 'auto';
+export type PointerEvents = "box-none" | "none" | "box-only" | "auto";
 
 export type secondaryYAxisType = {
   noOfSections?: number;
@@ -211,7 +211,7 @@ export type BarAndLineChartsWrapperTypes = {
   scrollToEnd: boolean;
   scrollToIndex: number | undefined;
   scrollAnimation: boolean;
-  indicatorColor: 'black' | 'default' | 'white' | undefined;
+  indicatorColor: "black" | "default" | "white" | undefined;
   setSelectedIndex: any;
   spacing: number;
   showLine: boolean;
@@ -256,6 +256,7 @@ export type BarAndLineChartsWrapperTypes = {
 
   onEndReached?: () => void;
   onStartReached?: () => void;
+  endReachedOffset: number;
 };
 
 export type Pointer = {
