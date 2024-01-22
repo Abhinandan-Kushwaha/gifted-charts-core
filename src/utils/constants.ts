@@ -146,9 +146,9 @@ export const BarDefaults = {
   opacity: 1,
   isThreeD: false,
   threeDBarGradientColor: 'white',
-  threeDBarFrontColor: '#fe2233',
-  threeDBarSideColor: '#fe2233',
-  threeDBarTopColor: '#fe2233',
+  threeDBarFrontColor: '#C0CA3A',
+  threeDBarSideColor: '#887A24',
+  threeDBarTopColor: '#D9E676',
 };
 
 export const defaultLineConfig: defaultLineConfigType = {

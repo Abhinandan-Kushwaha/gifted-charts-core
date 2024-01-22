@@ -18,9 +18,9 @@ export const useAnimatedThreeDBar = (props: animatedBarPropTypes) => {
   return {
     showGradient,
     gradientColor,
-    frontColor,
-    sideColor,
-    topColor,
+    frontColor: frontColor?.toString()?.trim?.()?.length ? frontColor : BarDefaults.threeDBarFrontColor,
+    sideColor: sideColor?.toString()?.trim?.()?.length ? sideColor : BarDefaults.threeDBarSideColor,
+    topColor: topColor?.toString()?.trim?.()?.length ? topColor : BarDefaults.threeDBarTopColor,
     opacity,
     initialRender,
     setInitialRender,
