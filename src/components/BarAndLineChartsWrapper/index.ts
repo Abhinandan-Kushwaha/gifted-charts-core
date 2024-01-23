@@ -323,7 +323,7 @@ export const useBarAndLineChartsWrapper = (
     );
   };
 
-  const isCloseToStart = ({ layoutMeasurement, contentOffset }) => {
+  const isCloseToStart = ({ contentOffset }) => {
     return contentOffset.x <= initialSpacing;
   };
 
