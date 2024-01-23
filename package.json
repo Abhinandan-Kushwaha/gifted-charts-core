@@ -1,6 +1,6 @@
 {
   "name": "gifted-charts-core",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Mathematical and logical utilities used by react-gifted-charts and react-native-gifted-charts",
   "main": "index.ts",
   "files": [
