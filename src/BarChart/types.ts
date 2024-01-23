@@ -512,6 +512,7 @@ export type RenderBarsPropsType = {
   patternId?: String;
   barMarginBottom?: number;
   onPress?: Function;
+  onLongPress?: Function;
   xAxisTextNumberOfLines: number;
   xAxisLabelsHeight?: number;
   xAxisLabelsVerticalShift: number;

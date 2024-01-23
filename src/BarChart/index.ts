@@ -590,6 +590,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       barBackgroundPattern: props.barBackgroundPattern,
       patternId: props.patternId,
       onPress: props.onPress,
+      onLongPress: props.onLongPress,
       xAxisTextNumberOfLines: xAxisTextNumberOfLines,
       xAxisLabelsHeight: props.xAxisLabelsHeight,
       xAxisLabelsVerticalShift,
