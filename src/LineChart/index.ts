@@ -17,6 +17,8 @@ import {
   getAxesAndRulesProps,
   getCurvePathWithSegments,
   getExtendedContainerHeightWithPadding,
+  getMaxValue,
+  getNoOfSections,
   getPathWithHighlight,
   getSecondaryDataWithOffsetIncluded,
   getSegmentString,
@@ -95,7 +97,11 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const noOfSections = props.noOfSections || 10;
+  const noOfSections = getNoOfSections(
+    props.noOfSections,
+    props.maxValue,
+    props.stepValue
+  );
   const containerHeight =
     props.height ??
     ((props.stepHeight ?? 0) * noOfSections ||
@@ -412,7 +418,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.showFractionalValues
   );
 
-  const maxValue = props.maxValue || maxItem;
+  const maxValue = getMaxValue(
+    props.maxValue,
+    props.stepValue,
+    noOfSections,
+    maxItem
+  );
+
   const mostNegativeValue = props.mostNegativeValue || minItem;
 
   const overflowTop = props.overflowTop ?? 0;

@@ -5,6 +5,8 @@ import {
   getAxesAndRulesProps,
   getExtendedContainerHeightWithPadding,
   getLineConfigForBarChart,
+  getMaxValue,
+  getNoOfSections,
   getSecondaryDataWithOffsetIncluded,
   getXForLineInBar,
   getYForLineInBar,
@@ -96,7 +98,11 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const lineConfig2 = props.lineConfig2
     ? getLineConfigForBarChart(props.lineConfig2, initialSpacing)
     : defaultLineConfig;
-  const noOfSections = props.noOfSections ?? AxesAndRulesDefaults.noOfSections;
+  const noOfSections = getNoOfSections(
+    props.noOfSections,
+    props.maxValue,
+    props.stepValue
+  );
   const containerHeight =
     heightFromProps ??
     ((props.stepHeight ?? 0) * noOfSections ||
@@ -179,7 +185,12 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     props.showFractionalValues
   );
 
-  const maxValue = props.maxValue ?? maxAndMin.maxItem;
+  const maxValue = getMaxValue(
+    props.maxValue,
+    props.stepValue,
+    noOfSections,
+    maxAndMin.maxItem
+  );
   const secondaryMaxValue = lineConfig.isSecondary
     ? secondaryMaxAndMin.maxItem
     : maxValue;
@@ -591,6 +602,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       patternId: props.patternId,
       onPress: props.onPress,
       onLongPress: props.onLongPress,
+      focusBarOnPress: props.focusBarOnPress,
+      focusedBarConfig: props.focusedBarConfig,
       xAxisTextNumberOfLines: xAxisTextNumberOfLines,
       xAxisLabelsHeight: props.xAxisLabelsHeight,
       xAxisLabelsVerticalShift,

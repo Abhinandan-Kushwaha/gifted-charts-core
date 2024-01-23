@@ -298,7 +298,22 @@ export type BarChartPropsType = {
   onEndReached?: () => void;
   onStartReached?: () => void;
   endReachedOffset?: number;
+
+  focusBarOnPress?: boolean;
+  focusedBarConfig?: FocusedBarConfig;
 };
+
+export type FocusedBarConfig = {
+  color?: ColorValue;
+  gradientColor?: ColorValue;
+  width?: number;
+  borderRadius?: number;
+  roundedTop?: boolean;
+  roundedBottom?: boolean;
+  opacity?: number;
+  barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
+}
+
 type lineConfigType = {
   initialSpacing?: number;
   spacing?: number;
@@ -555,6 +570,29 @@ export type animatedBarPropTypes = {
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
   patternId?: String;
   barStyle?: object;
-  item: any;
+  item: barDataItem;
   index: number;
+  selectedIndex: number;
+  focusBarOnPress?: boolean;
+  focusedBarConfig?: FocusedBarConfig;
 };
+
+export type CommonPropsFor2Dand3DbarsType = {
+  barBackgroundPattern: Function;
+    barInnerComponent: (item?: barDataItem, index?: number) => ReactNode;
+    patternId: String;
+    width: number;
+    barStyle: object;
+    item: barDataItem;
+    index: number;
+
+    frontColor: ColorValue;
+    showGradient: boolean;
+    gradientColor: ColorValue;
+    opacity: number;
+    height: number;
+    intactTopLabel: boolean;
+    showValuesAsTopLabel: boolean;
+    topLabelContainerStyle: any;
+    topLabelTextStyle: any;
+}

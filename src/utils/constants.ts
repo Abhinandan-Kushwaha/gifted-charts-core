@@ -151,6 +151,9 @@ export const BarDefaults = {
   threeDBarSideColor: "#887A24",
   threeDBarTopColor: "#D9E676",
   endReachedOffset: defaultEndReachedOffset,
+  focusedBarFrontColor: 'lightgreen',
+  focusedBarSideColor: '#776913',
+  focusedBarTopColor: '#C8D565',
 };
 
 export const defaultLineConfig: defaultLineConfigType = {

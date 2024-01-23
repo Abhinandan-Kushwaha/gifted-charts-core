@@ -1,15 +1,22 @@
 import {
+  AxesAndRulesDefaults,
+  BarDefaults,
   RANGE_ENTER,
   RANGE_EXIT,
   STOP,
   defaultLineConfig,
   loc,
-} from './constants';
-import {arrowConfigType, CurveType, LineProperties, LineSegment} from './types';
+} from "./constants";
+import {
+  arrowConfigType,
+  CurveType,
+  LineProperties,
+  LineSegment,
+} from "./types";
 
-const versionString = require('react-native/package.json').version;
+const versionString = require("react-native/package.json").version;
 
-const versionAr = versionString?.split?.('.') ?? '';
+const versionAr = versionString?.split?.(".") ?? "";
 const msb = Number(versionAr[0]);
 const mid = Number(versionAr[1]);
 const lsb = Number(versionAr[2]);
@@ -22,11 +29,11 @@ export const rnVersion =
 export const getCumulativeWidth = (
   data: any,
   index: number,
-  spacing: number,
+  spacing: number
 ) => {
   let cumWidth = 0;
   for (let i = 0; i < index; i++) {
-    let {barWidth} = data[i];
+    let { barWidth } = data[i];
     barWidth = barWidth || 30;
     cumWidth += barWidth + (spacing ?? 20);
   }
@@ -37,8 +44,8 @@ export const getLighterColor = (color: String) => {
   let r,
     g,
     b,
-    lighter = '#';
-  if (color.startsWith('#')) {
+    lighter = "#";
+  if (color.startsWith("#")) {
     if (color.length < 7) {
       r = parseInt(color[1], 16);
       g = parseInt(color[2], 16);
@@ -77,8 +84,8 @@ export const getLighterColor = (color: String) => {
   return lighter;
 };
 
-export const svgQuadraticCurvePath = points => {
-  let path = 'M' + points[0][0] + ',' + points[0][1];
+export const svgQuadraticCurvePath = (points) => {
+  let path = "M" + points[0][0] + "," + points[0][1];
 
   for (let i = 0; i < points.length - 1; i++) {
     const xMid = (points[i][0] + points[i + 1][0]) / 2;
@@ -86,21 +93,21 @@ export const svgQuadraticCurvePath = points => {
     const cpX1 = (xMid + points[i][0]) / 2;
     const cpX2 = (xMid + points[i + 1][0]) / 2;
     path +=
-      'Q ' +
+      "Q " +
       cpX1 +
-      ', ' +
+      ", " +
       points[i][1] +
-      ', ' +
+      ", " +
       xMid +
-      ', ' +
+      ", " +
       yMid +
-      (' Q ' +
+      (" Q " +
         cpX2 +
-        ', ' +
+        ", " +
         points[i + 1][1] +
-        ', ' +
+        ", " +
         points[i + 1][0] +
-        ', ' +
+        ", " +
         points[i + 1][1]);
   }
 
@@ -110,9 +117,9 @@ export const svgQuadraticCurvePath = points => {
 export const svgPath = (
   points: Array<Array<number>>,
   curveType: CurveType,
-  curvature: number,
+  curvature: number
 ) => {
-  if (!points?.length) return '';
+  if (!points?.length) return "";
   if (curveType === CurveType.QUADRATIC) {
     return svgQuadraticCurvePath(points);
   }
@@ -124,7 +131,7 @@ export const svgPath = (
           `M${point[0]},${point[1]}`
         : // else
           `${acc} ${bezierCommand(point, i, a, curvature)}`,
-    '',
+    ""
   );
   return d;
 };
@@ -143,7 +150,7 @@ const controlPoint = (
   current: Array<number>,
   previous: Array<number>,
   next: Array<number>,
-  reverse?: any,
+  reverse?: any
 ) => {
   // When 'current' is the first or last point of the array
   // 'previous' or 'next' don't exist.
@@ -167,7 +174,7 @@ export const bezierCommand = (
   point: Array<number>,
   i: number,
   a: Array<Array<number>>,
-  curvature: number,
+  curvature: number
 ) => {
   // start control point
   const [cpsX, cpsY] = controlPoint(curvature, a[i - 1], a[i - 2], point);
@@ -180,40 +187,40 @@ export const getSegmentString = (
   lineSegment,
   index,
   startDelimeter,
-  endDelimeter,
+  endDelimeter
 ) => {
-  const segment = lineSegment?.find(segment => segment.startIndex === index);
-  return segment ? startDelimeter + JSON.stringify(segment) + endDelimeter : '';
+  const segment = lineSegment?.find((segment) => segment.startIndex === index);
+  return segment ? startDelimeter + JSON.stringify(segment) + endDelimeter : "";
 };
 
 export const getCurvePathWithSegments = (
   path: string,
   lineSegment: LineSegment[] | undefined,
   startDelimeter,
-  endDelimeter,
+  endDelimeter
 ) => {
   if (!lineSegment?.length) return path;
-  let newPath = '';
-  const pathArray = path.split('C');
+  let newPath = "";
+  const pathArray = path.split("C");
   for (let i = 0; i < pathArray.length; i++) {
-    const segment = lineSegment?.find(segment => segment.startIndex === i);
+    const segment = lineSegment?.find((segment) => segment.startIndex === i);
     newPath +=
-      (pathArray[i].startsWith('M') ? '' : 'C') +
+      (pathArray[i].startsWith("M") ? "" : "C") +
       pathArray[i] +
-      (segment ? startDelimeter + JSON.stringify(segment) + endDelimeter : '');
+      (segment ? startDelimeter + JSON.stringify(segment) + endDelimeter : "");
   }
   return newPath;
 };
 
 export const getPreviousSegmentsLastPoint = (isCurved, previousSegment) => {
   const prevSegmentLastPoint = isCurved
-    ? previousSegment.substring(previousSegment.trim().lastIndexOf(' '))
+    ? previousSegment.substring(previousSegment.trim().lastIndexOf(" "))
     : previousSegment
-        .substring(previousSegment.lastIndexOf('L'))
-        .replace('L', 'M');
+        .substring(previousSegment.lastIndexOf("L"))
+        .replace("L", "M");
 
   return (
-    (prevSegmentLastPoint.trim()[0] === 'M' ? '' : 'M') + prevSegmentLastPoint
+    (prevSegmentLastPoint.trim()[0] === "M" ? "" : "M") + prevSegmentLastPoint
   );
 };
 
@@ -224,10 +231,10 @@ export const getPathWithHighlight = (
   startIndex,
   endIndex,
   getX,
-  getY,
+  getY
 ) => {
-  let path = '';
-  const {from, to} = highlightedRange;
+  let path = "";
+  const { from, to } = highlightedRange;
   const currentPointRegion =
     data[i].value < from ? loc.DOWN : data[i].value > to ? loc.UP : loc.IN;
 
@@ -236,8 +243,8 @@ export const getPathWithHighlight = (
       data[i + 1].value < from
         ? loc.DOWN
         : data[i + 1].value > to
-          ? loc.UP
-          : loc.IN;
+        ? loc.UP
+        : loc.IN;
     if (
       currentPointRegion !== nextPointRegion ||
       (i === startIndex && currentPointRegion === loc.IN)
@@ -256,11 +263,11 @@ export const getPathWithHighlight = (
         x = x1;
 
         path +=
-          'L' +
+          "L" +
           x +
-          ' ' +
+          " " +
           y +
-          ' ' +
+          " " +
           RANGE_ENTER +
           JSON.stringify(highlightedRange) +
           STOP;
@@ -269,12 +276,12 @@ export const getPathWithHighlight = (
           y = getY(to);
           x = (y - y1) / m + x1;
 
-          path += 'L' + x + ' ' + y + ' ' + RANGE_EXIT;
+          path += "L" + x + " " + y + " " + RANGE_EXIT;
         } else if (nextPointRegion === loc.DOWN) {
           y = getY(from);
           x = (y - y1) / m + x1;
 
-          path += 'L' + x + ' ' + y + ' ' + RANGE_EXIT;
+          path += "L" + x + " " + y + " " + RANGE_EXIT;
         }
       } else if (currentPointRegion !== nextPointRegion) {
         if (currentPointRegion === loc.DOWN && nextPointRegion === loc.UP) {
@@ -283,18 +290,18 @@ export const getPathWithHighlight = (
           x = (y - y1) / m + x1;
 
           path +=
-            'L' +
+            "L" +
             x +
-            ' ' +
+            " " +
             y +
-            ' ' +
+            " " +
             RANGE_ENTER +
             JSON.stringify(highlightedRange) +
             STOP;
           y = getY(to);
           x = (y - y1) / m + x1;
 
-          path += 'L' + x + ' ' + y + ' ' + RANGE_EXIT;
+          path += "L" + x + " " + y + " " + RANGE_EXIT;
         } else if (
           currentPointRegion === loc.UP &&
           nextPointRegion === loc.DOWN
@@ -304,18 +311,18 @@ export const getPathWithHighlight = (
           x = (y - y1) / m + x1;
 
           path +=
-            'L' +
+            "L" +
             x +
-            ' ' +
+            " " +
             y +
-            ' ' +
+            " " +
             RANGE_ENTER +
             JSON.stringify(highlightedRange) +
             STOP;
           y = getY(from);
           x = (y - y1) / m + x1;
 
-          path += 'L' + x + ' ' + y + ' ' + RANGE_EXIT;
+          path += "L" + x + " " + y + " " + RANGE_EXIT;
         } else {
           if (
             (currentPointRegion === loc.UP && nextPointRegion === loc.IN) ||
@@ -336,7 +343,7 @@ export const getPathWithHighlight = (
               ? RANGE_ENTER + JSON.stringify(highlightedRange) + STOP
               : RANGE_EXIT;
 
-          path += 'L' + x + ' ' + y + ' ' + prefix;
+          path += "L" + x + " " + y + " " + prefix;
         }
       }
     }
@@ -357,7 +364,7 @@ export const getRegionPathObjects = (
   isCurved,
   startDelimeter,
   stop,
-  endDelimeter,
+  endDelimeter
 ) => {
   const ar: [any] = [{}];
   let tempStr = points;
@@ -383,7 +390,7 @@ export const getRegionPathObjects = (
 
     const segmentConfigString = tempStr.substring(
       startDelimeterIndex + startDelimeter.length,
-      stopIndex,
+      stopIndex
     );
 
     const segmentConfig = JSON.parse(segmentConfigString);
@@ -393,7 +400,7 @@ export const getRegionPathObjects = (
     const previousSegment = ar[ar.length - 1].d;
     const moveToLastPointOfPreviousSegment = getPreviousSegmentsLastPoint(
       isCurved,
-      previousSegment,
+      previousSegment
     );
 
     /**********************            segment line                 *****************/
@@ -418,15 +425,15 @@ export const getRegionPathObjects = (
 
     if (
       nextDelimiterIndex !== -1 &&
-      stringUptoNextSegment.indexOf(isCurved ? 'C' : 'L') !== -1
+      stringUptoNextSegment.indexOf(isCurved ? "C" : "L") !== -1
     ) {
       const previousSegment = ar[ar.length - 1].d;
       const moveToLastPointOfPreviousSegment = getPreviousSegmentsLastPoint(
         isCurved,
-        previousSegment,
+        previousSegment
       );
       const lineSvgProps: LineProperties = {
-        d: moveToLastPointOfPreviousSegment + ' ' + stringUptoNextSegment,
+        d: moveToLastPointOfPreviousSegment + " " + stringUptoNextSegment,
         color,
         strokeWidth: currentLineThickness || thickness,
       };
@@ -443,7 +450,7 @@ export const getRegionPathObjects = (
     const previousSegment = ar[ar.length - 1].d;
     const moveToLastPointOfPreviousSegment = getPreviousSegmentsLastPoint(
       isCurved,
-      previousSegment,
+      previousSegment
     );
     const lineSvgProps: LineProperties = {
       d: moveToLastPointOfPreviousSegment + tempStr,
@@ -468,7 +475,7 @@ export const getSegmentedPathObjects = (
   strokeDashArray,
   isCurved,
   startDelimeter,
-  endDelimeter,
+  endDelimeter
 ) => {
   const ar: [any] = [{}];
   let tempStr = points;
@@ -493,21 +500,21 @@ export const getSegmentedPathObjects = (
 
     const segmentConfigString = tempStr.substring(
       startDelimeterIndex + startDelimeter.length,
-      endDelimeterIndex,
+      endDelimeterIndex
     );
 
     const segmentConfig = JSON.parse(segmentConfigString);
 
-    const {startIndex, endIndex} = segmentConfig;
+    const { startIndex, endIndex } = segmentConfig;
     const segmentLength = endIndex - startIndex;
     let segment = tempStr.substring(endDelimeterIndex + endDelimeter.length);
     let c = 0,
       s = 0,
       i;
     for (i = 0; i < segment.length; i++) {
-      if (segment[i] === (isCurved ? 'C' : 'L')) c++;
+      if (segment[i] === (isCurved ? "C" : "L")) c++;
       if (c === segmentLength) {
-        if (segment[i] === ' ') s++;
+        if (segment[i] === " ") s++;
         if (s === (isCurved ? 3 : 2)) break;
       }
     }
@@ -516,7 +523,7 @@ export const getSegmentedPathObjects = (
     const previousSegment = ar[ar.length - 1].d;
     const moveToLastPointOfPreviousSegment = getPreviousSegmentsLastPoint(
       isCurved,
-      previousSegment,
+      previousSegment
     );
 
     /**********************            segment line                 *****************/
@@ -541,15 +548,15 @@ export const getSegmentedPathObjects = (
 
     if (
       nextDelimiterIndex !== -1 &&
-      stringUptoNextSegment.indexOf(isCurved ? 'C' : 'L') !== -1
+      stringUptoNextSegment.indexOf(isCurved ? "C" : "L") !== -1
     ) {
       const previousSegment = ar[ar.length - 1].d;
       const moveToLastPointOfPreviousSegment = getPreviousSegmentsLastPoint(
         isCurved,
-        previousSegment,
+        previousSegment
       );
       const lineSvgProps: LineProperties = {
-        d: moveToLastPointOfPreviousSegment + ' ' + stringUptoNextSegment,
+        d: moveToLastPointOfPreviousSegment + " " + stringUptoNextSegment,
         color,
         strokeWidth: currentLineThickness || thickness,
       };
@@ -566,7 +573,7 @@ export const getSegmentedPathObjects = (
     const previousSegment = ar[ar.length - 1].d;
     const moveToLastPointOfPreviousSegment = getPreviousSegmentsLastPoint(
       isCurved,
-      previousSegment,
+      previousSegment
     );
     const lineSvgProps: LineProperties = {
       d: moveToLastPointOfPreviousSegment + tempStr,
@@ -590,7 +597,7 @@ export const getArrowPoints = (
   y1: number,
   arrowLength?: number,
   arrowWidth?: number,
-  showArrowBase?: boolean,
+  showArrowBase?: boolean
 ) => {
   let dataLineSlope = (arrowTipY - y1) / (arrowTipX - x1);
   let d = arrowLength ?? 0;
@@ -620,10 +627,10 @@ export const getArrowPoints = (
       interSectionY + arrowBaseSlope * (interSectionX - arrowBasex1);
   }
   let arrowPoints = ` M${interSectionX} ${interSectionY}`;
-  arrowPoints += ` ${showArrowBase ? 'L' : 'M'}${arrowBasex1} ${arrowBaseY1}`;
+  arrowPoints += ` ${showArrowBase ? "L" : "M"}${arrowBasex1} ${arrowBaseY1}`;
   arrowPoints += ` L${arrowTipX} ${arrowTipY}`;
   arrowPoints += ` M${interSectionX} ${interSectionY}`;
-  arrowPoints += ` ${showArrowBase ? 'L' : 'M'}${arrowBaseX2} ${arrowBaseY2}`;
+  arrowPoints += ` ${showArrowBase ? "L" : "M"}${arrowBaseX2} ${arrowBaseY2}`;
   arrowPoints += ` L${arrowTipX} ${arrowTipY}`;
 
   return arrowPoints;
@@ -632,7 +639,7 @@ export const getArrowPoints = (
 export const getAxesAndRulesProps = (
   props: any,
   stepValue: number,
-  maxValue?: number,
+  maxValue?: number
 ) => {
   const axesAndRulesProps = {
     yAxisSide: props.yAxisSide,
@@ -700,7 +707,7 @@ export const getAxesAndRulesProps = (
     formatYLabel: props.formatYLabel,
   };
   if (props.secondaryYAxis && maxValue !== undefined) {
-    axesAndRulesProps.secondaryYAxis = {...props.secondaryYAxis, maxValue};
+    axesAndRulesProps.secondaryYAxis = { ...props.secondaryYAxis, maxValue };
   }
 
   return axesAndRulesProps;
@@ -708,15 +715,15 @@ export const getAxesAndRulesProps = (
 
 export const getExtendedContainerHeightWithPadding = (
   containerHeight: number,
-  overflowTop?: number,
+  overflowTop?: number
 ) => containerHeight + (overflowTop ?? 0) + 10;
 
 export const getSecondaryDataWithOffsetIncluded = (
   secondaryData?: any,
-  secondaryYAxis?: any,
+  secondaryYAxis?: any
 ) => {
   if (secondaryData && secondaryYAxis?.yAxisOffset) {
-    return secondaryData?.map(item => {
+    return secondaryData?.map((item) => {
       item.value = item.value - (secondaryYAxis?.yAxisOffset ?? 0);
       return item;
     });
@@ -728,7 +735,7 @@ export const getArrowProperty = (
   property: string,
   count: number,
   props: any,
-  defaultArrowConfig: arrowConfigType,
+  defaultArrowConfig: arrowConfigType
 ) => {
   return (
     props[`arrowConfig${count}`]?.[`${property}`] ??
@@ -739,160 +746,160 @@ export const getArrowProperty = (
 
 export const getAllArrowProperties = (
   props: any,
-  defaultArrowConfig: arrowConfigType,
+  defaultArrowConfig: arrowConfigType
 ) => {
-  const arrowLength1 = getArrowProperty('length', 1, props, defaultArrowConfig);
-  const arrowWidth1 = getArrowProperty('width', 1, props, defaultArrowConfig);
+  const arrowLength1 = getArrowProperty("length", 1, props, defaultArrowConfig);
+  const arrowWidth1 = getArrowProperty("width", 1, props, defaultArrowConfig);
   const arrowStrokeWidth1 = getArrowProperty(
-    'strokeWidth',
+    "strokeWidth",
     1,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowStrokeColor1 = getArrowProperty(
-    'strokeColor',
+    "strokeColor",
     1,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowFillColor1 = getArrowProperty(
-    'fillColor',
+    "fillColor",
     1,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const showArrowBase1 = getArrowProperty(
-    'showArrowBase',
+    "showArrowBase",
     1,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
 
-  const arrowLength2 = getArrowProperty('length', 2, props, defaultArrowConfig);
-  const arrowWidth2 = getArrowProperty('width', 2, props, defaultArrowConfig);
+  const arrowLength2 = getArrowProperty("length", 2, props, defaultArrowConfig);
+  const arrowWidth2 = getArrowProperty("width", 2, props, defaultArrowConfig);
   const arrowStrokeWidth2 = getArrowProperty(
-    'strokeWidth',
+    "strokeWidth",
     2,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowStrokeColor2 = getArrowProperty(
-    'strokeColor',
+    "strokeColor",
     2,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowFillColor2 = getArrowProperty(
-    'fillColor',
+    "fillColor",
     2,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const showArrowBase2 = getArrowProperty(
-    'showArrowBase',
+    "showArrowBase",
     2,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
 
-  const arrowLength3 = getArrowProperty('length', 3, props, defaultArrowConfig);
-  const arrowWidth3 = getArrowProperty('width', 3, props, defaultArrowConfig);
+  const arrowLength3 = getArrowProperty("length", 3, props, defaultArrowConfig);
+  const arrowWidth3 = getArrowProperty("width", 3, props, defaultArrowConfig);
   const arrowStrokeWidth3 = getArrowProperty(
-    'strokeWidth',
+    "strokeWidth",
     3,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowStrokeColor3 = getArrowProperty(
-    'strokeColor',
+    "strokeColor",
     3,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowFillColor3 = getArrowProperty(
-    'fillColor',
+    "fillColor",
     3,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const showArrowBase3 = getArrowProperty(
-    'showArrowBase',
+    "showArrowBase",
     3,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
 
-  const arrowLength4 = getArrowProperty('length', 4, props, defaultArrowConfig);
-  const arrowWidth4 = getArrowProperty('width', 4, props, defaultArrowConfig);
+  const arrowLength4 = getArrowProperty("length", 4, props, defaultArrowConfig);
+  const arrowWidth4 = getArrowProperty("width", 4, props, defaultArrowConfig);
   const arrowStrokeWidth4 = getArrowProperty(
-    'strokeWidth',
+    "strokeWidth",
     4,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowStrokeColor4 = getArrowProperty(
-    'strokeColor',
+    "strokeColor",
     4,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowFillColor4 = getArrowProperty(
-    'fillColor',
+    "fillColor",
     4,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const showArrowBase4 = getArrowProperty(
-    'showArrowBase',
+    "showArrowBase",
     4,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
 
-  const arrowLength5 = getArrowProperty('length', 5, props, defaultArrowConfig);
-  const arrowWidth5 = getArrowProperty('width', 5, props, defaultArrowConfig);
+  const arrowLength5 = getArrowProperty("length", 5, props, defaultArrowConfig);
+  const arrowWidth5 = getArrowProperty("width", 5, props, defaultArrowConfig);
   const arrowStrokeWidth5 = getArrowProperty(
-    'strokeWidth',
+    "strokeWidth",
     5,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowStrokeColor5 = getArrowProperty(
-    'strokeColor',
+    "strokeColor",
     5,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const arrowFillColor5 = getArrowProperty(
-    'fillColor',
+    "fillColor",
     5,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
   const showArrowBase5 = getArrowProperty(
-    'showArrowBase',
+    "showArrowBase",
     5,
     props,
-    defaultArrowConfig,
+    defaultArrowConfig
   );
 
   const arrowLengthsFromSet = props.dataSet?.map(
-    item => item?.arrowConfig?.length ?? arrowLength1,
+    (item) => item?.arrowConfig?.length ?? arrowLength1
   );
   const arrowWidthsFromSet = props.dataSet?.map(
-    item => item?.arrowConfig?.arrowWidth ?? arrowWidth1,
+    (item) => item?.arrowConfig?.arrowWidth ?? arrowWidth1
   );
   const arrowStrokeWidthsFromSet = props.dataSet?.map(
-    item => item?.arrowConfig?.arrowStrokeWidth ?? arrowStrokeWidth1,
+    (item) => item?.arrowConfig?.arrowStrokeWidth ?? arrowStrokeWidth1
   );
   const arrowStrokeColorsFromSet = props.dataSet?.map(
-    item => item?.arrowConfig?.arrowStrokeColor ?? arrowStrokeColor1,
+    (item) => item?.arrowConfig?.arrowStrokeColor ?? arrowStrokeColor1
   );
   const arrowFillColorsFromSet = props.dataSet?.map(
-    item => item?.arrowConfig?.arrowFillColor ?? arrowFillColor1,
+    (item) => item?.arrowConfig?.arrowFillColor ?? arrowFillColor1
   );
   const showArrowBasesFromSet = props.dataSet?.map(
-    item => item?.arrowConfig?.showArrowBase ?? showArrowBase1,
+    (item) => item?.arrowConfig?.showArrowBase ?? showArrowBase1
   );
 
   return {
@@ -944,7 +951,7 @@ export const maxAndMinUtil = (
   maxItem: number,
   minItem: number,
   roundToDigits?: number,
-  showFractionalValues?: boolean,
+  showFractionalValues?: boolean
 ): MaxAndMin => {
   if (showFractionalValues || roundToDigits) {
     maxItem *= 10 * (roundToDigits || 1);
@@ -965,16 +972,16 @@ export const maxAndMinUtil = (
     }
   }
 
-  return {maxItem, minItem};
+  return { maxItem, minItem };
 };
 
 export const computeMaxAndMinItems = (
   data: any,
   roundToDigits?: number,
-  showFractionalValues?: boolean,
+  showFractionalValues?: boolean
 ): MaxAndMin => {
   if (!data?.length) {
-    return {maxItem: 0, minItem: 0};
+    return { maxItem: 0, minItem: 0 };
   }
   let maxItem = 0,
     minItem = 0;
@@ -1000,9 +1007,9 @@ export const getLabelTextUtil = (
   yAxisLabelPrefix?: string,
   yAxisLabelSuffix?: string,
   roundToDigits?: number,
-  formatYLabel?: (label: string) => string,
+  formatYLabel?: (label: string) => string
 ) => {
-  let label = '';
+  let label = "";
   if (
     showFractionalValues ||
     (yAxisLabelTexts && yAxisLabelTexts[index] !== undefined)
@@ -1013,14 +1020,14 @@ export const getLabelTextUtil = (
         ? val
         : (Number(val) + (yAxisOffset ?? 0)).toFixed(roundToDigits);
     } else {
-      label = yAxisOffset?.toString() ?? '0';
+      label = yAxisOffset?.toString() ?? "0";
     }
   } else {
     if (val) {
-      label = val.toString().split('.')[0];
+      label = val.toString().split(".")[0];
       label = (Number(label) + (yAxisOffset ?? 0)).toString();
     } else {
-      label = yAxisOffset?.toString() ?? '0';
+      label = yAxisOffset?.toString() ?? "0";
     }
   }
 
@@ -1037,7 +1044,7 @@ export const getXForLineInBar = (
   currentBarWidth: number,
   yAxisLabelWidth: number,
   lineConfig: any,
-  spacing: number,
+  spacing: number
 ) =>
   yAxisLabelWidth +
   firstBarWidth / 2 +
@@ -1050,8 +1057,8 @@ export const getXForLineInBar = (
 export const getYForLineInBar = (value, shiftY, containerHeight, maxValue) =>
   containerHeight - shiftY - (value * containerHeight) / maxValue;
 
-export const clone = obj => {
-  if (obj === null || typeof obj !== 'object' || 'isActiveClone' in obj)
+export const clone = (obj) => {
+  if (obj === null || typeof obj !== "object" || "isActiveClone" in obj)
     return obj;
 
   let temp;
@@ -1060,9 +1067,9 @@ export const clone = obj => {
 
   for (let key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      obj['isActiveClone'] = null;
+      obj["isActiveClone"] = null;
       temp[key] = clone(obj[key]);
-      delete obj['isActiveClone'];
+      delete obj["isActiveClone"];
     }
   }
   return temp;
@@ -1134,4 +1141,61 @@ export const getLineConfigForBarChart = (lineConfig, barInitialSpacing) => {
     customDataPoint: lineConfig.customDataPoint,
     isSecondary: lineConfig.isSecondary ?? defaultLineConfig.isSecondary,
   };
+};
+
+export const getNoOfSections = (noOfSections, maxValue, stepValue) =>
+  maxValue && stepValue
+    ? maxValue / stepValue
+    : noOfSections ?? AxesAndRulesDefaults.noOfSections;
+
+export const getMaxValue = (maxValue, stepValue, noOfSections, maxItem) =>
+  maxValue ?? (stepValue ? stepValue * noOfSections : maxItem);
+
+export const getBarFrontColor = (
+  isFocused,
+  focusedBarConfig,
+  itemFrontColor,
+  frontColor
+) => {
+  if (isFocused) {
+    return focusedBarConfig?.frontColor ?? BarDefaults.focusedBarFrontColor;
+  }
+  return itemFrontColor || frontColor || "";
+};
+
+export const getBarSideColor = (
+  isFocused,
+  focusedBarConfig,
+  itemSideColor,
+  sideColor
+) => {
+  if (isFocused) {
+    return focusedBarConfig?.sideColor ?? BarDefaults.focusedBarSideColor;
+  }
+  return itemSideColor || sideColor;
+};
+
+export const getBarTopColor = (
+  isFocused,
+  focusedBarConfig,
+  itemTopColor,
+  topColor
+) => {
+  if (isFocused) {
+    return focusedBarConfig?.topColor ?? BarDefaults.focusedBarTopColor;
+  }
+  return itemTopColor || topColor;
+};
+
+export const getBarWidth = (
+  isFocused,
+  focusedBarConfig,
+  itemBarWidth,
+  barWidth
+) => {
+  const localBarWidth = itemBarWidth || barWidth || BarDefaults.barWidth;
+  if (isFocused) {
+    return focusedBarConfig?.width ?? localBarWidth;
+  }
+  return localBarWidth;
 };
