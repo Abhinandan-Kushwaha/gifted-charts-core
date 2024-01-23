@@ -551,7 +551,7 @@ export type trianglePropTypes = {
 export type animatedBarPropTypes = {
   isAnimated?: boolean;
   animationDuration: number;
-  width: number;
+  barWidth: number;
   sideWidth: number;
   height: number;
   showGradient: boolean;
@@ -581,7 +581,7 @@ export type CommonPropsFor2Dand3DbarsType = {
   barBackgroundPattern: Function;
     barInnerComponent: (item?: barDataItem, index?: number) => ReactNode;
     patternId: String;
-    width: number;
+    barWidth: number;
     barStyle: object;
     item: barDataItem;
     index: number;

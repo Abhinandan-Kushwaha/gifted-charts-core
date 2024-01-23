@@ -121,7 +121,7 @@ export const getPropsForAnimated2DWithGradient = (props) => {
       ? focusedBarConfig?.barInnerComponent ?? localBarInnerComponent
       : localBarInnerComponent,
     patternId: item.patternId || patternId,
-    width: localBarWidth,
+    barWidth: localBarWidth,
     barStyle: barStyle,
     item: item,
     index: index,
