@@ -1155,12 +1155,22 @@ export const getBarFrontColor = (
   isFocused,
   focusedBarConfig,
   itemFrontColor,
-  frontColor
+  frontColor,
+  isThreeD
 ) => {
   if (isFocused) {
-    return focusedBarConfig?.frontColor ?? BarDefaults.focusedBarFrontColor;
+    return (
+      focusedBarConfig?.color ??
+      (isThreeD
+        ? BarDefaults.focusedThreeDBarFrontColor
+        : BarDefaults.focusedBarFrontColor)
+    );
   }
-  return itemFrontColor || frontColor || "";
+  return (
+    itemFrontColor ||
+    frontColor ||
+    (isThreeD ? BarDefaults.threeDBarFrontColor : BarDefaults.frontColor)
+  );
 };
 
 export const getBarSideColor = (

@@ -34,10 +34,15 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     selectedIndex,
     focusBarOnPress,
     focusedBarConfig,
+    isThreeD,
   } = props;
 
   const isFocused = focusBarOnPress && selectedIndex === index;
-  const localBarBorderRadius = item.barBorderRadius ?? barBorderRadius ?? 0;
+  const itemOrPropsBarBorderRadius =
+    item.barBorderRadius ?? barBorderRadius ?? 0;
+  const localBarBorderRadius = isFocused
+    ? focusedBarConfig?.borderRadius ?? itemOrPropsBarBorderRadius
+    : itemOrPropsBarBorderRadius;
   const localBarWidth = getBarWidth(
     isFocused,
     focusedBarConfig,
@@ -48,7 +53,8 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     isFocused,
     focusedBarConfig,
     item.frontColor,
-    frontColor
+    frontColor,
+    isThreeD,
   );
   const localGradientColor = item.gradientColor || gradientColor;
   const localOpacity = opacity || 1;
@@ -60,29 +66,23 @@ export const getPropsForAnimated2DWithGradient = (props) => {
       height: "100%",
       borderWidth: barBorderWidth ?? 0,
       borderColor: barBorderColor,
-      borderRadius: isFocused
-        ? focusedBarConfig?.borderRadius ?? localBarBorderRadius
-        : localBarBorderRadius,
+      borderRadius: localBarBorderRadius,
       borderTopLeftRadius:
         item.barBorderTopLeftRadius ??
         barBorderTopLeftRadius ??
-        item.barBorderRadius ??
-        barBorderRadius,
+        localBarBorderRadius,
       borderTopRightRadius:
         item.barBorderTopRightRadius ??
         barBorderTopRightRadius ??
-        item.barBorderRadius ??
-        barBorderRadius,
+        localBarBorderRadius,
       borderBottomLeftRadius:
         item.barBorderBottomLeftRadius ??
         barBorderBottomLeftRadius ??
-        item.barBorderRadius ??
-        barBorderRadius,
+        localBarBorderRadius,
       borderBottomRightRadius:
         item.barBorderBottomRightRadius ??
         barBorderBottomRightRadius ??
-        item.barBorderRadius ??
-        barBorderRadius,
+        localBarBorderRadius,
     },
   ];
 

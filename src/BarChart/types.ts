@@ -1,4 +1,4 @@
-import { ColorValue, GestureResponderEvent } from "react-native";
+import { ColorValue, GestureResponderEvent, ViewStyle } from "react-native";
 import { yAxisSides } from "../utils/constants";
 import {
   CurveType,
@@ -305,6 +305,8 @@ export type BarChartPropsType = {
 
 export type FocusedBarConfig = {
   color?: ColorValue;
+  sideColor?: ColorValue;
+  topColor?: ColorValue;
   gradientColor?: ColorValue;
   width?: number;
   borderRadius?: number;
@@ -312,7 +314,7 @@ export type FocusedBarConfig = {
   roundedBottom?: boolean;
   opacity?: number;
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
-}
+};
 
 type lineConfigType = {
   initialSpacing?: number;
@@ -460,6 +462,8 @@ export type Animated2DWithGradientPropsType = {
   barMarginBottom?: number;
   barStyle?: object;
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
+  commonStyleForBar?: ViewStyle[];
+  barStyleWithBackground?: ViewStyle[];
 };
 
 export type RenderBarsPropsType = {
@@ -540,6 +544,7 @@ export type RenderBarsPropsType = {
   barStyle?: object;
   xAxisThickness?: number;
   pointerConfig?: Pointer;
+  focusBarOnPress?: boolean;
 };
 
 export type trianglePropTypes = {
@@ -579,20 +584,20 @@ export type animatedBarPropTypes = {
 
 export type CommonPropsFor2Dand3DbarsType = {
   barBackgroundPattern: Function;
-    barInnerComponent: (item?: barDataItem, index?: number) => ReactNode;
-    patternId: String;
-    barWidth: number;
-    barStyle: object;
-    item: barDataItem;
-    index: number;
+  barInnerComponent: (item?: barDataItem, index?: number) => ReactNode;
+  patternId: String;
+  barWidth: number;
+  barStyle: object;
+  item: barDataItem;
+  index: number;
 
-    frontColor: ColorValue;
-    showGradient: boolean;
-    gradientColor: ColorValue;
-    opacity: number;
-    height: number;
-    intactTopLabel: boolean;
-    showValuesAsTopLabel: boolean;
-    topLabelContainerStyle: any;
-    topLabelTextStyle: any;
-}
+  frontColor: ColorValue;
+  showGradient: boolean;
+  gradientColor: ColorValue;
+  opacity: number;
+  height: number;
+  intactTopLabel: boolean;
+  showValuesAsTopLabel: boolean;
+  topLabelContainerStyle: any;
+  topLabelTextStyle: any;
+};
