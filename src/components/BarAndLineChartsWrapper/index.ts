@@ -4,6 +4,7 @@ import {
   BarAndLineChartsWrapperTypes,
   horizSectionPropTypes,
 } from "../../utils/types";
+import { I18nManager } from "react-native";
 
 export const useBarAndLineChartsWrapper = (
   props: BarAndLineChartsWrapperTypes
@@ -318,8 +319,9 @@ export const useBarAndLineChartsWrapper = (
 
   const isCloseToEnd = ({ layoutMeasurement, contentOffset, contentSize }) => {
     return (
-      layoutMeasurement.width + contentOffset.x >=
-      contentSize.width - initialSpacing - endReachedOffset
+      I18nManager.isRTL 
+      ? (contentOffset.x <= initialSpacing) 
+      : (layoutMeasurement.width + contentOffset.x >= contentSize.width - initialSpacing - endReachedOffset)
     );
   };
 
@@ -327,8 +329,11 @@ export const useBarAndLineChartsWrapper = (
   //   return layoutMeasurement.width + contentOffset.x <= initialSpacing;
   // };
 
-  const isCloseToStart = ({ contentOffset }) => {
-    return contentOffset.x <= initialSpacing;
+  const isCloseToStart = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    return (
+      I18nManager.isRTL 
+      ? (layoutMeasurement.width + contentOffset.x >= contentSize.width - initialSpacing - endReachedOffset)
+      : (contentOffset.x <= initialSpacing));
   };
 
   useEffect(() => {
