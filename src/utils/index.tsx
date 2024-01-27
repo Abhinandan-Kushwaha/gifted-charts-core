@@ -1,3 +1,4 @@
+import { lineDataItem } from "../LineChart/types";
 import {
   AxesAndRulesDefaults,
   BarDefaults,
@@ -1221,11 +1222,11 @@ export const getBarWidth = (
 };
 
 export const getInterpolatedData = (
-  dataParam,
-  showDataPointsForMissingValues,
-  interpolateMissingValues,
-  onlyPositive
-) => {
+  dataParam: lineDataItem[],
+  showDataPointsForMissingValues?: boolean,
+  interpolateMissingValues?: boolean,
+  onlyPositive?: boolean
+): lineDataItem[] => {
   if (!interpolateMissingValues) {
     return dataParam.map((item) => {
       if (typeof item.value !== "number") {
@@ -1337,14 +1338,16 @@ export const getInterpolatedData = (
     : data;
 };
 
-export const getLineSegmentsForMissingValues = (data) => {
+export const getLineSegmentsForMissingValues = (
+  data: lineDataItem[]
+): LineSegment[] => {
   let i,
     n = data.length;
   const numericValuesLength = data.filter(
     (item) => typeof item.value === "number"
   ).length;
   if (!numericValuesLength) return [];
-  const segments: any[] = [];
+  const segments: LineSegment[] = [];
   for (i = 0; i < n; i++) {
     if (typeof data[i].value !== "number") {
       const nextValidInd = data

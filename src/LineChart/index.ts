@@ -215,14 +215,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   let dataSet = props.dataSet;
   if (dataSet?.length) {
-    dataSet = dataSet.map((dataSetItem) =>
-      getInterpolatedData(
+    dataSet = dataSet.map((dataSetItem) => ({
+      ...dataSetItem,
+      data: getInterpolatedData(
         dataSetItem.data,
         showDataPointsForMissingValues,
         interpolateMissingValues,
         onlyPositive
-      )
-    );
+      ),
+    }));
   }
   const data0 = useMemo(() => {
     if (props.yAxisOffset) {
