@@ -16,8 +16,9 @@ export enum CurveType {
 }
 
 export enum EdgePosition {
-  AT_DATA_POINT,
+  AFTER_DATA_POINT,
   AROUND_DATA_POINT,
+  BEFORE_DATA_POINT,
 }
 
 export type RulesConfig = {

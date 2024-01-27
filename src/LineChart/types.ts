@@ -319,6 +319,10 @@ export type LineChartPropsType = {
   onEndReached?: () => void;
   onStartReached?: () => void;
   endReachedOffset?: number;
+
+  showDataPointsForMissingValues?: boolean;
+  interpolateMissingValues?: boolean;
+  onlyPositive?: boolean;
 };
 
 export type lineDataItem = {

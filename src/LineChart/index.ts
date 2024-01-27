@@ -17,6 +17,8 @@ import {
   getAxesAndRulesProps,
   getCurvePathWithSegments,
   getExtendedContainerHeightWithPadding,
+  getInterpolatedData,
+  getLineSegmentsForMissingValues,
   getMaxValue,
   getNoOfSections,
   getPathWithHighlight,
@@ -32,7 +34,12 @@ interface extendedLineChartPropsType extends LineChartPropsType {
 }
 
 export const useLineChart = (props: extendedLineChartPropsType) => {
-  const { animations } = props;
+  const {
+    animations,
+    showDataPointsForMissingValues,
+    interpolateMissingValues = true,
+    onlyPositive,
+  } = props;
   const curvature = props.curvature ?? LineDefaults.curvature;
   const curveType = props.curveType ?? LineDefaults.curveType;
   const [scrollX, setScrollX] = useState(0);
@@ -110,70 +117,113 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     if (!props.data) {
       return [];
     }
+    const nullishHandledData = getInterpolatedData(
+      props.data,
+      showDataPointsForMissingValues,
+      interpolateMissingValues,
+      onlyPositive
+    );
     if (props.yAxisOffset) {
-      return clone(props.data).map((item) => {
+      return nullishHandledData.map((item) => {
         item.value = item.value - (props.yAxisOffset ?? 0);
         return item;
       });
     }
-    return props.data;
+    return nullishHandledData;
   }, [props.yAxisOffset, props.data]);
   const data2 = useMemo(() => {
     if (!props.data2) {
       return [];
     }
+    const nullishHandledData = getInterpolatedData(
+      props.data2,
+      showDataPointsForMissingValues,
+      interpolateMissingValues,
+      onlyPositive
+    );
     if (props.yAxisOffset) {
-      return clone(props.data2).map((item) => {
+      return nullishHandledData.map((item) => {
         item.value = item.value - (props.yAxisOffset ?? 0);
         return item;
       });
     }
-    return props.data2;
+    return nullishHandledData;
   }, [props.yAxisOffset, props.data2]);
   const data3 = useMemo(() => {
     if (!props.data3) {
       return [];
     }
+    const nullishHandledData = getInterpolatedData(
+      props.data3,
+      showDataPointsForMissingValues,
+      interpolateMissingValues,
+      onlyPositive
+    );
     if (props.yAxisOffset) {
-      return clone(props.data3).map((item) => {
+      return nullishHandledData.map((item) => {
         item.value = item.value - (props.yAxisOffset ?? 0);
         return item;
       });
     }
-    return props.data3;
+    return nullishHandledData;
   }, [props.yAxisOffset, props.data3]);
   const data4 = useMemo(() => {
     if (!props.data4) {
       return [];
     }
+    const nullishHandledData = getInterpolatedData(
+      props.data4,
+      showDataPointsForMissingValues,
+      interpolateMissingValues,
+      onlyPositive
+    );
     if (props.yAxisOffset) {
-      return clone(props.data4).map((item) => {
+      return nullishHandledData.map((item) => {
         item.value = item.value - (props.yAxisOffset ?? 0);
         return item;
       });
     }
-    return props.data4;
+    return nullishHandledData;
   }, [props.yAxisOffset, props.data4]);
   const data5 = useMemo(() => {
     if (!props.data5) {
       return [];
     }
+    const nullishHandledData = getInterpolatedData(
+      props.data5,
+      showDataPointsForMissingValues,
+      interpolateMissingValues,
+      onlyPositive
+    );
     if (props.yAxisOffset) {
-      return clone(props.data5).map((item) => {
+      return nullishHandledData.map((item) => {
         item.value = item.value - (props.yAxisOffset ?? 0);
         return item;
       });
     }
-    return props.data5;
+    return nullishHandledData;
   }, [props.yAxisOffset, props.data5]);
 
   const secondaryData =
     getSecondaryDataWithOffsetIncluded(
       props.secondaryData,
-      props.secondaryYAxis
+      props.secondaryYAxis,
+      showDataPointsForMissingValues,
+      interpolateMissingValues,
+      onlyPositive
     ) || [];
 
-  const dataSet = props.dataSet;
+  let dataSet = props.dataSet;
+  if (dataSet?.length) {
+    dataSet = dataSet.map((dataSetItem) =>
+      getInterpolatedData(
+        dataSetItem.data,
+        showDataPointsForMissingValues,
+        interpolateMissingValues,
+        onlyPositive
+      )
+    );
+  }
   const data0 = useMemo(() => {
     if (props.yAxisOffset) {
       return dataSet?.[0]?.data;
@@ -224,7 +274,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const startIndex5 = props.startIndex5 || 0;
   const endIndex5 = props.endIndex5 ?? data5.length - 1;
 
-  const lineSegments = props.lineSegments;
+  const lineSegments = !interpolateMissingValues
+    ? getLineSegmentsForMissingValues(data)
+    : props.lineSegments;
   const lineSegments2 = props.lineSegments2;
   const lineSegments3 = props.lineSegments3;
   const lineSegments4 = props.lineSegments4;
@@ -242,7 +294,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const endSpacing =
     props.endSpacing ?? (adjustToWidth ? 0 : LineDefaults.endSpacing);
 
-  const thickness = props.thickness || LineDefaults.thickness;
+  const thickness = props.thickness ?? LineDefaults.thickness;
 
   const yAxisLabelWidth =
     props.yAxisLabelWidth ??
@@ -693,24 +745,27 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     );
   };
 
-  const getNextPoint = (data, index, around) => {
+  const getNextPoint = (data, index, around, before) => {
     const isLast = index === data.length - 1;
-    return isLast && !around
+    return isLast && !(around || before)
       ? " "
       : " L" +
-          (getX(index) + (around ? (isLast ? 0 : spacing / 2) : spacing)) +
+          (getX(index) +
+            (around ? (isLast ? 0 : spacing / 2) : before ? 0 : spacing)) +
           " " +
           getY(data[index].value) +
           " ";
   };
   const getStepPath = (data, i) => {
     const around = edgePosition === EdgePosition.AROUND_DATA_POINT;
+    const before = edgePosition === EdgePosition.BEFORE_DATA_POINT;
     return (
       "L" +
-      (getX(i) - (around && i > 0 ? spacing / 2 : 0)) +
+      (getX(i) -
+        (around && i > 0 ? spacing / 2 : before && i > 0 ? spacing : 0)) +
       " " +
       getY(data[i].value) +
-      getNextPoint(data, i, around)
+      getNextPoint(data, i, around, before)
     );
   };
 

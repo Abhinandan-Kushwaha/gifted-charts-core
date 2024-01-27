@@ -720,15 +720,25 @@ export const getExtendedContainerHeightWithPadding = (
 
 export const getSecondaryDataWithOffsetIncluded = (
   secondaryData?: any,
-  secondaryYAxis?: any
+  secondaryYAxis?: any,
+  showDataPointsForMissingValues?: boolean,
+  interpolateMissingValues?: boolean,
+  onlyPositive?: boolean
 ) => {
-  if (secondaryData && secondaryYAxis?.yAxisOffset) {
-    return secondaryData?.map((item) => {
+  if (!secondaryData) return secondaryData;
+  const nullishHandledData = getInterpolatedData(
+    secondaryData,
+    showDataPointsForMissingValues,
+    interpolateMissingValues,
+    onlyPositive
+  );
+  if (secondaryYAxis?.yAxisOffset) {
+    return nullishHandledData.map((item) => {
       item.value = item.value - (secondaryYAxis?.yAxisOffset ?? 0);
       return item;
     });
   }
-  return secondaryData;
+  return nullishHandledData;
 };
 
 export const getArrowProperty = (
@@ -1208,4 +1218,154 @@ export const getBarWidth = (
     return focusedBarConfig?.width ?? localBarWidth;
   }
   return localBarWidth;
+};
+
+export const getInterpolatedData = (
+  dataParam,
+  showDataPointsForMissingValues,
+  interpolateMissingValues,
+  onlyPositive
+) => {
+  if (!interpolateMissingValues) {
+    return dataParam.map((item) => {
+      if (typeof item.value !== "number") {
+        if (showDataPointsForMissingValues) return { ...item, value: 0 };
+        return { ...item, value: 0, hideDataPoint: true };
+      }
+      return item;
+    });
+  }
+  if (!interpolateMissingValues) return dataParam;
+  const data = clone(dataParam);
+  const n = data.length;
+
+  /**************         PRE-PROCESSING           **************/
+  let numericValue;
+  const numericValuesLength = data.filter((item) => {
+    const isNum = typeof item.value === "number";
+    if (isNum) {
+      numericValue = item.value;
+      return true;
+    }
+    return false;
+  }).length;
+
+  if (!numericValuesLength) return [];
+
+  if (numericValuesLength === 1) {
+    data.forEach((item) => {
+      if (!showDataPointsForMissingValues && typeof item.value !== "number") {
+        item.hideDataPoint = true;
+      }
+      item.value = numericValue;
+    });
+    return data;
+  }
+  /**********************************************************************/
+
+  data.forEach((item, index) => {
+    if (typeof item.value === "number") return;
+    //  Cut the line in 2 halves-> pre and post
+    //  Now there are 4 possibilities-
+    //    1. Both pre and post have valid values
+    //    2. Only pre has valid value
+    //    3. Only post has valid value
+    //    4. None has valid value -> this is already handled in preprocessing
+
+    const pre = data.slice(0, index);
+    const post = data.slice(index + 1, n);
+
+    const preValidIndex = pre.findLastIndex(
+      (item) => typeof item.value === "number"
+    );
+    const postValidInd = post.findIndex(
+      (item) => typeof item.value === "number"
+    );
+    const postValidIndex = postValidInd + index + 1;
+
+    let count, step;
+
+    //    1. Both pre and post have valid values
+    if (preValidIndex !== -1 && postValidInd !== -1) {
+      count = postValidIndex - preValidIndex;
+      step = (data[postValidIndex].value - data[preValidIndex].value) / count;
+      data[index].value =
+        data[preValidIndex].value + step * (index - preValidIndex);
+    }
+
+    //    2. Only pre has valid value
+    else if (preValidIndex !== -1 && postValidInd === -1) {
+      //  Now there are 2 possibilities-
+      //    1. There's only 1 valid value in the pre -> this is already handled in preprocessing
+      //    2. There are more than valid values in pre
+      const secondPre = data.slice(0, preValidIndex);
+      const secondPreIndex = secondPre.findLastIndex(
+        (item) => typeof item.value === "number"
+      );
+
+      count = preValidIndex - secondPreIndex;
+      step = (data[secondPreIndex].value - data[preValidIndex].value) / count;
+      data[index].value =
+        data[preValidIndex].value - step * (index - preValidIndex);
+    }
+
+    //    3. Only post has valid value
+    else if (preValidIndex === -1 && postValidInd !== -1) {
+      //  Now there are 2 possibilities-
+      //    1. There's only 1 valid value in the post -> this is already handled in preprocessing
+      //    2. There are more than valid values in post
+
+      const secondPost = data.slice(postValidIndex + 1, n);
+      const secondPostInd = secondPost.findIndex(
+        (item) => typeof item.value === "number"
+      );
+      const secondPostIndex = secondPostInd + postValidIndex + 1;
+
+      count = secondPostIndex - postValidIndex;
+      step = (data[secondPostIndex].value - data[postValidIndex].value) / count;
+      data[index].value =
+        data[postValidIndex].value - step * (postValidIndex - index);
+    }
+
+    // hide data point (since it is interpolated)
+    if (!showDataPointsForMissingValues) {
+      item.hideDataPoint = true;
+    }
+  });
+  return onlyPositive
+    ? data.map((item) => ({ ...item, value: Math.max(item.value, 0) }))
+    : data;
+};
+
+export const getLineSegmentsForMissingValues = (data) => {
+  let i,
+    n = data.length;
+  const numericValuesLength = data.filter(
+    (item) => typeof item.value === "number"
+  ).length;
+  if (!numericValuesLength) return [];
+  const segments: any[] = [];
+  for (i = 0; i < n; i++) {
+    if (typeof data[i].value !== "number") {
+      const nextValidInd = data
+        .slice(i + 1, n)
+        .findIndex((item) => typeof item.value === "number");
+      if (nextValidInd === -1) {
+        segments.push({
+          startIndex: Math.max(i - 1, 0),
+          endIndex: n,
+          color: "transparent",
+        });
+        break;
+      }
+      const nextValidIndex = nextValidInd + i + 1;
+      segments.push({
+        startIndex: Math.max(i - 1, 0),
+        endIndex: nextValidIndex,
+        color: "transparent",
+      });
+      i = nextValidIndex;
+    }
+  }
+  return segments;
 };

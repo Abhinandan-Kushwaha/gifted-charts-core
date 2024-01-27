@@ -234,7 +234,7 @@ export const LineDefaults = {
   stripWidth: 2,
   unFocusOnPressOut: true,
   delayBeforeUnFocus: 300,
-  edgePosition: EdgePosition.AT_DATA_POINT,
+  edgePosition: EdgePosition.AFTER_DATA_POINT,
   endReachedOffset: defaultEndReachedOffset,
 };
 
