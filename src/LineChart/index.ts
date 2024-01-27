@@ -276,12 +276,20 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const endIndex5 = props.endIndex5 ?? data5.length - 1;
 
   const lineSegments = !interpolateMissingValues
-    ? getLineSegmentsForMissingValues(data)
+    ? getLineSegmentsForMissingValues(props.data)
     : props.lineSegments;
-  const lineSegments2 = props.lineSegments2;
-  const lineSegments3 = props.lineSegments3;
-  const lineSegments4 = props.lineSegments4;
-  const lineSegments5 = props.lineSegments5;
+  const lineSegments2 = !interpolateMissingValues
+    ? getLineSegmentsForMissingValues(props.data2)
+    : props.lineSegments2;
+  const lineSegments3 = !interpolateMissingValues
+    ? getLineSegmentsForMissingValues(props.data3)
+    : props.lineSegments3;
+  const lineSegments4 = !interpolateMissingValues
+    ? getLineSegmentsForMissingValues(props.data4)
+    : props.lineSegments4;
+  const lineSegments5 = !interpolateMissingValues
+    ? getLineSegmentsForMissingValues(props.data5)
+    : props.lineSegments5;
 
   const highlightedRange = props.highlightedRange;
 

@@ -1339,14 +1339,15 @@ export const getInterpolatedData = (
 };
 
 export const getLineSegmentsForMissingValues = (
-  data: lineDataItem[]
-): LineSegment[] => {
+  data?: lineDataItem[]
+): LineSegment[] | undefined => {
+  if (!data?.length) return undefined;
   let i,
     n = data.length;
   const numericValuesLength = data.filter(
     (item) => typeof item.value === "number"
   ).length;
-  if (!numericValuesLength) return [];
+  if (!numericValuesLength) return undefined;
   const segments: LineSegment[] = [];
   for (i = 0; i < n; i++) {
     if (typeof data[i].value !== "number") {
