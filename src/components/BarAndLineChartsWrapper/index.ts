@@ -318,22 +318,25 @@ export const useBarAndLineChartsWrapper = (
   const [canMomentum, setCanMomentum] = useState(false);
 
   const isCloseToEnd = ({ layoutMeasurement, contentOffset, contentSize }) => {
-    return (
-      I18nManager.isRTL 
-      ? (contentOffset.x <= initialSpacing) 
-      : (layoutMeasurement.width + contentOffset.x >= contentSize.width - initialSpacing - endReachedOffset)
-    );
+    return I18nManager.isRTL
+      ? contentOffset.x <= initialSpacing
+      : layoutMeasurement.width + contentOffset.x >=
+          contentSize.width - initialSpacing - endReachedOffset;
   };
 
   // const isCloseToStart = ({ layoutMeasurement, contentOffset }) => {
   //   return layoutMeasurement.width + contentOffset.x <= initialSpacing;
   // };
 
-  const isCloseToStart = ({ layoutMeasurement, contentOffset, contentSize }) => {
-    return (
-      I18nManager.isRTL 
-      ? (layoutMeasurement.width + contentOffset.x >= contentSize.width - initialSpacing - endReachedOffset)
-      : (contentOffset.x <= initialSpacing));
+  const isCloseToStart = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize,
+  }) => {
+    return I18nManager.isRTL
+      ? layoutMeasurement.width + contentOffset.x >=
+          contentSize.width - initialSpacing - endReachedOffset
+      : contentOffset.x <= initialSpacing;
   };
 
   useEffect(() => {
