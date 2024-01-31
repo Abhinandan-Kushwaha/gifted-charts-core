@@ -13,6 +13,7 @@ import { Component, ReactNode } from "react";
 export type stackDataItem = {
   onPress?: any;
   onLongPress?: any;
+  onPressOut?: any;
   label?: String;
   barWidth?: number;
   spacing?: number;
@@ -77,6 +78,7 @@ export type StackedBarChartPropsType = {
   barWidth?: number;
   onPress?: Function;
   onLongPress?: Function;
+  onPressOut?: Function;
 
   rotateLabel?: boolean;
   showXAxisIndices: boolean;
@@ -280,6 +282,7 @@ export type BarChartPropsType = {
   barMarginBottom?: number;
   onPress?: Function;
   onLongPress?: Function;
+  onPressOut?: Function;
   renderTooltip?: Function;
   leftShiftForTooltip?: number;
   leftShiftForLastIndexTooltip?: number;
@@ -392,6 +395,7 @@ export type barDataItem = {
   value: number;
   onPress?: any;
   onLongPress?: any;
+  onPressOut?: any;
   frontColor?: ColorValue;
   sideColor?: ColorValue;
   topColor?: ColorValue;
@@ -532,6 +536,7 @@ export type RenderBarsPropsType = {
   barMarginBottom?: number;
   onPress?: Function;
   onLongPress?: Function;
+  onPressOut?: Function;
   xAxisTextNumberOfLines: number;
   xAxisLabelsHeight?: number;
   xAxisLabelsVerticalShift: number;
@@ -545,6 +550,7 @@ export type RenderBarsPropsType = {
   xAxisThickness?: number;
   pointerConfig?: Pointer;
   focusBarOnPress?: boolean;
+  noOfSectionsBelowXAxis?: number;
 };
 
 export type trianglePropTypes = {

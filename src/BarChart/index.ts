@@ -602,6 +602,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       patternId: props.patternId,
       onPress: props.onPress,
       onLongPress: props.onLongPress,
+      onPressOut: props.onPressOut,
       focusBarOnPress: props.focusBarOnPress,
       focusedBarConfig: props.focusedBarConfig,
       xAxisTextNumberOfLines: xAxisTextNumberOfLines,
@@ -613,6 +614,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       selectedIndex: selectedIndex,
       setSelectedIndex: setSelectedIndex,
       activeOpacity: props.activeOpacity || 0.2,
+      noOfSectionsBelowXAxis,
 
       leftShiftForLastIndexTooltip: props.leftShiftForLastIndexTooltip || 0,
       label:
