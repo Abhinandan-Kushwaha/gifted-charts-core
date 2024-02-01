@@ -319,6 +319,7 @@ export type LineChartPropsType = {
   onEndReached?: () => void;
   onStartReached?: () => void;
   endReachedOffset?: number;
+  onScroll?: Function;
 
   showDataPointsForMissingValues?: boolean;
   interpolateMissingValues?: boolean;
@@ -580,4 +581,5 @@ export type LineChartBicolorPropsType = {
   adjustToWidth?: boolean;
   getPointerProps?: Function;
   formatYLabel?: (label: string) => string;
+  onScroll?: Function;
 };

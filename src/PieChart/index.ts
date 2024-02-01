@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PieChartPropsType } from "./types";
+import { getTextSizeForPieLabels } from "../utils";
 
 export const usePieChart = (props: PieChartPropsType) => {
   const radius = props.radius || 120;
@@ -88,6 +89,16 @@ export const usePieChart = (props: PieChartPropsType) => {
       isDataShifted = true;
     }
   });
+  const textSize = getTextSizeForPieLabels(props.textSize ?? 0, radius);
+
+  const paddingHorizontal =
+    props.paddingHorizontal ?? props.labelsPosition === "onBorder"
+      ? (props.textBackgroundRadius ?? textSize) * 2 + 6
+      : 0;
+  const paddingVertical =
+    props.paddingVertical ?? props.labelsPosition === "onBorder"
+      ? (props.textBackgroundRadius ?? textSize) * 2 + 6
+      : 0;
 
   return {
     radius,
@@ -115,5 +126,7 @@ export const usePieChart = (props: PieChartPropsType) => {
     shiftInnerCenterY,
     tiltAngle,
     isDataShifted,
+    paddingHorizontal,
+    paddingVertical,
   };
 };

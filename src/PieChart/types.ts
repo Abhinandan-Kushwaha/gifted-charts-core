@@ -49,6 +49,8 @@ export type PieChartPropsType = {
   pieInnerComponent?: (item?: pieDataItem, index?: number) => any;
   pieInnerComponentHeight?: number;
   pieInnerComponentWidth?: number;
+  paddingHorizontal?: number;
+  paddingVertical?: number;
 };
 export type pieDataItem = {
   value: number;
@@ -79,4 +81,7 @@ export type pieDataItem = {
 export interface PieChartMainProps extends PieChartPropsType {
   setSelectedIndex: Function;
   isBiggerPie?: boolean;
+  paddingHorizontal: number;
+  paddingVertical: number;
+  extraRadiusForFocused: number;
 }

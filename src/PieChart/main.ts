@@ -1,7 +1,14 @@
+import { getTextSizeForPieLabels } from "../utils";
 import { PieChartMainProps, pieDataItem } from "./types";
 
 export const getPieChartMainProps = (props: PieChartMainProps) => {
-  const { isThreeD, isBiggerPie } = props;
+  const {
+    isThreeD,
+    isBiggerPie,
+    paddingHorizontal,
+    paddingVertical,
+    extraRadiusForFocused,
+  } = props;
   const propData = props.data;
   const data: Array<pieDataItem> = [];
   let itemHasInnerComponent = false;
@@ -41,8 +48,7 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
 
   const showText = props.showText || false;
   const textColor = props.textColor || "";
-  const textSize = props.textSize ? Math.min(props.textSize, radius / 5) : 16;
-
+  const textSize = getTextSizeForPieLabels(props.textSize ?? 0, radius);
   let tiltAngle = props.tiltAngle || "55deg";
   if (
     tiltAngle &&
@@ -160,5 +166,8 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     pData,
     mData,
     acc,
+    paddingHorizontal,
+    paddingVertical,
+    extraRadiusForFocused,
   };
 };

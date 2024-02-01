@@ -13,7 +13,7 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     barBorderBottomLeftRadius,
     barBorderBottomRightRadius,
     barWidth,
-    localBarInnerComponent,
+    barInnerComponent,
     barStyle,
     index,
     opacity,
@@ -54,7 +54,7 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     focusedBarConfig,
     item.frontColor,
     frontColor,
-    isThreeD,
+    isThreeD
   );
   const localGradientColor = item.gradientColor || gradientColor;
   const localOpacity = opacity || 1;
@@ -118,8 +118,8 @@ export const getPropsForAnimated2DWithGradient = (props) => {
   const commonPropsFor2Dand3Dbars: CommonPropsFor2Dand3DbarsType = {
     barBackgroundPattern: item.barBackgroundPattern || barBackgroundPattern,
     barInnerComponent: isFocused
-      ? focusedBarConfig?.barInnerComponent ?? localBarInnerComponent
-      : localBarInnerComponent,
+      ? focusedBarConfig?.barInnerComponent ?? barInnerComponent
+      : barInnerComponent,
     patternId: item.patternId || patternId,
     barWidth: localBarWidth,
     barStyle: barStyle,

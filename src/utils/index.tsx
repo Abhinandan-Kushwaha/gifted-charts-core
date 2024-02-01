@@ -1373,3 +1373,8 @@ export const getLineSegmentsForMissingValues = (
   }
   return segments;
 };
+
+export const getTextSizeForPieLabels = (
+  textSize: number,
+  radius: number
+): number => (textSize ? Math.min(textSize, radius / 5) : 16);
