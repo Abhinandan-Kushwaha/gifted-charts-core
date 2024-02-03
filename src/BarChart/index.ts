@@ -560,7 +560,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
   const animatedWidth = widthValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, totalWidth],
+    outputRange: [0, initialSpacing + totalWidth + endSpacing],
   });
 
   const getPropsCommonForBarAndStack = (item, index) => {

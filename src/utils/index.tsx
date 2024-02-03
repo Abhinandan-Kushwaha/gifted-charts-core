@@ -707,7 +707,10 @@ export const getAxesAndRulesProps = (
     secondaryYAxis: props.secondaryYAxis,
     formatYLabel: props.formatYLabel,
   };
-  if (props.secondaryYAxis && maxValue !== undefined) {
+  if (
+    (props.secondaryYAxis || props.lineConfig?.isSecondary) &&
+    maxValue !== undefined
+  ) {
     axesAndRulesProps.secondaryYAxis = { ...props.secondaryYAxis, maxValue };
   }
 
