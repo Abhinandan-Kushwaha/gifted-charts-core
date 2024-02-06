@@ -10,7 +10,6 @@ import {
   screenWidth,
 } from "../utils/constants";
 import {
-  clone,
   computeMaxAndMinItems,
   getAllArrowProperties,
   getArrowPoints,
@@ -39,6 +38,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     showDataPointsForMissingValues,
     interpolateMissingValues = true,
     onlyPositive,
+    yAxisOffset,
   } = props;
   const curvature = props.curvature ?? LineDefaults.curvature;
   const curveType = props.curveType ?? LineDefaults.curveType;
@@ -123,14 +123,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       interpolateMissingValues,
       onlyPositive
     );
-    if (props.yAxisOffset) {
+    if (yAxisOffset) {
       return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
+        item.value = item.value - (yAxisOffset ?? 0);
         return item;
       });
     }
     return nullishHandledData;
-  }, [props.yAxisOffset, props.data]);
+  }, [yAxisOffset, props.data]);
   const data2 = useMemo(() => {
     if (!props.data2) {
       return [];
@@ -141,14 +141,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       interpolateMissingValues,
       onlyPositive
     );
-    if (props.yAxisOffset) {
+    if (yAxisOffset) {
       return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
+        item.value = item.value - (yAxisOffset ?? 0);
         return item;
       });
     }
     return nullishHandledData;
-  }, [props.yAxisOffset, props.data2]);
+  }, [yAxisOffset, props.data2]);
   const data3 = useMemo(() => {
     if (!props.data3) {
       return [];
@@ -159,14 +159,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       interpolateMissingValues,
       onlyPositive
     );
-    if (props.yAxisOffset) {
+    if (yAxisOffset) {
       return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
+        item.value = item.value - (yAxisOffset ?? 0);
         return item;
       });
     }
     return nullishHandledData;
-  }, [props.yAxisOffset, props.data3]);
+  }, [yAxisOffset, props.data3]);
   const data4 = useMemo(() => {
     if (!props.data4) {
       return [];
@@ -177,14 +177,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       interpolateMissingValues,
       onlyPositive
     );
-    if (props.yAxisOffset) {
+    if (yAxisOffset) {
       return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
+        item.value = item.value - (yAxisOffset ?? 0);
         return item;
       });
     }
     return nullishHandledData;
-  }, [props.yAxisOffset, props.data4]);
+  }, [yAxisOffset, props.data4]);
   const data5 = useMemo(() => {
     if (!props.data5) {
       return [];
@@ -195,14 +195,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       interpolateMissingValues,
       onlyPositive
     );
-    if (props.yAxisOffset) {
+    if (yAxisOffset) {
       return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
+        item.value = item.value - (yAxisOffset ?? 0);
         return item;
       });
     }
     return nullishHandledData;
-  }, [props.yAxisOffset, props.data5]);
+  }, [yAxisOffset, props.data5]);
 
   const secondaryData =
     getSecondaryDataWithOffsetIncluded(
@@ -226,15 +226,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     }));
   }
   const data0 = useMemo(() => {
-    if (props.yAxisOffset) {
+    if (!yAxisOffset) {
       return dataSet?.[0]?.data;
     } else {
       return dataSet?.[0]?.data?.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
+        item.value = item.value - (yAxisOffset ?? 0);
         return item;
       });
     }
-  }, [props.yAxisOffset, dataSet]);
+  }, [yAxisOffset, dataSet]);
 
   const scrollToEnd = props.scrollToEnd || LineDefaults.scrollToEnd;
   const scrollAnimation = props.scrollAnimation ?? LineDefaults.scrollAnimation;
@@ -248,7 +248,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const onDataChangeAnimationDuration =
     props.onDataChangeAnimationDuration || 400;
   const animateTogether = props.animateTogether || LineDefaults.animateTogether;
-  const animateOnDataChange = props.yAxisOffset
+  const animateOnDataChange = yAxisOffset
     ? false
     : props.animateOnDataChange || false;
 
@@ -808,7 +808,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       const fillPointsArray: string[] = [];
       dataSet.map((set, index) => {
         const setData = set.data.map((item) => {
-          item.value = item.value - (props.yAxisOffset ?? 0);
+          item.value = item.value - (yAxisOffset ?? 0);
           return item;
         });
         if (set.curved ?? props.curved) {
@@ -1824,7 +1824,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     axesAndRulesProps: getAxesAndRulesProps(props, stepValue, undefined),
 
     yAxisLabelTexts: props.yAxisLabelTexts,
-    yAxisOffset: props.yAxisOffset,
+    yAxisOffset: yAxisOffset,
     rotateYAxisTexts: 0,
     hideAxesAndRules: props.hideAxesAndRules,
 
