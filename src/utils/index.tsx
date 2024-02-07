@@ -1381,3 +1381,31 @@ export const getTextSizeForPieLabels = (
   textSize: number,
   radius: number
 ): number => (textSize ? Math.min(textSize, radius / 5) : 16);
+
+export const adjustToOffset = (data, yAxisOffset) =>
+  data.map((item) => {
+    item.value = item.value - (yAxisOffset ?? 0);
+    return item;
+  });
+
+export const getSanitisedData = (data, dataSanitisationProps) => {
+  if (!data) {
+    return [];
+  }
+  const {
+    showDataPointsForMissingValues,
+    interpolateMissingValues,
+    onlyPositive,
+    yAxisOffset,
+  } = dataSanitisationProps;
+  const nullishHandledData = getInterpolatedData(
+    data,
+    showDataPointsForMissingValues,
+    interpolateMissingValues,
+    onlyPositive
+  );
+  if (yAxisOffset) {
+    return adjustToOffset(nullishHandledData, yAxisOffset);
+  }
+  return nullishHandledData;
+};

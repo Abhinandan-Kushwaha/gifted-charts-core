@@ -10,6 +10,7 @@ import {
   screenWidth,
 } from "../utils/constants";
 import {
+  adjustToOffset,
   computeMaxAndMinItems,
   getAllArrowProperties,
   getArrowPoints,
@@ -21,6 +22,7 @@ import {
   getMaxValue,
   getNoOfSections,
   getPathWithHighlight,
+  getSanitisedData,
   getSecondaryDataWithOffsetIncluded,
   getSegmentString,
   svgPath,
@@ -113,96 +115,33 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.height ??
     ((props.stepHeight ?? 0) * noOfSections ||
       AxesAndRulesDefaults.containerHeight);
-  const data = useMemo(() => {
-    if (!props.data) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [yAxisOffset, props.data]);
-  const data2 = useMemo(() => {
-    if (!props.data2) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data2,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [yAxisOffset, props.data2]);
-  const data3 = useMemo(() => {
-    if (!props.data3) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data3,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [yAxisOffset, props.data3]);
-  const data4 = useMemo(() => {
-    if (!props.data4) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data4,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [yAxisOffset, props.data4]);
-  const data5 = useMemo(() => {
-    if (!props.data5) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data5,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [yAxisOffset, props.data5]);
+
+  const dataSanitisationProps = {
+    showDataPointsForMissingValues,
+    interpolateMissingValues,
+    onlyPositive,
+    yAxisOffset,
+  };
+  const data = useMemo(
+    () => getSanitisedData(props.data, dataSanitisationProps),
+    [yAxisOffset, props.data]
+  );
+  const data2 = useMemo(
+    () => getSanitisedData(props.data2, dataSanitisationProps),
+    [yAxisOffset, props.data2]
+  );
+  const data3 = useMemo(
+    () => getSanitisedData(props.data3, dataSanitisationProps),
+    [yAxisOffset, props.data3]
+  );
+  const data4 = useMemo(
+    () => getSanitisedData(props.data4, dataSanitisationProps),
+    [yAxisOffset, props.data4]
+  );
+  const data5 = useMemo(
+    () => getSanitisedData(props.data5, dataSanitisationProps),
+    [yAxisOffset, props.data5]
+  );
 
   const secondaryData =
     getSecondaryDataWithOffsetIncluded(
@@ -215,26 +154,23 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   let dataSet = props.dataSet;
   if (dataSet?.length) {
-    dataSet = dataSet.map((dataSetItem) => ({
-      ...dataSetItem,
-      data: getInterpolatedData(
-        dataSetItem.data,
-        showDataPointsForMissingValues,
-        interpolateMissingValues,
-        onlyPositive
-      ),
-    }));
-  }
-  const data0 = useMemo(() => {
-    if (!yAxisOffset) {
-      return dataSet?.[0]?.data;
-    } else {
-      return dataSet?.[0]?.data?.map((item) => {
-        item.value = item.value - (yAxisOffset ?? 0);
-        return item;
+    dataSet = useMemo(() => {
+      return dataSet?.map((dataSetItem) => {
+        const nullishHandledDataItem = getInterpolatedData(
+          dataSetItem.data,
+          showDataPointsForMissingValues,
+          interpolateMissingValues,
+          onlyPositive
+        );
+        return {
+          ...dataSetItem,
+          data: adjustToOffset(nullishHandledDataItem, yAxisOffset),
+        };
       });
-    }
-  }, [yAxisOffset, dataSet]);
+    }, [yAxisOffset, dataSet]);
+  }
+
+  const data0 = dataSet?.[0]?.data;
 
   const scrollToEnd = props.scrollToEnd || LineDefaults.scrollToEnd;
   const scrollAnimation = props.scrollAnimation ?? LineDefaults.scrollAnimation;
@@ -807,18 +743,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       const arrowPointsArray: string[] = [];
       const fillPointsArray: string[] = [];
       dataSet.map((set, index) => {
-        const setData = set.data.map((item) => {
-          item.value = item.value - (yAxisOffset ?? 0);
-          return item;
-        });
         if (set.curved ?? props.curved) {
           const pArray: Array<Array<number>> = [];
-          for (let i = 0; i < setData.length; i++) {
+          for (let i = 0; i < set.data.length; i++) {
             if (
               i >= (set.startIndex ?? 0) &&
               i <= (set.endIndex ?? set.data.length - 1)
             ) {
-              pArray.push([getX(i), getY(setData[i].value)]);
+              pArray.push([getX(i), getY(set.data[i].value)]);
             }
           }
           let xx = svgPath(
@@ -836,7 +768,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           );
 
           // For Arrow-
-          if (setData.length > 1 && (set.showArrow ?? props.showArrows)) {
+          if (set.data.length > 1 && (set.showArrow ?? props.showArrows)) {
             let arrowTipY = pArray[pArray.length - 1][1];
             let arrowTipX = pArray[pArray.length - 1][0];
             let y1 = pArray[pArray.length - 2][1];
@@ -856,26 +788,26 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           }
 
           // For Area charts-
-          if ((set.areaChart || areaChart) && setData.length) {
+          if ((set.areaChart || areaChart) && set.data.length) {
             xx = addLeadingAndTrailingPathForAreaFill(
               xx,
-              setData[0].value,
-              setData.length
+              set.data[0].value,
+              set.data.length
             );
             fillPointsArray.push(xx);
           }
         } else {
           let pp = "";
-          for (let i = 0; i < setData.length; i++) {
+          for (let i = 0; i < set.data.length; i++) {
             if (
               i >= (set.startIndex ?? 0) &&
               i <= (set.endIndex ?? set.data.length - 1)
             ) {
               if (set.stepChart || stepChart) {
-                pp += getStepPath(setData, i);
+                pp += getStepPath(set.data, i);
               } else {
                 pp += getSegmentPath(
-                  setData,
+                  set.data,
                   i,
                   set.lineSegments,
                   set.startIndex ?? 0,
@@ -887,7 +819,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           pointsArray.push(pp.replace("L", "M"));
 
           // For Arrow-
-          if (setData.length > 1 && (set.showArrow ?? props.showArrows)) {
+          if (set.data.length > 1 && (set.showArrow ?? props.showArrows)) {
             let ppArray = pp.trim().split(" ");
             let arrowTipY = parseInt(ppArray[ppArray.length - 1]);
             let arrowTipX = parseInt(
@@ -910,12 +842,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           }
 
           // For Area charts-
-          if ((set.areaChart || areaChart) && setData.length) {
+          if ((set.areaChart || areaChart) && set.data.length) {
             let ppp = "L" + initialSpacing + " " + heightUptoXaxis + " ";
             ppp += pp;
             ppp +=
               "L" +
-              (initialSpacing + spacing * (setData.length - 1)) +
+              (initialSpacing + spacing * (set.data.length - 1)) +
               " " +
               heightUptoXaxis;
             ppp += "L" + initialSpacing + " " + heightUptoXaxis + " ";
