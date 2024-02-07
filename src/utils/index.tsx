@@ -1383,10 +1383,7 @@ export const getTextSizeForPieLabels = (
 ): number => (textSize ? Math.min(textSize, radius / 5) : 16);
 
 export const adjustToOffset = (data, yAxisOffset) =>
-  data.map((item) => {
-    item.value = item.value - (yAxisOffset ?? 0);
-    return item;
-  });
+  data.map((item) => ({ ...item, value: item.value - (yAxisOffset ?? 0) }));
 
 export const getSanitisedData = (data, dataSanitisationProps) => {
   if (!data) {

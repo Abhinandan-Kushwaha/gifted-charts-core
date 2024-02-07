@@ -38,7 +38,11 @@ export {
 
 export { usePieChart } from "./src/PieChart";
 export { getPieChartMainProps } from "./src/PieChart/main";
-export { PieChartPropsType, pieDataItem, PieChartMainProps } from "./src/PieChart/types";
+export {
+  PieChartPropsType,
+  pieDataItem,
+  PieChartMainProps,
+} from "./src/PieChart/types";
 
 /***********************************************************************************************************************/
 /************************************          Population Pyramid Chart             ************************************/
@@ -90,6 +94,7 @@ export {
   getYForLineInBar,
   clone,
   getLineConfigForBarChart,
+  adjustToOffset,
 } from "./src/utils";
 
 export {
