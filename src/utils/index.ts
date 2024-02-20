@@ -18,8 +18,7 @@ import {
   CurveType,
   type HighlightedRange,
   type LineProperties,
-  type LineSegment,
-  type secondaryYAxisType
+  type LineSegment
 } from './types'
 import {
   type lineConfigType,
@@ -237,8 +236,8 @@ export const getPreviousSegmentsLastPoint = (
   const prevSegmentLastPoint = isCurved
     ? previousSegment.substring(previousSegment.trim().lastIndexOf(' '))
     : previousSegment
-      .substring(previousSegment.lastIndexOf('L'))
-      .replace('L', 'M')
+        .substring(previousSegment.lastIndexOf('L'))
+        .replace('L', 'M')
 
   return (
     (prevSegmentLastPoint.trim()[0] === 'M' ? '' : 'M') + prevSegmentLastPoint
@@ -264,8 +263,8 @@ export const getPathWithHighlight = (
       data[i + 1].value < from
         ? loc.DOWN
         : data[i + 1].value > to
-          ? loc.UP
-          : loc.IN
+        ? loc.UP
+        : loc.IN
     if (
       currentPointRegion !== nextPointRegion ||
       (i === startIndex && currentPointRegion === loc.IN)
@@ -499,7 +498,6 @@ export const getSegmentedPathObjects = (
   strokeDashArray: number[],
   isCurved: boolean,
   startDelimeter: string,
-  stop: string,
   endDelimeter: string
 ): LineProperties[] => {
   const ar: [LineProperties] = [{ d: '', color: '', strokeWidth: 0 }]
@@ -661,7 +659,6 @@ export const getArrowPoints = (
 
 interface IgetAxesAndRulesProps extends BarChartPropsType {
   verticalLinesUptoDataPoint?: boolean
-  secondaryYAxis?: secondaryYAxisType
 }
 
 export const getAxesAndRulesProps = (
@@ -669,6 +666,10 @@ export const getAxesAndRulesProps = (
   stepValue: number,
   maxValue?: number
 ): IgetAxesAndRulesProps => {
+  const secondaryYAxis =
+    !props.secondaryYAxis || props.secondaryYAxis === true
+      ? {}
+      : props.secondaryYAxis
   const axesAndRulesProps = {
     yAxisSide: props.yAxisSide,
     yAxisLabelContainerStyle: props.yAxisLabelContainerStyle,
@@ -738,7 +739,7 @@ export const getAxesAndRulesProps = (
     (props.secondaryYAxis ?? props.lineConfig?.isSecondary) &&
     maxValue !== undefined
   ) {
-    axesAndRulesProps.secondaryYAxis = { ...props.secondaryYAxis, maxValue }
+    axesAndRulesProps.secondaryYAxis = { ...secondaryYAxis, maxValue }
   }
 
   return axesAndRulesProps
@@ -1357,8 +1358,8 @@ export const getInterpolatedData = (
     //    3. Only post has valid value
     //    4. None has valid value -> this is already handled in preprocessing
 
-    const pre = data.slice(0, index)
-    const post = data.slice(index + 1, n)
+    const pre: lineDataItem[] = data.slice(0, index)
+    const post: lineDataItem[] = data.slice(index + 1, n)
 
     const preValidIndex = pre.findLastIndex(
       (item) => typeof item.value === 'number'
@@ -1381,7 +1382,7 @@ export const getInterpolatedData = (
       //  Now there are 2 possibilities-
       //    1. There's only 1 valid value in the pre -> this is already handled in preprocessing
       //    2. There are more than valid values in pre
-      const secondPre = data.slice(0, preValidIndex)
+      const secondPre: lineDataItem[] = data.slice(0, preValidIndex)
       const secondPreIndex = secondPre.findLastIndex(
         (item) => typeof item.value === 'number'
       )
@@ -1396,7 +1397,7 @@ export const getInterpolatedData = (
       //    1. There's only 1 valid value in the post -> this is already handled in preprocessing
       //    2. There are more than valid values in post
 
-      const secondPost = data.slice(postValidIndex + 1, n)
+      const secondPost: lineDataItem[] = data.slice(postValidIndex + 1, n)
       const secondPostInd = secondPost.findIndex(
         (item) => typeof item.value === 'number'
       )

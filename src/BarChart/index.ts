@@ -36,7 +36,7 @@ export interface extendedBarChartPropsType extends BarChartPropsType {
   widthValue: Animated.Value
   opacValue: Animated.Value
   verticalLinesUptoDataPoint?: boolean
-  secondaryYAxis?: secondaryYAxisType
+  secondaryYAxis?: secondaryYAxisType | boolean
 }
 
 export const useBarChart = (props: extendedBarChartPropsType) => {
@@ -116,8 +116,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   )
   const containerHeight =
     heightFromProps ??
-    (props.stepHeight ?? 0) * noOfSections ??
-    AxesAndRulesDefaults.containerHeight
+    (props.stepHeight
+      ? props.stepHeight * noOfSections
+      : AxesAndRulesDefaults.containerHeight)
   const horizSections = [{ value: '0' }]
   const stepHeight = props.stepHeight ?? containerHeight / noOfSections
   const labelWidth = props.labelWidth ?? AxesAndRulesDefaults.labelWidth
@@ -276,8 +277,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       ? false
       : defaultPointerConfig.showPointerStrip
   const pointerStripHeight =
-    pointerConfig?.pointerStripHeight ??
-    defaultPointerConfig.pointerStripHeight
+    pointerConfig?.pointerStripHeight ?? defaultPointerConfig.pointerStripHeight
   const pointerStripWidth =
     pointerConfig?.pointerStripWidth ?? defaultPointerConfig.pointerStripWidth
   const pointerStripColor =
@@ -291,22 +291,18 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const stripOverPointer =
     pointerConfig?.stripOverPointer ?? defaultPointerConfig.stripOverPointer
   const shiftPointerLabelX =
-    pointerConfig?.shiftPointerLabelX ??
-    defaultPointerConfig.shiftPointerLabelX
+    pointerConfig?.shiftPointerLabelX ?? defaultPointerConfig.shiftPointerLabelX
   const shiftPointerLabelY =
-    pointerConfig?.shiftPointerLabelY ??
-    defaultPointerConfig.shiftPointerLabelY
+    pointerConfig?.shiftPointerLabelY ?? defaultPointerConfig.shiftPointerLabelY
   const pointerLabelWidth =
     pointerConfig?.pointerLabelWidth ?? defaultPointerConfig.pointerLabelWidth
   const pointerLabelHeight =
-    pointerConfig?.pointerLabelHeight ??
-    defaultPointerConfig.pointerLabelHeight
+    pointerConfig?.pointerLabelHeight ?? defaultPointerConfig.pointerLabelHeight
   const autoAdjustPointerLabelPosition =
     pointerConfig?.autoAdjustPointerLabelPosition ??
     defaultPointerConfig.autoAdjustPointerLabelPosition
   const pointerVanishDelay =
-    pointerConfig?.pointerVanishDelay ??
-    defaultPointerConfig.pointerVanishDelay
+    pointerConfig?.pointerVanishDelay ?? defaultPointerConfig.pointerVanishDelay
   const activatePointersOnLongPress =
     pointerConfig?.activatePointersOnLongPress ??
     defaultPointerConfig.activatePointersOnLongPress
@@ -347,17 +343,22 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         (props.stackData ?? data)?.[0].barWidth ?? props.barWidth ?? 30
       if (!lineConfig.curved) {
         for (let i = 0; i < lineData.length; i++) {
-          if (i < (lineConfig.startIndex ?? 0) || i > (lineConfig.endIndex ?? 0)) continue
+          if (
+            i < (lineConfig.startIndex ?? 0) ||
+            i > (lineConfig.endIndex ?? 0)
+          ) {
+            continue
+          }
           const currentBarWidth =
             data?.[i]?.barWidth ?? props.barWidth ?? BarDefaults.barWidth
           const currentValue = props.lineData
             ? props.lineData[i].value
             : props.stackData
-              ? props.stackData[i].stacks.reduce(
+            ? props.stackData[i].stacks.reduce(
                 (total, item) => total + item.value,
                 0
               )
-              : data[i].value
+            : data[i].value
           pp +=
             'L' +
             getXForLineInBar(
@@ -402,17 +403,22 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       } else {
         const p1Array: number[][] = []
         for (let i = 0; i < lineData.length; i++) {
-          if (i < (lineConfig.startIndex ?? 0) || i > (lineConfig.endIndex ?? 0)) continue
+          if (
+            i < (lineConfig.startIndex ?? 0) ||
+            i > (lineConfig.endIndex ?? 0)
+          ) {
+            continue
+          }
           const currentBarWidth =
             data?.[i]?.barWidth ?? props.barWidth ?? BarDefaults.barWidth
           const currentValue = props.lineData
             ? props.lineData[i].value
             : props.stackData
-              ? props.stackData[i].stacks.reduce(
+            ? props.stackData[i].stacks.reduce(
                 (total, item) => total + item.value,
                 0
               )
-              : data[i].value
+            : data[i].value
           p1Array.push([
             getXForLineInBar(
               i,
@@ -440,7 +446,10 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       if (lineData2?.length) {
         if (!lineConfig2?.curved) {
           for (let i = 0; i < lineData2.length; i++) {
-            if (i < (lineConfig2.startIndex ?? 0) || i > (lineConfig2.endIndex ?? 0)) {
+            if (
+              i < (lineConfig2.startIndex ?? 0) ||
+              i > (lineConfig2.endIndex ?? 0)
+            ) {
               continue
             }
             const currentBarWidth =
@@ -469,7 +478,10 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         } else {
           const p2Array: number[][] = []
           for (let i = 0; i < lineData2.length; i++) {
-            if (i < (lineConfig2.startIndex ?? 0) || i > (lineConfig2.endIndex ?? 0)) {
+            if (
+              i < (lineConfig2.startIndex ?? 0) ||
+              i > (lineConfig2.endIndex ?? 0)
+            ) {
               continue
             }
             const currentBarWidth =

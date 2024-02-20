@@ -46,7 +46,7 @@ export interface stackDataItem {
     barWidth?: number
     innerBarComponent?: Function
   }>
-  barBackgroundPattern?: Function
+  barBackgroundPattern?: () => ReactNode
   borderRadius?: number
   borderTopLeftRadius?: number
   borderTopRightRadius?: number
@@ -106,7 +106,7 @@ export interface StackedBarChartPropsType {
   stackBorderBottomLeftRadius?: number
   stackBorderBottomRightRadius?: number
   xAxisThickness: number
-  barBackgroundPattern?: Function
+  barBackgroundPattern?: () => ReactNode
   patternId?: string
   xAxisTextNumberOfLines: number
   xAxisLabelsHeight?: number
@@ -279,7 +279,7 @@ export interface BarChartPropsType {
   scrollAnimation?: boolean
   scrollEventThrottle?: number
   labelsExtraHeight?: number
-  barBackgroundPattern?: Function
+  barBackgroundPattern?: () => ReactNode
   patternId?: string
   barMarginBottom?: number
   onPress?: Function
@@ -423,7 +423,7 @@ export interface barDataItem {
   topLabelComponentHeight?: number
   spacing?: number
   labelWidth?: number
-  barBackgroundPattern?: Function
+  barBackgroundPattern?: () => ReactNode
   patternId?: string
   barMarginBottom?: number
   leftShiftForTooltip?: number
@@ -464,7 +464,7 @@ export interface Animated2DWithGradientPropsType {
   barBorderBottomRightRadius?: number
   containerHeight?: number
   maxValue?: number
-  barBackgroundPattern?: Function
+  barBackgroundPattern?: () => ReactNode
   patternId?: string
   barMarginBottom?: number
   barStyle?: object
@@ -534,7 +534,7 @@ export interface RenderBarsPropsType {
   barBorderBottomRightRadius?: number
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
   autoShiftLabels?: boolean
-  barBackgroundPattern?: Function
+  barBackgroundPattern?: () => ReactNode
   patternId?: string
   barMarginBottom?: number
   onPress?: Function
@@ -580,7 +580,7 @@ export interface animatedBarPropTypes {
   showValuesAsTopLabel: boolean
   topLabelContainerStyle?: any
   topLabelTextStyle?: any
-  barBackgroundPattern?: Function
+  barBackgroundPattern?: () => ReactNode
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
   patternId?: string
   barStyle?: object
@@ -592,7 +592,7 @@ export interface animatedBarPropTypes {
 }
 
 export interface CommonPropsFor2Dand3DbarsType {
-  barBackgroundPattern: Function
+  barBackgroundPattern: () => ReactNode
   barInnerComponent: (item?: barDataItem, index?: number) => ReactNode
   patternId: string
   barWidth: number
