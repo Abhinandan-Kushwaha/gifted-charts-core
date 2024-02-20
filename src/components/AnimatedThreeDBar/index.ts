@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { animatedBarPropTypes } from "../../BarChart/types";
-import { BarDefaults } from "../../utils/constants";
-import { getBarSideColor, getBarTopColor } from "../../utils";
+import { useState } from 'react'
+import { type animatedBarPropTypes } from '../../BarChart/types'
+import { BarDefaults } from '../../utils/constants'
+import { getBarSideColor, getBarTopColor } from '../../utils'
 
 export const useAnimatedThreeDBar = (props: animatedBarPropTypes) => {
   const { focusBarOnPress, index, selectedIndex, focusedBarConfig, item } =
-    props;
-  const isFocused = focusBarOnPress && index === selectedIndex;
-  const localFrontColor = props.frontColor || BarDefaults.threeDBarFrontColor;
+    props
+  const isFocused = focusBarOnPress && index === selectedIndex
+  const localFrontColor = props.frontColor || BarDefaults.threeDBarFrontColor
   const localGradientColor =
-    props.gradientColor || BarDefaults.threeDBarGradientColor;
-  const localSideColor = props.sideColor || BarDefaults.threeDBarSideColor;
-  const localTopColor = props.topColor || BarDefaults.threeDBarTopColor;
-  const localOpacity = props.opacity || 1;
+    props.gradientColor || BarDefaults.threeDBarGradientColor
+  const localSideColor = props.sideColor || BarDefaults.threeDBarSideColor
+  const localTopColor = props.topColor || BarDefaults.threeDBarTopColor
+  const localOpacity = props.opacity || 1
   const {
     isAnimated,
     showGradient = props.showGradient || false,
@@ -30,16 +30,16 @@ export const useAnimatedThreeDBar = (props: animatedBarPropTypes) => {
     ),
     topColor = getBarTopColor(
       isFocused,
-      focusBarOnPress,
+      focusedBarConfig,
       item.topColor,
       localTopColor
     ),
     opacity = isFocused
       ? focusedBarConfig?.opacity ?? localOpacity
-      : localOpacity,
-  } = props;
+      : localOpacity
+  } = props
 
-  const [initialRender, setInitialRender] = useState(isAnimated);
+  const [initialRender, setInitialRender] = useState(isAnimated)
 
   return {
     showGradient,
@@ -55,6 +55,6 @@ export const useAnimatedThreeDBar = (props: animatedBarPropTypes) => {
       : BarDefaults.threeDBarTopColor,
     opacity,
     initialRender,
-    setInitialRender,
-  };
-};
+    setInitialRender
+  }
+}

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { StackedBarChartPropsType, stackDataItem } from "./types";
+import { useState } from 'react'
+import { type StackedBarChartPropsType, type stackDataItem } from './types'
 
 export const useRenderStackBars = (props: StackedBarChartPropsType) => {
   const {
@@ -10,45 +10,45 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     propSpacing,
     initialSpacing,
     stackData,
-    isAnimated,
-  } = props;
-  const cotainsNegative = item.stacks.some((item) => item.value < 0);
-  const noAnimation = cotainsNegative || !isAnimated;
+    isAnimated
+  } = props
+  const cotainsNegative = item.stacks.some((item) => item.value < 0)
+  const noAnimation = cotainsNegative || !isAnimated
 
   const localBarInnerComponent =
-    item.barInnerComponent ?? props.barInnerComponent;
+    item.barInnerComponent ?? props.barInnerComponent
 
   const {
     borderRadius,
     borderTopLeftRadius,
     borderTopRightRadius,
     borderBottomLeftRadius,
-    borderBottomRightRadius,
-  } = item;
+    borderBottomRightRadius
+  } = item
 
-  let leftSpacing = initialSpacing;
+  let leftSpacing = initialSpacing
   for (let i = 0; i < index; i++) {
     leftSpacing +=
       (stackData[i].spacing ?? propSpacing ?? 0) +
-      (stackData[i].stacks[0].barWidth ?? props.barWidth ?? 30);
+      (stackData[i].stacks[0].barWidth ?? props.barWidth ?? 30)
   }
-  const disablePress = props.disablePress || false;
+  const disablePress = props.disablePress ?? false
 
   const totalHeight = props.item.stacks.reduce(
     (acc, stack) =>
       acc +
-      (Math.abs(stack.value) * (containerHeight || 200)) / (maxValue || 200),
+      (Math.abs(stack.value) * (containerHeight ?? 200)) / (maxValue || 200),
     0
-  );
+  )
 
-  const [height, setHeight] = useState(noAnimation ? totalHeight : 1);
+  const [height, setHeight] = useState(noAnimation ? totalHeight : 1)
 
-  const getBarHeight = (value: number, marginBottom?: number) => {
+  const getBarHeight = (value: number, marginBottom?: number): number => {
     return (
-      (Math.abs(value) * (containerHeight || 200)) / (maxValue || 200) -
-      (marginBottom || 0)
-    );
-  };
+      (Math.abs(value) * (containerHeight ?? 200)) / (maxValue || 200) -
+      (marginBottom ?? 0)
+    )
+  }
 
   const getPosition = (index: number) => {
     /* Returns bottom position for stack item
@@ -56,37 +56,37 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     const height = getBarHeight(
       item.stacks[index].value,
       item.stacks[index].marginBottom
-    );
+    )
 
-    const itemValue = item.stacks[index].value;
-    const isNegative = itemValue <= 0;
-    let position = isNegative ? -(height || 0) : 0;
+    const itemValue = item.stacks[index].value
+    const isNegative = itemValue <= 0
+    let position = isNegative ? -(height || 0) : 0
 
     for (let i = 0; i < index; i++) {
-      const valueOnIndex = item.stacks[i].value;
+      const valueOnIndex = item.stacks[i].value
       if (isNegative && valueOnIndex <= 0) {
         position +=
-          (valueOnIndex * (containerHeight || 200)) / (maxValue || 200);
+          (valueOnIndex * (containerHeight ?? 200)) / (maxValue || 200)
       } else if (!isNegative && valueOnIndex >= 0) {
         position +=
-          (valueOnIndex * (containerHeight || 200)) / (maxValue || 200);
+          (valueOnIndex * (containerHeight ?? 200)) / (maxValue || 200)
       }
     }
-    return position;
-  };
+    return position
+  }
 
-  const getLowestPosition = () => {
+  const getLowestPosition = (): number => {
     return (
       item.stacks
         .map((_, index) => getPosition(index))
         .sort((a, b) => a - b)?.[0] || 0
-    );
-  };
+    )
+  }
 
-  const lowestBarPosition = getLowestPosition();
+  const lowestBarPosition = getLowestPosition()
 
   const getStackBorderRadii = (item: stackDataItem, index: number) => {
-    const stackItem = item.stacks[index];
+    const stackItem = item.stacks[index]
     const borderRadii = {
       borderTopLeftRadius:
         stackItem.borderTopLeftRadius ??
@@ -111,10 +111,10 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
         stackItem.borderRadius ??
         props.barBorderBottomRightRadius ??
         props.barBorderRadius ??
-        0,
-    };
-    return borderRadii;
-  };
+        0
+    }
+    return borderRadii
+  }
 
   return {
     cotainsNegative,
@@ -134,6 +134,6 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     getPosition,
     getLowestPosition,
     lowestBarPosition,
-    getStackBorderRadii,
-  };
-};
+    getStackBorderRadii
+  }
+}

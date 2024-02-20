@@ -1,9 +1,9 @@
 import {
   AxesAndRulesDefaults,
   populationDefaults,
-  ruleTypes,
-} from "../utils/constants";
-import { PopulationPyramidPropsType, RulesProps } from "./types";
+  ruleTypes
+} from '../utils/constants'
+import { type PopulationPyramidPropsType, type RulesProps } from './types'
 
 export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
   const {
@@ -122,41 +122,41 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     rightSurplusColor = populationDefaults.rightSurplusColor,
     rightSurplusBorderColor = populationDefaults.rightSurplusBorderColor,
     leftSurplusBorderWidth = populationDefaults.leftSurplusBorderWidth,
-    rightSurplusBorderWidth = populationDefaults.rightSurplusBorderWidth,
-  } = props;
+    rightSurplusBorderWidth = populationDefaults.rightSurplusBorderWidth
+  } = props
 
   const yAxisLabelWidth = hideYAxisText
     ? yAxisThickness
-    : props.yAxisLabelWidth ?? AxesAndRulesDefaults.yAxisLabelWidth;
+    : props.yAxisLabelWidth ?? AxesAndRulesDefaults.yAxisLabelWidth
 
-  const noOfSections = props.noOfSections ?? data.length;
+  const noOfSections = props.noOfSections ?? data.length
   const containerHeight = props.stepHeight
     ? props.stepHeight * noOfSections
-    : height;
-  const stepHeight = props.stepHeight ?? containerHeight / noOfSections;
+    : height
+  const stepHeight = props.stepHeight ?? containerHeight / noOfSections
 
-  const xAxisLabelsHeight = 80;
-  const containerHeightWithXaxisLabels = containerHeight + xAxisLabelsHeight;
+  const xAxisLabelsHeight = 80
+  const containerHeightWithXaxisLabels = containerHeight + xAxisLabelsHeight
 
-  const mid = (width + yAxisLabelWidth) / 2;
+  const mid = (width + yAxisLabelWidth) / 2
 
-  const leftMax = Math.max(...data.map((item) => item.left));
-  const rightMax = Math.max(...data.map((item) => item.right));
+  const leftMax = Math.max(...data.map((item) => item.left))
+  const rightMax = Math.max(...data.map((item) => item.right))
 
-  const max = Math.max(leftMax, rightMax);
+  const max = Math.max(leftMax, rightMax)
 
   const xAxisRoundToDigits =
     props.xAxisRoundToDigits ??
-    (max < 0.1 ? 3 : max < 1 ? 2 : max < 10 ? 1 : 0);
+    (max < 0.1 ? 3 : max < 1 ? 2 : max < 10 ? 1 : 0)
 
   const midAxisAndLabelWidth =
     (showMidAxis ? midAxisLabelWidth : 0) / 2 +
-    Math.max(leftBarLabelWidth, rightBarLabelWidth);
+    Math.max(leftBarLabelWidth, rightBarLabelWidth)
   const barWidthFactor =
-    ((width - yAxisLabelWidth) / 2 - midAxisAndLabelWidth) / max;
+    ((width - yAxisLabelWidth) / 2 - midAxisAndLabelWidth) / max
 
-  const leftXAfterMid = mid - (showMidAxis ? midAxisLabelWidth / 2 : 0);
-  const rightXAfterMid = mid + (showMidAxis ? midAxisLabelWidth / 2 : 0);
+  const leftXAfterMid = mid - (showMidAxis ? midAxisLabelWidth / 2 : 0)
+  const rightXAfterMid = mid + (showMidAxis ? midAxisLabelWidth / 2 : 0)
 
   const yAxisLineProps: RulesProps = {
     x1: yAxisLabelWidth,
@@ -164,37 +164,37 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     x2: yAxisLabelWidth,
     y2: containerHeight,
     stroke: yAxisColor,
-    strokeWidth: yAxisThickness,
-  };
+    strokeWidth: yAxisThickness
+  }
   if (props.yAxisStrokeDashArray?.length === 2) {
-    yAxisLineProps.strokeDasharray = props.yAxisStrokeDashArray;
+    yAxisLineProps.strokeDasharray = props.yAxisStrokeDashArray
   }
 
   const midAxisLineCommonProps: RulesProps = {
     y1: 0,
     y2: containerHeight,
-    strokeWidth: props.midAxisThickness ?? yAxisThickness,
-  };
+    strokeWidth: props.midAxisThickness ?? yAxisThickness
+  }
   if (props.midAxisStrokeDashArray?.length === 2) {
-    midAxisLineCommonProps.strokeDasharray = props.midAxisStrokeDashArray;
+    midAxisLineCommonProps.strokeDasharray = props.midAxisStrokeDashArray
   }
 
   const xAxisLabelY =
-    containerHeight + xAxisLabelFontSize + 6 + xAxisLabelShiftY;
+    containerHeight + xAxisLabelFontSize + 6 + xAxisLabelShiftY
   const xAxisIndicesCommonProps = {
     y1: containerHeight - xAxisIndicesHeight / 2 + xAxisIndicesShiftY,
     y2: containerHeight + xAxisIndicesHeight / 2 + xAxisIndicesShiftY,
     stroke: xAxisIndicesColor,
-    strokeWidth: xAxisIndicesWidth,
-  };
+    strokeWidth: xAxisIndicesWidth
+  }
   const verticalLinesCommonProps: RulesProps = {
     y1: 0,
     y2: containerHeight,
     stroke: verticalLinesColor,
-    strokeWidth: verticalLinesThickness,
-  };
+    strokeWidth: verticalLinesThickness
+  }
   if (verticalLinesType !== ruleTypes.SOLID) {
-    verticalLinesCommonProps.strokeDasharray = verticalLinesStrokeDashArray;
+    verticalLinesCommonProps.strokeDasharray = verticalLinesStrokeDashArray
   }
   const xAxisLabelsCommonProps = {
     y: xAxisLabelY + xAxisLabelShiftY,
@@ -202,13 +202,13 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     fontSize: xAxisLabelFontSize,
     fontStyle: xAxisLabelFontStyle,
     fontWeight: xAxisLabelFontWeight,
-    fontFamily: xAxisLabelFontFamily,
-  };
+    fontFamily: xAxisLabelFontFamily
+  }
 
-  const getXLabel = (index: number) =>
+  const getXLabel = (index: number): string =>
     ((leftXAfterMid * index) / xAxisNoOfSections / barWidthFactor)
       .toFixed(xAxisRoundToDigits)
-      .toString();
+      .toString()
 
   return {
     height,
@@ -325,6 +325,6 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     xAxisIndicesCommonProps,
     verticalLinesCommonProps,
     xAxisLabelsCommonProps,
-    getXLabel,
-  };
-};
+    getXLabel
+  }
+}
