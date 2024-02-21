@@ -593,7 +593,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   })
 
   const getPropsCommonForBarAndStack = (
-    item: stackDataItem | barDataItem,
+    item: any,
     index: number
   ) => {
     return {

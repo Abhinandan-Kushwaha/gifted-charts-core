@@ -9,18 +9,18 @@ import {
 } from './types'
 import { type ReactNode } from 'react'
 
-interface Animated2dWithFradientPropsType extends BarChartPropsType {
+interface Animated2dWithGradientPropsType extends BarChartPropsType {
   item: barDataItem
   index: number
   barHeight: number
   selectedIndex: number
-  barBackgroundPattern: () => ReactNode
-  barInnerComponent: (
+  barBackgroundPattern?: () => ReactNode
+  barInnerComponent?: (
     item?: stackDataItem | barDataItem,
     index?: number
   ) => ReactNode
-  patternId: string
-  barStyle: object
+  patternId?: string
+  barStyle?: object
   intactTopLabel: boolean
 }
 
@@ -34,7 +34,7 @@ interface IgetPropsForAnimated2DWithGradientReturnType {
 }
 
 export const getPropsForAnimated2DWithGradient = (
-  props: Animated2dWithFradientPropsType
+  props: Animated2dWithGradientPropsType
 ): IgetPropsForAnimated2DWithGradientReturnType => {
   const {
     barBorderWidth,

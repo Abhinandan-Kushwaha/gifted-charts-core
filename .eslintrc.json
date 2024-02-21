@@ -15,6 +15,7 @@
         "react"
     ],
     "rules": {
-        "@typescript-eslint/strict-boolean-expressions": "warn"
+        "@typescript-eslint/strict-boolean-expressions": "warn",
+        "@typescript-eslint/indent": "off"
     }
 }

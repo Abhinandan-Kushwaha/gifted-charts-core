@@ -532,7 +532,7 @@ export interface RenderBarsPropsType {
   barBorderTopRightRadius?: number
   barBorderBottomLeftRadius?: number
   barBorderBottomRightRadius?: number
-  barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
+  barInnerComponent?: (item?: barDataItem | stackDataItem, index?: number) => ReactNode
   autoShiftLabels?: boolean
   barBackgroundPattern?: () => ReactNode
   patternId?: string
@@ -592,11 +592,11 @@ export interface animatedBarPropTypes {
 }
 
 export interface CommonPropsFor2Dand3DbarsType {
-  barBackgroundPattern: () => ReactNode
-  barInnerComponent: (item?: barDataItem, index?: number) => ReactNode
-  patternId: string
+  barBackgroundPattern?: () => ReactNode
+  barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
+  patternId?: string
   barWidth: number
-  barStyle: object
+  barStyle?: object
   item: barDataItem
   index: number
 
