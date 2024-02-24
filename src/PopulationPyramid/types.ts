@@ -1,5 +1,5 @@
 import { type ColorValue } from 'react-native'
-import { type RuleTypes } from '../utils/types'
+import { type Framework, type RuleTypes } from '../utils/types'
 import { type FontStyle, type FontWeight } from 'react-native-svg'
 
 export interface popnPyramidDataItem {
@@ -60,6 +60,21 @@ export interface popnPyramidDataItem {
   rightSurplusBorderWidth?: number
 }
 
+export type popnPyramidDataItemReactJS = popnPyramidDataItem & {
+  leftBarColor?: string
+  rightBarColor?: string
+  leftBarBorderColor?: string
+  rightBarBorderColor?: string
+  barLabelColor?: string
+  leftBarLabelColor?: string
+  rightBarLabelColor?: string
+  midAxisLabelColor?: string
+  leftSurplusColor?: string
+  leftSurplusBorderColor?: string
+  rightSurplusColor?: string
+  rightSurplusBorderColor?: string
+}
+
 export interface RulesProps {
   x1?: number
   y1?: number
@@ -67,7 +82,11 @@ export interface RulesProps {
   y2?: number
   stroke?: ColorValue
   strokeWidth?: number
-  strokeDasharray?: number[]
+  strokeDasharray?: number[] | string
+}
+
+export type RulesPropsReactJS = RulesProps & {
+  stroke?: string
 }
 
 export interface PopulationPyramidPropsType {
@@ -81,7 +100,7 @@ export interface PopulationPyramidPropsType {
   yAxisLabelWidth?: number
   yAxisColor?: ColorValue
   yAxisThickness?: number
-  yAxisStrokeDashArray?: number[]
+  yAxisStrokeDashArray?: number[] | string
   xAxisColor?: ColorValue
   xAxisThickness?: number
   xAxisType?: RuleTypes
@@ -108,7 +127,7 @@ export interface PopulationPyramidPropsType {
   verticalLinesColor?: ColorValue
   verticalLinesThickness?: number
   verticalLinesType?: RuleTypes
-  verticalLinesStrokeDashArray?: number[]
+  verticalLinesStrokeDashArray?: number[] | string
 
   noOfSections?: number
   barsMapToYAxisSections?: boolean
@@ -139,7 +158,7 @@ export interface PopulationPyramidPropsType {
   midAxisColor?: ColorValue
   midAxisLeftColor?: ColorValue
   midAxisRightColor?: ColorValue
-  midAxisStrokeDashArray?: number[]
+  midAxisStrokeDashArray?: number[] | string
   midAxisLabelFontSize?: number
   midAxisLabelColor?: ColorValue
   midAxisLabelFontStyle?: FontStyle
@@ -195,5 +214,39 @@ export interface PopulationPyramidPropsType {
   rightSurplusBorderColor?: ColorValue
   leftSurplusBorderWidth?: number
   rightSurplusBorderWidth?: number
-
 }
+
+export type PopulationPyramidPropsTypeReactJS = PopulationPyramidPropsType & {
+  data: popnPyramidDataItemReactJS[]
+  yAxisColor?: string
+  xAxisColor?: string
+  xAxisIndicesColor?: string
+  xAxisLabelColor?: string
+  verticalLinesColor?: string
+  yAxisIndicesColor?: string
+  yAxisLabelColor?: string
+  rulesColor?: string
+  midAxisColor?: string
+  midAxisLeftColor?: string
+  midAxisRightColor?: string
+  midAxisLabelColor?: string
+  barLabelColor?: string
+  leftBarLabelColor?: string
+  rightBarLabelColor?: string
+  leftBarColor?: string
+  rightBarColor?: string
+  leftBarBorderColor?: string
+  rightBarBorderColor?: string
+  leftSurplusColor?: string
+  leftSurplusBorderColor?: string
+  rightSurplusColor?: string
+  rightSurplusBorderColor?: string
+}
+
+export type RulesPropsType =
+  | ({ framework: Framework.reactJS } & RulesPropsReactJS)
+  | ({ framework?: Framework.reactNative } & RulesProps)
+
+export type TPopulationPyramidPropsType =
+  | ({ framework: Framework.reactJS } & PopulationPyramidPropsTypeReactJS)
+  | ({ framework?: Framework.reactNative } & PopulationPyramidPropsType)

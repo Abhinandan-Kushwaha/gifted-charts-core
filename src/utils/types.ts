@@ -3,6 +3,11 @@ import { type chartTypes, type yAxisSides } from './constants'
 import { type lineDataItem } from '../LineChart/types'
 import { type barDataItem, type stackDataItem } from '../BarChart/types'
 
+export enum Framework {
+  reactJS,
+  reactNative
+}
+
 export type RuleType = 'solid' | 'dashed' | 'dotted' | string
 
 export interface RuleTypes {

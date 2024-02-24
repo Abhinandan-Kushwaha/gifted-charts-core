@@ -18,7 +18,8 @@ import {
   CurveType,
   type HighlightedRange,
   type LineProperties,
-  type LineSegment
+  type LineSegment,
+  Framework
 } from './types'
 import {
   type lineConfigType,
@@ -1489,4 +1490,44 @@ export const getSanitisedData = (
     return adjustToOffset(nullishHandledData, yAxisOffset)
   }
   return nullishHandledData
+}
+
+export const getStrokeDashArray = (
+  strokeDash?: number[] | string,
+  framework?: Framework
+): number[] | string | undefined => {
+  let strokeDashArrayOrString: number[] | string | undefined
+  if (framework === Framework.reactJS) {
+    if (strokeDash instanceof Array) {
+      strokeDashArrayOrString = strokeDash.toString().replace(',', ' ')
+    } else if (typeof strokeDash === 'string') {
+      strokeDashArrayOrString = strokeDash
+        .replace(',', ' ')
+        .replace('[', '')
+        .replace(']', '')
+        .replace('{', '')
+        .replace('}', '')
+    }
+  } else {
+    if (strokeDash instanceof Array) {
+      strokeDashArrayOrString = strokeDash
+    } else if (typeof strokeDash === 'string') {
+      const ar = strokeDash
+        .replace(',', ' ')
+        .replace('[', '')
+        .replace(']', '')
+        .replace('{', '')
+        .replace('}', '')
+        .split(' ')
+      if (ar[0] && ar[1]) {
+        const n1 = Number(ar[0])
+        const n2 = Number(ar[1])
+        if (!isNaN(n1) && !isNaN(n2)) {
+          strokeDashArrayOrString = [n1, n2]
+        }
+      }
+    }
+  }
+
+  return strokeDashArrayOrString
 }
