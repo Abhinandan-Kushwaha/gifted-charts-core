@@ -141,5 +141,6 @@ export {
   type LineSegment,
   type LineSvgProps,
   type LineProperties,
-  type DataSet
+  type DataSet,
+  type Framework
 } from './utils/types'

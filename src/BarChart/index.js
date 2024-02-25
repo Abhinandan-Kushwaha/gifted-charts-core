@@ -365,15 +365,15 @@ export var useBarChart = function (props) {
         setPointerX(x);
         setPointerY(y);
     };
-    var animatedHeight = heightValue.interpolate({
+    var animatedHeight = heightValue === null || heightValue === void 0 ? void 0 : heightValue.interpolate({
         inputRange: [0, 1],
         outputRange: ['0%', '100%']
     });
-    var appearingOpacity = opacValue.interpolate({
+    var appearingOpacity = opacValue === null || opacValue === void 0 ? void 0 : opacValue.interpolate({
         inputRange: [0, 1],
         outputRange: [0, 1]
     });
-    var animatedWidth = widthValue.interpolate({
+    var animatedWidth = widthValue === null || widthValue === void 0 ? void 0 : widthValue.interpolate({
         inputRange: [0, 1],
         outputRange: [0, initialSpacing + totalWidth + endSpacing]
     });

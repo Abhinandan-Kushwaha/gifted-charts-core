@@ -32,9 +32,9 @@ import {
 import { type Animated } from 'react-native'
 
 export interface extendedBarChartPropsType extends BarChartPropsType {
-  heightValue: Animated.Value
-  widthValue: Animated.Value
-  opacValue: Animated.Value
+  heightValue?: Animated.Value
+  widthValue?: Animated.Value
+  opacValue?: Animated.Value
   verticalLinesUptoDataPoint?: boolean
   secondaryYAxis?: secondaryYAxisType | boolean
 }
@@ -578,16 +578,16 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     setPointerY(y)
   }
 
-  const animatedHeight = heightValue.interpolate({
+  const animatedHeight = heightValue?.interpolate({
     inputRange: [0, 1],
     outputRange: ['0%', '100%']
   })
-  const appearingOpacity = opacValue.interpolate({
+  const appearingOpacity = opacValue?.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 1]
   })
 
-  const animatedWidth = widthValue.interpolate({
+  const animatedWidth = widthValue?.interpolate({
     inputRange: [0, 1],
     outputRange: [0, initialSpacing + totalWidth + endSpacing]
   })

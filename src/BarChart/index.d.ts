@@ -3,9 +3,9 @@ import { type lineConfigType, type BarChartPropsType, type barDataItem, type sta
 import { type BarAndLineChartsWrapperTypes, type secondaryYAxisType } from '../utils/types';
 import { type Animated } from 'react-native';
 export interface extendedBarChartPropsType extends BarChartPropsType {
-    heightValue: Animated.Value;
-    widthValue: Animated.Value;
-    opacValue: Animated.Value;
+    heightValue?: Animated.Value;
+    widthValue?: Animated.Value;
+    opacValue?: Animated.Value;
     verticalLinesUptoDataPoint?: boolean;
     secondaryYAxis?: secondaryYAxisType | boolean;
 }
@@ -81,8 +81,8 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
     side: string;
     labelWidth: number;
     isThreeD: boolean;
-    animatedHeight: Animated.AnimatedInterpolation<string | number>;
-    appearingOpacity: Animated.AnimatedInterpolation<string | number>;
+    animatedHeight: Animated.AnimatedInterpolation<string | number> | undefined;
+    appearingOpacity: Animated.AnimatedInterpolation<string | number> | undefined;
     autoShiftLabels: boolean;
     yAxisAtTop: boolean;
     secondaryData: import("..").lineDataItem[] | barDataItem[] | undefined;
@@ -95,7 +95,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
     lineConfig2: lineConfigType;
     lineData: (import("..").lineDataItem | barDataItem | stackDataItem)[];
     lineData2: (import("..").lineDataItem | barDataItem | stackDataItem)[] | undefined;
-    animatedWidth: Animated.AnimatedInterpolation<string | number>;
+    animatedWidth: Animated.AnimatedInterpolation<string | number> | undefined;
     lineBehindBars: boolean;
     points: string;
     setPoints: import("react").Dispatch<import("react").SetStateAction<string>>;

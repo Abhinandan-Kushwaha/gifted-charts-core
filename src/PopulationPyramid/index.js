@@ -59,7 +59,7 @@ export var usePopulationPyramid = function (props) {
         ? props.stepHeight * noOfSections
         : height;
     var stepHeight = (_s = props.stepHeight) !== null && _s !== void 0 ? _s : containerHeight / noOfSections;
-    var xAxisLabelsHeight = 80;
+    var xAxisLabelsHeight = 30;
     var containerHeightWithXaxisLabels = containerHeight + xAxisLabelsHeight;
     var mid = (width + yAxisLabelWidth) / 2;
     var leftMax = Math.max.apply(Math, __spreadArray([], __read(data.map(function (item) { return item.left; })), false));
