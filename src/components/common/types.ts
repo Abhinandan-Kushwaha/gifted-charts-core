@@ -28,4 +28,5 @@ export interface StripAndLabelProps {
   scrollX: number
   pointerEvents: PointerEvent
   width: number
+  screenWidth: number
 }

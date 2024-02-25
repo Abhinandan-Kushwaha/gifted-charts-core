@@ -264,6 +264,7 @@ export interface BarAndLineChartsWrapperTypes {
   onEndReached?: () => void
   onStartReached?: () => void
   endReachedOffset: number
+  isRTL?: boolean
 }
 
 export interface Pointer {

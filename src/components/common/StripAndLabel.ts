@@ -1,4 +1,3 @@
-import { screenWidth } from '../../utils/constants'
 import { type StripAndLabelProps } from './types'
 
 interface IgetTopAndLeftForStripAndLabel {
@@ -24,7 +23,8 @@ export const getTopAndLeftForStripAndLabel = (
     pointerStripHeight,
     shiftPointerLabelY,
     scrollX,
-    width
+    width,
+    screenWidth
   } = props
   let left = 0
   let top = 0

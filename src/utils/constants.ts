@@ -1,6 +1,5 @@
 import { type defaultLineConfigType } from '../BarChart/types'
 import { CurveType, EdgePosition, type RuleTypes } from './types'
-import { Dimensions } from 'react-native'
 import { type FontStyle } from 'react-native-svg'
 
 // Global
@@ -10,8 +9,6 @@ export enum chartTypes {
   LINE,
   LINE_BI_COLOR,
 }
-
-export const screenWidth = Dimensions.get('window').width
 
 export const defaultCurvature = 0.2
 const defaultCurveType = CurveType.CUBIC
@@ -289,7 +286,6 @@ export const pieColors = [
 
 export const populationDefaults = {
   height: 200,
-  width: screenWidth,
   verticalMarginBetweenBars: 1,
   barsMapToYAxisSections: true,
 

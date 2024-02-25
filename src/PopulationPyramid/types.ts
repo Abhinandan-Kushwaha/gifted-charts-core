@@ -250,3 +250,7 @@ export type RulesPropsType =
 export type TPopulationPyramidPropsType =
   | ({ framework: Framework.reactJS } & PopulationPyramidPropsTypeReactJS)
   | ({ framework?: Framework.reactNative } & PopulationPyramidPropsType)
+
+export type extendedPopulationPyramidPropsType = TPopulationPyramidPropsType & {
+  screenWidth: number
+}

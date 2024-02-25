@@ -4,7 +4,7 @@ import {
   type BarAndLineChartsWrapperTypes,
   type horizSectionPropTypes
 } from '../../utils/types'
-import { I18nManager, type NativeScrollEvent } from 'react-native'
+import { type NativeScrollEvent } from 'react-native'
 
 export const useBarAndLineChartsWrapper = (
   props: BarAndLineChartsWrapperTypes
@@ -58,7 +58,8 @@ export const useBarAndLineChartsWrapper = (
     pointerY,
 
     scrollEventThrottle,
-    endReachedOffset
+    endReachedOffset,
+    isRTL
   } = props
 
   const yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop
@@ -322,7 +323,7 @@ export const useBarAndLineChartsWrapper = (
     contentOffset,
     contentSize
   }: NativeScrollEvent): boolean => {
-    return I18nManager.isRTL
+    return isRTL
       ? contentOffset.x <= initialSpacing
       : layoutMeasurement.width + contentOffset.x >=
           contentSize.width - initialSpacing - endReachedOffset
@@ -337,7 +338,7 @@ export const useBarAndLineChartsWrapper = (
     contentOffset,
     contentSize
   }: NativeScrollEvent): boolean => {
-    return I18nManager.isRTL
+    return isRTL
       ? layoutMeasurement.width + contentOffset.x >=
           contentSize.width - initialSpacing - endReachedOffset
       : contentOffset.x <= initialSpacing

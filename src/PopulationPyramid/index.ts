@@ -1,13 +1,13 @@
 import { getStrokeDashArray } from '../utils'
 import { AxesAndRulesDefaults, populationDefaults } from '../utils/constants'
 import { Framework } from '../utils/types'
-import { type RulesPropsType, type TPopulationPyramidPropsType } from './types'
+import { type extendedPopulationPyramidPropsType, type RulesPropsType } from './types'
 
-export const usePopulationPyramid = (props: TPopulationPyramidPropsType) => {
+export const usePopulationPyramid = (props: extendedPopulationPyramidPropsType) => {
   const {
     framework,
     height = populationDefaults.height,
-    width = populationDefaults.width,
+    width = props.screenWidth,
     verticalMarginBetweenBars = populationDefaults.verticalMarginBetweenBars,
     barsMapToYAxisSections = populationDefaults.barsMapToYAxisSections,
     data,

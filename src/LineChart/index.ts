@@ -6,8 +6,7 @@ import {
   SEGMENT_START,
   chartTypes,
   defaultArrowConfig,
-  defaultPointerConfig,
-  screenWidth
+  defaultPointerConfig
 } from '../utils/constants'
 import {
   adjustToOffset,
@@ -44,6 +43,7 @@ export interface extendedLineChartPropsType extends LineChartPropsType {
   heightValue: Animated.Value
   widthValue: Animated.Value
   opacValue: Animated.Value
+  screenWidth: number
 }
 
 export const useLineChart = (props: extendedLineChartPropsType) => {
@@ -52,7 +52,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     showDataPointsForMissingValues,
     interpolateMissingValues = true,
     onlyPositive,
-    yAxisOffset
+    yAxisOffset,
+    screenWidth
   } = props
   const curvature = props.curvature ?? LineDefaults.curvature
   const curveType = props.curveType ?? LineDefaults.curveType
