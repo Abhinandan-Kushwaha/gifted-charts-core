@@ -75,7 +75,6 @@ export { getTopAndLeftForStripAndLabel } from './components/common/StripAndLabel
 /***********************************************************************************************************************/
 
 export {
-  rnVersion,
   getCumulativeWidth,
   getLighterColor,
   svgQuadraticCurvePath,

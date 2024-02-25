@@ -4,7 +4,6 @@ import { type arrowConfigType, CurveType, type HighlightedRange, type LineProper
 import { type lineConfigType, type BarChartPropsType, type FocusedBarConfig, type barDataItem } from '../BarChart/types';
 import { type extendedLineChartPropsType } from '../LineChart';
 import { type extendedBarChartPropsType } from '../BarChart';
-export declare const rnVersion: number;
 export declare const getCumulativeWidth: (data: any, index: number, spacing: number) => number;
 export declare const getLighterColor: (color: string) => string;
 export declare const svgQuadraticCurvePath: (points: number[][]) => string;
