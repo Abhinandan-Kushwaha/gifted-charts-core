@@ -2,7 +2,7 @@
 /*****************************************              Bar Chart              *****************************************
 /***********************************************************************************************************************/
 export { useBarChart } from './BarChart';
-export { getPropsForAnimated2DWithGradient } from './BarChart/Animated2DWithGradient.js';
+export { getPropsForAnimated2DWithGradient } from './BarChart/Animated2DWithGradient';
 export { useRenderStackBars } from './BarChart/RenderStackBars';
 /************************************************************************************************************************
 /*****************************************              Line Chart              *****************************************

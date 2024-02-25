@@ -2,7 +2,7 @@
 /*****************************************              Bar Chart              *****************************************
 /***********************************************************************************************************************/
 export { useBarChart } from './BarChart';
-export { getPropsForAnimated2DWithGradient } from './BarChart/Animated2DWithGradient.js';
+export { getPropsForAnimated2DWithGradient } from './BarChart/Animated2DWithGradient';
 export { useRenderStackBars } from './BarChart/RenderStackBars';
 export { type stackDataItem, type StackedBarChartPropsType, type BarChartPropsType, type defaultLineConfigType, type barDataItem, type Animated2DWithGradientPropsType, type RenderBarsPropsType, type trianglePropTypes, type animatedBarPropTypes, type FocusedBarConfig, type CommonPropsFor2Dand3DbarsType } from './BarChart/types';
 /************************************************************************************************************************
