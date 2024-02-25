@@ -216,6 +216,14 @@ export var useBarAndLineChartsWrapper = function (props) {
                 (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52)
         }
     ];
+    var transformForHorizontalForReactJS = "rotate(".concat(rtl ? '-90deg' : '90deg', ")\n  translateY(").concat(-shiftX + (rtl ? -difBwWidthHeight + 14 : difBwWidthHeight) / 2 - 20, ")\n  translateX(").concat(shiftY +
+        (rtl
+            ? (props.width ? -98 - endSpacing : -75 - endSpacing) - difBwWidthHeight
+            : props.width
+                ? difBwWidthHeight
+                : difBwWidthHeight - 40) /
+            2 +
+        (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52), ")");
     var _13 = __read(useState(false), 2), canMomentum = _13[0], setCanMomentum = _13[1];
     var isCloseToEnd = function (_a) {
         var layoutMeasurement = _a.layoutMeasurement, contentOffset = _a.contentOffset, contentSize = _a.contentSize;
@@ -249,6 +257,7 @@ export var useBarAndLineChartsWrapper = function (props) {
         xAxisTextNumberOfLines: xAxisTextNumberOfLines,
         actualContainerWidth: actualContainerWidth,
         transformForHorizontal: transformForHorizontal,
+        transformForHorizontalForReactJS: transformForHorizontalForReactJS,
         horizSectionProps: horizSectionProps,
         referenceLinesOverChartContent: referenceLinesOverChartContent,
         setCanMomentum: setCanMomentum,

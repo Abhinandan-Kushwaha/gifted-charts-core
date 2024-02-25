@@ -23,6 +23,7 @@ export declare const useBarAndLineChartsWrapper: (props: BarAndLineChartsWrapper
         rotate?: undefined;
         translateY?: undefined;
     })[];
+    transformForHorizontalForReactJS: string;
     horizSectionProps: horizSectionPropTypes;
     referenceLinesOverChartContent: any;
     setCanMomentum: import("react").Dispatch<import("react").SetStateAction<boolean>>;

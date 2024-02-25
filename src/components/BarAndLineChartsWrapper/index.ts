@@ -316,6 +316,21 @@ export const useBarAndLineChartsWrapper = (
     }
   ]
 
+  const transformForHorizontalForReactJS = `rotate(${rtl ? '-90deg' : '90deg'})
+  translateY(${
+    -shiftX + (rtl ? -difBwWidthHeight + 14 : difBwWidthHeight) / 2 - 20
+  })
+  translateX(${
+    shiftY +
+    (rtl
+      ? (props.width ? -98 - endSpacing : -75 - endSpacing) - difBwWidthHeight
+      : props.width
+      ? difBwWidthHeight
+      : difBwWidthHeight - 40) /
+      2 +
+    (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52)
+  })`
+
   const [canMomentum, setCanMomentum] = useState(false)
 
   const isCloseToEnd = ({
@@ -360,6 +375,7 @@ export const useBarAndLineChartsWrapper = (
     xAxisTextNumberOfLines,
     actualContainerWidth,
     transformForHorizontal,
+    transformForHorizontalForReactJS,
     horizSectionProps,
     referenceLinesOverChartContent,
     setCanMomentum,
