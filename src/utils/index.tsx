@@ -196,7 +196,7 @@ export const getSegmentString = (
 
 export const getCurvePathWithSegments = (
   path: string,
-  lineSegment: LineSegment[] | undefined,
+  lineSegment?: LineSegment[],
   startDelimeter,
   endDelimeter
 ) => {
@@ -1343,7 +1343,7 @@ export const getInterpolatedData = (
 
 export const getLineSegmentsForMissingValues = (
   data?: lineDataItem[]
-): LineSegment[] | undefined => {
+) => {
   if (!data?.length) return undefined;
   let i,
     n = data.length;

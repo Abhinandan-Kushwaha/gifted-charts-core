@@ -109,7 +109,7 @@ export type StackedBarChartPropsType = {
   xAxisTextNumberOfLines: number;
   xAxisLabelsHeight?: number;
   xAxisLabelsVerticalShift: number;
-  renderTooltip: Function | undefined;
+  renderTooltip?: Function;
   leftShiftForTooltip?: number;
   leftShiftForLastIndexTooltip: number;
   initialSpacing: number;
@@ -541,7 +541,7 @@ export type RenderBarsPropsType = {
   xAxisTextNumberOfLines: number;
   xAxisLabelsHeight?: number;
   xAxisLabelsVerticalShift: number;
-  renderTooltip: Function | undefined;
+  renderTooltip?: Function;
   leftShiftForTooltip?: number;
   leftShiftForLastIndexTooltip: number;
   initialSpacing: number;

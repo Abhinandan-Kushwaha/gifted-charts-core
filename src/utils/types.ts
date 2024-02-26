@@ -52,7 +52,7 @@ export type secondaryYAxisType = {
   yAxisThickness?: number;
   yAxisColor?: ColorValue;
   yAxisLabelContainerStyle?: any;
-  yAxisLabelTexts?: Array<string> | undefined;
+  yAxisLabelTexts?: Array<string>;
   yAxisTextStyle?: any;
   yAxisTextNumberOfLines?: number;
   yAxisLabelWidth?: number;
@@ -115,7 +115,7 @@ export type arrowConfigType = {
 };
 
 export type horizSectionPropTypes = {
-  width: number | undefined;
+  width?: number;
   horizSections: Array<any>;
   noOfSectionsBelowXAxis: number;
   totalWidth: number;
@@ -156,7 +156,7 @@ export type horizSectionPropTypes = {
   yAxisLabelPrefix: string;
   yAxisLabelSuffix: string;
   yAxisTextStyle: any;
-  rotateYAxisTexts: number | undefined;
+  rotateYAxisTexts?: number;
   rtl: boolean;
 
   containerHeight: number;
@@ -165,16 +165,16 @@ export type horizSectionPropTypes = {
 
   referenceLinesConfig: any;
 
-  yAxisLabelTexts: Array<string> | undefined;
-  yAxisOffset: number | undefined;
+  yAxisLabelTexts?: Array<string>;
+  yAxisOffset?: number;
 
   horizontal: boolean;
   yAxisAtTop: boolean;
 
   stepValue: number;
-  roundToDigits: number | undefined;
+  roundToDigits?: number;
 
-  secondaryData: Array<any> | undefined;
+  secondaryData?: Array<any>;
   secondaryYAxis: secondaryYAxisType | null;
   formatYLabel?: (label: string) => string;
   onlyReferenceLines?: boolean;
@@ -202,17 +202,17 @@ export type BarAndLineChartsWrapperTypes = {
   yAxisAtTop: boolean;
   initialSpacing: number;
   data: Array<any>;
-  stackData: Array<any> | undefined;
-  secondaryData: Array<any> | undefined;
-  barWidth: number | undefined;
+  stackData?: Array<any>;
+  secondaryData?: Array<any>;
+  barWidth?: number;
   xAxisThickness: number;
   totalWidth: number;
   disableScroll: boolean;
   showScrollIndicator: boolean;
   scrollToEnd: boolean;
-  scrollToIndex: number | undefined;
+  scrollToIndex?: number;
   scrollAnimation: boolean;
-  indicatorColor: "black" | "default" | "white" | undefined;
+  indicatorColor?: "black" | "default" | "white";
   setSelectedIndex: any;
   spacing: number;
   showLine: boolean;
@@ -229,7 +229,7 @@ export type BarAndLineChartsWrapperTypes = {
   renderChartContent?: any;
   remainingScrollViewProps?: any;
 
-  width: number | undefined;
+  width?: number;
   horizSections: HorizSectionsType;
   endSpacing: number;
   horizontalRulesStyle: any;
@@ -237,10 +237,10 @@ export type BarAndLineChartsWrapperTypes = {
   showFractionalValues: boolean;
   axesAndRulesProps: any;
 
-  yAxisLabelTexts: Array<string> | undefined;
-  yAxisOffset: number | undefined;
-  rotateYAxisTexts: number | undefined;
-  hideAxesAndRules: boolean | undefined;
+  yAxisLabelTexts?: Array<string>;
+  yAxisOffset?: number;
+  rotateYAxisTexts?: number;
+  hideAxesAndRules?: boolean;
 
   showXAxisIndices: boolean;
   xAxisIndicesHeight: number;
