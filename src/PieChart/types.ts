@@ -1,5 +1,5 @@
-import { ColorValue } from "react-native";
-import { FontStyle } from "react-native-svg";
+import type { ColorValue } from "react-native";
+import type { FontStyle } from "react-native-svg";
 
 export type PieChartPropsType = {
   radius?: number;
