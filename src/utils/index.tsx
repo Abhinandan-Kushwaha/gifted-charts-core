@@ -1,18 +1,23 @@
-import { lineDataItem } from "../LineChart/types";
+import type { ColorValue } from "react-native";
+import { BarChartPropsType, FocusedBarConfig, lineConfigType } from "../BarChart/types";
+import type { LineChartPropsType, lineDataItem } from "../LineChart/types";
 import {
   AxesAndRulesDefaults,
   BarDefaults,
   RANGE_ENTER,
   RANGE_EXIT,
+  SEGMENT_END,
+  SEGMENT_START,
   STOP,
   defaultLineConfig,
   loc,
 } from "./constants";
 import {
   CurveType,
-  LineProperties,
-  LineSegment,
-  arrowConfigType,
+  HighlightedRange,
+  type LineProperties,
+  type LineSegment,
+  type arrowConfigType,
 } from "./types";
 
 const versionString = require("react-native/package.json").version;
@@ -85,7 +90,7 @@ export const getLighterColor = (color: string) => {
   return lighter;
 };
 
-export const svgQuadraticCurvePath = (points) => {
+export const svgQuadraticCurvePath = (points: number[][]) => {
   let path = "M" + points[0][0] + "," + points[0][1];
 
   for (let i = 0; i < points.length - 1; i++) {
@@ -185,10 +190,10 @@ export const bezierCommand = (
 };
 
 export const getSegmentString = (
-  lineSegment,
-  index,
-  startDelimeter,
-  endDelimeter
+  lineSegment?: LineSegment[],
+  index?: number,
+  startDelimeter?: string,
+  endDelimeter?: string
 ) => {
   const segment = lineSegment?.find((segment) => segment.startIndex === index);
   return segment ? startDelimeter + JSON.stringify(segment) + endDelimeter : "";
@@ -197,8 +202,8 @@ export const getSegmentString = (
 export const getCurvePathWithSegments = (
   path: string,
   lineSegment?: LineSegment[],
-  startDelimeter,
-  endDelimeter
+  startDelimeter?: string,
+  endDelimeter?: string
 ) => {
   if (!lineSegment?.length) return path;
   let newPath = "";
@@ -213,7 +218,7 @@ export const getCurvePathWithSegments = (
   return newPath;
 };
 
-export const getPreviousSegmentsLastPoint = (isCurved, previousSegment) => {
+export const getPreviousSegmentsLastPoint = (isCurved: boolean, previousSegment: string) => {
   const prevSegmentLastPoint = isCurved
     ? previousSegment.substring(previousSegment.trim().lastIndexOf(" "))
     : previousSegment
@@ -226,13 +231,13 @@ export const getPreviousSegmentsLastPoint = (isCurved, previousSegment) => {
 };
 
 export const getPathWithHighlight = (
-  data,
-  i,
-  highlightedRange,
-  startIndex,
-  endIndex,
-  getX,
-  getY
+  data: lineDataItem[],
+  i: number,
+  highlightedRange: HighlightedRange,
+  startIndex: number,
+  endIndex: number,
+  getX: (x: number) => number,
+  getY: (x: number) => number
 ) => {
   let path = "";
   const { from, to } = highlightedRange;
@@ -255,9 +260,10 @@ export const getPathWithHighlight = (
         x2 = getX(i + 1),
         y2 = getY(data[i + 1].value);
 
-      let m = (y2 - y1) / (x2 - x1),
-        x,
-        y;
+      let m = (y2 - y1) / (x2 - x1);
+      let x = 0;
+      let y = 0;
+
       if (i === startIndex && currentPointRegion === loc.IN) {
         // If the 1st point lies IN
         y = y1;
@@ -357,17 +363,17 @@ export const getPathWithHighlight = (
 };
 
 export const getRegionPathObjects = (
-  points,
-  color,
-  currentLineThickness,
-  thickness,
-  strokeDashArray,
-  isCurved,
-  startDelimeter,
-  stop,
-  endDelimeter
+  points: string,
+  color: ColorValue,
+  currentLineThickness: number,
+  thickness: number,
+  strokeDashArray: number[],
+  isCurved: boolean,
+  startDelimeter = SEGMENT_START,
+  stop = STOP,
+  endDelimeter = SEGMENT_END
 ) => {
-  const ar: [any] = [{}];
+  const ar: any[] = [{}];
   let tempStr = points;
 
   if (!points.startsWith(startDelimeter)) {
@@ -377,10 +383,9 @@ export const getRegionPathObjects = (
       d: points.substring(0, points.indexOf(startDelimeter)),
       color,
       strokeWidth: currentLineThickness || thickness,
+      strokeDashArray: strokeDashArray
     };
-    if (strokeDashArray) {
-      lineSvgProps.strokeDashArray = strokeDashArray;
-    }
+
     ar.push(lineSvgProps);
   }
 
@@ -469,14 +474,14 @@ export const getRegionPathObjects = (
 };
 
 export const getSegmentedPathObjects = (
-  points,
-  color,
-  currentLineThickness,
-  thickness,
-  strokeDashArray,
-  isCurved,
-  startDelimeter,
-  endDelimeter
+  points: string,
+  color: ColorValue,
+  currentLineThickness: number,
+  thickness: number,
+  strokeDashArray: number[],
+  isCurved: boolean,
+  startDelimeter = SEGMENT_START,
+  endDelimeter = SEGMENT_END
 ) => {
   const ar: [any] = [{}];
   let tempStr = points;
@@ -638,10 +643,21 @@ export const getArrowPoints = (
 };
 
 export const getAxesAndRulesProps = (
-  props: any,
+  props: BarChartPropsType | LineChartPropsType,
   stepValue: number,
   maxValue?: number
 ) => {
+
+  const secondaryYAxis = typeof props.secondaryYAxis === 'object' && maxValue 
+  ? {
+      ...props.secondaryYAxis,
+      maxValue
+    }
+  : props.secondaryYAxis
+
+  const referenceLinesOverChartContent = 'referenceLinesOverChartContent' in props ? props.referenceLinesOverChartContent : undefined;
+  const verticalLinesUptoDataPoint = 'verticalLinesUptoDataPoint' in props ? props.verticalLinesUptoDataPoint : undefined;
+
   const axesAndRulesProps = {
     yAxisSide: props.yAxisSide,
     yAxisLabelContainerStyle: props.yAxisLabelContainerStyle,
@@ -686,7 +702,7 @@ export const getAxesAndRulesProps = (
       showReferenceLine3: props.showReferenceLine3,
       referenceLine3Position: props.referenceLine3Position,
       referenceLine3Config: props.referenceLine3Config,
-      referenceLinesOverChartContent: props.referenceLinesOverChartContent,
+      referenceLinesOverChartContent,
     },
 
     showVerticalLines: props.showVerticalLines,
@@ -699,20 +715,14 @@ export const getAxesAndRulesProps = (
     noOfVerticalLines: props.noOfVerticalLines,
 
     //specific to Line charts-
-    verticalLinesUptoDataPoint: props.verticalLinesUptoDataPoint,
+    verticalLinesUptoDataPoint,
 
     roundToDigits: props.roundToDigits,
     stepValue,
 
-    secondaryYAxis: props.secondaryYAxis,
+    secondaryYAxis,
     formatYLabel: props.formatYLabel,
   };
-  if (
-    (props.secondaryYAxis || props.lineConfig?.isSecondary) &&
-    maxValue !== undefined
-  ) {
-    axesAndRulesProps.secondaryYAxis = { ...props.secondaryYAxis, maxValue };
-  }
 
   return axesAndRulesProps;
 };
@@ -746,7 +756,7 @@ export const getSecondaryDataWithOffsetIncluded = (
 };
 
 export const getArrowProperty = (
-  property: string,
+  property: keyof arrowConfigType,
   count: number,
   props: any,
   defaultArrowConfig: arrowConfigType
@@ -759,7 +769,7 @@ export const getArrowProperty = (
 };
 
 export const getAllArrowProperties = (
-  props: any,
+  props: LineChartPropsType,
   defaultArrowConfig: arrowConfigType
 ) => {
   const arrowLength1 = getArrowProperty("length", 1, props, defaultArrowConfig);
@@ -897,20 +907,21 @@ export const getAllArrowProperties = (
     defaultArrowConfig
   );
 
-  const arrowLengthsFromSet = props.dataSet?.map(
+  
+  const arrowLengthsFromSet = props?.dataSet?.map(
     (item) => item?.arrowConfig?.length ?? arrowLength1
   );
   const arrowWidthsFromSet = props.dataSet?.map(
-    (item) => item?.arrowConfig?.arrowWidth ?? arrowWidth1
+    (item) => item?.arrowConfig?.width ?? arrowWidth1
   );
   const arrowStrokeWidthsFromSet = props.dataSet?.map(
-    (item) => item?.arrowConfig?.arrowStrokeWidth ?? arrowStrokeWidth1
+    (item) => item?.arrowConfig?.strokeWidth ?? arrowStrokeWidth1
   );
   const arrowStrokeColorsFromSet = props.dataSet?.map(
-    (item) => item?.arrowConfig?.arrowStrokeColor ?? arrowStrokeColor1
+    (item) => item?.arrowConfig?.strokeColor ?? arrowStrokeColor1
   );
   const arrowFillColorsFromSet = props.dataSet?.map(
-    (item) => item?.arrowConfig?.arrowFillColor ?? arrowFillColor1
+    (item) => item?.arrowConfig?.fillColor ?? arrowFillColor1
   );
   const showArrowBasesFromSet = props.dataSet?.map(
     (item) => item?.arrowConfig?.showArrowBase ?? showArrowBase1
@@ -1068,28 +1079,28 @@ export const getXForLineInBar = (
   lineConfig.dataPointsWidth / 2 -
   4;
 
-export const getYForLineInBar = (value, shiftY, containerHeight, maxValue) =>
+export const getYForLineInBar = (value: number, shiftY: number, containerHeight: number, maxValue: number) =>
   containerHeight - shiftY - (value * containerHeight) / maxValue;
 
-export const clone = (obj) => {
+export const clone = <T extends object>(obj: T): T => {
   if (obj === null || typeof obj !== "object" || "isActiveClone" in obj)
     return obj;
 
-  let temp;
+  let temp: any;
   if (obj instanceof Date) temp = new Date(obj);
-  else temp = obj.constructor();
+  else temp = (obj as any).constructor();
 
   for (let key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      obj["isActiveClone"] = null;
-      temp[key] = clone(obj[key]);
-      delete obj["isActiveClone"];
+      (obj as any)["isActiveClone"] = null;
+      temp[key] = clone((obj as any)[key]);
+      delete (obj as any)["isActiveClone"];
     }
   }
-  return temp;
+  return temp as T;
 };
 
-export const getLineConfigForBarChart = (lineConfig, barInitialSpacing) => {
+export const getLineConfigForBarChart = (lineConfig: lineConfigType, barInitialSpacing: number) => {
   return {
     initialSpacing:
       lineConfig.initialSpacing ??
@@ -1157,20 +1168,27 @@ export const getLineConfigForBarChart = (lineConfig, barInitialSpacing) => {
   };
 };
 
-export const getNoOfSections = (noOfSections, maxValue, stepValue) =>
+export const getNoOfSections = (noOfSections?: number, maxValue?: number, stepValue?: number) =>
   maxValue && stepValue
     ? maxValue / stepValue
     : noOfSections ?? AxesAndRulesDefaults.noOfSections;
 
-export const getMaxValue = (maxValue, stepValue, noOfSections, maxItem) =>
-  maxValue ?? (stepValue ? stepValue * noOfSections : maxItem);
+export const getMaxValue = (maxValue?: number, stepValue?: number, noOfSections = 1, maxItem?: number) => {
+  if (maxValue) return maxValue;
+
+  if (stepValue) {
+    return stepValue * noOfSections;
+  }
+
+  return maxItem;
+}
 
 export const getBarFrontColor = (
-  isFocused,
-  focusedBarConfig,
-  itemFrontColor,
-  frontColor,
-  isThreeD
+  isFocused: boolean,
+  focusedBarConfig?: FocusedBarConfig,
+  itemFrontColor?: ColorValue,
+  frontColor?: ColorValue,
+  isThreeD?: boolean,
 ) => {
   if (isFocused) {
     return (
@@ -1188,10 +1206,10 @@ export const getBarFrontColor = (
 };
 
 export const getBarSideColor = (
-  isFocused,
-  focusedBarConfig,
-  itemSideColor,
-  sideColor
+  isFocused: boolean,
+  focusedBarConfig?: FocusedBarConfig,
+  itemSideColor?: ColorValue,
+  sideColor?: ColorValue,
 ) => {
   if (isFocused) {
     return focusedBarConfig?.sideColor ?? BarDefaults.focusedBarSideColor;
@@ -1200,10 +1218,10 @@ export const getBarSideColor = (
 };
 
 export const getBarTopColor = (
-  isFocused,
-  focusedBarConfig,
-  itemTopColor,
-  topColor
+  isFocused: boolean,
+  focusedBarConfig?: FocusedBarConfig,
+  itemTopColor?: ColorValue,
+  topColor?: ColorValue
 ) => {
   if (isFocused) {
     return focusedBarConfig?.topColor ?? BarDefaults.focusedBarTopColor;
@@ -1212,10 +1230,10 @@ export const getBarTopColor = (
 };
 
 export const getBarWidth = (
-  isFocused,
-  focusedBarConfig,
-  itemBarWidth,
-  barWidth
+  isFocused: boolean,
+  focusedBarConfig?: FocusedBarConfig,
+  itemBarWidth?: number,
+  barWidth?: number
 ) => {
   const localBarWidth = itemBarWidth || barWidth || BarDefaults.barWidth;
   if (isFocused) {
@@ -1240,11 +1258,11 @@ export const getInterpolatedData = (
     });
   }
   if (!interpolateMissingValues) return dataParam;
-  const data = clone(dataParam);
+  const data = clone(dataParam) as lineDataItem[];
   const n = data.length;
 
   /**************         PRE-PROCESSING           **************/
-  let numericValue;
+  let numericValue: number;
   const numericValuesLength = data.filter((item) => {
     const isNum = typeof item.value === "number";
     if (isNum) {
@@ -1272,8 +1290,7 @@ export const getInterpolatedData = (
     //  Cut the line in 2 halves-> pre and post
     //  Now there are 4 possibilities-
     //    1. Both pre and post have valid values
-    //    2. Only pre has valid value
-    //    3. Only post has valid value
+    //    2. Only pre h    //    3. Only post has valid value
     //    4. None has valid value -> this is already handled in preprocessing
 
     const pre = data.slice(0, index);
@@ -1352,9 +1369,9 @@ export const getLineSegmentsForMissingValues = (
   ).length;
   if (!numericValuesLength) return undefined;
   const segments: LineSegment[] = [];
-  for (i = 0; i < n; i++) {
+  for (let i = 0; i < n; i++) {
     if (typeof data[i].value !== "number") {
-      const nextValidInd = data
+      const nextValidInd: number = data
         .slice(i + 1, n)
         .findIndex((item) => typeof item.value === "number");
       if (nextValidInd === -1) {
@@ -1365,7 +1382,7 @@ export const getLineSegmentsForMissingValues = (
         });
         break;
       }
-      const nextValidIndex = nextValidInd + i + 1;
+      const nextValidIndex: number = nextValidInd + i + 1;
       segments.push({
         startIndex: Math.max(i - 1, 0),
         endIndex: nextValidIndex,
@@ -1382,10 +1399,12 @@ export const getTextSizeForPieLabels = (
   radius: number
 ): number => (textSize ? Math.min(textSize, radius / 5) : 16);
 
-export const adjustToOffset = (data, yAxisOffset) =>
+export const adjustToOffset = (data: lineDataItem[], yAxisOffset?: number) =>
   data.map((item) => ({ ...item, value: item.value - (yAxisOffset ?? 0) }));
 
-export const getSanitisedData = (data, dataSanitisationProps) => {
+type DataSanitisationPropType = Pick<LineChartPropsType, 'showDataPointsForMissingValues' | 'interpolateMissingValues' | 'onlyPositive' | 'yAxisOffset'>;
+
+export const getSanitisedData = (data?: lineDataItem[], dataSanitisationProps?: DataSanitisationPropType) => {
   if (!data) {
     return [];
   }
@@ -1394,7 +1413,7 @@ export const getSanitisedData = (data, dataSanitisationProps) => {
     interpolateMissingValues,
     onlyPositive,
     yAxisOffset,
-  } = dataSanitisationProps;
+  } = dataSanitisationProps || {};
   const nullishHandledData = getInterpolatedData(
     data,
     showDataPointsForMissingValues,
