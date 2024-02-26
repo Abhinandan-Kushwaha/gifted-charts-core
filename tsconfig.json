@@ -1,14 +1,22 @@
 {
-    "extends": "@tsconfig/react-native",
     "compilerOptions": {
-        "noEmit": false,
-        "emitDeclarationOnly": true,
-        "declaration": true,
-        "outDir": "./dist",
-        "target": "ESNext",
-        "lib": [
-            "esnext",
-            "ES2023"
-        ]
+      "target": "es5",
+      "module": "system",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "removeComments": false,
+      "lib": [
+        "esnext",
+        "ES2023"
+      ]
+      "declaration": true,
+      "outDir": "./dist",
     },
+    "exclude": [
+      "node_modules",
+      "typings/main",
+      "typings/main.d.ts"
+    ]
 }

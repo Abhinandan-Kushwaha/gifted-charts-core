@@ -8,7 +8,8 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
