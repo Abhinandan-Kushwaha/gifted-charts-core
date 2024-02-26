@@ -1,6 +1,6 @@
 import { ColorValue } from "react-native";
-import { chartTypes, yAxisSides } from "./constants";
 import { lineDataItem } from "../LineChart/types";
+import { chartTypes, yAxisSides } from "./constants";
 
 export type RuleType = "solid" | "dashed" | "dotted" | string;
 
@@ -96,11 +96,11 @@ export type secondaryLineConfigType = {
 export type referenceConfigType = {
   thickness?: number;
   width?: number;
-  color?: ColorValue | String | any;
-  type?: String;
+  color?: ColorValue | string | any;
+  type?: string;
   dashWidth?: number;
   dashGap?: number;
-  labelText?: String;
+  labelText?: string;
   labelTextStyle?: any;
   zIndex?: number;
 };

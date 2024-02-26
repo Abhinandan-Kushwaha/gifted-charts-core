@@ -1,18 +1,18 @@
 import { ColorValue } from "react-native";
 import { yAxisSides } from "../utils/constants";
 import {
-  CurveType,
-  DataSet,
-  EdgePosition,
-  HighlightedRange,
-  LineSegment,
-  Pointer,
-  RuleType,
-  RulesConfig,
-  arrowConfigType,
-  referenceConfigType,
-  secondaryLineConfigType,
-  secondaryYAxisType,
+    CurveType,
+    DataSet,
+    EdgePosition,
+    HighlightedRange,
+    LineSegment,
+    Pointer,
+    RuleType,
+    RulesConfig,
+    arrowConfigType,
+    referenceConfigType,
+    secondaryLineConfigType,
+    secondaryYAxisType,
 } from "../utils/types";
 
 export type LineChartPropsType = {
@@ -72,7 +72,7 @@ export type LineChartPropsType = {
   showTextOnFocus?: boolean;
   stripHeight?: number;
   stripWidth?: number;
-  stripColor?: ColorValue | String | any;
+  stripColor?: ColorValue | string | any;
   stripOpacity?: number;
   onPress?: Function;
   unFocusOnPressOut?: boolean;
@@ -215,10 +215,10 @@ export type LineChartPropsType = {
   dataPointsShape5?: string;
   customDataPoint?: Function;
 
-  focusedDataPointShape?: String;
+  focusedDataPointShape?: string;
   focusedDataPointWidth?: number;
   focusedDataPointHeight?: number;
-  focusedDataPointColor?: ColorValue | String | any;
+  focusedDataPointColor?: ColorValue | string | any;
   focusedDataPointRadius?: number;
   focusedCustomDataPoint?: Function;
   dataPointLabelWidth?: number;
@@ -275,8 +275,8 @@ export type LineChartPropsType = {
   xAxisLabelsHeight?: number;
   xAxisLabelsVerticalShift?: number;
   width?: number;
-  yAxisLabelPrefix?: String;
-  yAxisLabelSuffix?: String;
+  yAxisLabelPrefix?: string;
+  yAxisLabelSuffix?: string;
   scrollRef?: any;
   scrollToEnd?: boolean;
   scrollToIndex?: number;
@@ -328,7 +328,7 @@ export type LineChartPropsType = {
 
 export type lineDataItem = {
   value: number;
-  label?: String;
+  label?: string;
   labelComponent?: Function;
   labelTextStyle?: any;
   dataPointText?: string;
@@ -347,13 +347,13 @@ export type lineDataItem = {
 
   stripHeight?: number;
   stripWidth?: number;
-  stripColor?: ColorValue | String | any;
+  stripColor?: ColorValue | string | any;
   stripOpacity?: number;
 
-  focusedDataPointShape?: String;
+  focusedDataPointShape?: string;
   focusedDataPointWidth?: number;
   focusedDataPointHeight?: number;
-  focusedDataPointColor?: ColorValue | String | any;
+  focusedDataPointColor?: ColorValue | string | any;
   focusedDataPointRadius?: number;
   focusedCustomDataPoint?: Function;
 
@@ -381,7 +381,7 @@ type sectionType = {
 
 export type bicolorLineDataItem = {
   value: number;
-  label?: String;
+  label?: string;
   labelComponent?: Function;
   labelTextStyle?: any;
   dataPointText?: string;
@@ -400,13 +400,13 @@ export type bicolorLineDataItem = {
 
   stripHeight?: number;
   stripWidth?: number;
-  stripColor?: ColorValue | String | any;
+  stripColor?: ColorValue | string | any;
   stripOpacity?: number;
 
-  focusedDataPointShape?: String;
+  focusedDataPointShape?: string;
   focusedDataPointWidth?: number;
   focusedDataPointHeight?: number;
-  focusedDataPointColor?: ColorValue | String | any;
+  focusedDataPointColor?: ColorValue | string | any;
   focusedDataPointRadius?: number;
   focusedCustomDataPoint?: Function;
 
@@ -461,7 +461,7 @@ export type LineChartBicolorPropsType = {
   showTextOnFocus?: boolean;
   stripHeight?: number;
   stripWidth?: number;
-  stripColor?: ColorValue | String | any;
+  stripColor?: ColorValue | string | any;
   stripOpacity?: number;
   onPress?: Function;
   unFocusOnPressOut?: boolean;
@@ -541,10 +541,10 @@ export type LineChartBicolorPropsType = {
   dataPointsShape?: string;
   customDataPoint?: Function;
 
-  focusedDataPointShape?: String;
+  focusedDataPointShape?: string;
   focusedDataPointWidth?: number;
   focusedDataPointHeight?: number;
-  focusedDataPointColor?: ColorValue | String | any;
+  focusedDataPointColor?: ColorValue | string | any;
   focusedDataPointRadius?: number;
   focusedCustomDataPoint?: Function;
   dataPointLabelWidth?: number;
@@ -570,8 +570,8 @@ export type LineChartBicolorPropsType = {
   xAxisLabelTexts?: Array<string>;
   xAxisLabelTextStyle?: any;
   width?: number;
-  yAxisLabelPrefix?: String;
-  yAxisLabelSuffix?: String;
+  yAxisLabelPrefix?: string;
+  yAxisLabelSuffix?: string;
   scrollToEnd?: boolean;
   scrollToIndex?: number;
   scrollAnimation?: boolean;

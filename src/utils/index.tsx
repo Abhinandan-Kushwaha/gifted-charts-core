@@ -9,10 +9,10 @@ import {
   loc,
 } from "./constants";
 import {
-  arrowConfigType,
   CurveType,
   LineProperties,
   LineSegment,
+  arrowConfigType,
 } from "./types";
 
 const versionString = require("react-native/package.json").version;
@@ -41,7 +41,7 @@ export const getCumulativeWidth = (
   return cumWidth;
 };
 
-export const getLighterColor = (color: String) => {
+export const getLighterColor = (color: string) => {
   let r,
     g,
     b,
