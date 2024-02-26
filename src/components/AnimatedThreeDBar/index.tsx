@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { animatedBarPropTypes } from "../../BarChart/types";
-import { BarDefaults } from "../../utils/constants";
 import { getBarSideColor, getBarTopColor } from "../../utils";
+import { BarDefaults } from "../../utils/constants";
 
 export const useAnimatedThreeDBar = (props: animatedBarPropTypes) => {
-  const { focusBarOnPress, index, selectedIndex, focusedBarConfig, item } =
+  const { focusBarOnPress = false, index, selectedIndex, focusedBarConfig, item } =
     props;
   const isFocused = focusBarOnPress && index === selectedIndex;
   const localFrontColor = props.frontColor || BarDefaults.threeDBarFrontColor;
@@ -30,7 +30,7 @@ export const useAnimatedThreeDBar = (props: animatedBarPropTypes) => {
     ),
     topColor = getBarTopColor(
       isFocused,
-      focusBarOnPress,
+      focusedBarConfig,
       item.topColor,
       localTopColor
     ),
