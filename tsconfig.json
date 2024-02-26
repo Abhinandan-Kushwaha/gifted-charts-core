@@ -1,0 +1,14 @@
+{
+    "extends": "@tsconfig/react-native",
+    "compilerOptions": {
+        "noEmit": false,
+        "emitDeclarationOnly": true,
+        "declaration": true,
+        "outDir": "./dist",
+        "target": "ESNext",
+        "lib": [
+            "esnext",
+            "ES2023"
+        ]
+    },
+}

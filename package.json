@@ -3,17 +3,19 @@
   "version": "0.0.21",
   "description": "Mathematical and logical utilities used by react-gifted-charts and react-native-gifted-charts",
   "main": "index.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
-  "dependencies": {},
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0"
+    "@testing-library/user-event": "^13.5.0",
+    "@tsconfig/react-native": "^3.0.3",
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "react": "*",
