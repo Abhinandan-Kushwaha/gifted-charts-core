@@ -191,7 +191,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const startIndex1 = props.startIndex1 ?? props.startIndex ?? 0;
 
-  let endIndex1;
+  let endIndex1: number;
   if (props.endIndex1 === undefined || props.endIndex1 === null) {
     if (props.endIndex === undefined || props.endIndex === null) {
       endIndex1 = data.length - 1;
@@ -416,12 +416,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.showFractionalValues
   );
 
-  const maxValue = getMaxValue(
-    props.maxValue,
-    props.stepValue,
+  const maxValue = getMaxValue({
+    maxItem,
+    maxValue: props.maxValue,
     noOfSections,
-    maxItem
-  );
+    stepValue: props.stepValue,
+  });
 
   const mostNegativeValue = props.mostNegativeValue || minItem;
 
@@ -781,15 +781,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             let y1 = pArray[pArray.length - 2][1];
             let x1 = pArray[pArray.length - 2][0];
 
-            let arrowPoints = getArrowPoints(
+            let arrowPoints = getArrowPoints({
               arrowTipX,
               arrowTipY,
               x1,
               y1,
-              arrowLengthsFromSet[index],
-              arrowWidthsFromSet[index],
-              showArrowBasesFromSet[index]
-            );
+              arrowLength: arrowLengthsFromSet?.[index],
+              arrowWidth: arrowWidthsFromSet?.[index],
+              showArrowBase: showArrowBasesFromSet?.[index]
+            });
 
             arrowPointsArray.push(arrowPoints);
           }
@@ -835,15 +835,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             let y1 = parseInt(ppArray[ppArray.length - 3]);
             let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-            let arrowPoints = getArrowPoints(
+            let arrowPoints = getArrowPoints({
               arrowTipX,
               arrowTipY,
               x1,
               y1,
-              arrowLengthsFromSet[index],
-              arrowWidthsFromSet[index],
-              showArrowBasesFromSet[index]
-            );
+              arrowLength: arrowLengthsFromSet?.[index],
+              arrowWidth: arrowWidthsFromSet?.[index],
+              showArrowBase: showArrowBasesFromSet?.[index]
+            });
 
             arrowPointsArray.push(arrowPoints);
           }
@@ -957,15 +957,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength1,
-            arrowWidth1,
-            showArrowBase1
-          );
+            arrowLength: arrowLength1,
+            arrowWidth: arrowWidth1,
+            showArrowBase: showArrowBase1
+          });
 
           setArrow1Points(arrowPoints);
         }
@@ -979,15 +979,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength2,
-            arrowWidth2,
-            showArrowBase2
-          );
+            arrowLength: arrowLength2,
+            arrowWidth: arrowWidth2,
+            showArrowBase: showArrowBase2
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1001,15 +1001,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength3,
-            arrowWidth3,
-            showArrowBase3
-          );
+            arrowLength: arrowLength3,
+            arrowWidth: arrowWidth3,
+            showArrowBase: showArrowBase3
+          });
 
           setArrow3Points(arrowPoints);
         }
@@ -1023,15 +1023,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength4,
-            arrowWidth4,
-            showArrowBase4
-          );
+            arrowLength: arrowLength4,
+            arrowWidth: arrowWidth4,
+            showArrowBase: showArrowBase4
+          });
 
           setArrow4Points(arrowPoints);
         }
@@ -1045,15 +1045,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength5,
-            arrowWidth5,
-            showArrowBase5
-          );
+            arrowLength: arrowLength5,
+            arrowWidth: arrowWidth5,
+            showArrowBase: showArrowBase5
+          });
 
           setArrow5Points(arrowPoints);
         }
@@ -1203,15 +1203,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p1Array[p1Array.length - 2][1];
           let x1 = p1Array[p1Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength1,
-            arrowWidth1,
-            showArrowBase1
-          );
+            arrowLength: arrowLength1,
+            arrowWidth: arrowWidth1,
+            showArrowBase: showArrowBase1
+          });
 
           setArrow1Points(arrowPoints);
         }
@@ -1222,15 +1222,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p2Array[p2Array.length - 2][1];
           let x1 = p2Array[p2Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength2,
-            arrowWidth2,
-            showArrowBase2
-          );
+            arrowLength: arrowLength2,
+            arrowWidth: arrowWidth2,
+            showArrowBase: showArrowBase2
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1241,15 +1241,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p3Array[p3Array.length - 2][1];
           let x1 = p3Array[p3Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength3,
-            arrowWidth3,
-            showArrowBase3
-          );
+            arrowLength: arrowLength3,
+            arrowWidth: arrowWidth3,
+            showArrowBase: showArrowBase3
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1260,15 +1260,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p4Array[p4Array.length - 2][1];
           let x1 = p4Array[p4Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength4,
-            arrowWidth4,
-            showArrowBase4
-          );
+            arrowLength: arrowLength4,
+            arrowWidth: arrowWidth4,
+            showArrowBase: showArrowBase4
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1279,15 +1279,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p5Array[p5Array.length - 2][1];
           let x1 = p5Array[p5Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength5,
-            arrowWidth5,
-            showArrowBase5
-          );
+            arrowLength: arrowLength5,
+            arrowWidth: arrowWidth5,
+            showArrowBase: showArrowBase5
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1422,15 +1422,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         let y1 = parseInt(ppArray[ppArray.length - 3]);
         let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-        let arrowPoints = getArrowPoints(
+        let arrowPoints = getArrowPoints({
           arrowTipX,
           arrowTipY,
           x1,
           y1,
-          secondaryLineConfig.arrowConfig?.length,
-          secondaryLineConfig.arrowConfig?.width,
-          secondaryLineConfig.arrowConfig?.showArrowBase
-        );
+          arrowLength: secondaryLineConfig.arrowConfig?.length,
+          arrowWidth: secondaryLineConfig.arrowConfig?.width,
+          showArrowBase: secondaryLineConfig.arrowConfig?.showArrowBase
+        });
 
         setSecondaryArrowPoints(arrowPoints);
       }
@@ -1477,15 +1477,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         let y1 = p1Array[p1Array.length - 2][1];
         let x1 = p1Array[p1Array.length - 2][0];
 
-        let arrowPoints = getArrowPoints(
+        let arrowPoints = getArrowPoints({
           arrowTipX,
           arrowTipY,
           x1,
           y1,
-          arrowLength1,
-          arrowWidth1,
-          showArrowBase1
-        );
+          arrowLength: arrowLength1,
+          arrowWidth: arrowWidth1,
+          showArrowBase: showArrowBase1
+        });
 
         setSecondaryArrowPoints(arrowPoints);
       }

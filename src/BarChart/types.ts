@@ -125,6 +125,11 @@ export type StackedBarChartPropsType = {
   showValuesAsTopLabel?: boolean;
 };
 
+export type LineData = {
+  value: number;
+  customDataPoint?: Function;
+};
+
 export type BarChartPropsType = {
   width?: number;
   height?: number;
@@ -171,8 +176,8 @@ export type BarChartPropsType = {
   barWidth?: number;
   sideWidth?: number;
   showLine?: boolean;
-  lineData?: any;
-  lineData2?: any;
+  lineData?: LineData[];
+  lineData2?: LineData[];
   lineConfig?: lineConfigType;
   lineConfig2?: lineConfigType;
   lineBehindBars?: boolean;

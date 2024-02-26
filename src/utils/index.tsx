@@ -596,15 +596,23 @@ export const getSegmentedPathObjects = (
   return ar;
 };
 
-export const getArrowPoints = (
-  arrowTipX: number,
-  arrowTipY: number,
-  x1: number,
-  y1: number,
-  arrowLength?: number,
-  arrowWidth?: number,
-  showArrowBase?: boolean
-) => {
+export const getArrowPoints = ({ 
+    arrowTipX, 
+    arrowTipY, 
+    x1, 
+    y1, 
+    arrowLength, 
+    arrowWidth, 
+    showArrowBase
+  } : {
+    arrowTipX: number,
+    arrowTipY: number,
+    x1: number,
+    y1: number,
+    arrowLength?: number,
+    arrowWidth?: number,
+    showArrowBase?: boolean
+}) => {
   let dataLineSlope = (arrowTipY - y1) / (arrowTipX - x1);
   let d = arrowLength ?? 0;
   let d2 = (arrowWidth ?? 0) / 2;
@@ -757,18 +765,17 @@ export const getSecondaryDataWithOffsetIncluded = (
 
 type ArrowConfigObjectType = Partial<Record< 'arrowConfig' | `arrowConfig${number}`, arrowConfigType>>
 
-export const getArrowProperty = <T extends ArrowConfigObjectType>({
+export const getArrowProperty = <K extends keyof arrowConfigType, T extends ArrowConfigObjectType>({
   count,
   defaultArrowConfig,
   property,
   props
 }: {
-  property: keyof arrowConfigType,
+  property: K,
   count: number,
   props?: T,
   defaultArrowConfig: arrowConfigType
-}
-) => props?.[`arrowConfig${count}`]?.[property] 
+}) => props?.[`arrowConfig${count}`]?.[property] 
   ?? props?.arrowConfig?.[property] 
   ?? defaultArrowConfig[property]
 

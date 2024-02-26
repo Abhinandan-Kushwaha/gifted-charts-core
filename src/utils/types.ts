@@ -1,4 +1,5 @@
 import { ColorValue } from "react-native";
+import type { LineData, barDataItem, stackDataItem } from "../BarChart/types";
 import { lineDataItem } from "../LineChart/types";
 import { chartTypes, yAxisSides } from "./constants";
 
@@ -187,6 +188,8 @@ type HorizSectionObject = {
 
 export type HorizSectionsType = Array<HorizSectionObject>;
 
+type LineDataType = stackDataItem[] | barDataItem[] | LineData[];
+
 export type BarAndLineChartsWrapperTypes = {
   chartType: chartTypes;
   containerHeight: number;
@@ -219,8 +222,8 @@ export type BarAndLineChartsWrapperTypes = {
   lineConfig: any;
   lineConfig2: any;
   maxValue: number;
-  lineData: Array<any>;
-  lineData2: Array<any>;
+  lineData: LineDataType;
+  lineData2?: LineDataType;
   animatedWidth?: any;
   lineBehindBars: boolean;
   points: string | Array<any>;
