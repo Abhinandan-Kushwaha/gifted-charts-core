@@ -1,14 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  AxesAndRulesDefaults,
-  LineDefaults,
-  SEGMENT_END,
-  SEGMENT_START,
-  chartTypes,
-  defaultArrowConfig,
-  defaultPointerConfig,
-  screenWidth,
-} from "../utils/constants";
+import type { Animated } from "react-native";
 import {
   adjustToOffset,
   computeMaxAndMinItems,
@@ -27,11 +18,21 @@ import {
   getSegmentString,
   svgPath,
 } from "../utils";
-import { LineChartPropsType } from "./types";
-import { BarAndLineChartsWrapperTypes, EdgePosition } from "../utils/types";
+import {
+  AxesAndRulesDefaults,
+  LineDefaults,
+  SEGMENT_END,
+  SEGMENT_START,
+  chartTypes,
+  defaultArrowConfig,
+  defaultPointerConfig,
+  screenWidth,
+} from "../utils/constants";
+import { BarAndLineChartsWrapperTypes, EdgePosition, LineSegment } from "../utils/types";
+import { LineChartPropsType, lineDataItem } from "./types";
 
 interface extendedLineChartPropsType extends LineChartPropsType {
-  animations;
+  animations: Animated.Value[];
 }
 
 export const useLineChart = (props: extendedLineChartPropsType) => {
@@ -430,8 +431,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     containerHeight,
     overflowTop
   );
-  const getX = (index) => initialSpacing + spacing * index - 1;
-  const getY = (value) =>
+  const getX = (index: number) => initialSpacing + spacing * index - 1;
+  const getY = (value: number) =>
     extendedContainerHeight - (value * containerHeight) / maxValue;
 
   const { maxItem: secondaryMaxItem } = computeMaxAndMinItems(
@@ -441,7 +442,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   );
   const secondaryMaxValue =
     props.secondaryYAxis?.maxValue ?? (secondaryMaxItem || maxValue);
-  const getSecondaryY = (value) =>
+  const getSecondaryY = (value: number) =>
     extendedContainerHeight - (value * containerHeight) / secondaryMaxValue;
   const heightUptoXaxis = extendedContainerHeight - xAxisThickness;
 
@@ -660,9 +661,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   };
 
   const addLeadingAndTrailingPathForAreaFill = (
-    initialPath,
-    value,
-    dataLength
+    initialPath: string,
+    value: number,
+    dataLength: number
   ) => {
     return (
       "M " +
@@ -690,7 +691,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     );
   };
 
-  const getNextPoint = (data, index, around, before) => {
+  const getNextPoint = (data: lineDataItem[], index: number, around?: boolean, before?: boolean) => {
     const isLast = index === data.length - 1;
     return isLast && !(around || before)
       ? " "
@@ -701,7 +702,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           getY(data[index].value) +
           " ";
   };
-  const getStepPath = (data, i) => {
+  const getStepPath = (data: lineDataItem[], i: number) => {
     const around = edgePosition === EdgePosition.AROUND_DATA_POINT;
     const before = edgePosition === EdgePosition.BEFORE_DATA_POINT;
     return (
@@ -714,7 +715,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     );
   };
 
-  const getSegmentPath = (data, i, lineSegment, startIndex, endIndex) => {
+  const getSegmentPath = (
+    data: lineDataItem[], 
+    i: number, 
+    lineSegment?: LineSegment[], 
+    startIndex = 0,
+    endIndex = 0
+  ) => {
     let path =
       "L" +
       getX(i) +
@@ -1644,13 +1651,38 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const lineGradientEndColor =
     props.lineGradientEndColor ?? LineDefaults.lineGradientEndColor;
 
-  const getPointerY = (value) =>
+  const getPointerY = (value: number) =>
     value
       ? containerHeight -
         (value * containerHeight) / maxValue -
         (pointerRadius || pointerHeight / 2) +
         10
       : 0;
+
+  const setPointerConfig = (
+    initialPointerIndex: number,
+    item: lineDataItem,
+    x: number,
+    y: number,
+    y2: number,
+    y3: number,
+    y4: number,
+    y5: number
+  ) => {
+    setPointerIndex(initialPointerIndex);
+    if (item.pointerShiftX && item.pointerShiftY) {
+      setPointerItem({ 
+        pointerShiftX: item.pointerShiftX, 
+        pointerShiftY: item.pointerShiftY 
+      });
+    }
+    setPointerX(x);
+    setPointerY(y);
+    setPointerY2(y2);
+    setPointerY3(y3);
+    setPointerY4(y4);
+    setPointerY5(y5);
+  };
 
   const initialisePointers = () => {
     if (initialPointerIndex !== -1) {
@@ -1686,25 +1718,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     }
   }, [data]);
 
-  const setPointerConfig = (
-    initialPointerIndex,
-    item,
-    x,
-    y,
-    y2,
-    y3,
-    y4,
-    y5
-  ) => {
-    setPointerIndex(initialPointerIndex);
-    setPointerItem(item);
-    setPointerX(x);
-    setPointerY(y);
-    setPointerY2(y2);
-    setPointerY3(y3);
-    setPointerY4(y4);
-    setPointerY5(y5);
-  };
+
 
   const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
     chartType: chartTypes.LINE,
