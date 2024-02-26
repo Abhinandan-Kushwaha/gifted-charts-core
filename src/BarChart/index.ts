@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { BarChartPropsType, barDataItem } from "./types";
+import { Animated } from "react-native";
 import {
   getArrowPoints,
   getAxesAndRulesProps,
@@ -20,12 +20,13 @@ import {
   defaultLineConfig,
   defaultPointerConfig,
 } from "../utils/constants";
-import { BarAndLineChartsWrapperTypes } from "../utils/types";
+import type { BarAndLineChartsWrapperTypes } from "../utils/types";
+import type { BarChartPropsType, barDataItem } from "./types";
 
 interface extendedBarChartPropsType extends BarChartPropsType {
-  heightValue;
-  widthValue;
-  opacValue;
+  heightValue: Animated.Value;
+  widthValue: Animated.Value;
+  opacValue: Animated.Value;
 }
 
 export const useBarChart = (props: extendedBarChartPropsType) => {

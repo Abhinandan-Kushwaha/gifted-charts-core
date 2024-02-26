@@ -320,7 +320,7 @@ export type FocusedBarConfig = {
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
 };
 
-type lineConfigType = {
+export type lineConfigType = {
   initialSpacing?: number;
   spacing?: number;
   curved?: boolean;
@@ -590,11 +590,11 @@ export type animatedBarPropTypes = {
 };
 
 export type CommonPropsFor2Dand3DbarsType = {
-  barBackgroundPattern: Function;
-  barInnerComponent: (item?: barDataItem, index?: number) => ReactNode;
+  barBackgroundPattern?: Function;
+  barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
   patternId: string;
   barWidth: number;
-  barStyle: object;
+  barStyle?: object;
   item: barDataItem;
   index: number;
 

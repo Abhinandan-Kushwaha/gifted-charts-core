@@ -1,8 +1,94 @@
-import { ViewStyle } from "react-native";
+import { ColorValue, ViewStyle } from "react-native";
 import { getBarFrontColor, getBarWidth } from "../utils";
-import { CommonPropsFor2Dand3DbarsType } from "./types";
+import { Pointer } from "../utils/types";
+import { CommonPropsFor2Dand3DbarsType, FocusedBarConfig, barDataItem } from "./types";
 
-export const getPropsForAnimated2DWithGradient = (props) => {
+export type RenderBarsPropsType = {
+  style?: any;
+  width?: number;
+  height?: number;
+  minHeight: number;
+  color?: ColorValue;
+  showGradient?: boolean;
+  gradientColor?: any;
+  frontColor?: ColorValue;
+  sideColor?: ColorValue;
+  topColor?: ColorValue;
+  topLabelComponent?: React.ReactNode;
+  topLabelContainerStyle?: any;
+  topLabelTextStyle?: any;
+  opacity?: number;
+  side?: string;
+  labelTextStyle?: any;
+
+  item: barDataItem;
+  index: number;
+  label: string;
+  containerHeight?: number;
+  maxValue: number;
+  spacing: number;
+  propSpacing?: number;
+  data?: any;
+  barHeight: number;
+  barWidth?: number;
+  sideWidth?: number;
+  labelWidth?: number;
+
+  isThreeD?: boolean;
+  isAnimated?: boolean;
+  rotateLabel?: boolean;
+  animatedHeight?: any;
+  appearingOpacity?: any;
+  animationDuration?: number;
+  roundedTop?: boolean;
+  roundedBottom?: boolean;
+  disablePress?: boolean;
+  activeOpacity?: number;
+  cappedBars?: boolean;
+  capThickness?: number;
+  capColor?: ColorValue;
+  capRadius?: number;
+  showXAxisIndices: boolean;
+  xAxisIndicesHeight: number;
+  xAxisIndicesWidth: number;
+  xAxisIndicesColor: ColorValue;
+  horizontal: boolean;
+  rtl: boolean;
+  intactTopLabel: boolean;
+  showValuesAsTopLabel?: boolean;
+  barBorderWidth?: number;
+  barBorderColor: ColorValue;
+  barBorderRadius?: number;
+  barBorderTopLeftRadius?: number;
+  barBorderTopRightRadius?: number;
+  barBorderBottomLeftRadius?: number;
+  barBorderBottomRightRadius?: number;
+  barInnerComponent?: (item?: barDataItem, index?: number) => React.ReactNode;
+  autoShiftLabels?: boolean;
+  barBackgroundPattern?: Function;
+  patternId?: string;
+  barMarginBottom?: number;
+  onPress?: Function;
+  onLongPress?: Function;
+  onPressOut?: Function;
+  xAxisTextNumberOfLines: number;
+  xAxisLabelsHeight?: number;
+  xAxisLabelsVerticalShift: number;
+  renderTooltip: Function | undefined;
+  leftShiftForTooltip?: number;
+  leftShiftForLastIndexTooltip: number;
+  initialSpacing: number;
+  selectedIndex: number;
+  setSelectedIndex: Function;
+  barStyle?: object;
+  xAxisThickness?: number;
+  pointerConfig?: Pointer;
+  focusBarOnPress?: boolean;
+  noOfSectionsBelowXAxis?: number;
+  focusedBarConfig?: FocusedBarConfig;
+};
+
+export const getPropsForAnimated2DWithGradient = <T extends RenderBarsPropsType,>(props: T) => {
   const {
     barBorderWidth,
     barBorderColor,
@@ -32,7 +118,7 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     showGradient,
     gradientColor,
     selectedIndex,
-    focusBarOnPress,
+    focusBarOnPress = false,
     focusedBarConfig,
     isThreeD,
   } = props;
@@ -115,16 +201,16 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     },
   ];
 
-  const commonPropsFor2Dand3Dbars: CommonPropsFor2Dand3DbarsType = {
+  const commonPropsFor2Dand3Dbars = {
     barBackgroundPattern: item.barBackgroundPattern || barBackgroundPattern,
-    barInnerComponent: isFocused
-      ? focusedBarConfig?.barInnerComponent ?? barInnerComponent
+    barInnerComponent: isFocused && focusedBarConfig?.barInnerComponent
+      ? focusedBarConfig.barInnerComponent
       : barInnerComponent,
-    patternId: item.patternId || patternId,
+    patternId: item.patternId || patternId || '',
     barWidth: localBarWidth,
-    barStyle: barStyle,
-    item: item,
-    index: index,
+    barStyle,
+    item,
+    index,
 
     frontColor: localFrontColor,
     showGradient: item.showGradient || showGradient || false,
@@ -139,7 +225,7 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     showValuesAsTopLabel: !!showValuesAsTopLabel,
     topLabelContainerStyle,
     topLabelTextStyle,
-  };
+  } satisfies CommonPropsFor2Dand3DbarsType;
 
   return {
     commonStyleForBar,
