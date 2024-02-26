@@ -85,7 +85,6 @@ export {
   getAxesAndRulesProps,
   getExtendedContainerHeightWithPadding,
   getSecondaryDataWithOffsetIncluded,
-  getArrowProperty,
   getAllArrowProperties,
   maxAndMinUtil,
   computeMaxAndMinItems,

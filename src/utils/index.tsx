@@ -755,158 +755,216 @@ export const getSecondaryDataWithOffsetIncluded = (
   return nullishHandledData;
 };
 
-export const getArrowProperty = (
+type ArrowConfigObjectType = Partial<Record< 'arrowConfig' | `arrowConfig${number}`, arrowConfigType>>
+
+export const getArrowProperty = <T extends ArrowConfigObjectType>({
+  count,
+  defaultArrowConfig,
+  property,
+  props
+}: {
   property: keyof arrowConfigType,
   count: number,
-  props: any,
+  props?: T,
   defaultArrowConfig: arrowConfigType
-) => {
-  return (
-    props[`arrowConfig${count}`]?.[`${property}`] ??
-    props[`arrowConfig`]?.[`${property}`] ??
-    defaultArrowConfig[`${property}`]
-  );
-};
+}
+) => props?.[`arrowConfig${count}`]?.[property] 
+  ?? props?.arrowConfig?.[property] 
+  ?? defaultArrowConfig[property]
 
 export const getAllArrowProperties = (
   props: LineChartPropsType,
   defaultArrowConfig: arrowConfigType
 ) => {
-  const arrowLength1 = getArrowProperty("length", 1, props, defaultArrowConfig);
-  const arrowWidth1 = getArrowProperty("width", 1, props, defaultArrowConfig);
-  const arrowStrokeWidth1 = getArrowProperty(
-    "strokeWidth",
-    1,
+  
+  const arrowLength1 = getArrowProperty({
+    property: 'length',
+    count: 1,
     props,
-    defaultArrowConfig
-  );
-  const arrowStrokeColor1 = getArrowProperty(
-    "strokeColor",
-    1,
-    props,
-    defaultArrowConfig
-  );
-  const arrowFillColor1 = getArrowProperty(
-    "fillColor",
-    1,
-    props,
-    defaultArrowConfig
-  );
-  const showArrowBase1 = getArrowProperty(
-    "showArrowBase",
-    1,
-    props,
-    defaultArrowConfig
-  );
+    defaultArrowConfig  
+  });
 
-  const arrowLength2 = getArrowProperty("length", 2, props, defaultArrowConfig);
-  const arrowWidth2 = getArrowProperty("width", 2, props, defaultArrowConfig);
-  const arrowStrokeWidth2 = getArrowProperty(
-    "strokeWidth",
-    2,
+  const arrowWidth1 = getArrowProperty({ 
+    property: "width", 
+    count: 1, 
+    props, 
+    defaultArrowConfig 
+  });
+  const arrowStrokeWidth1 = getArrowProperty({
+    property: "strokeWidth",
+    count: 1,
     props,
     defaultArrowConfig
-  );
-  const arrowStrokeColor2 = getArrowProperty(
-    "strokeColor",
-    2,
+  });
+  const arrowStrokeColor1 = getArrowProperty({
+    property: "strokeColor",
+    count: 1,
     props,
     defaultArrowConfig
-  );
-  const arrowFillColor2 = getArrowProperty(
-    "fillColor",
-    2,
+  });
+  const arrowFillColor1 = getArrowProperty({
+    property: "fillColor",
+    count: 1,
     props,
     defaultArrowConfig
-  );
-  const showArrowBase2 = getArrowProperty(
-    "showArrowBase",
-    2,
+  });
+  const showArrowBase1 = getArrowProperty({
+    property: "showArrowBase",
+    count: 1,
     props,
     defaultArrowConfig
-  );
+  });
 
-  const arrowLength3 = getArrowProperty("length", 3, props, defaultArrowConfig);
-  const arrowWidth3 = getArrowProperty("width", 3, props, defaultArrowConfig);
-  const arrowStrokeWidth3 = getArrowProperty(
-    "strokeWidth",
-    3,
+  const arrowLength2 = getArrowProperty({
+    property: "length",
+    count: 2,
     props,
     defaultArrowConfig
-  );
-  const arrowStrokeColor3 = getArrowProperty(
-    "strokeColor",
-    3,
-    props,
-    defaultArrowConfig
-  );
-  const arrowFillColor3 = getArrowProperty(
-    "fillColor",
-    3,
-    props,
-    defaultArrowConfig
-  );
-  const showArrowBase3 = getArrowProperty(
-    "showArrowBase",
-    3,
-    props,
-    defaultArrowConfig
-  );
+  });
+  
 
-  const arrowLength4 = getArrowProperty("length", 4, props, defaultArrowConfig);
-  const arrowWidth4 = getArrowProperty("width", 4, props, defaultArrowConfig);
-  const arrowStrokeWidth4 = getArrowProperty(
-    "strokeWidth",
-    4,
+  const arrowWidth2 = getArrowProperty({
+    property: "width",
+    count: 2,
     props,
     defaultArrowConfig
-  );
-  const arrowStrokeColor4 = getArrowProperty(
-    "strokeColor",
-    4,
+  });
+  const arrowStrokeWidth2 = getArrowProperty({
+    property: "strokeWidth",
+    count: 2,
     props,
     defaultArrowConfig
-  );
-  const arrowFillColor4 = getArrowProperty(
-    "fillColor",
-    4,
+  });
+  const arrowStrokeColor2 = getArrowProperty({
+    property: "strokeColor",
+    count: 2,
     props,
     defaultArrowConfig
-  );
-  const showArrowBase4 = getArrowProperty(
-    "showArrowBase",
-    4,
-    props,
-    defaultArrowConfig
-  );
+  });
 
-  const arrowLength5 = getArrowProperty("length", 5, props, defaultArrowConfig);
-  const arrowWidth5 = getArrowProperty("width", 5, props, defaultArrowConfig);
-  const arrowStrokeWidth5 = getArrowProperty(
-    "strokeWidth",
-    5,
+  const arrowFillColor2 = getArrowProperty({
+    property: "fillColor",
+    count: 2,
     props,
     defaultArrowConfig
-  );
-  const arrowStrokeColor5 = getArrowProperty(
-    "strokeColor",
-    5,
+  });
+  const showArrowBase2 = getArrowProperty({
+    property: "showArrowBase",
+    count: 2,
     props,
     defaultArrowConfig
-  );
-  const arrowFillColor5 = getArrowProperty(
-    "fillColor",
-    5,
-    props,
-    defaultArrowConfig
-  );
-  const showArrowBase5 = getArrowProperty(
-    "showArrowBase",
-    5,
-    props,
-    defaultArrowConfig
-  );
+  });
 
+  const arrowLength3 = getArrowProperty({
+    property: "length",
+    count: 3,
+    props,
+    defaultArrowConfig
+  });
+  const arrowWidth3 = getArrowProperty({
+    property: "width",
+    count: 3,
+    props,
+    defaultArrowConfig
+  });
+  const arrowStrokeWidth3 = getArrowProperty({
+    property: "strokeWidth",
+    count: 3,
+    props,
+    defaultArrowConfig
+  });
+  const arrowStrokeColor3 = getArrowProperty({
+    property: "strokeColor",
+    count: 3,
+    props,
+    defaultArrowConfig
+  });
+  const arrowFillColor3 = getArrowProperty({
+    property: "fillColor",
+    count: 3,
+    props,
+    defaultArrowConfig
+  });
+  const showArrowBase3 = getArrowProperty({
+    property: "showArrowBase",
+    count: 3,
+    props,
+    defaultArrowConfig
+  });
+
+  const arrowLength4 = getArrowProperty({
+    property: "length",
+    count: 4,
+    props,
+    defaultArrowConfig
+  });
+  const arrowWidth4 = getArrowProperty({
+    property: "width",
+    count: 4,
+    props,
+    defaultArrowConfig
+  });
+  const arrowStrokeWidth4 = getArrowProperty({
+    property: "strokeWidth",
+    count: 4,
+    props,
+    defaultArrowConfig
+  });
+  const arrowStrokeColor4 = getArrowProperty({
+    property: "strokeColor",
+    count: 4,
+    props,
+    defaultArrowConfig
+  });
+  const arrowFillColor4 = getArrowProperty({
+    property: "fillColor",
+    count: 4,
+    props,
+    defaultArrowConfig
+  });
+  const showArrowBase4 = getArrowProperty({
+    property: "showArrowBase",
+    count: 4,
+    props,
+    defaultArrowConfig
+  });
+
+  const arrowLength5 = getArrowProperty({
+    property: "length",
+    count: 5,
+    props,
+    defaultArrowConfig
+  });
+  const arrowWidth5 = getArrowProperty({
+    property: "width",
+    count: 5,
+    props,
+    defaultArrowConfig
+  });
+  const arrowStrokeWidth5 = getArrowProperty({
+    property: "strokeWidth",
+    count: 5,
+    props,
+    defaultArrowConfig
+  });
+  const arrowStrokeColor5 = getArrowProperty({
+    property: "strokeColor",
+    count: 5,
+    props,
+    defaultArrowConfig
+  });
+  const arrowFillColor5 = getArrowProperty({
+    property: "fillColor",
+    count: 5,
+    props,
+    defaultArrowConfig
+  });
+  const showArrowBase5 = getArrowProperty({
+    property: "showArrowBase",
+    count: 5,
+    props,
+    defaultArrowConfig
+  });
   
   const arrowLengthsFromSet = props?.dataSet?.map(
     (item) => item?.arrowConfig?.length ?? arrowLength1
@@ -1173,7 +1231,7 @@ export const getNoOfSections = (noOfSections?: number, maxValue?: number, stepVa
     ? maxValue / stepValue
     : noOfSections ?? AxesAndRulesDefaults.noOfSections;
 
-export const getMaxValue = (maxValue?: number, stepValue?: number, noOfSections = 1, maxItem?: number) => {
+export const getMaxValue = ({ maxValue, stepValue, noOfSections = 1, maxItem }: { maxValue?: number, stepValue?: number, noOfSections?: number, maxItem: number }) => {
   if (maxValue) return maxValue;
 
   if (stepValue) {
