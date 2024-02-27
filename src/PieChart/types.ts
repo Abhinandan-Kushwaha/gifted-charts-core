@@ -1,5 +1,5 @@
-import {ColorValue} from 'react-native';
-import {FontStyle} from 'react-native-svg';
+import type { ColorValue } from "react-native";
+import type { FontStyle } from "react-native-svg";
 
 export type PieChartPropsType = {
   radius?: number;
@@ -34,7 +34,7 @@ export type PieChartPropsType = {
   centerLabelComponent?: Function;
   tiltAngle?: string;
   initialAngle?: number;
-  labelsPosition?: 'onBorder' | 'outward' | 'inward' | 'mid';
+  labelsPosition?: "onBorder" | "outward" | "inward" | "mid";
   showGradient?: boolean;
   gradientCenterColor?: string;
   onPress?: Function;
@@ -68,7 +68,9 @@ export type pieDataItem = {
   textBackgroundRadius?: number;
   shiftTextX?: number;
   shiftTextY?: number;
-  labelPosition?: 'onBorder' | 'outward' | 'inward' | 'mid';
+  shiftTextBackgroundX?: number;
+  shiftTextBackgroundY?: number;
+  labelPosition?: "onBorder" | "outward" | "inward" | "mid";
   onPress?: Function;
   onLabelPress?: Function;
   strokeWidth?: number;

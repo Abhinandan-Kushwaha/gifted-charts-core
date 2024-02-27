@@ -1,3 +1,4 @@
+import { Component, ReactNode } from "react";
 import { ColorValue, GestureResponderEvent, ViewStyle } from "react-native";
 import { yAxisSides } from "../utils/constants";
 import {
@@ -8,13 +9,12 @@ import {
   referenceConfigType,
   secondaryYAxisType,
 } from "../utils/types";
-import { Component, ReactNode } from "react";
 
 export type stackDataItem = {
   onPress?: any;
   onLongPress?: any;
   onPressOut?: any;
-  label?: String;
+  label?: string;
   barWidth?: number;
   spacing?: number;
   labelTextStyle?: any;
@@ -51,7 +51,7 @@ export type stackDataItem = {
   borderBottomLeftRadius?: number;
   borderBottomRightRadius?: number;
   barInnerComponent?: (item?: stackDataItem, index?: number) => ReactNode;
-  patternId?: String;
+  patternId?: string;
   leftShiftForTooltip?: number;
   showXAxisIndex?: boolean;
 };
@@ -64,7 +64,7 @@ export type StackedBarChartPropsType = {
   topLabelComponent?: Component;
   topLabelContainerStyle?: any;
   opacity?: number;
-  label: String;
+  label: string;
   labelTextStyle?: any;
   disablePress?: boolean;
 
@@ -105,11 +105,11 @@ export type StackedBarChartPropsType = {
   stackBorderBottomRightRadius?: number;
   xAxisThickness: number;
   barBackgroundPattern?: Function;
-  patternId?: String;
+  patternId?: string;
   xAxisTextNumberOfLines: number;
   xAxisLabelsHeight?: number;
   xAxisLabelsVerticalShift: number;
-  renderTooltip: Function | undefined;
+  renderTooltip?: Function;
   leftShiftForTooltip?: number;
   leftShiftForLastIndexTooltip: number;
   initialSpacing: number;
@@ -123,6 +123,11 @@ export type StackedBarChartPropsType = {
   animationDuration?: number;
   pointerConfig?: Pointer;
   showValuesAsTopLabel?: boolean;
+};
+
+export type LineData = {
+  value: number;
+  customDataPoint?: Function;
 };
 
 export type BarChartPropsType = {
@@ -139,7 +144,7 @@ export type BarChartPropsType = {
   spacing?: number;
   data?: Array<barDataItem>;
   stackData?: Array<stackDataItem>;
-  side?: String;
+  side?: string;
   rotateLabel?: boolean;
   isAnimated?: boolean;
   animationDuration?: number;
@@ -171,8 +176,8 @@ export type BarChartPropsType = {
   barWidth?: number;
   sideWidth?: number;
   showLine?: boolean;
-  lineData?: any;
-  lineData2?: any;
+  lineData?: LineData[];
+  lineData2?: LineData[];
   lineConfig?: lineConfigType;
   lineConfig2?: lineConfigType;
   lineBehindBars?: boolean;
@@ -268,8 +273,8 @@ export type BarChartPropsType = {
   yAxisLabelTexts?: Array<string>;
   xAxisLabelTexts?: Array<string>;
   xAxisLabelTextStyle?: any;
-  yAxisLabelPrefix?: String;
-  yAxisLabelSuffix?: String;
+  yAxisLabelPrefix?: string;
+  yAxisLabelSuffix?: string;
   autoShiftLabels?: boolean;
   scrollRef?: any;
   scrollToEnd?: boolean;
@@ -278,7 +283,7 @@ export type BarChartPropsType = {
   scrollEventThrottle?: number;
   labelsExtraHeight?: number;
   barBackgroundPattern?: Function;
-  patternId?: String;
+  patternId?: string;
   barMarginBottom?: number;
   onPress?: Function;
   onLongPress?: Function;
@@ -320,7 +325,7 @@ export type FocusedBarConfig = {
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
 };
 
-type lineConfigType = {
+export type lineConfigType = {
   initialSpacing?: number;
   spacing?: number;
   curved?: boolean;
@@ -330,14 +335,14 @@ type lineConfigType = {
   animationDuration?: number;
   delay?: number;
   thickness?: number;
-  color?: ColorValue | String | any;
+  color?: ColorValue | string | any;
   hideDataPoints?: boolean;
-  dataPointsShape?: String;
+  dataPointsShape?: string;
   dataPointsWidth?: number;
   dataPointsHeight?: number;
-  dataPointsColor?: ColorValue | String | any;
+  dataPointsColor?: ColorValue | string | any;
   dataPointsRadius?: number;
-  textColor?: ColorValue | String | any;
+  textColor?: ColorValue | string | any;
   textFontSize?: number;
   textShiftX?: number;
   textShiftY?: number;
@@ -359,14 +364,14 @@ export type defaultLineConfigType = {
   animationDuration: number;
   delay: number;
   thickness: number;
-  color: ColorValue | String | any;
+  color: ColorValue | string | any;
   hideDataPoints: boolean;
-  dataPointsShape: String;
+  dataPointsShape: string;
   dataPointsWidth: number;
   dataPointsHeight: number;
-  dataPointsColor: ColorValue | String | any;
+  dataPointsColor: ColorValue | string | any;
   dataPointsRadius: number;
-  textColor: ColorValue | String | any;
+  textColor: ColorValue | string | any;
   textFontSize: number;
   textShiftX: number;
   textShiftY: number;
@@ -402,7 +407,7 @@ export type barDataItem = {
   topColor?: ColorValue;
   showGradient?: boolean;
   gradientColor?: any;
-  label?: String;
+  label?: string;
   barWidth?: number;
   sideWidth?: number;
   labelTextStyle?: any;
@@ -422,7 +427,7 @@ export type barDataItem = {
   spacing?: number;
   labelWidth?: number;
   barBackgroundPattern?: Function;
-  patternId?: String;
+  patternId?: string;
   barMarginBottom?: number;
   leftShiftForTooltip?: number;
   barStyle?: object;
@@ -463,7 +468,7 @@ export type Animated2DWithGradientPropsType = {
   containerHeight?: number;
   maxValue?: number;
   barBackgroundPattern?: Function;
-  patternId?: String;
+  patternId?: string;
   barMarginBottom?: number;
   barStyle?: object;
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
@@ -486,12 +491,12 @@ export type RenderBarsPropsType = {
   topLabelContainerStyle?: any;
   topLabelTextStyle?: any;
   opacity?: number;
-  side?: String;
+  side?: string;
   labelTextStyle?: any;
 
   item: barDataItem;
   index: number;
-  label: String;
+  label: string;
   containerHeight?: number;
   maxValue: number;
   spacing: number;
@@ -533,7 +538,7 @@ export type RenderBarsPropsType = {
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
   autoShiftLabels?: boolean;
   barBackgroundPattern?: Function;
-  patternId?: String;
+  patternId?: string;
   barMarginBottom?: number;
   onPress?: Function;
   onLongPress?: Function;
@@ -541,7 +546,7 @@ export type RenderBarsPropsType = {
   xAxisTextNumberOfLines: number;
   xAxisLabelsHeight?: number;
   xAxisLabelsVerticalShift: number;
-  renderTooltip: Function | undefined;
+  renderTooltip?: Function;
   leftShiftForTooltip?: number;
   leftShiftForLastIndexTooltip: number;
   initialSpacing: number;
@@ -572,7 +577,7 @@ export type animatedBarPropTypes = {
   sideColor: ColorValue;
   topColor: ColorValue;
   opacity: number;
-  side: String;
+  side: string;
   horizontal: boolean;
   intactTopLabel: boolean;
   showValuesAsTopLabel: boolean;
@@ -580,7 +585,7 @@ export type animatedBarPropTypes = {
   topLabelTextStyle?: any;
   barBackgroundPattern?: Function;
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
-  patternId?: String;
+  patternId?: string;
   barStyle?: object;
   item: barDataItem;
   index: number;
@@ -590,11 +595,11 @@ export type animatedBarPropTypes = {
 };
 
 export type CommonPropsFor2Dand3DbarsType = {
-  barBackgroundPattern: Function;
-  barInnerComponent: (item?: barDataItem, index?: number) => ReactNode;
-  patternId: String;
+  barBackgroundPattern?: Function;
+  barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
+  patternId: string;
   barWidth: number;
-  barStyle: object;
+  barStyle?: object;
   item: barDataItem;
   index: number;
 

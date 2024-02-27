@@ -5,7 +5,7 @@
 export { useBarChart } from "./src/BarChart";
 export { getPropsForAnimated2DWithGradient } from "./src/BarChart/Animated2DWithGradient";
 export { useRenderStackBars } from "./src/BarChart/RenderStackBars";
-export {
+export type {
   stackDataItem,
   StackedBarChartPropsType,
   BarChartPropsType,
@@ -25,7 +25,7 @@ export {
 
 export { useLineChart } from "./src/LineChart";
 export { useLineChartBiColor } from "./src/LineChart/LineChartBiColor";
-export {
+export type {
   LineChartPropsType,
   lineDataItem,
   bicolorLineDataItem,
@@ -38,14 +38,18 @@ export {
 
 export { usePieChart } from "./src/PieChart";
 export { getPieChartMainProps } from "./src/PieChart/main";
-export { PieChartPropsType, pieDataItem, PieChartMainProps } from "./src/PieChart/types";
+export type {
+  PieChartPropsType,
+  pieDataItem,
+  PieChartMainProps,
+} from "./src/PieChart/types";
 
 /***********************************************************************************************************************/
 /************************************          Population Pyramid Chart             ************************************/
 /***********************************************************************************************************************/
 
 export { usePopulationPyramid } from "./src/PopulationPyramid";
-export {
+export type {
   popnPyramidDataItem,
   RulesProps,
   PopulationPyramidPropsType,
@@ -81,7 +85,6 @@ export {
   getAxesAndRulesProps,
   getExtendedContainerHeightWithPadding,
   getSecondaryDataWithOffsetIncluded,
-  getArrowProperty,
   getAllArrowProperties,
   maxAndMinUtil,
   computeMaxAndMinItems,
@@ -90,6 +93,7 @@ export {
   getYForLineInBar,
   clone,
   getLineConfigForBarChart,
+  adjustToOffset,
 } from "./src/utils";
 
 export {
@@ -113,12 +117,10 @@ export {
   populationDefaults,
 } from "./src/utils/constants";
 
-export {
+export type {
   RuleType,
   RuleTypes,
   RulesConfig,
-  CurveType,
-  EdgePosition,
   PointerEvents,
   secondaryYAxisType,
   secondaryLineConfigType,
@@ -133,4 +135,9 @@ export {
   LineSvgProps,
   LineProperties,
   DataSet,
+} from "./src/utils/types";
+
+export {
+  CurveType,
+  EdgePosition,
 } from "./src/utils/types";

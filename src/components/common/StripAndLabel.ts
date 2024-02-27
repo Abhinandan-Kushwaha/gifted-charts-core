@@ -1,22 +1,40 @@
 import { screenWidth } from "../../utils/constants";
 
-export const getTopAndLeftForStripAndLabel = (props) => {
-  const {
-    autoAdjustPointerLabelPosition,
-    pointerX,
-    pointerLabelWidth,
-    activatePointersOnLongPress,
-    yAxisLabelWidth,
-    pointerRadius,
-    pointerWidth,
-    shiftPointerLabelX,
-    pointerLabelHeight,
-    pointerYLocal,
-    pointerStripUptoDataPoint,
-    pointerStripHeight,
-    shiftPointerLabelY,
-    scrollX,
-  } = props;
+type GetTopAndLeftForStripAndLabelProps = {
+  width?: number
+  autoAdjustPointerLabelPosition?: boolean;
+  pointerX: number,
+  pointerLabelWidth: number,
+  activatePointersOnLongPress: boolean,
+  yAxisLabelWidth: number,
+  pointerRadius: number,
+  pointerWidth: number,
+  shiftPointerLabelX: number,
+  pointerLabelHeight: number,
+  pointerYLocal: number,
+  pointerStripUptoDataPoint: boolean,
+  pointerStripHeight: number,
+  shiftPointerLabelY: number,
+  scrollX: number,
+}
+
+export const getTopAndLeftForStripAndLabel = <T extends GetTopAndLeftForStripAndLabelProps>({
+  width,
+  autoAdjustPointerLabelPosition,
+  pointerX,
+  pointerLabelWidth,
+  activatePointersOnLongPress,
+  yAxisLabelWidth,
+  pointerRadius,
+  pointerWidth,
+  shiftPointerLabelX,
+  pointerLabelHeight,
+  pointerYLocal,
+  pointerStripUptoDataPoint,
+  pointerStripHeight,
+  shiftPointerLabelY,
+  scrollX,
+}: T) => {
   let left = 0,
     top = 0;
   if (autoAdjustPointerLabelPosition) {
@@ -31,14 +49,14 @@ export const getTopAndLeftForStripAndLabel = (props) => {
       if (
         !activatePointersOnLongPress &&
         pointerX >
-          (props.width || screenWidth - yAxisLabelWidth - 15) -
+          (width || screenWidth - yAxisLabelWidth - 15) -
             pointerLabelWidth / 2
       ) {
         left = -pointerLabelWidth - 4;
       } else if (
         activatePointersOnLongPress &&
         pointerX - scrollX >
-          ((props.width ?? 0) + 10 || screenWidth - yAxisLabelWidth - 15) -
+          ((width ?? 0) + 10 || screenWidth - yAxisLabelWidth - 15) -
             pointerLabelWidth / 2
       ) {
         left = -pointerLabelWidth - 4;

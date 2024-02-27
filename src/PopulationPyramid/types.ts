@@ -1,6 +1,6 @@
-import { ColorValue } from "react-native";
-import { RuleTypes } from "../utils/types";
-import { FontStyle, FontWeight } from "react-native-svg";
+import type { ColorValue } from "react-native";
+import type { FontStyle, FontWeight } from "react-native-svg";
+import type { RuleTypes } from "../utils/types";
 
 export type popnPyramidDataItem = {
     left: number;

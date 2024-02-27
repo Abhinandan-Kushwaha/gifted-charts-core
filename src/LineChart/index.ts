@@ -1,16 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import type { Animated } from "react-native";
 import {
-  AxesAndRulesDefaults,
-  LineDefaults,
-  SEGMENT_END,
-  SEGMENT_START,
-  chartTypes,
-  defaultArrowConfig,
-  defaultPointerConfig,
-  screenWidth,
-} from "../utils/constants";
-import {
-  clone,
+  adjustToOffset,
   computeMaxAndMinItems,
   getAllArrowProperties,
   getArrowPoints,
@@ -22,15 +13,26 @@ import {
   getMaxValue,
   getNoOfSections,
   getPathWithHighlight,
+  getSanitisedData,
   getSecondaryDataWithOffsetIncluded,
   getSegmentString,
   svgPath,
 } from "../utils";
-import { LineChartPropsType } from "./types";
-import { BarAndLineChartsWrapperTypes, EdgePosition } from "../utils/types";
+import {
+  AxesAndRulesDefaults,
+  LineDefaults,
+  SEGMENT_END,
+  SEGMENT_START,
+  chartTypes,
+  defaultArrowConfig,
+  defaultPointerConfig,
+  screenWidth,
+} from "../utils/constants";
+import { BarAndLineChartsWrapperTypes, EdgePosition, LineSegment } from "../utils/types";
+import { LineChartPropsType, lineDataItem } from "./types";
 
 interface extendedLineChartPropsType extends LineChartPropsType {
-  animations;
+  animations: Animated.Value[];
 }
 
 export const useLineChart = (props: extendedLineChartPropsType) => {
@@ -39,6 +41,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     showDataPointsForMissingValues,
     interpolateMissingValues = true,
     onlyPositive,
+    yAxisOffset,
   } = props;
   const curvature = props.curvature ?? LineDefaults.curvature;
   const curveType = props.curveType ?? LineDefaults.curveType;
@@ -113,96 +116,33 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.height ??
     ((props.stepHeight ?? 0) * noOfSections ||
       AxesAndRulesDefaults.containerHeight);
-  const data = useMemo(() => {
-    if (!props.data) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (props.yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [props.yAxisOffset, props.data]);
-  const data2 = useMemo(() => {
-    if (!props.data2) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data2,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (props.yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [props.yAxisOffset, props.data2]);
-  const data3 = useMemo(() => {
-    if (!props.data3) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data3,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (props.yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [props.yAxisOffset, props.data3]);
-  const data4 = useMemo(() => {
-    if (!props.data4) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data4,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (props.yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [props.yAxisOffset, props.data4]);
-  const data5 = useMemo(() => {
-    if (!props.data5) {
-      return [];
-    }
-    const nullishHandledData = getInterpolatedData(
-      props.data5,
-      showDataPointsForMissingValues,
-      interpolateMissingValues,
-      onlyPositive
-    );
-    if (props.yAxisOffset) {
-      return nullishHandledData.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
-        return item;
-      });
-    }
-    return nullishHandledData;
-  }, [props.yAxisOffset, props.data5]);
+
+  const dataSanitisationProps = {
+    showDataPointsForMissingValues,
+    interpolateMissingValues,
+    onlyPositive,
+    yAxisOffset,
+  };
+  const data = useMemo(
+    () => getSanitisedData(props.data, dataSanitisationProps),
+    [yAxisOffset, props.data]
+  );
+  const data2 = useMemo(
+    () => getSanitisedData(props.data2, dataSanitisationProps),
+    [yAxisOffset, props.data2]
+  );
+  const data3 = useMemo(
+    () => getSanitisedData(props.data3, dataSanitisationProps),
+    [yAxisOffset, props.data3]
+  );
+  const data4 = useMemo(
+    () => getSanitisedData(props.data4, dataSanitisationProps),
+    [yAxisOffset, props.data4]
+  );
+  const data5 = useMemo(
+    () => getSanitisedData(props.data5, dataSanitisationProps),
+    [yAxisOffset, props.data5]
+  );
 
   const secondaryData =
     getSecondaryDataWithOffsetIncluded(
@@ -215,26 +155,23 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   let dataSet = props.dataSet;
   if (dataSet?.length) {
-    dataSet = dataSet.map((dataSetItem) => ({
-      ...dataSetItem,
-      data: getInterpolatedData(
-        dataSetItem.data,
-        showDataPointsForMissingValues,
-        interpolateMissingValues,
-        onlyPositive
-      ),
-    }));
-  }
-  const data0 = useMemo(() => {
-    if (props.yAxisOffset) {
-      return dataSet?.[0]?.data;
-    } else {
-      return dataSet?.[0]?.data?.map((item) => {
-        item.value = item.value - (props.yAxisOffset ?? 0);
-        return item;
+    dataSet = useMemo(() => {
+      return dataSet?.map((dataSetItem) => {
+        const nullishHandledDataItem = getInterpolatedData(
+          dataSetItem.data,
+          showDataPointsForMissingValues,
+          interpolateMissingValues,
+          onlyPositive
+        );
+        return {
+          ...dataSetItem,
+          data: adjustToOffset(nullishHandledDataItem, yAxisOffset),
+        };
       });
-    }
-  }, [props.yAxisOffset, dataSet]);
+    }, [yAxisOffset, dataSet]);
+  }
+
+  const data0 = dataSet?.[0]?.data;
 
   const scrollToEnd = props.scrollToEnd || LineDefaults.scrollToEnd;
   const scrollAnimation = props.scrollAnimation ?? LineDefaults.scrollAnimation;
@@ -248,13 +185,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const onDataChangeAnimationDuration =
     props.onDataChangeAnimationDuration || 400;
   const animateTogether = props.animateTogether || LineDefaults.animateTogether;
-  const animateOnDataChange = props.yAxisOffset
+  const animateOnDataChange = yAxisOffset
     ? false
     : props.animateOnDataChange || false;
 
   const startIndex1 = props.startIndex1 ?? props.startIndex ?? 0;
 
-  let endIndex1;
+  let endIndex1: number;
   if (props.endIndex1 === undefined || props.endIndex1 === null) {
     if (props.endIndex === undefined || props.endIndex === null) {
       endIndex1 = data.length - 1;
@@ -479,12 +416,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.showFractionalValues
   );
 
-  const maxValue = getMaxValue(
-    props.maxValue,
-    props.stepValue,
+  const maxValue = getMaxValue({
+    maxItem,
+    maxValue: props.maxValue,
     noOfSections,
-    maxItem
-  );
+    stepValue: props.stepValue,
+  });
 
   const mostNegativeValue = props.mostNegativeValue || minItem;
 
@@ -494,8 +431,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     containerHeight,
     overflowTop
   );
-  const getX = (index) => initialSpacing + spacing * index - 1;
-  const getY = (value) =>
+  const getX = (index: number) => initialSpacing + spacing * index - 1;
+  const getY = (value: number) =>
     extendedContainerHeight - (value * containerHeight) / maxValue;
 
   const { maxItem: secondaryMaxItem } = computeMaxAndMinItems(
@@ -505,7 +442,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   );
   const secondaryMaxValue =
     props.secondaryYAxis?.maxValue ?? (secondaryMaxItem || maxValue);
-  const getSecondaryY = (value) =>
+  const getSecondaryY = (value: number) =>
     extendedContainerHeight - (value * containerHeight) / secondaryMaxValue;
   const heightUptoXaxis = extendedContainerHeight - xAxisThickness;
 
@@ -724,9 +661,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   };
 
   const addLeadingAndTrailingPathForAreaFill = (
-    initialPath,
-    value,
-    dataLength
+    initialPath: string,
+    value: number,
+    dataLength: number
   ) => {
     return (
       "M " +
@@ -754,7 +691,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     );
   };
 
-  const getNextPoint = (data, index, around, before) => {
+  const getNextPoint = (data: lineDataItem[], index: number, around?: boolean, before?: boolean) => {
     const isLast = index === data.length - 1;
     return isLast && !(around || before)
       ? " "
@@ -765,7 +702,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           getY(data[index].value) +
           " ";
   };
-  const getStepPath = (data, i) => {
+  const getStepPath = (data: lineDataItem[], i: number) => {
     const around = edgePosition === EdgePosition.AROUND_DATA_POINT;
     const before = edgePosition === EdgePosition.BEFORE_DATA_POINT;
     return (
@@ -778,7 +715,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     );
   };
 
-  const getSegmentPath = (data, i, lineSegment, startIndex, endIndex) => {
+  const getSegmentPath = (
+    data: lineDataItem[], 
+    i: number, 
+    lineSegment?: LineSegment[], 
+    startIndex = 0,
+    endIndex = 0
+  ) => {
     let path =
       "L" +
       getX(i) +
@@ -807,18 +750,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       const arrowPointsArray: string[] = [];
       const fillPointsArray: string[] = [];
       dataSet.map((set, index) => {
-        const setData = set.data.map((item) => {
-          item.value = item.value - (props.yAxisOffset ?? 0);
-          return item;
-        });
         if (set.curved ?? props.curved) {
           const pArray: Array<Array<number>> = [];
-          for (let i = 0; i < setData.length; i++) {
+          for (let i = 0; i < set.data.length; i++) {
             if (
               i >= (set.startIndex ?? 0) &&
               i <= (set.endIndex ?? set.data.length - 1)
             ) {
-              pArray.push([getX(i), getY(setData[i].value)]);
+              pArray.push([getX(i), getY(set.data[i].value)]);
             }
           }
           let xx = svgPath(
@@ -836,46 +775,46 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           );
 
           // For Arrow-
-          if (setData.length > 1 && (set.showArrow ?? props.showArrows)) {
+          if (set.data.length > 1 && (set.showArrow ?? props.showArrows)) {
             let arrowTipY = pArray[pArray.length - 1][1];
             let arrowTipX = pArray[pArray.length - 1][0];
             let y1 = pArray[pArray.length - 2][1];
             let x1 = pArray[pArray.length - 2][0];
 
-            let arrowPoints = getArrowPoints(
+            let arrowPoints = getArrowPoints({
               arrowTipX,
               arrowTipY,
               x1,
               y1,
-              arrowLengthsFromSet[index],
-              arrowWidthsFromSet[index],
-              showArrowBasesFromSet[index]
-            );
+              arrowLength: arrowLengthsFromSet?.[index],
+              arrowWidth: arrowWidthsFromSet?.[index],
+              showArrowBase: showArrowBasesFromSet?.[index]
+            });
 
             arrowPointsArray.push(arrowPoints);
           }
 
           // For Area charts-
-          if ((set.areaChart || areaChart) && setData.length) {
+          if ((set.areaChart || areaChart) && set.data.length) {
             xx = addLeadingAndTrailingPathForAreaFill(
               xx,
-              setData[0].value,
-              setData.length
+              set.data[0].value,
+              set.data.length
             );
             fillPointsArray.push(xx);
           }
         } else {
           let pp = "";
-          for (let i = 0; i < setData.length; i++) {
+          for (let i = 0; i < set.data.length; i++) {
             if (
               i >= (set.startIndex ?? 0) &&
               i <= (set.endIndex ?? set.data.length - 1)
             ) {
               if (set.stepChart || stepChart) {
-                pp += getStepPath(setData, i);
+                pp += getStepPath(set.data, i);
               } else {
                 pp += getSegmentPath(
-                  setData,
+                  set.data,
                   i,
                   set.lineSegments,
                   set.startIndex ?? 0,
@@ -887,7 +826,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           pointsArray.push(pp.replace("L", "M"));
 
           // For Arrow-
-          if (setData.length > 1 && (set.showArrow ?? props.showArrows)) {
+          if (set.data.length > 1 && (set.showArrow ?? props.showArrows)) {
             let ppArray = pp.trim().split(" ");
             let arrowTipY = parseInt(ppArray[ppArray.length - 1]);
             let arrowTipX = parseInt(
@@ -896,26 +835,26 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             let y1 = parseInt(ppArray[ppArray.length - 3]);
             let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-            let arrowPoints = getArrowPoints(
+            let arrowPoints = getArrowPoints({
               arrowTipX,
               arrowTipY,
               x1,
               y1,
-              arrowLengthsFromSet[index],
-              arrowWidthsFromSet[index],
-              showArrowBasesFromSet[index]
-            );
+              arrowLength: arrowLengthsFromSet?.[index],
+              arrowWidth: arrowWidthsFromSet?.[index],
+              showArrowBase: showArrowBasesFromSet?.[index]
+            });
 
             arrowPointsArray.push(arrowPoints);
           }
 
           // For Area charts-
-          if ((set.areaChart || areaChart) && setData.length) {
+          if ((set.areaChart || areaChart) && set.data.length) {
             let ppp = "L" + initialSpacing + " " + heightUptoXaxis + " ";
             ppp += pp;
             ppp +=
               "L" +
-              (initialSpacing + spacing * (setData.length - 1)) +
+              (initialSpacing + spacing * (set.data.length - 1)) +
               " " +
               heightUptoXaxis;
             ppp += "L" + initialSpacing + " " + heightUptoXaxis + " ";
@@ -1018,15 +957,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength1,
-            arrowWidth1,
-            showArrowBase1
-          );
+            arrowLength: arrowLength1,
+            arrowWidth: arrowWidth1,
+            showArrowBase: showArrowBase1
+          });
 
           setArrow1Points(arrowPoints);
         }
@@ -1040,15 +979,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength2,
-            arrowWidth2,
-            showArrowBase2
-          );
+            arrowLength: arrowLength2,
+            arrowWidth: arrowWidth2,
+            showArrowBase: showArrowBase2
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1062,15 +1001,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength3,
-            arrowWidth3,
-            showArrowBase3
-          );
+            arrowLength: arrowLength3,
+            arrowWidth: arrowWidth3,
+            showArrowBase: showArrowBase3
+          });
 
           setArrow3Points(arrowPoints);
         }
@@ -1084,15 +1023,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength4,
-            arrowWidth4,
-            showArrowBase4
-          );
+            arrowLength: arrowLength4,
+            arrowWidth: arrowWidth4,
+            showArrowBase: showArrowBase4
+          });
 
           setArrow4Points(arrowPoints);
         }
@@ -1106,15 +1045,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength5,
-            arrowWidth5,
-            showArrowBase5
-          );
+            arrowLength: arrowLength5,
+            arrowWidth: arrowWidth5,
+            showArrowBase: showArrowBase5
+          });
 
           setArrow5Points(arrowPoints);
         }
@@ -1264,15 +1203,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p1Array[p1Array.length - 2][1];
           let x1 = p1Array[p1Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength1,
-            arrowWidth1,
-            showArrowBase1
-          );
+            arrowLength: arrowLength1,
+            arrowWidth: arrowWidth1,
+            showArrowBase: showArrowBase1
+          });
 
           setArrow1Points(arrowPoints);
         }
@@ -1283,15 +1222,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p2Array[p2Array.length - 2][1];
           let x1 = p2Array[p2Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength2,
-            arrowWidth2,
-            showArrowBase2
-          );
+            arrowLength: arrowLength2,
+            arrowWidth: arrowWidth2,
+            showArrowBase: showArrowBase2
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1302,15 +1241,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p3Array[p3Array.length - 2][1];
           let x1 = p3Array[p3Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength3,
-            arrowWidth3,
-            showArrowBase3
-          );
+            arrowLength: arrowLength3,
+            arrowWidth: arrowWidth3,
+            showArrowBase: showArrowBase3
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1321,15 +1260,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p4Array[p4Array.length - 2][1];
           let x1 = p4Array[p4Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength4,
-            arrowWidth4,
-            showArrowBase4
-          );
+            arrowLength: arrowLength4,
+            arrowWidth: arrowWidth4,
+            showArrowBase: showArrowBase4
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1340,15 +1279,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let y1 = p5Array[p5Array.length - 2][1];
           let x1 = p5Array[p5Array.length - 2][0];
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            arrowLength5,
-            arrowWidth5,
-            showArrowBase5
-          );
+            arrowLength: arrowLength5,
+            arrowWidth: arrowWidth5,
+            showArrowBase: showArrowBase5
+          });
 
           setArrow2Points(arrowPoints);
         }
@@ -1483,15 +1422,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         let y1 = parseInt(ppArray[ppArray.length - 3]);
         let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-        let arrowPoints = getArrowPoints(
+        let arrowPoints = getArrowPoints({
           arrowTipX,
           arrowTipY,
           x1,
           y1,
-          secondaryLineConfig.arrowConfig?.length,
-          secondaryLineConfig.arrowConfig?.width,
-          secondaryLineConfig.arrowConfig?.showArrowBase
-        );
+          arrowLength: secondaryLineConfig.arrowConfig?.length,
+          arrowWidth: secondaryLineConfig.arrowConfig?.width,
+          showArrowBase: secondaryLineConfig.arrowConfig?.showArrowBase
+        });
 
         setSecondaryArrowPoints(arrowPoints);
       }
@@ -1538,15 +1477,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         let y1 = p1Array[p1Array.length - 2][1];
         let x1 = p1Array[p1Array.length - 2][0];
 
-        let arrowPoints = getArrowPoints(
+        let arrowPoints = getArrowPoints({
           arrowTipX,
           arrowTipY,
           x1,
           y1,
-          arrowLength1,
-          arrowWidth1,
-          showArrowBase1
-        );
+          arrowLength: arrowLength1,
+          arrowWidth: arrowWidth1,
+          showArrowBase: showArrowBase1
+        });
 
         setSecondaryArrowPoints(arrowPoints);
       }
@@ -1712,13 +1651,38 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const lineGradientEndColor =
     props.lineGradientEndColor ?? LineDefaults.lineGradientEndColor;
 
-  const getPointerY = (value) =>
+  const getPointerY = (value: number) =>
     value
       ? containerHeight -
         (value * containerHeight) / maxValue -
         (pointerRadius || pointerHeight / 2) +
         10
       : 0;
+
+  const setPointerConfig = (
+    initialPointerIndex: number,
+    item: lineDataItem,
+    x: number,
+    y: number,
+    y2: number,
+    y3: number,
+    y4: number,
+    y5: number
+  ) => {
+    setPointerIndex(initialPointerIndex);
+    if (item.pointerShiftX && item.pointerShiftY) {
+      setPointerItem({ 
+        pointerShiftX: item.pointerShiftX, 
+        pointerShiftY: item.pointerShiftY 
+      });
+    }
+    setPointerX(x);
+    setPointerY(y);
+    setPointerY2(y2);
+    setPointerY3(y3);
+    setPointerY4(y4);
+    setPointerY5(y5);
+  };
 
   const initialisePointers = () => {
     if (initialPointerIndex !== -1) {
@@ -1754,25 +1718,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     }
   }, [data]);
 
-  const setPointerConfig = (
-    initialPointerIndex,
-    item,
-    x,
-    y,
-    y2,
-    y3,
-    y4,
-    y5
-  ) => {
-    setPointerIndex(initialPointerIndex);
-    setPointerItem(item);
-    setPointerX(x);
-    setPointerY(y);
-    setPointerY2(y2);
-    setPointerY3(y3);
-    setPointerY4(y4);
-    setPointerY5(y5);
-  };
+
 
   const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
     chartType: chartTypes.LINE,
@@ -1824,7 +1770,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     axesAndRulesProps: getAxesAndRulesProps(props, stepValue, undefined),
 
     yAxisLabelTexts: props.yAxisLabelTexts,
-    yAxisOffset: props.yAxisOffset,
+    yAxisOffset: yAxisOffset,
     rotateYAxisTexts: 0,
     hideAxesAndRules: props.hideAxesAndRules,
 

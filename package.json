@@ -1,22 +1,24 @@
 {
   "name": "gifted-charts-core",
-  "version": "0.0.17",
+  "version": "0.0.22",
   "description": "Mathematical and logical utilities used by react-gifted-charts and react-native-gifted-charts",
-  "main": "index.js",
+  "main": "index.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src"
   ],
   "scripts": {
     "build": "tsc -p .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "typescript": "^5.3.3"
+    "prebuild": "git clean -ffxd dist"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0"
+    "@testing-library/user-event": "^13.5.0",
+    "@tsconfig/react-native": "^3.0.3",
+    "react-native-svg": "^15.0.0",
+    "typescript": "^5.3.3",
+    "react-native": "*"
   },
   "peerDependencies": {
     "react": "*",
@@ -26,18 +28,6 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
     ]
   },
   "repository": "https://github.com/Abhinandan-Kushwaha/gifted-charts-core",

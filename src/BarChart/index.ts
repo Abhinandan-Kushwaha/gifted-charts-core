@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { BarChartPropsType, barDataItem } from "./types";
+import { Animated } from "react-native";
 import {
   getArrowPoints,
   getAxesAndRulesProps,
@@ -20,12 +20,13 @@ import {
   defaultLineConfig,
   defaultPointerConfig,
 } from "../utils/constants";
-import { BarAndLineChartsWrapperTypes } from "../utils/types";
+import type { BarAndLineChartsWrapperTypes } from "../utils/types";
+import type { BarChartPropsType, barDataItem, stackDataItem } from "./types";
 
 interface extendedBarChartPropsType extends BarChartPropsType {
-  heightValue;
-  widthValue;
-  opacValue;
+  heightValue: Animated.Value;
+  widthValue: Animated.Value;
+  opacValue: Animated.Value;
 }
 
 export const useBarChart = (props: extendedBarChartPropsType) => {
@@ -161,7 +162,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     secondaryMinItem = 0;
 
   if (lineConfig.isSecondary) {
-    lineData.forEach((item: barDataItem) => {
+    lineData.forEach((item) => {
+      if (!('value' in item)) return
+
       if (item.value > secondaryMaxItem) {
         secondaryMaxItem = item.value;
       }
@@ -185,12 +188,12 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     props.showFractionalValues
   );
 
-  const maxValue = getMaxValue(
-    props.maxValue,
-    props.stepValue,
+  const maxValue = getMaxValue({
+    maxItem: maxAndMin.maxItem,
+    maxValue: props.maxValue,
     noOfSections,
-    maxAndMin.maxItem
-  );
+    stepValue: props.stepValue,
+  });
   const secondaryMaxValue = lineConfig.isSecondary
     ? secondaryMaxAndMin.maxItem
     : maxValue;
@@ -381,15 +384,15 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
           let y1 = parseInt(ppArray[ppArray.length - 3]);
           let x1 = parseInt(ppArray[ppArray.length - 4].replace("L", ""));
 
-          let arrowPoints = getArrowPoints(
+          let arrowPoints = getArrowPoints({
             arrowTipX,
             arrowTipY,
             x1,
             y1,
-            lineConfig.arrowConfig.length,
-            lineConfig.arrowConfig.width,
-            lineConfig.arrowConfig.showArrowBase
-          );
+            arrowLength: lineConfig.arrowConfig.length,
+            arrowWidth: lineConfig.arrowConfig.width,
+            showArrowBase: lineConfig.arrowConfig.showArrowBase
+          });
 
           setArrowPoints(arrowPoints);
         }
@@ -513,6 +516,24 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     lineConfig.arrowConfig.width,
     lineConfig.arrowConfig.showArrowBase,
   ]);
+
+  const setPointerConfig = <T extends { pointerShiftX: number, pointerShiftY: number }>({
+    initialPointerIndex, 
+    item: { pointerShiftX, pointerShiftY },
+    x,
+    y
+  }: {
+    initialPointerIndex: number, 
+    item: T, 
+    x: number, 
+    y:number
+  }) => {
+    setPointerIndex(initialPointerIndex);
+    setPointerItem({ pointerShiftX, pointerShiftY });
+    setPointerX(x);
+    setPointerY(y);
+  };
+
   useEffect(() => {
     if (initialPointerIndex !== -1) {
       const item = (props.stackData ?? data)?.[initialPointerIndex];
@@ -534,20 +555,15 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         10;
       if (initialPointerAppearDelay) {
         setTimeout(() => {
-          setPointerConfig(initialPointerIndex, item, x, y);
+          // @ts-expect-error Bar charts do not use pointerConfig
+          setPointerConfig({ initialPointerIndex, item, x, y});
         }, initialPointerAppearDelay);
       } else {
-        setPointerConfig(initialPointerIndex, item, x, y);
+        // @ts-expect-error Bar charts do not use pointerConfig
+        setPointerConfig({ initialPointerIndex, item, x, y });
       }
     }
   }, []);
-
-  const setPointerConfig = (initialPointerIndex, item, x, y) => {
-    setPointerIndex(initialPointerIndex);
-    setPointerItem(item);
-    setPointerX(x);
-    setPointerY(y);
-  };
 
   const animatedHeight = heightValue.interpolate({
     inputRange: [0, 1],
@@ -563,7 +579,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     outputRange: [0, initialSpacing + totalWidth + endSpacing],
   });
 
-  const getPropsCommonForBarAndStack = (item, index) => {
+  const getPropsCommonForBarAndStack = (item: stackDataItem, index: number) => {
     return {
       key: index,
       item: item,
@@ -660,7 +676,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     lineConfig2,
     maxValue,
     lineData,
-    lineData2,
+    lineData2: lineData2,
     animatedWidth,
     lineBehindBars,
     points,

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { I18nManager, NativeScrollEvent } from "react-native";
 import { AxesAndRulesDefaults, BarDefaults } from "../../utils/constants";
 import {
   BarAndLineChartsWrapperTypes,
   horizSectionPropTypes,
 } from "../../utils/types";
-import { I18nManager } from "react-native";
 
 export const useBarAndLineChartsWrapper = (
   props: BarAndLineChartsWrapperTypes
@@ -317,7 +317,7 @@ export const useBarAndLineChartsWrapper = (
 
   const [canMomentum, setCanMomentum] = useState(false);
 
-  const isCloseToEnd = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  const isCloseToEnd = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
     return I18nManager.isRTL
       ? contentOffset.x <= initialSpacing
       : layoutMeasurement.width + contentOffset.x >=
@@ -332,7 +332,7 @@ export const useBarAndLineChartsWrapper = (
     layoutMeasurement,
     contentOffset,
     contentSize,
-  }) => {
+  }: NativeScrollEvent) => {
     return I18nManager.isRTL
       ? layoutMeasurement.width + contentOffset.x >=
           contentSize.width - initialSpacing - endReachedOffset

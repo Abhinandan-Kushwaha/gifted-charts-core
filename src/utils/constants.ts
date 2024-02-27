@@ -1,7 +1,7 @@
-import { defaultLineConfigType } from "../BarChart/types";
-import { CurveType, EdgePosition, RuleTypes } from "./types";
 import { Dimensions } from "react-native";
-import { FontStyle } from "react-native-svg";
+import type { FontStyle } from "react-native-svg";
+import type { defaultLineConfigType } from "../BarChart/types";
+import { CurveType, EdgePosition, type RuleTypes } from "./types";
 
 // Global
 

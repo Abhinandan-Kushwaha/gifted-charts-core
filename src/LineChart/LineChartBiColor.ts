@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  getAxesAndRulesProps,
+  getExtendedContainerHeightWithPadding,
+} from "../utils";
+import {
   AxesAndRulesDefaults,
   LineDefaults,
   chartTypes,
 } from "../utils/constants";
-import {
-  getAxesAndRulesProps,
-  getExtendedContainerHeightWithPadding,
-} from "../utils";
-import { bicolorLineDataItem } from "./types";
 import { BarAndLineChartsWrapperTypes } from "../utils/types";
+import type { LineChartBicolorPropsType, bicolorLineDataItem } from "./types";
 
 let initialData: Array<bicolorLineDataItem> | null = null;
 
@@ -18,7 +18,7 @@ type Points = {
   color: string;
 };
 
-export const useLineChartBiColor = (props) => {
+export const useLineChartBiColor = (props: LineChartBicolorPropsType) => {
   const [toggle, setToggle] = useState(false);
   const [pointsArray, setPointsArray] = useState<Array<Points>>([]);
   const [fillPointsArray, setFillPointsArray] = useState<Array<Points>>([]);
@@ -133,8 +133,8 @@ export const useLineChartBiColor = (props) => {
   );
 
   let yAtxAxis = extendedContainerHeight - xAxisThickness / 2;
-  const getX = (index) => initialSpacing + spacing * index;
-  const getY = (index) =>
+  const getX = (index: number) => initialSpacing + spacing * index;
+  const getY = (index: number) =>
     yAtxAxis - (data[index].value * containerHeight) / maxValue;
 
   useEffect(() => {
@@ -215,14 +215,14 @@ export const useLineChartBiColor = (props) => {
 
     /***************************          For Area Charts          *************************/
 
-    let startIndex = -1,
-      endIndex = -1,
-      startX,
-      startY,
-      endY,
-      color = "green",
-      localArray: Array<Points> = [],
-      broken = false;
+    let startIndex = -1;
+    let endIndex = -1;
+    let startX: string;
+    let startY: string;
+    let endY: string;
+    let color = "green";
+    let localArray: Array<Points> = [];
+    let broken = false;
 
     pp = "M" + initialSpacing + " " + yAtxAxis;
     for (i = 0; i < data.length - 1; i++) {
@@ -268,7 +268,7 @@ export const useLineChartBiColor = (props) => {
       xs.push(x + "");
     });
 
-    pointsArray.forEach((item: any, index) => {
+    pointsArray.forEach((item, index) => {
       let splitArray = item.points
         .split(" ")
         .filter((spItem) => spItem && spItem !== " ");
@@ -501,7 +501,7 @@ export const useLineChartBiColor = (props) => {
     pointerIndex: 0,
     pointerX: 0,
     pointerY: 0,
-    endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset,
+    endReachedOffset: LineDefaults.endReachedOffset,
   };
 
   return {

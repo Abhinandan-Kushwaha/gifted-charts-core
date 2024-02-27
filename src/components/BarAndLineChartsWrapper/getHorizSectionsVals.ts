@@ -1,8 +1,8 @@
-import { AxesAndRulesDefaults } from "../../utils/constants";
-import { HorizSectionsType, secondaryYAxisType } from "../../utils/types";
 import { computeMaxAndMinItems, getLabelTextUtil } from "../../utils";
+import { AxesAndRulesDefaults } from "../../utils/constants";
+import type { HorizSectionsType, horizSectionPropTypes, secondaryYAxisType } from "../../utils/types";
 
-export const getHorizSectionVals = (props) => {
+export const getHorizSectionVals = (props: horizSectionPropTypes) => {
   const {
     width,
     noOfSectionsBelowXAxis,
@@ -338,7 +338,7 @@ export const getHorizSectionVals = (props) => {
       }
     : defaultReferenceConfig;
 
-    const getLabelTexts = (val, index) => {
+    const getLabelTexts = (val: string, index: number) => {
       return getLabelTextUtil(
         val,
         index,
@@ -352,7 +352,7 @@ export const getHorizSectionVals = (props) => {
       );
     };
   
-    const getLabelTextsForSecondaryYAxis = (val, index) => {
+    const getLabelTextsForSecondaryYAxis = (val: string, index: number) => {
       const {
         showFractionalValues,
         yAxisLabelTexts,
