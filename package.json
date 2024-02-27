@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "tsc -p .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prebuild": "git clean -ffxd dist"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -17,7 +17,8 @@
     "@testing-library/user-event": "^13.5.0",
     "@tsconfig/react-native": "^3.0.3",
     "react-native-svg": "^15.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "react-native": "*"
   },
   "peerDependencies": {
     "react": "*",
@@ -27,18 +28,6 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
     ]
   },
   "repository": "https://github.com/Abhinandan-Kushwaha/gifted-charts-core",
