@@ -770,6 +770,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     setPointerX,
     setPointerIndex,
     maxValue,
+    maxItem,
     responderStartTime,
     responderActive,
     setResponderActive,

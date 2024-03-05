@@ -46,6 +46,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
     setPointerX: import("react").Dispatch<import("react").SetStateAction<number>>;
     setPointerIndex: import("react").Dispatch<import("react").SetStateAction<number>>;
     maxValue: number;
+    maxItem: number;
     responderStartTime: number;
     responderActive: boolean;
     setResponderActive: import("react").Dispatch<import("react").SetStateAction<boolean>>;

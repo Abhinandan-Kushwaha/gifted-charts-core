@@ -538,6 +538,7 @@ export var useBarChart = function (props) {
         setPointerX: setPointerX,
         setPointerIndex: setPointerIndex,
         maxValue: maxValue,
+        maxItem: maxItem,
         responderStartTime: responderStartTime,
         responderActive: responderActive,
         setResponderActive: setResponderActive,
