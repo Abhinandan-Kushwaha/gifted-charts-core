@@ -39,10 +39,10 @@ import {
 import { type Animated } from 'react-native'
 
 export interface extendedLineChartPropsType extends LineChartPropsType {
-  animations: Animated.Value[]
-  heightValue: Animated.Value
-  widthValue: Animated.Value
-  opacValue: Animated.Value
+  animations?: Animated.Value[]
+  // heightValue: Animated.Value
+  // widthValue: Animated.Value
+  // opacValue: Animated.Value
   screenWidth: number
 }
 
@@ -440,7 +440,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     extendedContainerHeight - (value * containerHeight) / secondaryMaxValue
   const heightUptoXaxis = extendedContainerHeight - xAxisThickness
 
-  if (animateOnDataChange) {
+  if (animateOnDataChange && animations) {
     animations.forEach((item, index) => {
       item.addListener((val) => {
         const temp = data[index]?.value ?? 0

@@ -3,10 +3,7 @@ import { type LineChartPropsType, type lineDataItem } from './types';
 import { type BarAndLineChartsWrapperTypes, EdgePosition, type LineSegment } from '../utils/types';
 import { type Animated } from 'react-native';
 export interface extendedLineChartPropsType extends LineChartPropsType {
-    animations: Animated.Value[];
-    heightValue: Animated.Value;
-    widthValue: Animated.Value;
-    opacValue: Animated.Value;
+    animations?: Animated.Value[];
     screenWidth: number;
 }
 export declare const useLineChart: (props: extendedLineChartPropsType) => {

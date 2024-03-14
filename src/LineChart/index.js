@@ -225,7 +225,7 @@ export var useLineChart = function (props) {
         return extendedContainerHeight - (value * containerHeight) / secondaryMaxValue;
     };
     var heightUptoXaxis = extendedContainerHeight - xAxisThickness;
-    if (animateOnDataChange) {
+    if (animateOnDataChange && animations) {
         animations.forEach(function (item, index) {
             item.addListener(function (val) {
                 var _a, _b, _c, _d, _e;
