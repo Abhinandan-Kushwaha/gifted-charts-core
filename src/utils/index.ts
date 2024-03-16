@@ -670,6 +670,7 @@ export const getAxesAndRulesProps = (
     xAxisLength: props.xAxisLength,
     xAxisType: props.xAxisType,
     xAxisTextNumberOfLines: props.xAxisTextNumberOfLines ?? 1,
+    xAxisThickness: props.xAxisThickness ?? AxesAndRulesDefaults.xAxisThickness,
     xAxisLabelsHeight: props.xAxisLabelsHeight,
     xAxisLabelsVerticalShift: props.xAxisLabelsVerticalShift,
     dashWidth: props.dashWidth,
