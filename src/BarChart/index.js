@@ -29,12 +29,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { getArrowPoints, getAxesAndRulesProps, getExtendedContainerHeightWithPadding, getLineConfigForBarChart, getMaxValue, getNoOfSections, getSecondaryDataWithOffsetIncluded, getXForLineInBar, getYForLineInBar, maxAndMinUtil, svgPath } from '../utils';
 import { AxesAndRulesDefaults, BarDefaults, chartTypes, defaultLineConfig, defaultPointerConfig } from '../utils/constants';
 export var useBarChart = function (props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46;
     var heightValue = props.heightValue, widthValue = props.widthValue, opacValue = props.opacValue;
-    var _46 = __read(useState(''), 2), points = _46[0], setPoints = _46[1];
-    var _47 = __read(useState(''), 2), points2 = _47[0], setPoints2 = _47[1];
-    var _48 = __read(useState(''), 2), arrowPoints = _48[0], setArrowPoints = _48[1];
-    var _49 = __read(useState(-1), 2), selectedIndex = _49[0], setSelectedIndex = _49[1];
+    var _47 = __read(useState(''), 2), points = _47[0], setPoints = _47[1];
+    var _48 = __read(useState(''), 2), points2 = _48[0], setPoints2 = _48[1];
+    var _49 = __read(useState(''), 2), arrowPoints = _49[0], setArrowPoints = _49[1];
+    var _50 = __read(useState(-1), 2), selectedIndex = _50[0], setSelectedIndex = _50[1];
     var showLine = (_a = props.showLine) !== null && _a !== void 0 ? _a : BarDefaults.showLine;
     var spacing = (_b = props.spacing) !== null && _b !== void 0 ? _b : BarDefaults.spacing;
     var initialSpacing = (_c = props.initialSpacing) !== null && _c !== void 0 ? _c : spacing;
@@ -172,12 +172,12 @@ export var useBarChart = function (props) {
     var barBorderColor = (_12 = props.barBorderColor) !== null && _12 !== void 0 ? _12 : BarDefaults.barBorderColor;
     var extendedContainerHeight = getExtendedContainerHeightWithPadding(containerHeight, 0);
     var containerHeightIncludingBelowXAxis = extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight;
-    var _50 = __read(useState(-1), 2), pointerIndex = _50[0], setPointerIndex = _50[1];
-    var _51 = __read(useState(0), 2), pointerX = _51[0], setPointerX = _51[1];
-    var _52 = __read(useState(0), 2), pointerY = _52[0], setPointerY = _52[1];
-    var _53 = __read(useState(), 2), pointerItem = _53[0], setPointerItem = _53[1];
-    var _54 = __read(useState(0), 2), responderStartTime = _54[0], setResponderStartTime = _54[1];
-    var _55 = __read(useState(false), 2), responderActive = _55[0], setResponderActive = _55[1];
+    var _51 = __read(useState(-1), 2), pointerIndex = _51[0], setPointerIndex = _51[1];
+    var _52 = __read(useState(0), 2), pointerX = _52[0], setPointerX = _52[1];
+    var _53 = __read(useState(0), 2), pointerY = _53[0], setPointerY = _53[1];
+    var _54 = __read(useState(), 2), pointerItem = _54[0], setPointerItem = _54[1];
+    var _55 = __read(useState(0), 2), responderStartTime = _55[0], setResponderStartTime = _55[1];
+    var _56 = __read(useState(false), 2), responderActive = _56[0], setResponderActive = _56[1];
     var pointerConfig = props.pointerConfig;
     var getPointerProps = (_13 = props.getPointerProps) !== null && _13 !== void 0 ? _13 : null;
     var pointerHeight = (_14 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.height) !== null && _14 !== void 0 ? _14 : defaultPointerConfig.height;
@@ -215,6 +215,7 @@ export var useBarChart = function (props) {
             ? !!responderActive
             : true
         : false);
+    var yAxisExtraHeightAtTop = (_39 = props.yAxisExtraHeight) !== null && _39 !== void 0 ? _39 : containerHeight / 20;
     var barInnerComponent = props.barInnerComponent;
     useEffect(function () {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2;
@@ -330,9 +331,9 @@ export var useBarChart = function (props) {
         spacing,
         yAxisLabelWidth,
         lineConfig.showArrow,
-        (_39 = lineConfig.arrowConfig) === null || _39 === void 0 ? void 0 : _39.length,
-        (_40 = lineConfig.arrowConfig) === null || _40 === void 0 ? void 0 : _40.width,
-        (_41 = lineConfig.arrowConfig) === null || _41 === void 0 ? void 0 : _41.showArrowBase
+        (_40 = lineConfig.arrowConfig) === null || _40 === void 0 ? void 0 : _40.length,
+        (_41 = lineConfig.arrowConfig) === null || _41 === void 0 ? void 0 : _41.width,
+        (_42 = lineConfig.arrowConfig) === null || _42 === void 0 ? void 0 : _42.showArrowBase
     ]);
     useEffect(function () {
         var _a, _b, _c, _d;
@@ -433,7 +434,8 @@ export var useBarChart = function (props) {
             leftShiftForLastIndexTooltip: (_e = props.leftShiftForLastIndexTooltip) !== null && _e !== void 0 ? _e : 0,
             label: (_f = item.label) !== null && _f !== void 0 ? _f : (((_g = props.xAxisLabelTexts) === null || _g === void 0 ? void 0 : _g[index]) ? props.xAxisLabelTexts[index] : ''),
             labelTextStyle: (_h = item.labelTextStyle) !== null && _h !== void 0 ? _h : props.xAxisLabelTextStyle,
-            pointerConfig: pointerConfig
+            pointerConfig: pointerConfig,
+            yAxisExtraHeightAtTop: yAxisExtraHeightAtTop
         };
     };
     var barAndLineChartsWrapperProps = {
@@ -445,14 +447,14 @@ export var useBarChart = function (props) {
         yAxisLabelWidth: yAxisLabelWidth,
         horizontal: horizontal,
         rtl: rtl,
-        shiftX: (_42 = props.shiftX) !== null && _42 !== void 0 ? _42 : 0,
-        shiftY: (_43 = props.shiftY) !== null && _43 !== void 0 ? _43 : 0,
+        shiftX: (_43 = props.shiftX) !== null && _43 !== void 0 ? _43 : 0,
+        shiftY: (_44 = props.shiftY) !== null && _44 !== void 0 ? _44 : 0,
         yAxisAtTop: yAxisAtTop,
         initialSpacing: initialSpacing,
         data: data,
         stackData: props.stackData,
         secondaryData: secondaryData,
-        barWidth: (_44 = props.barWidth) !== null && _44 !== void 0 ? _44 : BarDefaults.barWidth,
+        barWidth: (_45 = props.barWidth) !== null && _45 !== void 0 ? _45 : BarDefaults.barWidth,
         xAxisThickness: xAxisThickness,
         totalWidth: totalWidth,
         disableScroll: disableScroll,
@@ -499,7 +501,7 @@ export var useBarChart = function (props) {
         pointerY: pointerY,
         onEndReached: props.onEndReached,
         onStartReached: props.onStartReached,
-        endReachedOffset: (_45 = props.endReachedOffset) !== null && _45 !== void 0 ? _45 : BarDefaults.endReachedOffset
+        endReachedOffset: (_46 = props.endReachedOffset) !== null && _46 !== void 0 ? _46 : BarDefaults.endReachedOffset
     };
     return {
         lineConfig: lineConfig,
@@ -607,6 +609,7 @@ export var useBarChart = function (props) {
         getPointerProps: getPointerProps,
         pointerIndex: pointerIndex,
         getPropsCommonForBarAndStack: getPropsCommonForBarAndStack,
-        barAndLineChartsWrapperProps: barAndLineChartsWrapperProps
+        barAndLineChartsWrapperProps: barAndLineChartsWrapperProps,
+        yAxisExtraHeightAtTop: yAxisExtraHeightAtTop
     };
 };

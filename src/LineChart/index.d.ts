@@ -377,4 +377,5 @@ export declare const useLineChart: (props: extendedLineChartPropsType) => {
     initialisePointers: () => void;
     setPointerConfig: (initialPointerIndex: number, item: lineDataItem, x: number, y: number, y2: number, y3: number, y4: number, y5: number) => void;
     barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes;
+    yAxisExtraHeightAtTop: number;
 };

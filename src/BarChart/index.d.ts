@@ -171,6 +171,8 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         label: any;
         labelTextStyle: any;
         pointerConfig: import("../utils/types").Pointer | undefined;
+        yAxisExtraHeightAtTop: number;
     };
     barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes;
+    yAxisExtraHeightAtTop: number;
 };
