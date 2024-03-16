@@ -347,7 +347,9 @@ export var useLineChart = function (props) {
         showArrow: (_231 = (_230 = props.secondaryLineConfig) === null || _230 === void 0 ? void 0 : _230.showArrow) !== null && _231 !== void 0 ? _231 : props.showArrows,
         arrowConfig: (_233 = (_232 = props.secondaryLineConfig) === null || _232 === void 0 ? void 0 : _232.arrowConfig) !== null && _233 !== void 0 ? _233 : props.arrowConfig
     };
-    var yAxisExtraHeightAtTop = (_234 = props.yAxisExtraHeight) !== null && _234 !== void 0 ? _234 : containerHeight / 20;
+    var yAxisExtraHeightAtTop = props.trimYAxisAtTop
+        ? 0
+        : (_234 = props.yAxisExtraHeight) !== null && _234 !== void 0 ? _234 : containerHeight / 20;
     var addLeadingAndTrailingPathForAreaFill = function (initialPath, value, dataLength) {
         return ('M ' +
             initialSpacing +

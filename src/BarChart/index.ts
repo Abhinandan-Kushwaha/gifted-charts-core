@@ -333,7 +333,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         : true
       : false)
 
-  const yAxisExtraHeightAtTop = props.yAxisExtraHeight ?? containerHeight / 20
+  const yAxisExtraHeightAtTop = props.trimYAxisAtTop
+    ? 0
+    : props.yAxisExtraHeight ?? containerHeight / 20
 
   const barInnerComponent = props.barInnerComponent
 
