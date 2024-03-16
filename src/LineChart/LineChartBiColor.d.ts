@@ -1,17 +1,11 @@
 /// <reference types="react" />
 import { type LineChartBicolorPropsType, type bicolorLineDataItem } from './types';
 import { type BarAndLineChartsWrapperTypes } from '../utils/types';
-import { type Animated } from 'react-native';
 interface Points {
     points: string;
     color: string;
 }
-interface extendedLineChartBicolorPropsType extends LineChartBicolorPropsType {
-    heightValue: Animated.Value;
-    widthValue: Animated.Value;
-    opacValue: Animated.Value;
-}
-export declare const useLineChartBiColor: (props: extendedLineChartBicolorPropsType) => {
+export declare const useLineChartBiColor: (props: LineChartBicolorPropsType) => {
     toggle: boolean;
     setToggle: import("react").Dispatch<import("react").SetStateAction<boolean>>;
     pointsArray: Points[];

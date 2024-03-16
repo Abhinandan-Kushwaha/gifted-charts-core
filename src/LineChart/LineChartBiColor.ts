@@ -19,13 +19,7 @@ interface Points {
   color: string
 }
 
-interface extendedLineChartBicolorPropsType extends LineChartBicolorPropsType {
-  heightValue: Animated.Value
-  widthValue: Animated.Value
-  opacValue: Animated.Value
-}
-
-export const useLineChartBiColor = (props: extendedLineChartBicolorPropsType) => {
+export const useLineChartBiColor = (props: LineChartBicolorPropsType) => {
   const [toggle, setToggle] = useState(false)
   const [pointsArray, setPointsArray] = useState<Points[]>([])
   const [fillPointsArray, setFillPointsArray] = useState<Points[]>([])
