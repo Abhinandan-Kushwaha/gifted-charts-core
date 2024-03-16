@@ -333,6 +333,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         : true
       : false)
 
+  const yAxisExtraHeightAtTop = props.yAxisExtraHeight ?? containerHeight / 20
+
   const barInnerComponent = props.barInnerComponent
 
   useEffect(() => {
@@ -592,10 +594,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     outputRange: [0, initialSpacing + totalWidth + endSpacing]
   })
 
-  const getPropsCommonForBarAndStack = (
-    item: any,
-    index: number
-  ) => {
+  const getPropsCommonForBarAndStack = (item: any, index: number) => {
     return {
       key: index,
       item,
@@ -653,7 +652,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         item.label ??
         (props.xAxisLabelTexts?.[index] ? props.xAxisLabelTexts[index] : ''),
       labelTextStyle: item.labelTextStyle ?? props.xAxisLabelTextStyle,
-      pointerConfig
+      pointerConfig,
+      yAxisExtraHeightAtTop
     }
   }
 
@@ -839,6 +839,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     getPointerProps,
     pointerIndex,
     getPropsCommonForBarAndStack,
-    barAndLineChartsWrapperProps
+    barAndLineChartsWrapperProps,
+    yAxisExtraHeightAtTop
   }
 }

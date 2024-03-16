@@ -638,6 +638,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     showArrow: props.secondaryLineConfig?.showArrow ?? props.showArrows,
     arrowConfig: props.secondaryLineConfig?.arrowConfig ?? props.arrowConfig
   }
+  const yAxisExtraHeightAtTop = props.yAxisExtraHeight ?? containerHeight / 20
 
   const addLeadingAndTrailingPathForAreaFill = (
     initialPath: string,
@@ -2101,6 +2102,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     getPointerY,
     initialisePointers,
     setPointerConfig,
-    barAndLineChartsWrapperProps
+    barAndLineChartsWrapperProps,
+    yAxisExtraHeightAtTop
   }
 }
