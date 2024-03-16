@@ -192,6 +192,25 @@ export var useLineChart = function (props) {
     var areaChart4 = (_62 = props.areaChart4) !== null && _62 !== void 0 ? _62 : false;
     var areaChart5 = (_63 = props.areaChart5) !== null && _63 !== void 0 ? _63 : false;
     var atLeastOneAreaChart = (_69 = (_68 = (_67 = (_66 = (_65 = (_64 = dataSet === null || dataSet === void 0 ? void 0 : dataSet.some(function (set) { return set.areaChart; })) !== null && _64 !== void 0 ? _64 : areaChart) !== null && _65 !== void 0 ? _65 : areaChart1) !== null && _66 !== void 0 ? _66 : areaChart2) !== null && _67 !== void 0 ? _67 : areaChart3) !== null && _68 !== void 0 ? _68 : areaChart4) !== null && _69 !== void 0 ? _69 : areaChart5;
+    var getIsNthAreaChart = function (n) {
+        if (areaChart)
+            return true;
+        if (!(dataSet === null || dataSet === void 0 ? void 0 : dataSet.length)) {
+            switch (n) {
+                case 0:
+                    return areaChart1;
+                case 1:
+                    return areaChart2;
+                case 2:
+                    return areaChart3;
+                case 3:
+                    return areaChart4;
+                case 4:
+                    return areaChart5;
+            }
+        }
+        return false;
+    };
     var stepChart = (_70 = props.stepChart) !== null && _70 !== void 0 ? _70 : false;
     var stepChart1 = (_71 = props.stepChart1) !== null && _71 !== void 0 ? _71 : false;
     var stepChart2 = (_72 = props.stepChart2) !== null && _72 !== void 0 ? _72 : false;
@@ -1208,6 +1227,7 @@ export var useLineChart = function (props) {
         areaChart4: areaChart4,
         areaChart5: areaChart5,
         atLeastOneAreaChart: atLeastOneAreaChart,
+        getIsNthAreaChart: getIsNthAreaChart,
         stepChart: stepChart,
         stepChart1: stepChart1,
         stepChart2: stepChart2,

@@ -160,6 +160,7 @@ export declare const useLineChart: (props: extendedLineChartPropsType) => {
     areaChart4: boolean;
     areaChart5: boolean;
     atLeastOneAreaChart: boolean;
+    getIsNthAreaChart: (n: number) => boolean;
     stepChart: boolean;
     stepChart1: boolean;
     stepChart2: boolean;

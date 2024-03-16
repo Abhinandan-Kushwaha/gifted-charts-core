@@ -372,6 +372,25 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     areaChart4 ??
     areaChart5
 
+  const getIsNthAreaChart = (n: number): boolean => {
+    if (areaChart) return true
+    if (!dataSet?.length) {
+      switch (n) {
+        case 0:
+          return areaChart1
+        case 1:
+          return areaChart2
+        case 2:
+          return areaChart3
+        case 3:
+          return areaChart4
+        case 4:
+          return areaChart5
+      }
+    }
+    return false
+  }
+
   const stepChart = props.stepChart ?? false
   const stepChart1 = props.stepChart1 ?? false
   const stepChart2 = props.stepChart2 ?? false
@@ -638,7 +657,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     showArrow: props.secondaryLineConfig?.showArrow ?? props.showArrows,
     arrowConfig: props.secondaryLineConfig?.arrowConfig ?? props.arrowConfig
   }
-  
+
   const yAxisExtraHeightAtTop = props.trimYAxisAtTop
     ? 0
     : props.yAxisExtraHeight ?? containerHeight / 20
@@ -1918,6 +1937,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     areaChart4,
     areaChart5,
     atLeastOneAreaChart,
+    getIsNthAreaChart,
     stepChart,
     stepChart1,
     stepChart2,
