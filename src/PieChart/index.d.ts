@@ -7,6 +7,7 @@ interface IusePieChart {
     selectedIndex: number;
     setSelectedIndex: (index: number) => void;
     startAngle: number;
+    endAngle: number;
     setStartAngle: (angle: number) => void;
     total: number;
     setTotal: (total: number) => void;
@@ -29,5 +30,8 @@ interface IusePieChart {
     paddingHorizontal: number;
     paddingVertical: number;
 }
-export declare const usePieChart: (props: PieChartPropsType) => IusePieChart;
+interface IPieChartPropsType extends PieChartPropsType {
+    pro?: boolean;
+}
+export declare const usePieChart: (props: IPieChartPropsType) => IusePieChart;
 export {};

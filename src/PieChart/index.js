@@ -17,14 +17,14 @@ var __read = (this && this.__read) || function (o, n) {
 import { useEffect, useState } from 'react';
 import { getTextSizeForPieLabels } from '../utils';
 export var usePieChart = function (props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v;
     var radius = (_a = props.radius) !== null && _a !== void 0 ? _a : 120;
     var extraRadiusForFocused = (_b = props.extraRadiusForFocused) !== null && _b !== void 0 ? _b : (((_c = props.focusOnPress) !== null && _c !== void 0 ? _c : props.sectionAutoFocus) ? radius / 10 : 0);
     var pi = props.semiCircle ? Math.PI / 2 : Math.PI;
-    var _u = __read(useState(-1), 2), selectedIndex = _u[0], setSelectedIndex = _u[1]; // at the start, nothing is selected
+    var _w = __read(useState(-1), 2), selectedIndex = _w[0], setSelectedIndex = _w[1]; // at the start, nothing is selected
     // because we're going to use a useEffect, we need startAngle and total to be state variables
-    var _v = __read(useState((_d = props.initialAngle) !== null && _d !== void 0 ? _d : (props.semiCircle ? -pi : 0)), 2), startAngle = _v[0], setStartAngle = _v[1];
-    var _w = __read(useState(0), 2), total = _w[0], setTotal = _w[1];
+    var _x = __read(useState((_d = props.initialAngle) !== null && _d !== void 0 ? _d : (props.semiCircle ? -pi : 0)), 2), startAngle = _x[0], setStartAngle = _x[1];
+    var _y = __read(useState(0), 2), total = _y[0], setTotal = _y[1];
     useEffect(function () {
         var _a;
         // Update the total, this could be use to replace the forEach : const newTotal = props.data.reduce((acc, item) => acc + item.value, 0);
@@ -63,7 +63,7 @@ export var usePieChart = function (props) {
             }
         }
     }, [selectedIndex]);
-    var data = props.data, donut = props.donut, isThreeD = props.isThreeD, semiCircle = props.semiCircle, _x = props.inwardExtraLengthForFocused, inwardExtraLengthForFocused = _x === void 0 ? 0 : _x;
+    var pro = props.pro, data = props.data, donut = props.donut, isThreeD = props.isThreeD, semiCircle = props.semiCircle, _z = props.inwardExtraLengthForFocused, inwardExtraLengthForFocused = _z === void 0 ? 0 : _z;
     var canvasWidth = radius * 2;
     var canvasHeight = isThreeD ? radius * 2.3 : radius * 2;
     var strokeWidth = (_e = props.strokeWidth) !== null && _e !== void 0 ? _e : 0;
@@ -93,7 +93,8 @@ export var usePieChart = function (props) {
         pi: pi,
         selectedIndex: selectedIndex,
         setSelectedIndex: setSelectedIndex,
-        startAngle: startAngle,
+        startAngle: pro ? (_u = props.startAngle) !== null && _u !== void 0 ? _u : 0 : startAngle,
+        endAngle: (_v = props.endAngle) !== null && _v !== void 0 ? _v : Math.PI * 2,
         setStartAngle: setStartAngle,
         total: total,
         setTotal: setTotal,

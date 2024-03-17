@@ -10,6 +10,7 @@ interface IusePieChart {
   selectedIndex: number
   setSelectedIndex: (index: number) => void
   startAngle: number
+  endAngle: number
   setStartAngle: (angle: number) => void
   total: number
   setTotal: (total: number) => void
@@ -33,7 +34,11 @@ interface IusePieChart {
   paddingVertical: number
 }
 
-export const usePieChart = (props: PieChartPropsType): IusePieChart => {
+interface IPieChartPropsType extends PieChartPropsType {
+  pro?: boolean
+}
+
+export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
   const radius = props.radius ?? 120
   const extraRadiusForFocused =
     props.extraRadiusForFocused ??
@@ -90,6 +95,7 @@ export const usePieChart = (props: PieChartPropsType): IusePieChart => {
   }, [selectedIndex])
 
   const {
+    pro,
     data,
     donut,
     isThreeD,
@@ -137,7 +143,8 @@ export const usePieChart = (props: PieChartPropsType): IusePieChart => {
     pi,
     selectedIndex,
     setSelectedIndex,
-    startAngle,
+    startAngle: pro ? props.startAngle ?? 0 : startAngle,
+    endAngle: props.endAngle ?? Math.PI * 2,
     setStartAngle,
     total,
     setTotal,
