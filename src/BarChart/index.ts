@@ -69,10 +69,10 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       return []
     }
     if (yAxisOffset) {
-      return props.data.map((item) => {
-        item.value = (item.value ?? 0) - (yAxisOffset ?? 0)
-        return item
-      })
+      return props.data.map((item) => ({
+        ...item,
+        value: (item.value ?? 0) - (yAxisOffset ?? 0)
+      }))
     }
     return props.data
   }, [yAxisOffset, props.data])

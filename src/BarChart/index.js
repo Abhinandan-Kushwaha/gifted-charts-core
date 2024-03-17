@@ -55,8 +55,7 @@ export var useBarChart = function (props) {
         if (yAxisOffset) {
             return props.data.map(function (item) {
                 var _a;
-                item.value = ((_a = item.value) !== null && _a !== void 0 ? _a : 0) - (yAxisOffset !== null && yAxisOffset !== void 0 ? yAxisOffset : 0);
-                return item;
+                return (__assign(__assign({}, item), { value: ((_a = item.value) !== null && _a !== void 0 ? _a : 0) - (yAxisOffset !== null && yAxisOffset !== void 0 ? yAxisOffset : 0) }));
             });
         }
         return props.data;
