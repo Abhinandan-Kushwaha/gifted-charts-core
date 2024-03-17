@@ -67,7 +67,8 @@ export const getPropsForAnimated2DWithGradient = (
     selectedIndex,
     focusBarOnPress,
     focusedBarConfig,
-    isThreeD
+    isThreeD,
+    yAxisOffset
   } = props
 
   const isFocused = (focusBarOnPress ?? false) && selectedIndex === index
@@ -120,7 +121,11 @@ export const getPropsForAnimated2DWithGradient = (
     }
   ]
 
-  if (roundedBottom ?? (isFocused && focusedBarConfig?.roundedBottom) ?? false) {
+  if (
+    roundedBottom ??
+    (isFocused && focusedBarConfig?.roundedBottom) ??
+    false
+  ) {
     commonStyleForBar.push({
       borderBottomLeftRadius: localBarWidth / 2,
       borderBottomRightRadius: localBarWidth / 2
@@ -170,9 +175,10 @@ export const getPropsForAnimated2DWithGradient = (
       : localOpacity,
     height: barHeight,
     intactTopLabel,
-    showValuesAsTopLabel: (showValuesAsTopLabel ?? false),
+    showValuesAsTopLabel: showValuesAsTopLabel ?? false,
     topLabelContainerStyle,
-    topLabelTextStyle
+    topLabelTextStyle,
+    yAxisOffset: yAxisOffset ?? 0
   }
 
   return {

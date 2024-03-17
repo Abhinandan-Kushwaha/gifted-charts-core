@@ -26,7 +26,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { getBarFrontColor, getBarWidth } from '../utils';
 export var getPropsForAnimated2DWithGradient = function (props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
-    var barBorderWidth = props.barBorderWidth, barBorderColor = props.barBorderColor, barBorderRadius = props.barBorderRadius, item = props.item, barBorderTopLeftRadius = props.barBorderTopLeftRadius, barBorderTopRightRadius = props.barBorderTopRightRadius, barBorderBottomLeftRadius = props.barBorderBottomLeftRadius, barBorderBottomRightRadius = props.barBorderBottomRightRadius, barWidth = props.barWidth, barInnerComponent = props.barInnerComponent, barStyle = props.barStyle, index = props.index, opacity = props.opacity, barHeight = props.barHeight, intactTopLabel = props.intactTopLabel, showValuesAsTopLabel = props.showValuesAsTopLabel, topLabelContainerStyle = props.topLabelContainerStyle, topLabelTextStyle = props.topLabelTextStyle, roundedBottom = props.roundedBottom, cappedBars = props.cappedBars, capRadius = props.capRadius, roundedTop = props.roundedTop, barBackgroundPattern = props.barBackgroundPattern, patternId = props.patternId, frontColor = props.frontColor, showGradient = props.showGradient, gradientColor = props.gradientColor, selectedIndex = props.selectedIndex, focusBarOnPress = props.focusBarOnPress, focusedBarConfig = props.focusedBarConfig, isThreeD = props.isThreeD;
+    var barBorderWidth = props.barBorderWidth, barBorderColor = props.barBorderColor, barBorderRadius = props.barBorderRadius, item = props.item, barBorderTopLeftRadius = props.barBorderTopLeftRadius, barBorderTopRightRadius = props.barBorderTopRightRadius, barBorderBottomLeftRadius = props.barBorderBottomLeftRadius, barBorderBottomRightRadius = props.barBorderBottomRightRadius, barWidth = props.barWidth, barInnerComponent = props.barInnerComponent, barStyle = props.barStyle, index = props.index, opacity = props.opacity, barHeight = props.barHeight, intactTopLabel = props.intactTopLabel, showValuesAsTopLabel = props.showValuesAsTopLabel, topLabelContainerStyle = props.topLabelContainerStyle, topLabelTextStyle = props.topLabelTextStyle, roundedBottom = props.roundedBottom, cappedBars = props.cappedBars, capRadius = props.capRadius, roundedTop = props.roundedTop, barBackgroundPattern = props.barBackgroundPattern, patternId = props.patternId, frontColor = props.frontColor, showGradient = props.showGradient, gradientColor = props.gradientColor, selectedIndex = props.selectedIndex, focusBarOnPress = props.focusBarOnPress, focusedBarConfig = props.focusedBarConfig, isThreeD = props.isThreeD, yAxisOffset = props.yAxisOffset;
     var isFocused = (focusBarOnPress !== null && focusBarOnPress !== void 0 ? focusBarOnPress : false) && selectedIndex === index;
     var itemOrPropsBarBorderRadius = (_b = (_a = item.barBorderRadius) !== null && _a !== void 0 ? _a : barBorderRadius) !== null && _b !== void 0 ? _b : 0;
     var localBarBorderRadius = (isFocused !== null && isFocused !== void 0 ? isFocused : false)
@@ -93,9 +93,10 @@ export var getPropsForAnimated2DWithGradient = function (props) {
             : localOpacity,
         height: barHeight,
         intactTopLabel: intactTopLabel,
-        showValuesAsTopLabel: (showValuesAsTopLabel !== null && showValuesAsTopLabel !== void 0 ? showValuesAsTopLabel : false),
+        showValuesAsTopLabel: showValuesAsTopLabel !== null && showValuesAsTopLabel !== void 0 ? showValuesAsTopLabel : false,
         topLabelContainerStyle: topLabelContainerStyle,
-        topLabelTextStyle: topLabelTextStyle
+        topLabelTextStyle: topLabelTextStyle,
+        yAxisOffset: yAxisOffset !== null && yAxisOffset !== void 0 ? yAxisOffset : 0
     };
     return {
         commonStyleForBar: commonStyleForBar,

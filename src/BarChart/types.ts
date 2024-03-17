@@ -1,4 +1,8 @@
-import { type ColorValue, type GestureResponderEvent, type ViewStyle } from 'react-native'
+import {
+  type ColorValue,
+  type GestureResponderEvent,
+  type ViewStyle
+} from 'react-native'
 import { type yAxisSides } from '../utils/constants'
 import {
   type CurveType,
@@ -125,6 +129,7 @@ export interface StackedBarChartPropsType {
   animationDuration?: number
   pointerConfig?: Pointer
   showValuesAsTopLabel?: boolean
+  yAxisOffset: number
 }
 
 export interface BarChartPropsType {
@@ -471,6 +476,7 @@ export interface Animated2DWithGradientPropsType {
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
   commonStyleForBar?: ViewStyle[]
   barStyleWithBackground?: ViewStyle[]
+  yAxisOffset: number
 }
 
 export interface RenderBarsPropsType {
@@ -532,7 +538,10 @@ export interface RenderBarsPropsType {
   barBorderTopRightRadius?: number
   barBorderBottomLeftRadius?: number
   barBorderBottomRightRadius?: number
-  barInnerComponent?: (item?: barDataItem | stackDataItem, index?: number) => ReactNode
+  barInnerComponent?: (
+    item?: barDataItem | stackDataItem,
+    index?: number
+  ) => ReactNode
   autoShiftLabels?: boolean
   barBackgroundPattern?: () => ReactNode
   patternId?: string
@@ -554,6 +563,7 @@ export interface RenderBarsPropsType {
   pointerConfig?: Pointer
   focusBarOnPress?: boolean
   noOfSectionsBelowXAxis?: number
+  yAxisOffset: number
 }
 
 export interface trianglePropTypes {
@@ -609,4 +619,5 @@ export interface CommonPropsFor2Dand3DbarsType {
   showValuesAsTopLabel: boolean
   topLabelContainerStyle: any
   topLabelTextStyle: any
+  yAxisOffset: number
 }

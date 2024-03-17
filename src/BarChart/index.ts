@@ -40,7 +40,7 @@ export interface extendedBarChartPropsType extends BarChartPropsType {
 }
 
 export const useBarChart = (props: extendedBarChartPropsType) => {
-  const { heightValue, widthValue, opacValue } = props
+  const { heightValue, widthValue, opacValue, yAxisOffset } = props
   const [points, setPoints] = useState('')
   const [points2, setPoints2] = useState('')
   const [arrowPoints, setArrowPoints] = useState('')
@@ -68,14 +68,14 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     if (!props.data) {
       return []
     }
-    if (props.yAxisOffset) {
+    if (yAxisOffset) {
       return props.data.map((item) => {
-        item.value = (item.value ?? 0) - (props.yAxisOffset ?? 0)
+        item.value = (item.value ?? 0) - (yAxisOffset ?? 0)
         return item
       })
     }
     return props.data
-  }, [props.yAxisOffset, props.data])
+  }, [yAxisOffset, props.data])
 
   const secondaryData = getSecondaryDataWithOffsetIncluded(
     props.secondaryData,
@@ -86,14 +86,14 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     if (!props.lineData) {
       return props.stackData ?? data
     }
-    if (props.yAxisOffset) {
+    if (yAxisOffset) {
       return props.lineData.map((item) => ({
         ...item,
-        value: (item.value ?? 0) - (props.yAxisOffset ?? 0)
+        value: (item.value ?? 0) - (yAxisOffset ?? 0)
       }))
     }
     return props.lineData
-  }, [props.yAxisOffset, props.lineData, data, props.stackData])
+  }, [yAxisOffset, props.lineData, data, props.stackData])
 
   const lineData2 = props.lineData2
 
@@ -655,7 +655,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         (props.xAxisLabelTexts?.[index] ? props.xAxisLabelTexts[index] : ''),
       labelTextStyle: item.labelTextStyle ?? props.xAxisLabelTextStyle,
       pointerConfig,
-      yAxisExtraHeightAtTop
+      yAxisExtraHeightAtTop,
+      yAxisOffset: yAxisOffset ?? 0
     }
   }
 
@@ -714,7 +715,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     ),
 
     yAxisLabelTexts: props.yAxisLabelTexts,
-    yAxisOffset: props.yAxisOffset,
+    yAxisOffset: yAxisOffset,
     rotateYAxisTexts: props.rotateYAxisTexts,
     hideAxesAndRules: props.hideAxesAndRules,
 

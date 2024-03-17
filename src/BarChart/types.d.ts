@@ -111,6 +111,7 @@ export interface StackedBarChartPropsType {
     animationDuration?: number;
     pointerConfig?: Pointer;
     showValuesAsTopLabel?: boolean;
+    yAxisOffset: number;
 }
 export interface BarChartPropsType {
     width?: number;
@@ -435,6 +436,7 @@ export interface Animated2DWithGradientPropsType {
     barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode;
     commonStyleForBar?: ViewStyle[];
     barStyleWithBackground?: ViewStyle[];
+    yAxisOffset: number;
 }
 export interface RenderBarsPropsType {
     style?: any;
@@ -515,6 +517,7 @@ export interface RenderBarsPropsType {
     pointerConfig?: Pointer;
     focusBarOnPress?: boolean;
     noOfSectionsBelowXAxis?: number;
+    yAxisOffset: number;
 }
 export interface trianglePropTypes {
     style: any;
@@ -566,5 +569,6 @@ export interface CommonPropsFor2Dand3DbarsType {
     showValuesAsTopLabel: boolean;
     topLabelContainerStyle: any;
     topLabelTextStyle: any;
+    yAxisOffset: number;
 }
 export {};
