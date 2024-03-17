@@ -128,6 +128,7 @@ export {
   type RulesConfig,
   type CurveType,
   type EdgePosition,
+  type LabelsPosition,
   type PointerEvents,
   type secondaryYAxisType,
   type secondaryLineConfigType,
