@@ -24,7 +24,7 @@ export declare const getPieChartMainProps: (props: PieChartMainProps) => {
     textColor: string;
     textSize: number;
     tiltAngle: string;
-    labelsPosition: "onBorder" | "outward" | "inward" | "mid";
+    labelsPosition: import("../utils/types").LabelsPosition;
     showTextBackground: boolean;
     textBackgroundColor: string;
     showValuesAsLabels: boolean;

@@ -94,7 +94,7 @@ export var usePieChart = function (props) {
         selectedIndex: selectedIndex,
         setSelectedIndex: setSelectedIndex,
         startAngle: pro ? (_u = props.startAngle) !== null && _u !== void 0 ? _u : 0 : startAngle,
-        endAngle: (_v = props.endAngle) !== null && _v !== void 0 ? _v : Math.PI * 2,
+        endAngle: (_v = props.endAngle) !== null && _v !== void 0 ? _v : startAngle + (semiCircle ? Math.PI : Math.PI * 2),
         setStartAngle: setStartAngle,
         total: total,
         setTotal: setTotal,

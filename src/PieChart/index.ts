@@ -144,7 +144,8 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     selectedIndex,
     setSelectedIndex,
     startAngle: pro ? props.startAngle ?? 0 : startAngle,
-    endAngle: props.endAngle ?? Math.PI * 2,
+    endAngle:
+      props.endAngle ?? startAngle + (semiCircle ? Math.PI : Math.PI * 2),
     setStartAngle,
     total,
     setTotal,

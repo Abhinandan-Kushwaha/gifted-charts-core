@@ -1,5 +1,6 @@
 import { type ColorValue } from 'react-native';
 import { type FontStyle } from 'react-native-svg';
+import { LabelsPosition } from '../utils/types';
 export interface PieChartPropsType {
     radius?: number;
     isThreeD?: boolean;
@@ -31,7 +32,7 @@ export interface PieChartPropsType {
     centerLabelComponent?: Function;
     tiltAngle?: string;
     initialAngle?: number;
-    labelsPosition?: 'onBorder' | 'outward' | 'inward' | 'mid';
+    labelsPosition?: LabelsPosition;
     showGradient?: boolean;
     gradientCenterColor?: string;
     onPress?: Function;

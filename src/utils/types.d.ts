@@ -7,6 +7,7 @@ export declare enum Framework {
     reactNative = 1
 }
 export type RuleType = 'solid' | 'dashed' | 'dotted' | string;
+export type LabelsPosition = 'onBorder' | 'outward' | 'inward' | 'mid';
 export interface RuleTypes {
     SOLID: RuleType;
     DASHED: RuleType;
