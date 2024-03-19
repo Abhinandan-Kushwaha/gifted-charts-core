@@ -7,12 +7,12 @@ import { type FontStyle } from 'react-native-svg'
 export enum chartTypes {
   BAR,
   LINE,
-  LINE_BI_COLOR,
+  LINE_BI_COLOR
 }
 
 export const defaultCurvature = 0.2
 const defaultCurveType = CurveType.CUBIC
-const defaultAnimationDuration = 800
+export const defaultAnimationDuration = 800
 const defaultScrollEventThrottle = 0
 const defaultEndReachedOffset = 80
 
@@ -20,13 +20,13 @@ const defaultEndReachedOffset = 80
 
 export enum yAxisSides {
   LEFT,
-  RIGHT,
+  RIGHT
 }
 
 export enum loc {
   IN,
   UP,
-  DOWN,
+  DOWN
 }
 
 export const SEGMENT_START = 'segmentStart'

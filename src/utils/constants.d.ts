@@ -7,6 +7,7 @@ export declare enum chartTypes {
     LINE_BI_COLOR = 2
 }
 export declare const defaultCurvature = 0.2;
+export declare const defaultAnimationDuration = 800;
 export declare enum yAxisSides {
     LEFT = 0,
     RIGHT = 1

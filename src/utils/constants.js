@@ -8,7 +8,7 @@ export var chartTypes;
 })(chartTypes || (chartTypes = {}));
 export var defaultCurvature = 0.2;
 var defaultCurveType = CurveType.CUBIC;
-var defaultAnimationDuration = 800;
+export var defaultAnimationDuration = 800;
 var defaultScrollEventThrottle = 0;
 var defaultEndReachedOffset = 80;
 // Bar and Line chart Specific

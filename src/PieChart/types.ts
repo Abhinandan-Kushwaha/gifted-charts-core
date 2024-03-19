@@ -52,11 +52,13 @@ export interface PieChartPropsType {
   pieInnerComponentWidth?: number
   paddingHorizontal?: number
   paddingVertical?: number
-  isAnimated?: boolean
   startAngle?: number
   endAngle?: number
-  curvedEdges?: boolean
+  curvedStartEdges?: boolean
+  curvedEndEdges?: boolean
   edgesRadius?: number
+  isAnimated?: boolean
+  animationDuration?: number
 }
 export interface pieDataItem {
   value: number
