@@ -117,7 +117,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     inwardExtraLengthForFocused = 0,
     isAnimated = false,
     edgesRadius,
-    endAngle = props.endAngle ?? startAngle + Math.PI * 2
+    endAngle = props.endAngle ?? startAngle + Math.PI * (semiCircle ? 1 : 2)
   } = props
 
   const canvasWidth = radius * 2
@@ -156,8 +156,8 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
 
   /**********************************       PRO                       **********************/
 
-  const animationDuration =
-    (props.animationDuration ?? defaultAnimationDuration) / 1000
+  const startAngleForPro = props.startAngle ?? 0
+  const animationDuration = props.animationDuration ?? defaultAnimationDuration
 
   const [isAnimating, setIsAnimating] = useState(isAnimated)
 
@@ -190,7 +190,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
   ) => {
     const addedValue =
       addValues(index - 1) + (addInOnlyEnd ? 0 : additionalValue ?? 0)
-    let angle = (addedValue / total) * endAngleLocal + startAngle
+    let angle = (addedValue / total) * endAngleLocal + startAngleForPro
     const startInnerX = radius + Math.cos(angle) * innerRadius
     const startInnerY = radius - Math.sin(angle) * innerRadius
     const startOuterX = radius + Math.cos(angle) * radius
@@ -200,7 +200,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
       addValues(index - 1) +
       data[index].value +
       (addInOnlyStart ? 0 : additionalValue ?? 0)
-    angle = (value / total) * endAngleLocal + startAngle
+    angle = (value / total) * endAngleLocal + startAngleForPro
 
     const endOuterX = radius + Math.cos(angle) * radius
     const endOuterY = radius - Math.sin(angle) * radius
@@ -222,7 +222,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
 
   const getTextCoordinates = (index: number, labelPos?: LabelsPosition) => {
     const value = addValues(index - 1) + data[index].value / 2
-    const angle = (value / total) * endAngleLocal + startAngle
+    const angle = (value / total) * endAngleLocal + startAngleForPro
 
     const labelPosition: LabelsPosition = labelPos || labelsPosition
 
@@ -370,7 +370,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     pi,
     selectedIndex,
     setSelectedIndex,
-    startAngle: pro ? props.startAngle ?? 0 : startAngle,
+    startAngle: pro ? startAngleForPro : startAngle,
     endAngle,
     setStartAngle,
     total,
@@ -394,7 +394,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     paddingHorizontal,
     paddingVertical,
     isAnimated,
-    animationDuration,
+    animationDuration: animationDuration / 1000,
 
     // PRO
 

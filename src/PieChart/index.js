@@ -64,7 +64,7 @@ export var usePieChart = function (props) {
             }
         }
     }, [selectedIndex]);
-    var pro = props.pro, data = props.data, donut = props.donut, isThreeD = props.isThreeD, semiCircle = props.semiCircle, _0 = props.inwardExtraLengthForFocused, inwardExtraLengthForFocused = _0 === void 0 ? 0 : _0, _1 = props.isAnimated, isAnimated = _1 === void 0 ? false : _1, edgesRadius = props.edgesRadius, _2 = props.endAngle, endAngle = _2 === void 0 ? (_e = props.endAngle) !== null && _e !== void 0 ? _e : startAngle + Math.PI * 2 : _2;
+    var pro = props.pro, data = props.data, donut = props.donut, isThreeD = props.isThreeD, semiCircle = props.semiCircle, _0 = props.inwardExtraLengthForFocused, inwardExtraLengthForFocused = _0 === void 0 ? 0 : _0, _1 = props.isAnimated, isAnimated = _1 === void 0 ? false : _1, edgesRadius = props.edgesRadius, _2 = props.endAngle, endAngle = _2 === void 0 ? (_e = props.endAngle) !== null && _e !== void 0 ? _e : startAngle + Math.PI * (semiCircle ? 1 : 2) : _2;
     var canvasWidth = radius * 2;
     var canvasHeight = isThreeD ? radius * 2.3 : radius * 2;
     var strokeWidth = (_f = props.strokeWidth) !== null && _f !== void 0 ? _f : 0;
@@ -89,7 +89,8 @@ export var usePieChart = function (props) {
         ? ((_u = props.textBackgroundRadius) !== null && _u !== void 0 ? _u : textSize) * 2 + 6
         : 0;
     /**********************************       PRO                       **********************/
-    var animationDuration = ((_v = props.animationDuration) !== null && _v !== void 0 ? _v : defaultAnimationDuration) / 1000;
+    var startAngleForPro = (_v = props.startAngle) !== null && _v !== void 0 ? _v : 0;
+    var animationDuration = (_w = props.animationDuration) !== null && _w !== void 0 ? _w : defaultAnimationDuration;
     var _3 = __read(useState(isAnimated), 2), isAnimating = _3[0], setIsAnimating = _3[1];
     useEffect(function () {
         if (isAnimated) {
@@ -113,7 +114,7 @@ export var usePieChart = function (props) {
             : 'mid';
     var getCoordinates = function (index, additionalValue, addInOnlyStart, addInOnlyEnd) {
         var addedValue = addValues(index - 1) + (addInOnlyEnd ? 0 : additionalValue !== null && additionalValue !== void 0 ? additionalValue : 0);
-        var angle = (addedValue / total) * endAngleLocal + startAngle;
+        var angle = (addedValue / total) * endAngleLocal + startAngleForPro;
         var startInnerX = radius + Math.cos(angle) * innerRadius;
         var startInnerY = radius - Math.sin(angle) * innerRadius;
         var startOuterX = radius + Math.cos(angle) * radius;
@@ -121,7 +122,7 @@ export var usePieChart = function (props) {
         var value = addValues(index - 1) +
             data[index].value +
             (addInOnlyStart ? 0 : additionalValue !== null && additionalValue !== void 0 ? additionalValue : 0);
-        angle = (value / total) * endAngleLocal + startAngle;
+        angle = (value / total) * endAngleLocal + startAngleForPro;
         var endOuterX = radius + Math.cos(angle) * radius;
         var endOuterY = radius - Math.sin(angle) * radius;
         var endInnerX = radius + Math.cos(angle) * innerRadius;
@@ -139,7 +140,7 @@ export var usePieChart = function (props) {
     };
     var getTextCoordinates = function (index, labelPos) {
         var value = addValues(index - 1) + data[index].value / 2;
-        var angle = (value / total) * endAngleLocal + startAngle;
+        var angle = (value / total) * endAngleLocal + startAngleForPro;
         var labelPosition = labelPos || labelsPosition;
         var x = radius +
             Math.cos(angle) *
@@ -234,7 +235,7 @@ export var usePieChart = function (props) {
         pi: pi,
         selectedIndex: selectedIndex,
         setSelectedIndex: setSelectedIndex,
-        startAngle: pro ? (_w = props.startAngle) !== null && _w !== void 0 ? _w : 0 : startAngle,
+        startAngle: pro ? startAngleForPro : startAngle,
         endAngle: endAngle,
         setStartAngle: setStartAngle,
         total: total,
@@ -258,7 +259,7 @@ export var usePieChart = function (props) {
         paddingHorizontal: paddingHorizontal,
         paddingVertical: paddingVertical,
         isAnimated: isAnimated,
-        animationDuration: animationDuration,
+        animationDuration: animationDuration / 1000,
         // PRO
         initial: initial,
         dInitial: dInitial,
