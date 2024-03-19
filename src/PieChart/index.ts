@@ -117,7 +117,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     inwardExtraLengthForFocused = 0,
     isAnimated = false,
     edgesRadius,
-    endAngle = props.endAngle ?? startAngle + Math.PI * (semiCircle ? 1 : 2)
+    endAngle = props.endAngle ?? startAngle + Math.PI * 2
   } = props
 
   const canvasWidth = radius * 2

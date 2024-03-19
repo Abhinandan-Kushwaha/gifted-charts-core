@@ -64,7 +64,7 @@ export var usePieChart = function (props) {
             }
         }
     }, [selectedIndex]);
-    var pro = props.pro, data = props.data, donut = props.donut, isThreeD = props.isThreeD, semiCircle = props.semiCircle, _0 = props.inwardExtraLengthForFocused, inwardExtraLengthForFocused = _0 === void 0 ? 0 : _0, _1 = props.isAnimated, isAnimated = _1 === void 0 ? false : _1, edgesRadius = props.edgesRadius, _2 = props.endAngle, endAngle = _2 === void 0 ? (_e = props.endAngle) !== null && _e !== void 0 ? _e : startAngle + Math.PI * (semiCircle ? 1 : 2) : _2;
+    var pro = props.pro, data = props.data, donut = props.donut, isThreeD = props.isThreeD, semiCircle = props.semiCircle, _0 = props.inwardExtraLengthForFocused, inwardExtraLengthForFocused = _0 === void 0 ? 0 : _0, _1 = props.isAnimated, isAnimated = _1 === void 0 ? false : _1, edgesRadius = props.edgesRadius, _2 = props.endAngle, endAngle = _2 === void 0 ? (_e = props.endAngle) !== null && _e !== void 0 ? _e : startAngle + Math.PI * 2 : _2;
     var canvasWidth = radius * 2;
     var canvasHeight = isThreeD ? radius * 2.3 : radius * 2;
     var strokeWidth = (_f = props.strokeWidth) !== null && _f !== void 0 ? _f : 0;
