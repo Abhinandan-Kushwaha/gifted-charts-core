@@ -1,3 +1,28 @@
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { defaultAnimationDuration } from '../utils/constants';
 export var usePiePro = function (props) {
     var _a, _b;
@@ -5,7 +30,7 @@ export var usePiePro = function (props) {
     var endAngle = (_a = props.endAngle) !== null && _a !== void 0 ? _a : startAngle + Math.PI * (semiCircle ? 1 : 2);
     var total = data.reduce(function (acc, item) { return acc + item.value; }, 0);
     var animationDuration = (_b = props.animationDuration) !== null && _b !== void 0 ? _b : defaultAnimationDuration;
-    var endAngleLocal = 0;
+    //   let endAngleLocal = 0
     var addValues = function (index) {
         if (index < 0)
             return 0;
@@ -21,7 +46,7 @@ export var usePiePro = function (props) {
             : 'mid';
     var getCoordinates = function (index, additionalValue, addInOnlyStart, addInOnlyEnd) {
         var addedValue = addValues(index - 1) + (addInOnlyEnd ? 0 : additionalValue !== null && additionalValue !== void 0 ? additionalValue : 0);
-        var angle = (addedValue / total) * endAngleLocal + startAngle;
+        var angle = (addedValue / total) * endAngle + startAngle;
         var startInnerX = radius + Math.cos(angle) * innerRadius;
         var startInnerY = radius - Math.sin(angle) * innerRadius;
         var startOuterX = radius + Math.cos(angle) * radius;
@@ -29,7 +54,7 @@ export var usePiePro = function (props) {
         var value = addValues(index - 1) +
             data[index].value +
             (addInOnlyStart ? 0 : additionalValue !== null && additionalValue !== void 0 ? additionalValue : 0);
-        angle = (value / total) * endAngleLocal + startAngle;
+        angle = (value / total) * endAngle + startAngle;
         var endOuterX = radius + Math.cos(angle) * radius;
         var endOuterY = radius - Math.sin(angle) * radius;
         var endInnerX = radius + Math.cos(angle) * innerRadius;
@@ -47,7 +72,7 @@ export var usePiePro = function (props) {
     };
     var getTextCoordinates = function (index, labelPos) {
         var value = addValues(index - 1) + data[index].value / 2;
-        var angle = (value / total) * endAngleLocal + startAngle;
+        var angle = (value / total) * endAngle + startAngle;
         var labelPosition = labelPos || labelsPosition;
         var x = radius +
             Math.cos(angle) *
@@ -128,12 +153,15 @@ export var usePiePro = function (props) {
         var path = "M".concat(endInnerX, ",").concat(endInnerY, " A").concat(edgeRadius, ",").concat(edgeRadius, " 0 0 1 ").concat(endOuterX, ",").concat(endOuterY);
         return path;
     };
-    var dInitial = data.map(function (item, index) {
+    var dataForInitialPath = isAnimated
+        ? data
+        : __spreadArray(__spreadArray([], __read(data), false), [{ value: total * 100 }], false);
+    var dataForFinalPath = isAnimated ? data : __spreadArray(__spreadArray([], __read(data), false), [{ value: 0 }], false);
+    var dInitial = dataForInitialPath.map(function (item, index) {
         return "".concat(initial || getInitial(item), " ").concat(donut ? getDonutPath(index, item) : getPath(index));
     });
-    endAngleLocal = endAngle;
     initial = '';
-    var dFinal = data.map(function (item, index) {
+    var dFinal = dataForFinalPath.map(function (item, index) {
         return "".concat(initial || getInitial(item), " ").concat(donut ? getDonutPath(index, item) : getPath(index));
     });
     return {

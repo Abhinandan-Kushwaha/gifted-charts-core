@@ -10,7 +10,6 @@ interface IusePiePro {
     initial: string;
     dInitial: string[];
     dFinal: string[];
-    isAnimating?: boolean;
     getStartCaps: (index: number, item: pieDataItem) => string;
     getEndCaps: (index: number, item: pieDataItem) => string;
     getTextCoordinates: (index: number, labelPos?: LabelsPosition) => {

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { defaultAnimationDuration } from '../utils/constants'
 import { PieChartPropsType, pieDataItem } from './types'
 import { LabelsPosition } from '../utils/types'
@@ -13,7 +12,6 @@ interface IusePiePro {
   initial: string
   dInitial: string[]
   dFinal: string[]
-  isAnimating?: boolean
   getStartCaps: (index: number, item: pieDataItem) => string
   getEndCaps: (index: number, item: pieDataItem) => string
   getTextCoordinates: (
@@ -39,7 +37,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   const total = data.reduce((acc, item) => acc + item.value, 0)
   const animationDuration = props.animationDuration ?? defaultAnimationDuration
 
-  let endAngleLocal = 0
+  //   let endAngleLocal = 0
 
   const addValues = (index: number) => {
     if (index < 0) return 0
@@ -61,7 +59,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   ) => {
     const addedValue =
       addValues(index - 1) + (addInOnlyEnd ? 0 : additionalValue ?? 0)
-    let angle = (addedValue / total) * endAngleLocal + startAngle
+    let angle = (addedValue / total) * endAngle + startAngle
     const startInnerX = radius + Math.cos(angle) * innerRadius
     const startInnerY = radius - Math.sin(angle) * innerRadius
     const startOuterX = radius + Math.cos(angle) * radius
@@ -71,7 +69,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
       addValues(index - 1) +
       data[index].value +
       (addInOnlyStart ? 0 : additionalValue ?? 0)
-    angle = (value / total) * endAngleLocal + startAngle
+    angle = (value / total) * endAngle + startAngle
 
     const endOuterX = radius + Math.cos(angle) * radius
     const endOuterY = radius - Math.sin(angle) * radius
@@ -93,7 +91,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
 
   const getTextCoordinates = (index: number, labelPos?: LabelsPosition) => {
     const value = addValues(index - 1) + data[index].value / 2
-    const angle = (value / total) * endAngleLocal + startAngle
+    const angle = (value / total) * endAngle + startAngle
 
     const labelPosition: LabelsPosition = labelPos || labelsPosition
 
@@ -219,16 +217,20 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     return path
   }
 
-  const dInitial = data.map(
+  const dataForInitialPath = isAnimated
+    ? data
+    : [...data, { value: total * 100 }]
+  const dataForFinalPath = isAnimated ? data : [...data, { value: 0 }]
+
+  const dInitial = dataForInitialPath.map(
     (item, index) =>
       `${initial || getInitial(item)} ${
         donut ? getDonutPath(index, item) : getPath(index)
       }`
   )
 
-  endAngleLocal = endAngle
   initial = ''
-  const dFinal = data.map(
+  const dFinal = dataForFinalPath.map(
     (item, index) =>
       `${initial || getInitial(item)} ${
         donut ? getDonutPath(index, item) : getPath(index)
