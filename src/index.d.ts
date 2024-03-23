@@ -15,6 +15,7 @@ export { type LineChartPropsType, type lineDataItem, type bicolorLineDataItem, t
 /*****************************************              Pie Chart              *****************************************
 /***********************************************************************************************************************/
 export { usePieChart } from './PieChart';
+export { usePiePro } from './PieChart/pro';
 export { getPieChartMainProps } from './PieChart/main';
 export { type PieChartPropsType, type pieDataItem, type PieChartMainProps } from './PieChart/types';
 /***********************************************************************************************************************

@@ -37,6 +37,7 @@ export {
 /***********************************************************************************************************************/
 
 export { usePieChart } from './PieChart'
+export { usePiePro } from './PieChart/pro'
 export { getPieChartMainProps } from './PieChart/main'
 export {
   type PieChartPropsType,
