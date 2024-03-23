@@ -55,11 +55,12 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     index: number,
     additionalValue?: number,
     addInOnlyStart?: boolean,
-    addInOnlyEnd?: boolean
+    addInOnlyEnd?: boolean,
+    totalParam?: number
   ) => {
     const addedValue =
       addValues(index - 1) + (addInOnlyEnd ? 0 : additionalValue ?? 0)
-    let angle = (addedValue / total) * endAngle + startAngle
+    let angle = (addedValue / (totalParam ?? total)) * endAngle + startAngle
     const startInnerX = radius + Math.cos(angle) * innerRadius
     const startInnerY = radius - Math.sin(angle) * innerRadius
     const startOuterX = radius + Math.cos(angle) * radius
@@ -69,7 +70,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
       addValues(index - 1) +
       data[index].value +
       (addInOnlyStart ? 0 : additionalValue ?? 0)
-    angle = (value / total) * endAngle + startAngle
+    angle = (value / (totalParam ?? total)) * endAngle + startAngle
 
     const endOuterX = radius + Math.cos(angle) * radius
     const endOuterY = radius - Math.sin(angle) * radius
@@ -131,10 +132,16 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     }
     return `M${radius + innerRadius},${radius} h${radius - innerRadius} `
   }
-  const getPath = (index: number) => {
-    const { endOuterX, endOuterY } = getCoordinates(index)
+  const getPath = (index: number, totalParam?: number) => {
+    const { endOuterX, endOuterY } = getCoordinates(
+      index,
+      0,
+      false,
+      false,
+      totalParam
+    )
 
-    const isLargeArc = data[index].value / total > 0.5 ? 1 : 0
+    const isLargeArc = data[index].value / (totalParam ?? total) > 0.5 ? 1 : 0
 
     const arc = `A${
       radius + (props.strokeWidth ?? 0) / 2
@@ -146,7 +153,11 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
 
     return path
   }
-  const getDonutPath = (index: number, item: pieDataItem) => {
+  const getDonutPath = (
+    index: number,
+    item: pieDataItem,
+    totalParam?: number
+  ) => {
     const additionalForStart =
       item.isStartEdgeCurved || item.startEdgeRadius
         ? (radius - innerRadius) / (radius / 20)
@@ -172,10 +183,11 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
       index,
       cropAtEnd ? additionalForEnd : additionalForStart,
       !cropAtEnd,
-      cropAtEnd
+      cropAtEnd,
+      totalParam
     )
 
-    const isLargeArc = data[index].value / total > 0.5 ? 1 : 0
+    const isLargeArc = data[index].value / (totalParam ?? total) > 0.5 ? 1 : 0
 
     const innerArc = `A${innerRadius},${innerRadius} 0 ${isLargeArc} 1 `
     const outerArc = `A${
@@ -225,7 +237,9 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   const dInitial = dataForInitialPath.map(
     (item, index) =>
       `${initial || getInitial(item)} ${
-        donut ? getDonutPath(index, item) : getPath(index)
+        donut
+          ? getDonutPath(index, item, total * 101)
+          : getPath(index, total * 101)
       }`
   )
 

@@ -44,9 +44,9 @@ export var usePiePro = function (props) {
         : donut || props.centerLabelComponent
             ? 'outward'
             : 'mid';
-    var getCoordinates = function (index, additionalValue, addInOnlyStart, addInOnlyEnd) {
+    var getCoordinates = function (index, additionalValue, addInOnlyStart, addInOnlyEnd, totalParam) {
         var addedValue = addValues(index - 1) + (addInOnlyEnd ? 0 : additionalValue !== null && additionalValue !== void 0 ? additionalValue : 0);
-        var angle = (addedValue / total) * endAngle + startAngle;
+        var angle = (addedValue / (totalParam !== null && totalParam !== void 0 ? totalParam : total)) * endAngle + startAngle;
         var startInnerX = radius + Math.cos(angle) * innerRadius;
         var startInnerY = radius - Math.sin(angle) * innerRadius;
         var startOuterX = radius + Math.cos(angle) * radius;
@@ -54,7 +54,7 @@ export var usePiePro = function (props) {
         var value = addValues(index - 1) +
             data[index].value +
             (addInOnlyStart ? 0 : additionalValue !== null && additionalValue !== void 0 ? additionalValue : 0);
-        angle = (value / total) * endAngle + startAngle;
+        angle = (value / (totalParam !== null && totalParam !== void 0 ? totalParam : total)) * endAngle + startAngle;
         var endOuterX = radius + Math.cos(angle) * radius;
         var endOuterY = radius - Math.sin(angle) * radius;
         var endInnerX = radius + Math.cos(angle) * innerRadius;
@@ -104,16 +104,16 @@ export var usePiePro = function (props) {
         }
         return "M".concat(radius + innerRadius, ",").concat(radius, " h").concat(radius - innerRadius, " ");
     };
-    var getPath = function (index) {
+    var getPath = function (index, totalParam) {
         var _a;
-        var _b = getCoordinates(index), endOuterX = _b.endOuterX, endOuterY = _b.endOuterY;
-        var isLargeArc = data[index].value / total > 0.5 ? 1 : 0;
+        var _b = getCoordinates(index, 0, false, false, totalParam), endOuterX = _b.endOuterX, endOuterY = _b.endOuterY;
+        var isLargeArc = data[index].value / (totalParam !== null && totalParam !== void 0 ? totalParam : total) > 0.5 ? 1 : 0;
         var arc = "A".concat(radius + ((_a = props.strokeWidth) !== null && _a !== void 0 ? _a : 0) / 2, ",").concat(radius, " 0 ").concat(isLargeArc, " 0 ");
         var path = "".concat(arc, " ").concat(endOuterX, ", ").concat(endOuterY, "\n      L").concat(radius, ",").concat(radius, " ");
         initial = "M".concat(radius, ",").concat(radius, " L").concat(endOuterX, ",").concat(endOuterY);
         return path;
     };
-    var getDonutPath = function (index, item) {
+    var getDonutPath = function (index, item, totalParam) {
         var _a;
         var additionalForStart = item.isStartEdgeCurved || item.startEdgeRadius
             ? (radius - innerRadius) / (radius / 20)
@@ -123,8 +123,8 @@ export var usePiePro = function (props) {
             : 0;
         var cropAtEnd = !!(index === data.length - 1 &&
             (item.isEndEdgeCurved || item.endEdgeRadius));
-        var _b = getCoordinates(index, cropAtEnd ? additionalForEnd : additionalForStart, !cropAtEnd, cropAtEnd), startInnerX = _b.startInnerX, startInnerY = _b.startInnerY, endOuterX = _b.endOuterX, endOuterY = _b.endOuterY, endInnerX = _b.endInnerX, endInnerY = _b.endInnerY;
-        var isLargeArc = data[index].value / total > 0.5 ? 1 : 0;
+        var _b = getCoordinates(index, cropAtEnd ? additionalForEnd : additionalForStart, !cropAtEnd, cropAtEnd, totalParam), startInnerX = _b.startInnerX, startInnerY = _b.startInnerY, endOuterX = _b.endOuterX, endOuterY = _b.endOuterY, endInnerX = _b.endInnerX, endInnerY = _b.endInnerY;
+        var isLargeArc = data[index].value / (totalParam !== null && totalParam !== void 0 ? totalParam : total) > 0.5 ? 1 : 0;
         var innerArc = "A".concat(innerRadius, ",").concat(innerRadius, " 0 ").concat(isLargeArc, " 1 ");
         var outerArc = "A".concat(radius + ((_a = props.strokeWidth) !== null && _a !== void 0 ? _a : 0) / 2, ",").concat(radius, " 0 ").concat(isLargeArc, " 0 ");
         var path = "".concat(outerArc, " ").concat(endOuterX, ", ").concat(endOuterY, "\n      L").concat(endInnerX, ",").concat(endInnerY, " M").concat(endInnerX, ",").concat(endInnerY, " ").concat(innerArc, " ").concat(startInnerX, ",").concat(startInnerY);
@@ -158,7 +158,9 @@ export var usePiePro = function (props) {
         : __spreadArray(__spreadArray([], __read(data), false), [{ value: total * 100 }], false);
     var dataForFinalPath = isAnimated ? data : __spreadArray(__spreadArray([], __read(data), false), [{ value: 0 }], false);
     var dInitial = dataForInitialPath.map(function (item, index) {
-        return "".concat(initial || getInitial(item), " ").concat(donut ? getDonutPath(index, item) : getPath(index));
+        return "".concat(initial || getInitial(item), " ").concat(donut
+            ? getDonutPath(index, item, total * 101)
+            : getPath(index, total * 101));
     });
     initial = '';
     var dFinal = dataForFinalPath.map(function (item, index) {
