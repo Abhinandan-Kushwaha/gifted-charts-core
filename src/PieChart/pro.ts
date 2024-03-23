@@ -20,6 +20,7 @@ interface IusePiePro {
     index: number,
     labelPos?: LabelsPosition
   ) => { x: number; y: number }
+  labelsPosition: LabelsPosition
 }
 
 export const usePiePro = (props: PieChartPropsType): IusePiePro => {
@@ -37,15 +38,6 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   let endAngle = props.endAngle ?? startAngle + Math.PI * (semiCircle ? 1 : 2)
   const total = data.reduce((acc, item) => acc + item.value, 0)
   const animationDuration = props.animationDuration ?? defaultAnimationDuration
-
-  const [isAnimating, setIsAnimating] = useState(isAnimated)
-
-  useEffect(() => {
-    if (isAnimated) {
-      setIsAnimating(true)
-      setTimeout(() => setIsAnimating(false), animationDuration)
-    }
-  }, [])
 
   let endAngleLocal = 0
 
@@ -253,9 +245,9 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     initial,
     dInitial,
     dFinal,
-    isAnimating,
     getStartCaps,
     getEndCaps,
-    getTextCoordinates
+    getTextCoordinates,
+    labelsPosition
   }
 }

@@ -17,6 +17,7 @@ interface IusePiePro {
         x: number;
         y: number;
     };
+    labelsPosition: LabelsPosition;
 }
 export declare const usePiePro: (props: PieChartPropsType) => IusePiePro;
 export {};

@@ -1,20 +1,3 @@
-var __read = (this && this.__read) || function (o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-};
-import { useEffect, useState } from 'react';
 import { defaultAnimationDuration } from '../utils/constants';
 export var usePiePro = function (props) {
     var _a, _b;
@@ -22,13 +5,6 @@ export var usePiePro = function (props) {
     var endAngle = (_a = props.endAngle) !== null && _a !== void 0 ? _a : startAngle + Math.PI * (semiCircle ? 1 : 2);
     var total = data.reduce(function (acc, item) { return acc + item.value; }, 0);
     var animationDuration = (_b = props.animationDuration) !== null && _b !== void 0 ? _b : defaultAnimationDuration;
-    var _h = __read(useState(isAnimated), 2), isAnimating = _h[0], setIsAnimating = _h[1];
-    useEffect(function () {
-        if (isAnimated) {
-            setIsAnimating(true);
-            setTimeout(function () { return setIsAnimating(false); }, animationDuration);
-        }
-    }, []);
     var endAngleLocal = 0;
     var addValues = function (index) {
         if (index < 0)
@@ -170,9 +146,9 @@ export var usePiePro = function (props) {
         initial: initial,
         dInitial: dInitial,
         dFinal: dFinal,
-        isAnimating: isAnimating,
         getStartCaps: getStartCaps,
         getEndCaps: getEndCaps,
-        getTextCoordinates: getTextCoordinates
+        getTextCoordinates: getTextCoordinates,
+        labelsPosition: labelsPosition
     };
 };
