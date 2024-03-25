@@ -28,13 +28,13 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     donut,
     semiCircle,
     radius = 120,
-    innerRadius = radius / 2.5,
+    innerRadius = donut ? radius / 2.5 : 0,
     strokeWidth = 0,
     edgesRadius = 0,
     startAngle = 0
   } = props
   let endAngle = props.endAngle ?? startAngle + Math.PI * (semiCircle ? 1 : 2)
-  const total = data.reduce((acc, item) => acc + item.value, 0)
+  const total = data.reduce((acc, item) => acc + item?.value, 0)
   const animationDuration = props.animationDuration ?? defaultAnimationDuration
 
   //   let endAngleLocal = 0
@@ -42,7 +42,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   const addValues = (index: number) => {
     if (index < 0) return 0
     let sum = 0
-    for (let i = 0; i <= index; i++) sum += data[i].value
+    for (let i = 0; i <= index; i++) sum += data[i]?.value
     return sum
   }
   const labelsPosition = props.labelsPosition
@@ -68,7 +68,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
 
     const value =
       addValues(index - 1) +
-      data[index].value +
+      data[index]?.value +
       (addInOnlyStart ? 0 : additionalValue ?? 0)
     angle = (value / (totalParam ?? total)) * endAngle + startAngle
 
@@ -91,7 +91,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   }
 
   const getTextCoordinates = (index: number, labelPos?: LabelsPosition) => {
-    const value = addValues(index - 1) + data[index].value / 2
+    const value = addValues(index - 1) + data[index]?.value / 2
     const angle = (value / total) * endAngle + startAngle
 
     const labelPosition: LabelsPosition = labelPos || labelsPosition
@@ -141,7 +141,11 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
       totalParam
     )
 
-    const isLargeArc = data[index].value / (totalParam ?? total) > 0.5 ? 1 : 0
+    const isLargeArc = semiCircle
+      ? 0
+      : data[index]?.value / (totalParam ?? total) > 0.5
+      ? 1
+      : 0
 
     const arc = `A${
       radius + (props.strokeWidth ?? 0) / 2
@@ -187,7 +191,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
       totalParam
     )
 
-    const isLargeArc = data[index].value / (totalParam ?? total) > 0.5 ? 1 : 0
+    const isLargeArc = data[index]?.value / (totalParam ?? total) > 0.5 ? 1 : 0
 
     const innerArc = `A${innerRadius},${innerRadius} 0 ${isLargeArc} 1 `
     const outerArc = `A${

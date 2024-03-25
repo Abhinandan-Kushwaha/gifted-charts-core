@@ -120,7 +120,8 @@ export {
   LineDefaults,
   defaultPointerConfig,
   pieColors,
-  populationDefaults
+  populationDefaults,
+  defaultAnimationDuration
 } from './utils/constants'
 
 export {
