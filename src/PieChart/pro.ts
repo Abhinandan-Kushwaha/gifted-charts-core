@@ -190,8 +190,11 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
       cropAtEnd,
       totalParam
     )
-
-    const isLargeArc = data[index]?.value / (totalParam ?? total) > 0.5 ? 1 : 0
+    const isLargeArc = semiCircle
+      ? 0
+      : data[index]?.value / (totalParam ?? total) > 0.5
+      ? 1
+      : 0
 
     const innerArc = `A${innerRadius},${innerRadius} 0 ${isLargeArc} 1 `
     const outerArc = `A${
@@ -233,12 +236,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     return path
   }
 
-  const dataForInitialPath = isAnimated
-    ? data
-    : [...data, { value: total * 100 }]
-  const dataForFinalPath = isAnimated ? data : [...data, { value: 0 }]
-
-  const dInitial = dataForInitialPath.map(
+  const dInitial = data.map(
     (item, index) =>
       `${initial || getInitial(item)} ${
         donut
@@ -248,7 +246,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   )
 
   initial = ''
-  const dFinal = dataForFinalPath.map(
+  const dFinal = data.map(
     (item, index) =>
       `${initial || getInitial(item)} ${
         donut ? getDonutPath(index, item) : getPath(index)
