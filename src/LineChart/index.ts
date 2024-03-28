@@ -727,13 +727,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     i: number,
     lineSegment: LineSegment[] | undefined,
     startIndex: number,
-    endIndex: number
+    endIndex: number,
+    isSecondary?: boolean
   ): string => {
     let path =
       'L' +
       getX(i) +
       ' ' +
-      getY(data[i].value) +
+      (isSecondary ? getSecondaryY(data[i].value) : getY(data[i].value)) +
       ' ' +
       getSegmentString(lineSegment, i, SEGMENT_START, SEGMENT_END)
 
@@ -764,7 +765,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               i >= (set.startIndex ?? 0) &&
               i <= (set.endIndex ?? set.data.length - 1)
             ) {
-              pArray.push([getX(i), getY(set.data[i].value)])
+              pArray.push([
+                getX(i),
+                set.isSecondary
+                  ? getSecondaryY(set.data[i].value)
+                  : getY(set.data[i].value)
+              ])
             }
           }
           let xx = svgPath(
@@ -825,7 +831,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
                   i,
                   set.lineSegments,
                   set.startIndex ?? 0,
-                  set.endIndex ?? set.data.length - 1
+                  set.endIndex ?? set.data.length - 1,
+                  set.isSecondary
                 )
               }
             }

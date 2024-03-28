@@ -34,9 +34,9 @@ export var usePiePro = function (props) {
     var heightFactor = semiCircle ? 1 : 2;
     var height = radius + maxStrokeWidth;
     var svgProps = {
-        height: (radius + maxStrokeWidth) * 2,
-        width: (radius + maxStrokeWidth) * 2,
-        viewBox: "".concat(-maxStrokeWidth, " ").concat(-maxStrokeWidth - (semiCircle ? height / 2 : 0), " ").concat((radius + maxStrokeWidth) * 2, " ").concat((radius + maxStrokeWidth) * 2)
+        height: height * 2,
+        width: height * 2,
+        viewBox: "".concat(-maxStrokeWidth * 1.5, " ").concat(-maxStrokeWidth - (semiCircle ? height / 2 : 0), " ").concat(height * 2, " ").concat(height * 2)
     };
     //   let endAngleLocal = 0
     var addValues = function (index) {

@@ -414,11 +414,11 @@ export var useLineChart = function (props) {
             getY(data[i].value) +
             getNextPoint(data, i, around, before));
     };
-    var getSegmentPath = function (data, i, lineSegment, startIndex, endIndex) {
+    var getSegmentPath = function (data, i, lineSegment, startIndex, endIndex, isSecondary) {
         var path = 'L' +
             getX(i) +
             ' ' +
-            getY(data[i].value) +
+            (isSecondary ? getSecondaryY(data[i].value) : getY(data[i].value)) +
             ' ' +
             getSegmentString(lineSegment, i, SEGMENT_START, SEGMENT_END);
         if (highlightedRange) {
@@ -439,7 +439,12 @@ export var useLineChart = function (props) {
                     for (var i = 0; i < set.data.length; i++) {
                         if (i >= ((_b = set.startIndex) !== null && _b !== void 0 ? _b : 0) &&
                             i <= ((_c = set.endIndex) !== null && _c !== void 0 ? _c : set.data.length - 1)) {
-                            pArray.push([getX(i), getY(set.data[i].value)]);
+                            pArray.push([
+                                getX(i),
+                                set.isSecondary
+                                    ? getSecondaryY(set.data[i].value)
+                                    : getY(set.data[i].value)
+                            ]);
                         }
                     }
                     var xx = svgPath(pArray, (_d = set.curveType) !== null && _d !== void 0 ? _d : curveType, (_e = set.curvature) !== null && _e !== void 0 ? _e : curvature);
@@ -468,7 +473,7 @@ export var useLineChart = function (props) {
                                 pp += getStepPath(set.data, i);
                             }
                             else {
-                                pp += getSegmentPath(set.data, i, set.lineSegments, (_l = set.startIndex) !== null && _l !== void 0 ? _l : 0, (_m = set.endIndex) !== null && _m !== void 0 ? _m : set.data.length - 1);
+                                pp += getSegmentPath(set.data, i, set.lineSegments, (_l = set.startIndex) !== null && _l !== void 0 ? _l : 0, (_m = set.endIndex) !== null && _m !== void 0 ? _m : set.data.length - 1, set.isSecondary);
                             }
                         }
                     }

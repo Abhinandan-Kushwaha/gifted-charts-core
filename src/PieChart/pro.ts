@@ -57,11 +57,11 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   const height = radius + maxStrokeWidth
 
   const svgProps = {
-    height: (radius + maxStrokeWidth) * 2,
-    width: (radius + maxStrokeWidth) * 2,
-    viewBox: `${-maxStrokeWidth} ${
+    height: height * 2,
+    width: height * 2,
+    viewBox: `${-maxStrokeWidth * 1.5} ${
       -maxStrokeWidth - (semiCircle ? height / 2 : 0)
-    } ${(radius + maxStrokeWidth) * 2} ${(radius + maxStrokeWidth) * 2}`
+    } ${height * 2} ${height * 2}`
   }
 
   //   let endAngleLocal = 0

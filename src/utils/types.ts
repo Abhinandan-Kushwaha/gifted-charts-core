@@ -371,4 +371,5 @@ export interface DataSet {
   curvature?: number
   curveType?: CurveType
   lineSegments?: LineSegment[]
+  isSecondary?: boolean
 }

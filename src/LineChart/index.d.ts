@@ -306,7 +306,7 @@ export declare const useLineChart: (props: extendedLineChartPropsType) => {
     addLeadingAndTrailingPathForAreaFill: (initialPath: string, value: number, dataLength: number) => string;
     getNextPoint: (data: lineDataItem[], index: number, around: boolean, before: boolean) => string;
     getStepPath: (data: lineDataItem[], i: number) => string;
-    getSegmentPath: (data: lineDataItem[], i: number, lineSegment: LineSegment[] | undefined, startIndex: number, endIndex: number) => string;
+    getSegmentPath: (data: lineDataItem[], i: number, lineSegment: LineSegment[] | undefined, startIndex: number, endIndex: number, isSecondary?: boolean) => string;
     gradientDirection: string;
     horizSections: {
         value: string;
