@@ -5,6 +5,7 @@ export interface PieChartPropsType {
     radius?: number;
     isThreeD?: boolean;
     donut?: boolean;
+    ring?: boolean;
     innerRadius?: number;
     shadow?: boolean;
     innerCircleColor?: ColorValue;
@@ -16,6 +17,7 @@ export interface PieChartPropsType {
     shadowWidth?: number;
     strokeWidth?: number;
     strokeColor?: string;
+    strokeDashArray?: number[];
     backgroundColor?: string;
     data: pieDataItem[];
     semiCircle?: boolean;
@@ -79,6 +81,7 @@ export interface pieDataItem {
     onPress?: Function;
     onLabelPress?: Function;
     strokeWidth?: number;
+    strokeDashArray?: number[];
     strokeColor?: string;
     focused?: boolean;
     peripheral?: boolean;

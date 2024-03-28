@@ -1,10 +1,16 @@
 import { PieChartPropsType, pieDataItem } from './types';
 import { LabelsPosition } from '../utils/types';
+interface IsvgProps {
+    height: number;
+    width: number;
+    viewBox: string;
+}
 interface IusePiePro {
     radius: number;
     total: number;
     donut?: boolean;
     strokeWidth: number;
+    maxStrokeWidth: number;
     isAnimated?: boolean;
     animationDuration: number;
     initial: string;
@@ -17,6 +23,9 @@ interface IusePiePro {
         y: number;
     };
     labelsPosition: LabelsPosition;
+    heightFactor: number;
+    height: number;
+    svgProps: IsvgProps;
 }
 export declare const usePiePro: (props: PieChartPropsType) => IusePiePro;
 export {};

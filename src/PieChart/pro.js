@@ -1,10 +1,43 @@
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import { defaultAnimationDuration } from '../utils/constants';
 export var usePiePro = function (props) {
     var _a, _b;
-    var data = props.data, isAnimated = props.isAnimated, donut = props.donut, semiCircle = props.semiCircle, _c = props.radius, radius = _c === void 0 ? 120 : _c, _d = props.innerRadius, innerRadius = _d === void 0 ? donut ? radius / 2.5 : 0 : _d, _e = props.strokeWidth, strokeWidth = _e === void 0 ? 0 : _e, _f = props.edgesRadius, edgesRadius = _f === void 0 ? 0 : _f, _g = props.startAngle, startAngle = _g === void 0 ? 0 : _g;
+    var data = props.data, isAnimated = props.isAnimated, donut = props.donut, semiCircle = props.semiCircle, _c = props.radius, radius = _c === void 0 ? 120 : _c, _d = props.innerRadius, innerRadius = _d === void 0 ? donut ? radius / 2.5 : 0 : _d, _e = props.strokeWidth, strokeWidth = _e === void 0 ? 0 : _e, _f = props.edgesRadius, edgesRadius = _f === void 0 ? 0 : _f, _g = props.startAngle, startAngle = _g === void 0 ? 0 : _g, ring = props.ring;
     var endAngle = (_a = props.endAngle) !== null && _a !== void 0 ? _a : startAngle + Math.PI * (semiCircle ? 1 : 2);
     var total = data.reduce(function (acc, item) { return acc + (item === null || item === void 0 ? void 0 : item.value); }, 0);
     var animationDuration = (_b = props.animationDuration) !== null && _b !== void 0 ? _b : defaultAnimationDuration;
+    var maxStrokeWidth = Math.max.apply(Math, __spreadArray(__spreadArray([], __read(data.map(function (item) { var _a; return (_a = item.strokeWidth) !== null && _a !== void 0 ? _a : 0; })), false), [strokeWidth], false));
+    var heightFactor = semiCircle ? 1 : 2;
+    var height = radius + maxStrokeWidth;
+    var svgProps = {
+        height: (radius + maxStrokeWidth) * 2,
+        width: (radius + maxStrokeWidth) * 2,
+        viewBox: "".concat(-maxStrokeWidth, " ").concat(-maxStrokeWidth - (semiCircle ? height / 2 : 0), " ").concat((radius + maxStrokeWidth) * 2, " ").concat((radius + maxStrokeWidth) * 2)
+    };
     //   let endAngleLocal = 0
     var addValues = function (index) {
         var _a;
@@ -80,7 +113,9 @@ export var usePiePro = function (props) {
             var _a = getCoordinates(0, (radius - innerRadius) / (radius / 20)), startInnerX = _a.startInnerX, startInnerY = _a.startInnerY, startOuterX = _a.startOuterX, startOuterY = _a.startOuterY;
             return "M".concat(startInnerX, ",").concat(startInnerY, " L").concat(startOuterX, ",").concat(startOuterY, " ");
         }
-        return "M".concat(radius + innerRadius, ",").concat(radius, " h").concat(radius - innerRadius, " ");
+        return ring
+            ? "M".concat(radius * 2, ",").concat(radius)
+            : "M".concat(radius + innerRadius, ",").concat(radius, " h").concat(radius - innerRadius, " ");
     };
     var getPath = function (index, totalParam) {
         var _a, _b;
@@ -91,8 +126,13 @@ export var usePiePro = function (props) {
                 ? 1
                 : 0;
         var arc = "A".concat(radius + ((_b = props.strokeWidth) !== null && _b !== void 0 ? _b : 0) / 2, ",").concat(radius, " 0 ").concat(isLargeArc, " 0 ");
-        var path = "".concat(arc, " ").concat(endOuterX, ", ").concat(endOuterY, "\n      L").concat(radius, ",").concat(radius, " ");
-        initial = "M".concat(radius, ",").concat(radius, " L").concat(endOuterX, ",").concat(endOuterY);
+        var path = "".concat(arc, " ").concat(endOuterX, ", ").concat(endOuterY, " ");
+        if (!ring) {
+            path += "L".concat(radius, ",").concat(radius, " ");
+        }
+        initial = ring
+            ? "M".concat(endOuterX, ",").concat(endOuterY, " ")
+            : "M".concat(radius, ",").concat(radius, " L").concat(endOuterX, ",").concat(endOuterY);
         return path;
     };
     var getDonutPath = function (index, item, totalParam) {
@@ -153,6 +193,7 @@ export var usePiePro = function (props) {
         total: total,
         donut: donut,
         strokeWidth: strokeWidth,
+        maxStrokeWidth: maxStrokeWidth,
         isAnimated: isAnimated,
         animationDuration: animationDuration,
         initial: initial,
@@ -161,6 +202,9 @@ export var usePiePro = function (props) {
         getStartCaps: getStartCaps,
         getEndCaps: getEndCaps,
         getTextCoordinates: getTextCoordinates,
-        labelsPosition: labelsPosition
+        labelsPosition: labelsPosition,
+        heightFactor: heightFactor,
+        height: height,
+        svgProps: svgProps
     };
 };

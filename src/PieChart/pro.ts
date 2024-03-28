@@ -2,11 +2,18 @@ import { defaultAnimationDuration } from '../utils/constants'
 import { PieChartPropsType, pieDataItem } from './types'
 import { LabelsPosition } from '../utils/types'
 
+interface IsvgProps {
+  height: number
+  width: number
+  viewBox: string
+}
+
 interface IusePiePro {
   radius: number
   total: number
   donut?: boolean
   strokeWidth: number
+  maxStrokeWidth: number
   isAnimated?: boolean
   animationDuration: number
   initial: string
@@ -19,6 +26,9 @@ interface IusePiePro {
     labelPos?: LabelsPosition
   ) => { x: number; y: number }
   labelsPosition: LabelsPosition
+  heightFactor: number
+  height: number
+  svgProps: IsvgProps
 }
 
 export const usePiePro = (props: PieChartPropsType): IusePiePro => {
@@ -31,11 +41,28 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     innerRadius = donut ? radius / 2.5 : 0,
     strokeWidth = 0,
     edgesRadius = 0,
-    startAngle = 0
+    startAngle = 0,
+    ring
   } = props
   let endAngle = props.endAngle ?? startAngle + Math.PI * (semiCircle ? 1 : 2)
   const total = data.reduce((acc, item) => acc + item?.value, 0)
   const animationDuration = props.animationDuration ?? defaultAnimationDuration
+
+  const maxStrokeWidth = Math.max(
+    ...data.map((item) => item.strokeWidth ?? 0),
+    strokeWidth
+  )
+
+  const heightFactor = semiCircle ? 1 : 2
+  const height = radius + maxStrokeWidth
+
+  const svgProps = {
+    height: (radius + maxStrokeWidth) * 2,
+    width: (radius + maxStrokeWidth) * 2,
+    viewBox: `${-maxStrokeWidth} ${
+      -maxStrokeWidth - (semiCircle ? height / 2 : 0)
+    } ${(radius + maxStrokeWidth) * 2} ${(radius + maxStrokeWidth) * 2}`
+  }
 
   //   let endAngleLocal = 0
 
@@ -130,7 +157,9 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
 
       return `M${startInnerX},${startInnerY} L${startOuterX},${startOuterY} `
     }
-    return `M${radius + innerRadius},${radius} h${radius - innerRadius} `
+    return ring
+      ? `M${radius * 2},${radius}`
+      : `M${radius + innerRadius},${radius} h${radius - innerRadius} `
   }
   const getPath = (index: number, totalParam?: number) => {
     const { endOuterX, endOuterY } = getCoordinates(
@@ -150,10 +179,15 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     const arc = `A${
       radius + (props.strokeWidth ?? 0) / 2
     },${radius} 0 ${isLargeArc} 0 `
-    const path = `${arc} ${endOuterX}, ${endOuterY}
-      L${radius},${radius} `
+    let path = `${arc} ${endOuterX}, ${endOuterY} `
 
-    initial = `M${radius},${radius} L${endOuterX},${endOuterY}`
+    if (!ring) {
+      path += `L${radius},${radius} `
+    }
+
+    initial = ring
+      ? `M${endOuterX},${endOuterY} `
+      : `M${radius},${radius} L${endOuterX},${endOuterY}`
 
     return path
   }
@@ -258,6 +292,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     total,
     donut,
     strokeWidth,
+    maxStrokeWidth,
     isAnimated,
     animationDuration,
     initial,
@@ -266,6 +301,9 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     getStartCaps,
     getEndCaps,
     getTextCoordinates,
-    labelsPosition
+    labelsPosition,
+    heightFactor,
+    height,
+    svgProps
   }
 }
