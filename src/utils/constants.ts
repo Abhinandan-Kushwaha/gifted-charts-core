@@ -103,6 +103,8 @@ export const AxesAndRulesDefaults = {
   referenceLinesOverChartContent: true
 }
 
+export type AxesAndRulesDefaultsType = typeof AxesAndRulesDefaults;
+
 export const defaultArrowConfig = {
   length: 10,
   width: 10,
@@ -234,6 +236,8 @@ export const LineDefaults = {
   edgePosition: EdgePosition.AFTER_DATA_POINT,
   endReachedOffset: defaultEndReachedOffset
 }
+
+export type LineDefaultType = typeof LineDefaults;
 
 export const defaultPointerConfig = {
   height: 0,
