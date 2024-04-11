@@ -1076,7 +1076,8 @@ export var useLineChart = function (props) {
         pointerY: pointerY,
         onEndReached: props.onEndReached,
         onStartReached: props.onStartReached,
-        endReachedOffset: (_291 = props.endReachedOffset) !== null && _291 !== void 0 ? _291 : LineDefaults.endReachedOffset
+        endReachedOffset: (_291 = props.endReachedOffset) !== null && _291 !== void 0 ? _291 : LineDefaults.endReachedOffset,
+        onMomentumScrollEnd: props.onMomentumScrollEnd
     };
     return {
         curvature: curvature,

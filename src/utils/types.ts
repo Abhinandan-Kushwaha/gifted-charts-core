@@ -265,6 +265,7 @@ export interface BarAndLineChartsWrapperTypes {
 
   onEndReached?: () => void
   onStartReached?: () => void
+  onMomentumScrollEnd?: Function
   endReachedOffset: number
   isRTL?: boolean
 }

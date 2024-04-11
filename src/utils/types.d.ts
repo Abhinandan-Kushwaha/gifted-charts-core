@@ -234,6 +234,7 @@ export interface BarAndLineChartsWrapperTypes {
     scrollEventThrottle: number;
     onEndReached?: () => void;
     onStartReached?: () => void;
+    onMomentumScrollEnd?: Function;
     endReachedOffset: number;
     isRTL?: boolean;
 }

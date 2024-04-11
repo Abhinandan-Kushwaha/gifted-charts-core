@@ -1787,7 +1787,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
     onEndReached: props.onEndReached,
     onStartReached: props.onStartReached,
-    endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset
+    endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset,
+    onMomentumScrollEnd: props.onMomentumScrollEnd
   }
 
   return {

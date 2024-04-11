@@ -204,7 +204,10 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     maxAndMin.maxItem
   )
   const secondaryMaxValue = lineConfig.isSecondary
-    ? secondaryMaxAndMin.maxItem
+    ? typeof props.secondaryYAxis !== 'boolean'
+      ? (props.secondaryYAxis as secondaryYAxisType).maxValue ??
+        secondaryMaxAndMin.maxItem
+      : secondaryMaxAndMin.maxItem
     : maxValue
   const mostNegativeValue = props.mostNegativeValue ?? maxAndMin.minItem
 
@@ -733,7 +736,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
     onEndReached: props.onEndReached,
     onStartReached: props.onStartReached,
-    endReachedOffset: props.endReachedOffset ?? BarDefaults.endReachedOffset
+    endReachedOffset: props.endReachedOffset ?? BarDefaults.endReachedOffset,
+    onMomentumScrollEnd: props.onMomentumScrollEnd
   }
 
   return {
