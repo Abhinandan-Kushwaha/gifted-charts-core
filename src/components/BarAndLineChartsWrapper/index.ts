@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { AxesAndRulesDefaults, BarDefaults } from "../../utils/constants";
+import { useEffect, useState } from 'react'
+import { AxesAndRulesDefaults, BarDefaults } from '../../utils/constants'
 import {
-  BarAndLineChartsWrapperTypes,
-  horizSectionPropTypes,
-} from "../../utils/types";
-import { I18nManager } from "react-native";
+  type BarAndLineChartsWrapperTypes,
+  type horizSectionPropTypes
+} from '../../utils/types'
+import { type NativeScrollEvent } from 'react-native'
 
 export const useBarAndLineChartsWrapper = (
   props: BarAndLineChartsWrapperTypes
@@ -59,109 +59,110 @@ export const useBarAndLineChartsWrapper = (
 
     scrollEventThrottle,
     endReachedOffset,
-  } = props;
+    isRTL
+  } = props
 
-  let yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop;
+  const yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop
 
   const hideOrigin =
-    axesAndRulesProps.hideOrigin ?? AxesAndRulesDefaults.hideOrigin;
+    axesAndRulesProps.hideOrigin ?? AxesAndRulesDefaults.hideOrigin
 
   const yAxisSide =
-    axesAndRulesProps.yAxisSide ?? AxesAndRulesDefaults.yAxisSide;
-  const yAxisLabelContainerStyle = axesAndRulesProps.yAxisLabelContainerStyle;
+    axesAndRulesProps.yAxisSide ?? AxesAndRulesDefaults.yAxisSide
+  const yAxisLabelContainerStyle = axesAndRulesProps.yAxisLabelContainerStyle
   const yAxisColor =
-    axesAndRulesProps.yAxisColor ?? AxesAndRulesDefaults.yAxisColor;
+    axesAndRulesProps.yAxisColor ?? AxesAndRulesDefaults.yAxisColor
   const yAxisExtraHeight =
-    axesAndRulesProps.yAxisExtraHeight ?? containerHeight / 20;
+    axesAndRulesProps.yAxisExtraHeight ?? containerHeight / 20
   const trimYAxisAtTop =
-    axesAndRulesProps.trimYAxisAtTop ?? AxesAndRulesDefaults.trimYAxisAtTop;
+    axesAndRulesProps.trimYAxisAtTop ?? AxesAndRulesDefaults.trimYAxisAtTop
   const overflowTop =
-    axesAndRulesProps.overflowTop ?? AxesAndRulesDefaults.overflowTop;
+    axesAndRulesProps.overflowTop ?? AxesAndRulesDefaults.overflowTop
   const yAxisThickness =
-    axesAndRulesProps.yAxisThickness ?? AxesAndRulesDefaults.yAxisThickness;
+    axesAndRulesProps.yAxisThickness ?? AxesAndRulesDefaults.yAxisThickness
   const xAxisColor =
-    axesAndRulesProps.xAxisColor ?? AxesAndRulesDefaults.xAxisColor;
-  const xAxisLength = axesAndRulesProps.xAxisLength;
+    axesAndRulesProps.xAxisColor ?? AxesAndRulesDefaults.xAxisColor
+  const xAxisLength = axesAndRulesProps.xAxisLength
   const xAxisType =
-    axesAndRulesProps.xAxisType ?? AxesAndRulesDefaults.xAxisType;
+    axesAndRulesProps.xAxisType ?? AxesAndRulesDefaults.xAxisType
   const xAxisLabelsVerticalShift =
     axesAndRulesProps.xAxisLabelsVerticalShift ??
-    AxesAndRulesDefaults.xAxisLabelsVerticalShift;
-  const xAxisLabelsHeight = axesAndRulesProps.xAxisLabelsHeight;
-  const xAxisTextNumberOfLines = axesAndRulesProps.xAxisTextNumberOfLines;
+    AxesAndRulesDefaults.xAxisLabelsVerticalShift
+  const xAxisLabelsHeight = axesAndRulesProps.xAxisLabelsHeight
+  const xAxisTextNumberOfLines = axesAndRulesProps.xAxisTextNumberOfLines
   const dashWidth =
-    axesAndRulesProps.dashWidth ?? AxesAndRulesDefaults.dashWidth;
-  const dashGap = axesAndRulesProps.dashGap ?? AxesAndRulesDefaults.dashGap;
+    axesAndRulesProps.dashWidth ?? AxesAndRulesDefaults.dashWidth
+  const dashGap = axesAndRulesProps.dashGap ?? AxesAndRulesDefaults.dashGap
   const backgroundColor =
-    axesAndRulesProps.backgroundColor ?? AxesAndRulesDefaults.backgroundColor;
+    axesAndRulesProps.backgroundColor ?? AxesAndRulesDefaults.backgroundColor
   const hideRules =
-    axesAndRulesProps.hideRules ?? AxesAndRulesDefaults.hideRules;
-  const rulesLength = axesAndRulesProps.rulesLength;
+    axesAndRulesProps.hideRules ?? AxesAndRulesDefaults.hideRules
+  const rulesLength = axesAndRulesProps.rulesLength
   const rulesType =
-    axesAndRulesProps.rulesType ?? AxesAndRulesDefaults.rulesType;
+    axesAndRulesProps.rulesType ?? AxesAndRulesDefaults.rulesType
   const rulesThickness =
-    axesAndRulesProps.rulesThickness ?? AxesAndRulesDefaults.rulesThickness;
+    axesAndRulesProps.rulesThickness ?? AxesAndRulesDefaults.rulesThickness
   const rulesColor =
-    axesAndRulesProps.rulesColor ?? AxesAndRulesDefaults.rulesColor;
+    axesAndRulesProps.rulesColor ?? AxesAndRulesDefaults.rulesColor
   const rulesConfigArray =
-    axesAndRulesProps.rulesConfigArray ?? AxesAndRulesDefaults.rulesConfigArray;
-  const showYAxisIndices = axesAndRulesProps.showYAxisIndices ?? false;
+    axesAndRulesProps.rulesConfigArray ?? AxesAndRulesDefaults.rulesConfigArray
+  const showYAxisIndices = axesAndRulesProps.showYAxisIndices ?? false
   const yAxisIndicesHeight =
     axesAndRulesProps.yAxisIndicesHeight ??
-    AxesAndRulesDefaults.yAxisIndicesHeight;
+    AxesAndRulesDefaults.yAxisIndicesHeight
   const yAxisIndicesWidth =
     axesAndRulesProps.yAxisIndicesWidth ??
-    AxesAndRulesDefaults.yAxisIndicesWidth;
+    AxesAndRulesDefaults.yAxisIndicesWidth
   const yAxisIndicesColor =
     axesAndRulesProps.yAxisIndicesColor ??
-    AxesAndRulesDefaults.yAxisIndicesColor;
+    AxesAndRulesDefaults.yAxisIndicesColor
   const hideYAxisText =
-    axesAndRulesProps.hideYAxisText ?? AxesAndRulesDefaults.hideYAxisText;
+    axesAndRulesProps.hideYAxisText ?? AxesAndRulesDefaults.hideYAxisText
   const yAxisTextNumberOfLines =
     axesAndRulesProps.yAxisTextNumberOfLines ??
-    AxesAndRulesDefaults.yAxisTextNumberOfLines;
-  const yAxisLabelPrefix = axesAndRulesProps.yAxisLabelPrefix ?? "";
-  const yAxisLabelSuffix = axesAndRulesProps.yAxisLabelSuffix ?? "";
-  const yAxisTextStyle = axesAndRulesProps.yAxisTextStyle;
-  const secondaryYAxis = axesAndRulesProps.secondaryYAxis;
-  const stepValue = axesAndRulesProps.stepValue;
-  const roundToDigits = axesAndRulesProps.roundToDigits;
+    AxesAndRulesDefaults.yAxisTextNumberOfLines
+  const yAxisLabelPrefix = axesAndRulesProps.yAxisLabelPrefix ?? ''
+  const yAxisLabelSuffix = axesAndRulesProps.yAxisLabelSuffix ?? ''
+  const yAxisTextStyle = axesAndRulesProps.yAxisTextStyle
+  const secondaryYAxis = axesAndRulesProps.secondaryYAxis
+  const stepValue = axesAndRulesProps.stepValue
+  const roundToDigits = axesAndRulesProps.roundToDigits
 
-  const referenceLinesConfig = axesAndRulesProps.referenceLinesConfig;
+  const referenceLinesConfig = axesAndRulesProps.referenceLinesConfig
   const referenceLinesOverChartContent =
     referenceLinesConfig.referenceLinesOverChartContent ??
-    AxesAndRulesDefaults.referenceLinesOverChartContent;
+    AxesAndRulesDefaults.referenceLinesOverChartContent
 
   const showVerticalLines =
     axesAndRulesProps.showVerticalLines ??
-    AxesAndRulesDefaults.showVerticalLines;
+    AxesAndRulesDefaults.showVerticalLines
   const verticalLinesThickness =
     axesAndRulesProps.verticalLinesThickness ??
-    AxesAndRulesDefaults.verticalLinesThickness;
-  const verticalLinesHeight = axesAndRulesProps.verticalLinesHeight;
+    AxesAndRulesDefaults.verticalLinesThickness
+  const verticalLinesHeight = axesAndRulesProps.verticalLinesHeight
   const verticalLinesColor =
     axesAndRulesProps.verticalLinesColor ??
-    AxesAndRulesDefaults.verticalLinesColor;
+    AxesAndRulesDefaults.verticalLinesColor
   const verticalLinesStrokeDashArray =
     axesAndRulesProps.verticalLinesStrokeDashArray ??
-    AxesAndRulesDefaults.verticalLinesStrokeDashArray;
+    AxesAndRulesDefaults.verticalLinesStrokeDashArray
   const verticalLinesShift =
     axesAndRulesProps.verticalLinesShift ??
-    AxesAndRulesDefaults.verticalLinesShift;
+    AxesAndRulesDefaults.verticalLinesShift
   const verticalLinesZIndex =
     axesAndRulesProps.verticalLinesZIndex ??
-    AxesAndRulesDefaults.verticalLinesZIndex;
+    AxesAndRulesDefaults.verticalLinesZIndex
   const verticalLinesSpacing =
     axesAndRulesProps.verticalLinesSpacing ??
-    AxesAndRulesDefaults.verticalLinesSpacing;
+    AxesAndRulesDefaults.verticalLinesSpacing
   const verticalLinesUptoDataPoint =
     axesAndRulesProps.verticalLinesUptoDataPoint ??
-    AxesAndRulesDefaults.verticalLinesUptoDataPoint;
-  const noOfVerticalLines = axesAndRulesProps.noOfVerticalLines;
+    AxesAndRulesDefaults.verticalLinesUptoDataPoint
+  const noOfVerticalLines = axesAndRulesProps.noOfVerticalLines
 
   const verticalLinesAr = noOfVerticalLines
     ? [...Array(noOfVerticalLines).keys()]
-    : [...Array(stackData ? stackData.length : data.length).keys()];
+    : [...Array(stackData ? stackData.length : data.length).keys()]
 
   const horizSectionProps: horizSectionPropTypes = {
     width,
@@ -225,8 +226,8 @@ export const useBarAndLineChartsWrapper = (
 
     secondaryData,
     secondaryYAxis,
-    formatYLabel: axesAndRulesProps.formatYLabel,
-  };
+    formatYLabel: axesAndRulesProps.formatYLabel
+  }
 
   const lineInBarChartProps = {
     yAxisLabelWidth,
@@ -244,17 +245,17 @@ export const useBarAndLineChartsWrapper = (
     barWidth,
     labelsExtraHeight,
     scrollEventThrottle,
-    xAxisLabelsVerticalShift,
-  };
+    xAxisLabelsVerticalShift
+  }
   const lineInBarChartProps2 = {
     ...lineInBarChartProps,
     lineConfig: lineConfig2,
     points: points2,
-    data: lineData2,
-  };
-  const extendedContainerHeight = containerHeight + overflowTop + 10;
+    data: lineData2
+  }
+  const extendedContainerHeight = containerHeight + overflowTop + 10
   const containerHeightIncludingBelowXAxis =
-    extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight;
+    extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight
   const verticalLinesProps = {
     verticalLinesAr,
     verticalLinesSpacing,
@@ -278,28 +279,28 @@ export const useBarAndLineChartsWrapper = (
     containerHeightIncludingBelowXAxis,
     yAxisLabelWidth,
     totalWidth,
-    xAxisLabelsVerticalShift,
-  };
+    xAxisLabelsVerticalShift
+  }
 
   const actualContainerHeight =
-    containerHeightIncludingBelowXAxis + labelsExtraHeight - 10;
-  const actualContainerWidth = (width ?? totalWidth) + yAxisLabelWidth;
+    containerHeightIncludingBelowXAxis + labelsExtraHeight - 10
+  const actualContainerWidth = (width ?? totalWidth) + yAxisLabelWidth
 
   /*******************************************************************************************************************************************/
-  /***************                                 horizontal chart related calculations                                   *******************/
+  /** *************                                 horizontal chart related calculations                                   *******************/
   /*******************************************************************************************************************************************/
 
   const containerHeightIncludingXaxisLabels =
-    actualContainerHeight + BarDefaults.labelsWidthForHorizontal;
+    actualContainerHeight + BarDefaults.labelsWidthForHorizontal
 
   const difBwWidthHeight =
-    actualContainerWidth - containerHeightIncludingXaxisLabels;
+    actualContainerWidth - containerHeightIncludingXaxisLabels
 
   const transformForHorizontal = [
-    { rotate: rtl ? "-90deg" : "90deg" },
+    { rotate: rtl ? '-90deg' : '90deg' },
     {
       translateY:
-        -shiftX + (rtl ? -difBwWidthHeight + 14 : difBwWidthHeight) / 2 - 20,
+        -shiftX + (rtl ? -difBwWidthHeight + 14 : difBwWidthHeight) / 2 - 20
     },
     {
       translateX:
@@ -311,18 +312,37 @@ export const useBarAndLineChartsWrapper = (
           ? difBwWidthHeight
           : difBwWidthHeight - 40) /
           2 +
-        (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52),
-    },
-  ];
+        (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52)
+    }
+  ]
 
-  const [canMomentum, setCanMomentum] = useState(false);
+  const transformForHorizontalForReactJS = `rotate(${rtl ? '-90deg' : '90deg'})
+  translateY(${
+    -shiftX + (rtl ? -difBwWidthHeight + 14 : difBwWidthHeight) / 2 - 20
+  })
+  translateX(${
+    shiftY +
+    (rtl
+      ? (props.width ? -98 - endSpacing : -75 - endSpacing) - difBwWidthHeight
+      : props.width
+      ? difBwWidthHeight
+      : difBwWidthHeight - 40) /
+      2 +
+    (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52)
+  })`
 
-  const isCloseToEnd = ({ layoutMeasurement, contentOffset, contentSize }) => {
-    return I18nManager.isRTL
+  const [canMomentum, setCanMomentum] = useState(false)
+
+  const isCloseToEnd = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize
+  }: NativeScrollEvent): boolean => {
+    return isRTL
       ? contentOffset.x <= initialSpacing
       : layoutMeasurement.width + contentOffset.x >=
-          contentSize.width - initialSpacing - endReachedOffset;
-  };
+          contentSize.width - initialSpacing - endReachedOffset
+  }
 
   // const isCloseToStart = ({ layoutMeasurement, contentOffset }) => {
   //   return layoutMeasurement.width + contentOffset.x <= initialSpacing;
@@ -331,19 +351,19 @@ export const useBarAndLineChartsWrapper = (
   const isCloseToStart = ({
     layoutMeasurement,
     contentOffset,
-    contentSize,
-  }) => {
-    return I18nManager.isRTL
+    contentSize
+  }: NativeScrollEvent): boolean => {
+    return isRTL
       ? layoutMeasurement.width + contentOffset.x >=
           contentSize.width - initialSpacing - endReachedOffset
-      : contentOffset.x <= initialSpacing;
-  };
+      : contentOffset.x <= initialSpacing
+  }
 
   useEffect(() => {
     if (pointerConfig && getPointerProps) {
-      getPointerProps({ pointerIndex, pointerX, pointerY });
+      getPointerProps({ pointerIndex, pointerX, pointerY })
     }
-  }, [pointerIndex, pointerX, pointerY]);
+  }, [pointerIndex, pointerX, pointerY])
 
   return {
     containerHeightIncludingBelowXAxis,
@@ -355,6 +375,7 @@ export const useBarAndLineChartsWrapper = (
     xAxisTextNumberOfLines,
     actualContainerWidth,
     transformForHorizontal,
+    transformForHorizontalForReactJS,
     horizSectionProps,
     referenceLinesOverChartContent,
     setCanMomentum,
@@ -367,6 +388,6 @@ export const useBarAndLineChartsWrapper = (
     showVerticalLines,
     verticalLinesProps,
     lineInBarChartProps,
-    lineInBarChartProps2,
-  };
-};
+    lineInBarChartProps2
+  }
+}

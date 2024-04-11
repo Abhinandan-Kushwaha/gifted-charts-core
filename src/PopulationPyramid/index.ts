@@ -1,37 +1,32 @@
-import {
-  AxesAndRulesDefaults,
-  populationDefaults,
-  ruleTypes,
-} from "../utils/constants";
-import { PopulationPyramidPropsType, RulesProps } from "./types";
+import { getStrokeDashArray } from '../utils'
+import { AxesAndRulesDefaults, populationDefaults } from '../utils/constants'
+import { Framework } from '../utils/types'
+import { type extendedPopulationPyramidPropsType, type RulesPropsType } from './types'
 
-export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
+export const usePopulationPyramid = (props: extendedPopulationPyramidPropsType) => {
   const {
+    framework,
     height = populationDefaults.height,
-    width = populationDefaults.width,
+    width = props.screenWidth,
     verticalMarginBetweenBars = populationDefaults.verticalMarginBetweenBars,
     barsMapToYAxisSections = populationDefaults.barsMapToYAxisSections,
     data,
     hideRules = AxesAndRulesDefaults.hideRules,
     hideYAxisText = AxesAndRulesDefaults.hideYAxisText,
-    yAxisColor = AxesAndRulesDefaults.yAxisColor,
     yAxisThickness = AxesAndRulesDefaults.yAxisThickness,
 
-    xAxisColor = AxesAndRulesDefaults.xAxisColor,
     xAxisThickness = AxesAndRulesDefaults.xAxisThickness,
     xAxisType = AxesAndRulesDefaults.xAxisType,
     xAxisNoOfSections = populationDefaults.xAxisNoOfSections,
     showXAxisIndices = populationDefaults.showXAxisIndices,
     xAxisIndicesWidth = populationDefaults.xAxisIndicesWidth,
     xAxisIndicesHeight = populationDefaults.xAxisIndicesHeight,
-    xAxisIndicesColor = populationDefaults.xAxisIndicesColor,
     xAxisIndicesShiftY = 0,
     showXAxisLabelTexts = populationDefaults.showXAxisLabelTexts,
     xAxisLabelFontSize = populationDefaults.defaultFontSize,
     xAxisLabelFontStyle = populationDefaults.defaultFontStyle,
     xAxisLabelFontWeight = populationDefaults.defaultFontWeight,
     xAxisLabelFontFamily = populationDefaults.defaultFontFamily,
-    xAxisLabelColor = populationDefaults.defaultFontColor,
     xAxisLabelShiftX = 0,
     xAxisLabelShiftY = 0,
     xAxisLabelPrefix = populationDefaults.prefix,
@@ -39,7 +34,6 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     formatXAxisLabels,
 
     showVerticalLines = populationDefaults.showVerticalLines,
-    verticalLinesColor = populationDefaults.verticalLinesColor,
     verticalLinesThickness = populationDefaults.verticalLinesThickness,
     verticalLinesType = populationDefaults.verticalLinesType,
     verticalLinesStrokeDashArray = populationDefaults.verticalLinesStrokeDashArray,
@@ -47,18 +41,15 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     showYAxisIndices = AxesAndRulesDefaults.showYAxisIndices,
     yAxisIndicesWidth = AxesAndRulesDefaults.yAxisIndicesWidth,
     yAxisIndicesHeight = AxesAndRulesDefaults.yAxisIndicesHeight,
-    yAxisIndicesColor = AxesAndRulesDefaults.yAxisIndicesColor,
     yAxisLabelFontSize = populationDefaults.defaultFontSize,
     yAxisLabelFontStyle = populationDefaults.defaultFontStyle,
     yAxisLabelFontWeight = populationDefaults.defaultFontWeight,
     yAxisLabelFontFamily = populationDefaults.defaultFontFamily,
-    yAxisLabelColor = populationDefaults.defaultFontColor,
     yAxisLabelTextMarginRight = populationDefaults.yAxisLabelTextMarginRight,
     yAxisLabelTexts = [],
     showValuesAsBarLabels = populationDefaults.showValuesAsBarLabels,
 
     rulesThickness = AxesAndRulesDefaults.rulesThickness,
-    rulesColor = AxesAndRulesDefaults.rulesColor,
     rulesType = AxesAndRulesDefaults.rulesType,
     dashWidth = AxesAndRulesDefaults.dashWidth,
     dashGap = AxesAndRulesDefaults.dashGap,
@@ -66,8 +57,6 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     leftBarLabelWidth = populationDefaults.leftBarLabelWidth,
     leftBarLabelFontSize = props.barLabelFontSize ??
       populationDefaults.defaultFontSize,
-    leftBarLabelColor = props.barLabelColor ??
-      populationDefaults.defaultFontColor,
     leftBarLabelFontStyle = props.barLabelFontStyle ??
       populationDefaults.defaultFontStyle,
     leftBarLabelFontWeight = props.barLabelFontWeight ??
@@ -80,8 +69,6 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     rightBarLabelWidth = populationDefaults.rightBarLabelWidth,
     rightBarLabelFontSize = props.barLabelFontSize ??
       populationDefaults.defaultFontSize,
-    rightBarLabelColor = props.barLabelColor ??
-      populationDefaults.defaultFontColor,
     rightBarLabelFontStyle = props.barLabelFontStyle ??
       populationDefaults.defaultFontStyle,
     rightBarLabelFontWeight = props.barLabelFontWeight ??
@@ -95,15 +82,10 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     showMidAxis = populationDefaults.showMidAxis,
     midAxisLabelWidth = populationDefaults.midAxisLabelWidth,
     midAxisLabelFontSize = populationDefaults.defaultFontSize,
-    midAxisLabelColor = populationDefaults.defaultFontColor,
     midAxisLabelFontStyle = populationDefaults.defaultFontStyle,
     midAxisLabelFontWeight = populationDefaults.defaultFontWeight,
     midAxisLabelFontFamily = populationDefaults.defaultFontFamily,
 
-    leftBarColor = populationDefaults.leftBarColor,
-    rightBarColor = populationDefaults.rightBarColor,
-    leftBarBorderColor = populationDefaults.leftBarBorderColor,
-    rightBarBorderColor = populationDefaults.rightBarBorderColor,
     leftBarBorderWidth = props.barBorderWidth ??
       populationDefaults.leftBarBorderWidth,
     rightBarBorderWidth = props.barBorderWidth ??
@@ -117,98 +99,144 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     showSurplus = populationDefaults.showSurplus,
     showSurplusLeft = populationDefaults.showSurplusLeft,
     showSurplusRight = populationDefaults.showSurplusRight,
+    leftSurplusBorderWidth = populationDefaults.leftSurplusBorderWidth,
+    rightSurplusBorderWidth = populationDefaults.rightSurplusBorderWidth
+  } = props
+
+  let {
+    yAxisColor = AxesAndRulesDefaults.yAxisColor,
+    xAxisColor = AxesAndRulesDefaults.xAxisColor,
+    xAxisIndicesColor = populationDefaults.xAxisIndicesColor,
+    xAxisLabelColor = populationDefaults.defaultFontColor,
+    verticalLinesColor = populationDefaults.verticalLinesColor,
+    yAxisIndicesColor = AxesAndRulesDefaults.yAxisIndicesColor,
+    yAxisLabelColor = populationDefaults.defaultFontColor,
+    rulesColor = AxesAndRulesDefaults.rulesColor,
+    leftBarLabelColor = props.barLabelColor ??
+      populationDefaults.defaultFontColor,
+    rightBarLabelColor = props.barLabelColor ??
+      populationDefaults.defaultFontColor,
+    midAxisLabelColor = populationDefaults.defaultFontColor,
+    leftBarColor = populationDefaults.leftBarColor,
+    rightBarColor = populationDefaults.rightBarColor,
+    leftBarBorderColor = populationDefaults.leftBarBorderColor,
+    rightBarBorderColor = populationDefaults.rightBarBorderColor,
     leftSurplusColor = populationDefaults.leftSurplusColor,
     leftSurplusBorderColor = populationDefaults.leftSurplusBorderColor,
     rightSurplusColor = populationDefaults.rightSurplusColor,
-    rightSurplusBorderColor = populationDefaults.rightSurplusBorderColor,
-    leftSurplusBorderWidth = populationDefaults.leftSurplusBorderWidth,
-    rightSurplusBorderWidth = populationDefaults.rightSurplusBorderWidth,
-  } = props;
+    rightSurplusBorderColor = populationDefaults.rightSurplusBorderColor
+  } = props
+
+  if (framework === Framework.reactJS) {
+    yAxisColor = yAxisColor.toString()
+    xAxisColor = xAxisColor.toString()
+    xAxisIndicesColor = xAxisIndicesColor.toString()
+    xAxisLabelColor = xAxisLabelColor.toString()
+    verticalLinesColor = verticalLinesColor.toString()
+    yAxisIndicesColor = yAxisIndicesColor.toString()
+    yAxisLabelColor = yAxisLabelColor.toString()
+    rulesColor = rulesColor.toString()
+    leftBarLabelColor = leftBarLabelColor.toString()
+    rightBarLabelColor = rightBarLabelColor.toString()
+    midAxisLabelColor = midAxisLabelColor.toString()
+    leftBarColor = leftBarColor.toString()
+    rightBarColor = rightBarColor.toString()
+    leftBarBorderColor = leftBarBorderColor.toString()
+    rightBarBorderColor = rightBarBorderColor.toString()
+    leftSurplusColor = leftSurplusColor.toString()
+    leftSurplusBorderColor = leftSurplusBorderColor.toString()
+    rightSurplusColor = rightSurplusColor.toString()
+    rightSurplusBorderColor = rightSurplusBorderColor.toString()
+  }
 
   const yAxisLabelWidth = hideYAxisText
     ? yAxisThickness
-    : props.yAxisLabelWidth ?? AxesAndRulesDefaults.yAxisLabelWidth;
+    : props.yAxisLabelWidth ?? AxesAndRulesDefaults.yAxisLabelWidth
 
-  const noOfSections = props.noOfSections ?? data.length;
+  const noOfSections = props.noOfSections ?? data.length
   const containerHeight = props.stepHeight
     ? props.stepHeight * noOfSections
-    : height;
-  const stepHeight = props.stepHeight ?? containerHeight / noOfSections;
+    : height
+  const stepHeight = props.stepHeight ?? containerHeight / noOfSections
 
-  const xAxisLabelsHeight = 80;
-  const containerHeightWithXaxisLabels = containerHeight + xAxisLabelsHeight;
+  const xAxisLabelsHeight = 30
+  const containerHeightWithXaxisLabels = containerHeight + xAxisLabelsHeight
 
-  const mid = (width + yAxisLabelWidth) / 2;
+  const mid = (width + yAxisLabelWidth) / 2
 
-  const leftMax = Math.max(...data.map((item) => item.left));
-  const rightMax = Math.max(...data.map((item) => item.right));
+  const leftMax = Math.max(...data.map((item) => item.left))
+  const rightMax = Math.max(...data.map((item) => item.right))
 
-  const max = Math.max(leftMax, rightMax);
+  const max = Math.max(leftMax, rightMax)
 
   const xAxisRoundToDigits =
-    props.xAxisRoundToDigits ??
-    (max < 0.1 ? 3 : max < 1 ? 2 : max < 10 ? 1 : 0);
+    props.xAxisRoundToDigits ?? (max < 0.1 ? 3 : max < 1 ? 2 : max < 10 ? 1 : 0)
 
   const midAxisAndLabelWidth =
     (showMidAxis ? midAxisLabelWidth : 0) / 2 +
-    Math.max(leftBarLabelWidth, rightBarLabelWidth);
+    Math.max(leftBarLabelWidth, rightBarLabelWidth)
   const barWidthFactor =
-    ((width - yAxisLabelWidth) / 2 - midAxisAndLabelWidth) / max;
+    ((width - yAxisLabelWidth) / 2 - midAxisAndLabelWidth) / max
 
-  const leftXAfterMid = mid - (showMidAxis ? midAxisLabelWidth / 2 : 0);
-  const rightXAfterMid = mid + (showMidAxis ? midAxisLabelWidth / 2 : 0);
+  const leftXAfterMid = mid - (showMidAxis ? midAxisLabelWidth / 2 : 0)
+  const rightXAfterMid = mid + (showMidAxis ? midAxisLabelWidth / 2 : 0)
 
-  const yAxisLineProps: RulesProps = {
+  const yAxisLineProps: RulesPropsType = {
     x1: yAxisLabelWidth,
     y1: 0,
     x2: yAxisLabelWidth,
     y2: containerHeight,
     stroke: yAxisColor,
-    strokeWidth: yAxisThickness,
-  };
-  if (props.yAxisStrokeDashArray?.length === 2) {
-    yAxisLineProps.strokeDasharray = props.yAxisStrokeDashArray;
+    strokeWidth: yAxisThickness
   }
 
-  const midAxisLineCommonProps: RulesProps = {
+  yAxisLineProps.strokeDasharray = getStrokeDashArray(
+    props.yAxisStrokeDashArray,
+    framework
+  )
+
+  const midAxisLineCommonProps: RulesPropsType = {
     y1: 0,
     y2: containerHeight,
-    strokeWidth: props.midAxisThickness ?? yAxisThickness,
-  };
-  if (props.midAxisStrokeDashArray?.length === 2) {
-    midAxisLineCommonProps.strokeDasharray = props.midAxisStrokeDashArray;
+    strokeWidth: props.midAxisThickness ?? yAxisThickness
   }
 
+  midAxisLineCommonProps.strokeDasharray = getStrokeDashArray(
+    props.midAxisStrokeDashArray,
+    framework
+  )
+
   const xAxisLabelY =
-    containerHeight + xAxisLabelFontSize + 6 + xAxisLabelShiftY;
+    containerHeight + xAxisLabelFontSize + 6 + xAxisLabelShiftY
   const xAxisIndicesCommonProps = {
     y1: containerHeight - xAxisIndicesHeight / 2 + xAxisIndicesShiftY,
     y2: containerHeight + xAxisIndicesHeight / 2 + xAxisIndicesShiftY,
     stroke: xAxisIndicesColor,
-    strokeWidth: xAxisIndicesWidth,
-  };
-  const verticalLinesCommonProps: RulesProps = {
+    strokeWidth: xAxisIndicesWidth
+  }
+  const verticalLinesCommonProps: RulesPropsType = {
     y1: 0,
     y2: containerHeight,
     stroke: verticalLinesColor,
-    strokeWidth: verticalLinesThickness,
-  };
-  if (verticalLinesType !== ruleTypes.SOLID) {
-    verticalLinesCommonProps.strokeDasharray = verticalLinesStrokeDashArray;
+    strokeWidth: verticalLinesThickness
   }
+  verticalLinesCommonProps.strokeDasharray = getStrokeDashArray(
+    verticalLinesStrokeDashArray
+  )
+
   const xAxisLabelsCommonProps = {
     y: xAxisLabelY + xAxisLabelShiftY,
     stroke: xAxisLabelColor,
     fontSize: xAxisLabelFontSize,
     fontStyle: xAxisLabelFontStyle,
     fontWeight: xAxisLabelFontWeight,
-    fontFamily: xAxisLabelFontFamily,
-  };
+    fontFamily: xAxisLabelFontFamily
+  }
 
-  const getXLabel = (index: number) =>
+  const getXLabel = (index: number): string =>
     ((leftXAfterMid * index) / xAxisNoOfSections / barWidthFactor)
       .toFixed(xAxisRoundToDigits)
-      .toString();
+      .toString()
 
   return {
     height,
@@ -325,6 +353,6 @@ export const usePopulationPyramid = (props: PopulationPyramidPropsType) => {
     xAxisIndicesCommonProps,
     verticalLinesCommonProps,
     xAxisLabelsCommonProps,
-    getXLabel,
-  };
-};
+    getXLabel
+  }
+}

@@ -1,8 +1,12 @@
-import { AxesAndRulesDefaults } from "../../utils/constants";
-import { HorizSectionsType, secondaryYAxisType } from "../../utils/types";
-import { computeMaxAndMinItems, getLabelTextUtil } from "../../utils";
+import { AxesAndRulesDefaults } from '../../utils/constants'
+import {
+  type HorizSectionsType,
+  type horizSectionPropTypes,
+  type secondaryYAxisType
+} from '../../utils/types'
+import { computeMaxAndMinItems, getLabelTextUtil } from '../../utils'
 
-export const getHorizSectionVals = (props) => {
+export const getHorizSectionVals = (props: horizSectionPropTypes) => {
   const {
     width,
     noOfSectionsBelowXAxis,
@@ -47,10 +51,10 @@ export const getHorizSectionVals = (props) => {
     formatYLabel,
 
     secondaryData,
-    secondaryYAxis,
-  } = props;
+    secondaryYAxis
+  } = props
 
-  const yAxisExtraHeightAtTop = trimYAxisAtTop ? 0 : yAxisExtraHeight;
+  const yAxisExtraHeightAtTop = trimYAxisAtTop ? 0 : yAxisExtraHeight
 
   /***********************************************************************************************************************************
    *                                                                                                                                  *
@@ -92,69 +96,69 @@ export const getHorizSectionVals = (props) => {
     yAxisLabelPrefix: secondaryYAxis?.yAxisLabelPrefix ?? yAxisLabelPrefix,
     yAxisLabelSuffix: secondaryYAxis?.yAxisLabelSuffix ?? yAxisLabelSuffix,
     hideOrigin: secondaryYAxis?.hideOrigin ?? hideOrigin,
-    formatYLabel: secondaryYAxis?.formatYLabel,
-  };
+    formatYLabel: secondaryYAxis?.formatYLabel
+  }
 
   const { maxItem, minItem } = computeMaxAndMinItems(
     secondaryData,
     secondaryYAxisConfig.roundToDigits,
     secondaryYAxisConfig.showFractionalValues
-  );
+  )
   secondaryYAxisConfig.maxValue =
-    secondaryYAxisConfig.maxValue ?? (maxItem || maxValue);
+    secondaryYAxisConfig.maxValue ?? (maxItem || maxValue)
   secondaryYAxisConfig.mostNegativeValue =
-    secondaryYAxisConfig.mostNegativeValue ?? minItem;
+    secondaryYAxisConfig.mostNegativeValue ?? minItem
   secondaryYAxisConfig.stepValue =
     secondaryYAxisConfig.stepValue ??
     (secondaryYAxisConfig.maxValue ?? 0) /
-      (secondaryYAxisConfig.noOfSections ?? noOfSections);
+      (secondaryYAxisConfig.noOfSections ?? noOfSections)
   secondaryYAxisConfig.stepHeight =
     secondaryYAxisConfig.stepHeight ||
-    containerHeight / (secondaryYAxisConfig.noOfSections ?? noOfSections);
+    containerHeight / (secondaryYAxisConfig.noOfSections ?? noOfSections)
 
-  const horizSections: HorizSectionsType = [];
+  const horizSections: HorizSectionsType = []
   for (let i = 0; i <= noOfSections; i++) {
-    let value = maxValue - stepValue * i;
+    let value = maxValue - stepValue * i
     if (showFractionalValues || roundToDigits) {
       value = parseFloat(
         value.toFixed(roundToDigits ?? AxesAndRulesDefaults.roundToDigits)
-      );
+      )
     }
 
     horizSections.push({
       value: yAxisLabelTexts?.length
         ? yAxisLabelTexts[noOfSections + noOfSectionsBelowXAxis - i] ??
           value.toString()
-        : value.toString(),
-    });
+        : value.toString()
+    })
   }
 
-  const horizSectionsBelow: HorizSectionsType = [];
+  const horizSectionsBelow: HorizSectionsType = []
   if (noOfSectionsBelowXAxis) {
     for (let i = 1; i <= noOfSectionsBelowXAxis; i++) {
-      let value = stepValue * -i;
+      let value = stepValue * -i
       if (showFractionalValues || roundToDigits) {
         value = parseFloat(
           value.toFixed(roundToDigits ?? AxesAndRulesDefaults.roundToDigits)
-        );
+        )
       }
       horizSectionsBelow.push({
         value: props.yAxisLabelTexts
           ? props.yAxisLabelTexts[noOfSectionsBelowXAxis - i] ??
             value.toString()
-          : value.toString(),
-      });
+          : value.toString()
+      })
     }
   }
 
-  const secondaryHorizSections: HorizSectionsType = [];
+  const secondaryHorizSections: HorizSectionsType = []
   if (secondaryYAxis) {
     for (
       let i = 0;
       i <= (secondaryYAxisConfig.noOfSections ?? noOfSections);
       i++
     ) {
-      let value = secondaryYAxisConfig.stepValue * i;
+      let value = secondaryYAxisConfig.stepValue * i
       if (
         secondaryYAxisConfig.showFractionalValues ||
         secondaryYAxisConfig.roundToDigits
@@ -164,24 +168,24 @@ export const getHorizSectionVals = (props) => {
             secondaryYAxisConfig.roundToDigits ??
               AxesAndRulesDefaults.roundToDigits
           )
-        );
+        )
       }
       secondaryHorizSections.push({
         value: secondaryYAxisConfig.yAxisLabelTexts?.length
           ? secondaryYAxisConfig.yAxisLabelTexts[
               i - noOfSectionsBelowXAxis - 1
             ] ?? value.toString()
-          : value.toString(),
-      });
+          : value.toString()
+      })
     }
   }
 
-  const secondaryHorizSectionsBelow: HorizSectionsType = [];
+  const secondaryHorizSectionsBelow: HorizSectionsType = []
   if (secondaryYAxisConfig.noOfSectionsBelowXAxis) {
     for (let i = 1; i <= secondaryYAxisConfig.noOfSectionsBelowXAxis; i++) {
       let value =
         secondaryYAxisConfig.stepValue *
-        (i - secondaryYAxisConfig.noOfSectionsBelowXAxis - 1);
+        (i - secondaryYAxisConfig.noOfSectionsBelowXAxis - 1)
       if (
         secondaryYAxisConfig.showFractionalValues ||
         secondaryYAxisConfig.roundToDigits
@@ -191,13 +195,13 @@ export const getHorizSectionVals = (props) => {
             secondaryYAxisConfig.roundToDigits ??
               AxesAndRulesDefaults.roundToDigits
           )
-        );
+        )
       }
       secondaryHorizSectionsBelow.push({
         value: secondaryYAxisConfig.yAxisLabelTexts?.length
           ? secondaryYAxisConfig.yAxisLabelTexts[i - 1] ?? value.toString()
-          : value.toString(),
-      });
+          : value.toString()
+      })
     }
   }
 
@@ -215,25 +219,25 @@ export const getHorizSectionVals = (props) => {
 
     showReferenceLine3,
     referenceLine3Position,
-    referenceLine3Config,
-  } = referenceLinesConfig;
+    referenceLine3Config
+  } = referenceLinesConfig
 
   const defaultReferenceConfig = {
     thickness: rulesThickness,
     width: (width || totalWidth - spacing) + endSpacing,
-    color: "black",
+    color: 'black',
     type: rulesType,
-    dashWidth: dashWidth,
-    dashGap: dashGap,
-    labelText: "",
+    dashWidth,
+    dashGap,
+    labelText: '',
     labelTextStyle: null,
-    zIndex: 1,
-  };
+    zIndex: 1
+  }
 
-  showReferenceLine1 = referenceLinesConfig.showReferenceLine1 || false;
+  showReferenceLine1 = referenceLinesConfig.showReferenceLine1 || false
   referenceLine1Position =
     referenceLinesConfig.referenceLine1Position ??
-    (referenceLinesConfig.referenceLine1Position || containerHeight / 2);
+    (referenceLinesConfig.referenceLine1Position || containerHeight / 2)
   referenceLine1Config = referenceLinesConfig.referenceLine1Config
     ? {
         thickness:
@@ -262,14 +266,14 @@ export const getHorizSectionVals = (props) => {
           defaultReferenceConfig.labelTextStyle,
         zIndex:
           referenceLinesConfig.referenceLine1Config.zIndex ??
-          defaultReferenceConfig.zIndex,
+          defaultReferenceConfig.zIndex
       }
-    : defaultReferenceConfig;
+    : defaultReferenceConfig
 
-  showReferenceLine2 = referenceLinesConfig.showReferenceLine2 || false;
+  showReferenceLine2 = referenceLinesConfig.showReferenceLine2 || false
   referenceLine2Position =
     referenceLinesConfig.referenceLine2Position ??
-    (referenceLinesConfig.referenceLine2Position || (3 * containerHeight) / 2);
+    (referenceLinesConfig.referenceLine2Position || (3 * containerHeight) / 2)
   referenceLine2Config = referenceLinesConfig.referenceLine2Config
     ? {
         thickness:
@@ -298,14 +302,14 @@ export const getHorizSectionVals = (props) => {
           defaultReferenceConfig.labelTextStyle,
         zIndex:
           referenceLinesConfig.referenceLine2Config.zIndex ??
-          defaultReferenceConfig.zIndex,
+          defaultReferenceConfig.zIndex
       }
-    : defaultReferenceConfig;
+    : defaultReferenceConfig
 
-  showReferenceLine3 = referenceLinesConfig.showReferenceLine3 || false;
+  showReferenceLine3 = referenceLinesConfig.showReferenceLine3 || false
   referenceLine3Position =
     referenceLinesConfig.referenceLine3Position ??
-    (referenceLinesConfig.referenceLine3Position || containerHeight / 3);
+    (referenceLinesConfig.referenceLine3Position || containerHeight / 3)
   referenceLine3Config = referenceLinesConfig.referenceLine3Config
     ? {
         thickness:
@@ -334,46 +338,46 @@ export const getHorizSectionVals = (props) => {
           defaultReferenceConfig.labelTextStyle,
         zIndex:
           referenceLinesConfig.referenceLine3Config.zIndex ??
-          defaultReferenceConfig.zIndex,
+          defaultReferenceConfig.zIndex
       }
-    : defaultReferenceConfig;
+    : defaultReferenceConfig
 
-    const getLabelTexts = (val, index) => {
-      return getLabelTextUtil(
-        val,
-        index,
-        showFractionalValues,
-        yAxisLabelTexts,
-        yAxisOffset,
-        yAxisLabelPrefix,
-        yAxisLabelSuffix,
-        roundToDigits ?? AxesAndRulesDefaults.roundToDigits,
-        formatYLabel,
-      );
-    };
-  
-    const getLabelTextsForSecondaryYAxis = (val, index) => {
-      const {
-        showFractionalValues,
-        yAxisLabelTexts,
-        yAxisOffset,
-        yAxisLabelPrefix,
-        yAxisLabelSuffix,
-        roundToDigits,
-        formatYLabel,
-      } = secondaryYAxisConfig;
-      return getLabelTextUtil(
-        val,
-        index,
-        showFractionalValues,
-        yAxisLabelTexts,
-        yAxisOffset,
-        yAxisLabelPrefix,
-        yAxisLabelSuffix,
-        roundToDigits ?? AxesAndRulesDefaults.roundToDigits,
-        formatYLabel,
-      );
-    };
+  const getLabelTexts = (val: string, index: number): string => {
+    return getLabelTextUtil(
+      val,
+      index,
+      showFractionalValues,
+      yAxisLabelTexts,
+      yAxisOffset,
+      yAxisLabelPrefix,
+      yAxisLabelSuffix,
+      roundToDigits ?? AxesAndRulesDefaults.roundToDigits,
+      formatYLabel
+    )
+  }
+
+  const getLabelTextsForSecondaryYAxis = (val: string, index: number): string => {
+    const {
+      showFractionalValues,
+      yAxisLabelTexts,
+      yAxisOffset,
+      yAxisLabelPrefix,
+      yAxisLabelSuffix,
+      roundToDigits,
+      formatYLabel
+    } = secondaryYAxisConfig
+    return getLabelTextUtil(
+      val,
+      index,
+      showFractionalValues,
+      yAxisLabelTexts,
+      yAxisOffset,
+      yAxisLabelPrefix,
+      yAxisLabelSuffix,
+      roundToDigits ?? AxesAndRulesDefaults.roundToDigits,
+      formatYLabel
+    )
+  }
 
   return {
     secondaryYAxisConfig,
@@ -392,6 +396,6 @@ export const getHorizSectionVals = (props) => {
     horizSectionsBelow,
     secondaryHorizSectionsBelow,
     getLabelTexts,
-    getLabelTextsForSecondaryYAxis,
-  };
-};
+    getLabelTextsForSecondaryYAxis
+  }
+}

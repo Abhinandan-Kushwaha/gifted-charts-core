@@ -1,69 +1,66 @@
-import { defaultLineConfigType } from "../BarChart/types";
-import { CurveType, EdgePosition, RuleTypes } from "./types";
-import { Dimensions } from "react-native";
-import { FontStyle } from "react-native-svg";
+import { type defaultLineConfigType } from '../BarChart/types'
+import { CurveType, EdgePosition, type RuleTypes } from './types'
+import { type FontStyle } from 'react-native-svg'
 
 // Global
 
 export enum chartTypes {
   BAR,
   LINE,
-  LINE_BI_COLOR,
+  LINE_BI_COLOR
 }
 
-export const screenWidth = Dimensions.get("window").width;
-
-const defaultCurvature = 0.2;
-const defaultCurveType = CurveType.CUBIC;
-const defaultAnimationDuration = 800;
-const defaultScrollEventThrottle = 0;
-const defaultEndReachedOffset = 80;
+export const defaultCurvature = 0.2
+const defaultCurveType = CurveType.CUBIC
+export const defaultAnimationDuration = 800
+const defaultScrollEventThrottle = 0
+const defaultEndReachedOffset = 80
 
 // Bar and Line chart Specific
 
 export enum yAxisSides {
   LEFT,
-  RIGHT,
+  RIGHT
 }
 
 export enum loc {
   IN,
   UP,
-  DOWN,
+  DOWN
 }
 
-export const SEGMENT_START = "segmentStart";
-export const SEGMENT_END = "segmentEnd";
-export const RANGE_ENTER = "RangeEnter";
-export const RANGE_EXIT = "RangeExit";
-export const STOP = "stop";
+export const SEGMENT_START = 'segmentStart'
+export const SEGMENT_END = 'segmentEnd'
+export const RANGE_ENTER = 'RangeEnter'
+export const RANGE_EXIT = 'RangeExit'
+export const STOP = 'stop'
 
 export const ruleTypes: RuleTypes = {
-  SOLID: "solid",
-  DASHED: "dashed",
-  DOTTED: "dotted",
-};
+  SOLID: 'solid',
+  DASHED: 'dashed',
+  DOTTED: 'dotted'
+}
 
 export const AxesAndRulesDefaults = {
   yAxisSide: yAxisSides.LEFT,
-  yAxisColor: "black",
+  yAxisColor: 'black',
   yAxisExtraHeight: 0,
   yAxisThickness: 1,
   trimYAxisAtTop: false,
   overflowTop: 0,
-  xAxisColor: "black",
+  xAxisColor: 'black',
   xAxisThickness: 1,
   xAxisType: ruleTypes.SOLID,
   xAxisTextNumberOfLines: 1,
   xAxisLabelsVerticalShift: 0,
   dashWidth: 4,
   dashGap: 8,
-  backgroundColor: "transparent",
+  backgroundColor: 'transparent',
 
   hideRules: false,
   rulesType: ruleTypes.DASHED,
   rulesThickness: 1,
-  rulesColor: "lightgray",
+  rulesColor: 'lightgray',
   rulesConfigArray: [],
 
   rotateLabel: false,
@@ -71,12 +68,12 @@ export const AxesAndRulesDefaults = {
   showYAxisIndices: false,
   yAxisIndicesHeight: 2,
   yAxisIndicesWidth: 4,
-  yAxisIndicesColor: "black",
+  yAxisIndicesColor: 'black',
 
   showXAxisIndices: false,
   xAxisIndicesHeight: 2,
   xAxisIndicesWidth: 4,
-  xAxisIndicesColor: "black",
+  xAxisIndicesColor: 'black',
 
   hideOrigin: false,
   hideYAxisText: false,
@@ -84,8 +81,8 @@ export const AxesAndRulesDefaults = {
 
   showVerticalLines: false,
   verticalLinesThickness: 1,
-  verticalLinesColor: "lightgray",
-  verticalLinesStrokeDashArray: "",
+  verticalLinesColor: 'lightgray',
+  verticalLinesStrokeDashArray: '',
   verticalLinesShift: 0,
   verticalLinesZIndex: -1,
   verticalLinesSpacing: 0,
@@ -103,17 +100,17 @@ export const AxesAndRulesDefaults = {
 
   showFractionalValues: false,
   roundToDigits: 1,
-  referenceLinesOverChartContent: true,
-};
+  referenceLinesOverChartContent: true
+}
 
 export const defaultArrowConfig = {
   length: 10,
   width: 10,
   strokeWidth: 1,
-  strokeColor: "black",
-  fillColor: "none",
-  showArrowBase: true,
-};
+  strokeColor: 'black',
+  fillColor: 'none',
+  showArrowBase: true
+}
 
 // Bar chart specific
 
@@ -121,9 +118,9 @@ export const BarDefaults = {
   barWidth: 30,
   spacing: 20,
   capThickness: 6,
-  capColor: "gray",
+  capColor: 'gray',
   capRadius: 0,
-  barBorderColor: "gray",
+  barBorderColor: 'gray',
 
   horizontal: false,
   rtl: false,
@@ -141,22 +138,22 @@ export const BarDefaults = {
   showScrollIndicator: false,
   scrollEventThrottle: defaultScrollEventThrottle,
 
-  side: "",
+  side: '',
   isAnimated: false,
   animationDuration: 800,
   opacity: 1,
   isThreeD: false,
-  frontColor: "black",
-  threeDBarGradientColor: "white",
-  threeDBarFrontColor: "#C0CA3A",
-  threeDBarSideColor: "#887A24",
-  threeDBarTopColor: "#D9E676",
+  frontColor: 'black',
+  threeDBarGradientColor: 'white',
+  threeDBarFrontColor: '#C0CA3A',
+  threeDBarSideColor: '#887A24',
+  threeDBarTopColor: '#D9E676',
   endReachedOffset: defaultEndReachedOffset,
   focusedBarFrontColor: 'lightgreen',
   focusedThreeDBarFrontColor: '#B0B929',
   focusedBarSideColor: '#776913',
-  focusedBarTopColor: '#C8D565',
-};
+  focusedBarTopColor: '#C8D565'
+}
 
 export const defaultLineConfig: defaultLineConfigType = {
   initialSpacing: BarDefaults.spacing, // gets updated to spacing before being used
@@ -166,14 +163,14 @@ export const defaultLineConfig: defaultLineConfigType = {
   isAnimated: false,
   animationDuration: defaultAnimationDuration,
   thickness: 1,
-  color: "black",
+  color: 'black',
   hideDataPoints: false,
-  dataPointsShape: "circular",
+  dataPointsShape: 'circular',
   dataPointsWidth: 4,
   dataPointsHeight: 4,
-  dataPointsColor: "black",
+  dataPointsColor: 'black',
   dataPointsRadius: 3,
-  textColor: "gray",
+  textColor: 'gray',
   textFontSize: 10,
   textShiftX: 0,
   textShiftY: 0,
@@ -184,13 +181,13 @@ export const defaultLineConfig: defaultLineConfigType = {
   endIndex: 0, // gets updated to lineData.length - 1
   showArrow: false,
   arrowConfig: defaultArrowConfig,
-  isSecondary: false,
-};
+  isSecondary: false
+}
 
 // Line chart specific
 
 export const LineDefaults = {
-  color: "black",
+  color: 'black',
   curvature: defaultCurvature,
   curveType: defaultCurveType,
   thickness: 2,
@@ -211,19 +208,19 @@ export const LineDefaults = {
   dataPointsHeight: 4,
   dataPointsWidth: 4,
   dataPointsRadius: 3,
-  dataPointsColor: "black",
-  dataPointsColor2: "blue",
-  dataPointsColor3: "red",
-  dataPointsShape: "circular",
+  dataPointsColor: 'black',
+  dataPointsColor2: 'blue',
+  dataPointsColor3: 'red',
+  dataPointsShape: 'circular',
 
   textFontSize: 10,
-  textColor: "gray",
+  textColor: 'gray',
 
-  startFillColor: "gray",
-  endFillColor: "white",
+  startFillColor: 'gray',
+  endFillColor: 'white',
   lineGradient: false,
-  lineGradientStartColor: "lightgreen",
-  lineGradientEndColor: "orange",
+  lineGradientStartColor: 'lightgreen',
+  lineGradientEndColor: 'orange',
   startOpacity: 1,
   endOpacity: 1,
 
@@ -235,19 +232,19 @@ export const LineDefaults = {
   unFocusOnPressOut: true,
   delayBeforeUnFocus: 300,
   edgePosition: EdgePosition.AFTER_DATA_POINT,
-  endReachedOffset: defaultEndReachedOffset,
-};
+  endReachedOffset: defaultEndReachedOffset
+}
 
 export const defaultPointerConfig = {
   height: 0,
   width: 0,
   radius: 5,
-  pointerColor: "red",
+  pointerColor: 'red',
   pointerComponent: null,
   showPointerStrip: true,
   pointerStripHeight: AxesAndRulesDefaults.containerHeight, // gets updated to actual containerHeight
   pointerStripWidth: 1,
-  pointerStripColor: "black",
+  pointerStripColor: 'black',
   pointerStripUptoDataPoint: false,
   pointerLabelComponent: null,
   stripOverPointer: false,
@@ -270,26 +267,25 @@ export const defaultPointerConfig = {
   hideSecondaryPointer: false,
   barTouchable: false,
   stripBehindBars: true,
-  resetPointerOnDataChange: true,
+  resetPointerOnDataChange: true
   // pointerEvents: PointerEvent
-};
+}
 
 // Pie chart specific
 
 export const pieColors = [
-  "cyan",
-  "green",
-  "orange",
-  "purple",
-  "#bbff00",
-  "red",
-  "blue",
-  "pink",
-];
+  'cyan',
+  'green',
+  'orange',
+  'purple',
+  '#bbff00',
+  'red',
+  'blue',
+  'pink'
+]
 
 export const populationDefaults = {
   height: 200,
-  width: screenWidth,
   verticalMarginBetweenBars: 1,
   barsMapToYAxisSections: true,
 
@@ -297,21 +293,21 @@ export const populationDefaults = {
   showXAxisIndices: true,
   xAxisIndicesWidth: 2,
   xAxisIndicesHeight: 4,
-  xAxisIndicesColor: "black",
+  xAxisIndicesColor: 'black',
   showXAxisLabelTexts: true,
   xAxisRoundToDigits: 0,
 
   showVerticalLines: true,
-  verticalLinesColor: "lightgray",
+  verticalLinesColor: 'lightgray',
   verticalLinesThickness: 1,
   verticalLinesType: ruleTypes.DASHED,
   verticalLinesStrokeDashArray: [4, 8],
 
   defaultFontSize: 12,
-  defaultFontColor: "black",
-  defaultFontStyle: <FontStyle>"normal",
+  defaultFontColor: 'black',
+  defaultFontStyle: 'normal' as FontStyle,
   defaultFontWeight: 1,
-  defaultFontFamily: "",
+  defaultFontFamily: '',
 
   yAxisLabelTextMarginRight: 4,
   showValuesAsBarLabels: false,
@@ -322,10 +318,10 @@ export const populationDefaults = {
   leftBarLabelWidth: 30,
   rightBarLabelWidth: 30,
 
-  leftBarColor: "skyblue",
-  rightBarColor: "orange",
-  leftBarBorderColor: "blue",
-  rightBarBorderColor: "red",
+  leftBarColor: 'skyblue',
+  rightBarColor: 'orange',
+  leftBarBorderColor: 'blue',
+  rightBarBorderColor: 'red',
   leftBarBorderWidth: 0,
   rightBarBorderWidth: 0,
   leftBarBorderRadius: 0,
@@ -334,12 +330,12 @@ export const populationDefaults = {
   showSurplus: false,
   showSurplusLeft: false,
   showSurplusRight: false,
-  leftSurplusColor: "#334790",
-  leftSurplusBorderColor: "blue",
-  rightSurplusColor: "#AC343C",
-  rightSurplusBorderColor: "red",
+  leftSurplusColor: '#334790',
+  leftSurplusBorderColor: 'blue',
+  rightSurplusColor: '#AC343C',
+  rightSurplusBorderColor: 'red',
   leftSurplusBorderWidth: 0,
   rightSurplusBorderWidth: 0,
-  prefix: "",
-  suffix: "",
-};
+  prefix: '',
+  suffix: ''
+}

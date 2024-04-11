@@ -1,0 +1,22 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "standard-with-typescript",
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "parser": "@typescript-eslint/parser",
+        "project": "./tsconfig.json",
+        "tsconfigRootDir": "."
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "@typescript-eslint/strict-boolean-expressions": "warn",
+        "@typescript-eslint/indent": "off"
+    }
+}

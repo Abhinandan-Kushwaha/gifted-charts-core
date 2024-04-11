@@ -1,0 +1,20 @@
+import { type HorizSectionsType, type horizSectionPropTypes, type secondaryYAxisType } from '../../utils/types';
+export declare const getHorizSectionVals: (props: horizSectionPropTypes) => {
+    secondaryYAxisConfig: secondaryYAxisType;
+    horizSections: HorizSectionsType;
+    yAxisExtraHeightAtTop: number;
+    secondaryHorizSections: HorizSectionsType;
+    showReferenceLine1: any;
+    referenceLine1Config: any;
+    referenceLine1Position: any;
+    showReferenceLine2: any;
+    referenceLine2Config: any;
+    referenceLine2Position: any;
+    showReferenceLine3: any;
+    referenceLine3Config: any;
+    referenceLine3Position: any;
+    horizSectionsBelow: HorizSectionsType;
+    secondaryHorizSectionsBelow: HorizSectionsType;
+    getLabelTexts: (val: string, index: number) => string;
+    getLabelTextsForSecondaryYAxis: (val: string, index: number) => string;
+};
