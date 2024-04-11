@@ -320,6 +320,7 @@ export interface LineChartPropsType {
   onStartReached?: () => void
   endReachedOffset?: number
   onScroll?: Function
+  onMomentumScrollEnd?: Function
 
   showDataPointsForMissingValues?: boolean
   interpolateMissingValues?: boolean

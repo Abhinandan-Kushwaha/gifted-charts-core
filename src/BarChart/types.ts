@@ -309,6 +309,7 @@ export interface BarChartPropsType {
   onStartReached?: () => void
   endReachedOffset?: number
   onScroll?: Function
+  onMomentumScrollEnd?: Function
 
   focusBarOnPress?: boolean
   focusedBarConfig?: FocusedBarConfig
