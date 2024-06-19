@@ -32,6 +32,7 @@ import {
 import { type Animated } from 'react-native'
 
 export interface extendedBarChartPropsType extends BarChartPropsType {
+  parentWidth: number,
   heightValue?: Animated.Value
   widthValue?: Animated.Value
   opacValue?: Animated.Value
@@ -40,13 +41,54 @@ export interface extendedBarChartPropsType extends BarChartPropsType {
 }
 
 export const useBarChart = (props: extendedBarChartPropsType) => {
-  const { heightValue, widthValue, opacValue, yAxisOffset } = props
+  const {
+    heightValue,
+    widthValue,
+    opacValue,
+    yAxisOffset,
+    adjustToWidth,
+    parentWidth,
+  } = props
   const [points, setPoints] = useState('')
   const [points2, setPoints2] = useState('')
   const [arrowPoints, setArrowPoints] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const showLine = props.showLine ?? BarDefaults.showLine
-  const spacing = props.spacing ?? BarDefaults.spacing
+
+  const data = useMemo(() => {
+    if (!props.data) {
+      return []
+    }
+    if (yAxisOffset) {
+      return props.data.map((item) => ({
+        ...item,
+        value: (item.value ?? 0) - (yAxisOffset ?? 0)
+      }))
+    }
+    return props.data
+  }, [yAxisOffset, props.data])
+
+  const yAxisLabelWidth =
+    props.yAxisLabelWidth ??
+    (props.hideYAxisText
+      ? AxesAndRulesDefaults.yAxisEmptyLabelWidth
+      : AxesAndRulesDefaults.yAxisLabelWidth)
+
+  const autoComputedSectionWidth =
+    props.initialSpacing !== undefined
+      ? (parentWidth - yAxisLabelWidth) / data.length - props.initialSpacing
+      : (parentWidth - yAxisLabelWidth) / (data.length + 0.5)
+
+  const autoComputedBarWidth = autoComputedSectionWidth * 0.6
+  const defaultBarWidth = adjustToWidth
+    ? autoComputedBarWidth
+    : BarDefaults.barWidth
+  const barWidth = props.barWidth ?? defaultBarWidth
+
+  const autoComputedSpacing = autoComputedSectionWidth * 0.4
+
+  const spacing =
+    props.spacing ?? (adjustToWidth ? autoComputedSpacing : BarDefaults.spacing)
   const initialSpacing = props.initialSpacing ?? spacing
   const endSpacing = props.endSpacing ?? spacing
   const showFractionalValues =
@@ -63,19 +105,6 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const isAnimated = props.isAnimated ?? BarDefaults.isAnimated
   const animationDuration =
     props.animationDuration ?? BarDefaults.animationDuration
-
-  const data = useMemo(() => {
-    if (!props.data) {
-      return []
-    }
-    if (yAxisOffset) {
-      return props.data.map((item) => ({
-        ...item,
-        value: (item.value ?? 0) - (yAxisOffset ?? 0)
-      }))
-    }
-    return props.data
-  }, [yAxisOffset, props.data])
 
   const secondaryData = getSecondaryDataWithOffsetIncluded(
     props.secondaryData,
@@ -151,9 +180,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         minItem = stackSumMin
       }
       totalWidth +=
-        (stackItem.stacks[0].barWidth ??
-          props.barWidth ??
-          BarDefaults.barWidth) + spacing
+        (stackItem.stacks[0].barWidth ?? props.barWidth ?? defaultBarWidth) +
+        spacing
     })
   } else {
     data.forEach((item: barDataItem) => {
@@ -164,7 +192,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         minItem = item.value
       }
       totalWidth +=
-        (item.barWidth ?? props.barWidth ?? BarDefaults.barWidth) +
+        (item.barWidth ?? props.barWidth ?? defaultBarWidth) +
         (item.spacing ?? spacing)
     })
   }
@@ -239,15 +267,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     props.xAxisLabelsVerticalShift ??
     AxesAndRulesDefaults.xAxisLabelsVerticalShift
   const horizontalRulesStyle = props.horizontalRulesStyle
-  const yAxisLabelWidth =
-    props.yAxisLabelWidth ??
-    (props.hideYAxisText
-      ? AxesAndRulesDefaults.yAxisEmptyLabelWidth
-      : AxesAndRulesDefaults.yAxisLabelWidth)
 
   const autoShiftLabels = props.autoShiftLabels ?? false
-
-  const barWidth = props.barWidth ?? BarDefaults.barWidth
   const barBorderColor = props.barBorderColor ?? BarDefaults.barBorderColor
 
   const extendedContainerHeight = getExtendedContainerHeightWithPadding(
@@ -357,7 +378,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
             continue
           }
           const currentBarWidth =
-            data?.[i]?.barWidth ?? props.barWidth ?? BarDefaults.barWidth
+            data?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
           const currentValue = props.lineData
             ? props.lineData[i].value
             : props.stackData
@@ -417,7 +438,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
             continue
           }
           const currentBarWidth =
-            data?.[i]?.barWidth ?? props.barWidth ?? BarDefaults.barWidth
+            data?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
           const currentValue = props.lineData
             ? props.lineData[i].value
             : props.stackData
@@ -460,7 +481,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
               continue
             }
             const currentBarWidth =
-              data?.[i]?.barWidth ?? props.barWidth ?? BarDefaults.barWidth
+              data?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
             const currentValue = lineData2[i].value
             pp2 +=
               'L' +
@@ -492,7 +513,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
               continue
             }
             const currentBarWidth =
-              data?.[i]?.barWidth ?? props.barWidth ?? BarDefaults.barWidth
+              data?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
             const currentValue = lineData2[i].value
             p2Array.push([
               getXForLineInBar(
@@ -609,7 +630,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       spacing: item.spacing ?? spacing,
       propSpacing: spacing,
       xAxisThickness,
-      barWidth: props.barWidth,
+      barWidth: props.barWidth ?? defaultBarWidth,
       opacity,
       disablePress: item.disablePress ?? props.disablePress,
       rotateLabel,
@@ -679,7 +700,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     data,
     stackData: props.stackData,
     secondaryData,
-    barWidth: props.barWidth ?? BarDefaults.barWidth,
+    barWidth: props.barWidth ?? defaultBarWidth,
     xAxisThickness,
     totalWidth,
     disableScroll,

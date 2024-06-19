@@ -39,7 +39,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     semiCircle,
     radius = 120,
     innerRadius = donut ? radius / 2.5 : 0,
-    strokeWidth = 0,
+    strokeWidth = props.ring ? 10 : 0,
     edgesRadius = 0,
     startAngle = 0,
     ring

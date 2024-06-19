@@ -278,6 +278,8 @@ export interface BarChartPropsType {
     onMomentumScrollEnd?: Function;
     focusBarOnPress?: boolean;
     focusedBarConfig?: FocusedBarConfig;
+    adjustToWidth?: boolean;
+    parentWidth?: number;
 }
 export interface FocusedBarConfig {
     color?: ColorValue;
@@ -464,7 +466,7 @@ export interface RenderBarsPropsType {
     spacing: number;
     propSpacing?: number;
     data?: any;
-    barWidth?: number;
+    barWidth: number;
     sideWidth?: number;
     labelWidth?: number;
     isThreeD?: boolean;

@@ -70,6 +70,7 @@ export interface LineChartPropsType {
   showDataPointOnFocus?: boolean
   showStripOnFocus?: boolean
   showTextOnFocus?: boolean
+  showDataPointLabelOnFocus?: boolean
   stripHeight?: number
   stripWidth?: number
   stripColor?: ColorValue | string | any
@@ -325,6 +326,7 @@ export interface LineChartPropsType {
   showDataPointsForMissingValues?: boolean
   interpolateMissingValues?: boolean
   onlyPositive?: boolean
+  parentWidth?: number
 }
 
 export interface lineDataItem {
@@ -460,6 +462,7 @@ export interface LineChartBicolorPropsType {
   showDataPointOnFocus?: boolean
   showStripOnFocus?: boolean
   showTextOnFocus?: boolean
+  showDataPointLabelOnFocus?: boolean
   stripHeight?: number
   stripWidth?: number
   stripColor?: ColorValue | string | any
@@ -584,6 +587,7 @@ export interface LineChartBicolorPropsType {
   formatYLabel?: (label: string) => string
   onScroll?: Function
   endReachedOffset?: number
+  parentWidth?: number
 }
 
 export interface IDataSanitisationProps {

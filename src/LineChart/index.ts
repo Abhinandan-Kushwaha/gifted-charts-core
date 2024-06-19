@@ -43,7 +43,7 @@ export interface extendedLineChartPropsType extends LineChartPropsType {
   // heightValue: Animated.Value
   // widthValue: Animated.Value
   // opacValue: Animated.Value
-  screenWidth: number
+  parentWidth: number
 }
 
 export const useLineChart = (props: extendedLineChartPropsType) => {
@@ -53,7 +53,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     interpolateMissingValues = true,
     onlyPositive,
     yAxisOffset,
-    screenWidth
+    parentWidth
   } = props
   const curvature = props.curvature ?? LineDefaults.curvature
   const curveType = props.curveType ?? LineDefaults.curveType
@@ -76,6 +76,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const [pointerY4, setPointerY4] = useState(0)
   const [pointerItem4, setPointerItem4] = useState<lineDataItem>()
   const [pointerY5, setPointerY5] = useState(0)
+  const [pointerYsForDataSet, setPointerYsForDataSet] = useState<number[]>([])
   const [pointerItem5, setPointerItem5] = useState<lineDataItem>()
   const [secondaryPointerY, setSecondaryPointerY] = useState(0)
   const [secondaryPointerItem, setSecondaryPointerItem] = useState()
@@ -245,7 +246,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const spacing =
     props.spacing ??
     (adjustToWidth
-      ? ((props.width ?? screenWidth - yAxisLabelWidth) - initialSpacing) /
+      ? ((props.width ?? parentWidth - yAxisLabelWidth) - initialSpacing) /
         Math.max((data0 ?? data).length - 1, 1)
       : LineDefaults.spacing)
 
@@ -1640,6 +1641,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const showStripOnFocus =
     props.showStripOnFocus ?? LineDefaults.showStripOnFocus
   const showTextOnFocus = props.showTextOnFocus ?? LineDefaults.showTextOnFocus
+  const showDataPointLabelOnFocus =
+    props.showDataPointLabelOnFocus ?? LineDefaults.showDataPointLabelOnFocus
   const stripHeight = props.stripHeight
   const stripWidth = props.stripWidth ?? LineDefaults.stripWidth
   const stripColor = props.stripColor ?? color1
@@ -1669,24 +1672,35 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const initialisePointers = (): void => {
     if (initialPointerIndex !== -1) {
-      const item = (data0 ?? data)[initialPointerIndex]
       const x =
         initialSpacing +
         spacing * initialPointerIndex -
         (pointerRadius || pointerWidth / 2) -
         1
-      const y = getPointerY(item.value)
-      const y2 = getPointerY(data2?.[initialPointerIndex]?.value)
-      const y3 = getPointerY(data3?.[initialPointerIndex]?.value)
-      const y4 = getPointerY(data4?.[initialPointerIndex]?.value)
-      const y5 = getPointerY(data5?.[initialPointerIndex]?.value)
-
-      if (initialPointerAppearDelay) {
-        setTimeout(() => {
-          setPointerConfig(initialPointerIndex, item, x, y, y2, y3, y4, y5)
-        }, initialPointerAppearDelay)
+      if (dataSet?.length) {
+        const item = dataSet[0].data[initialPointerIndex]
+        if (initialPointerAppearDelay) {
+          setTimeout(() => {
+            setPointerConfigForDataSet(initialPointerIndex, item, x)
+          }, initialPointerAppearDelay)
+        } else {
+          setPointerConfigForDataSet(initialPointerIndex, item, x)
+        }
       } else {
-        setPointerConfig(initialPointerIndex, item, x, y, y2, y3, y4, y5)
+        const item = (data0 ?? data)[initialPointerIndex]
+        const y = getPointerY(item.value)
+        const y2 = getPointerY(data2?.[initialPointerIndex]?.value)
+        const y3 = getPointerY(data3?.[initialPointerIndex]?.value)
+        const y4 = getPointerY(data4?.[initialPointerIndex]?.value)
+        const y5 = getPointerY(data5?.[initialPointerIndex]?.value)
+
+        if (initialPointerAppearDelay) {
+          setTimeout(() => {
+            setPointerConfig(initialPointerIndex, item, x, y, y2, y3, y4, y5)
+          }, initialPointerAppearDelay)
+        } else {
+          setPointerConfig(initialPointerIndex, item, x, y, y2, y3, y4, y5)
+        }
       }
     }
   }
@@ -1719,6 +1733,21 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     setPointerY3(y3)
     setPointerY4(y4)
     setPointerY5(y5)
+  }
+
+  const setPointerConfigForDataSet = (
+    initialPointerIndex: number,
+    item: lineDataItem,
+    x: number
+  ) => {
+    setPointerIndex(initialPointerIndex)
+    setPointerItem(item)
+    setPointerX(x)
+
+    const initialPointerYs =
+      dataSet?.map((set) => getPointerY(set.data[initialPointerIndex].value)) ??
+      []
+    setPointerYsForDataSet(initialPointerYs)
   }
 
   const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
@@ -1830,6 +1859,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     setPointerItem4,
     pointerY5,
     setPointerY5,
+    pointerYsForDataSet,
+    setPointerYsForDataSet,
     pointerItem5,
     setPointerItem5,
     secondaryPointerY,
@@ -2119,6 +2150,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     showDataPointOnFocus,
     showStripOnFocus,
     showTextOnFocus,
+    showDataPointLabelOnFocus,
     stripHeight,
     stripWidth,
     stripColor,
@@ -2132,7 +2164,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     lineGradientEndColor,
     getPointerY,
     initialisePointers,
-    setPointerConfig,
     barAndLineChartsWrapperProps,
     yAxisExtraHeightAtTop
   }

@@ -26,7 +26,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { defaultAnimationDuration } from '../utils/constants';
 export var usePiePro = function (props) {
     var _a, _b;
-    var data = props.data, isAnimated = props.isAnimated, donut = props.donut, semiCircle = props.semiCircle, _c = props.radius, radius = _c === void 0 ? 120 : _c, _d = props.innerRadius, innerRadius = _d === void 0 ? donut ? radius / 2.5 : 0 : _d, _e = props.strokeWidth, strokeWidth = _e === void 0 ? 0 : _e, _f = props.edgesRadius, edgesRadius = _f === void 0 ? 0 : _f, _g = props.startAngle, startAngle = _g === void 0 ? 0 : _g, ring = props.ring;
+    var data = props.data, isAnimated = props.isAnimated, donut = props.donut, semiCircle = props.semiCircle, _c = props.radius, radius = _c === void 0 ? 120 : _c, _d = props.innerRadius, innerRadius = _d === void 0 ? donut ? radius / 2.5 : 0 : _d, _e = props.strokeWidth, strokeWidth = _e === void 0 ? props.ring ? 10 : 0 : _e, _f = props.edgesRadius, edgesRadius = _f === void 0 ? 0 : _f, _g = props.startAngle, startAngle = _g === void 0 ? 0 : _g, ring = props.ring;
     var endAngle = (_a = props.endAngle) !== null && _a !== void 0 ? _a : startAngle + Math.PI * (semiCircle ? 1 : 2);
     var total = data.reduce(function (acc, item) { return acc + (item === null || item === void 0 ? void 0 : item.value); }, 0);
     var animationDuration = (_b = props.animationDuration) !== null && _b !== void 0 ? _b : defaultAnimationDuration;

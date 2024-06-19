@@ -4,7 +4,7 @@ import { type BarAndLineChartsWrapperTypes, EdgePosition, type LineSegment } fro
 import { type Animated } from 'react-native';
 export interface extendedLineChartPropsType extends LineChartPropsType {
     animations?: Animated.Value[];
-    screenWidth: number;
+    parentWidth: number;
 }
 export declare const useLineChart: (props: extendedLineChartPropsType) => {
     curvature: number;
@@ -45,6 +45,8 @@ export declare const useLineChart: (props: extendedLineChartPropsType) => {
     setPointerItem4: import("react").Dispatch<import("react").SetStateAction<lineDataItem | undefined>>;
     pointerY5: number;
     setPointerY5: import("react").Dispatch<import("react").SetStateAction<number>>;
+    pointerYsForDataSet: number[];
+    setPointerYsForDataSet: import("react").Dispatch<import("react").SetStateAction<number[]>>;
     pointerItem5: lineDataItem | undefined;
     setPointerItem5: import("react").Dispatch<import("react").SetStateAction<lineDataItem | undefined>>;
     secondaryPointerY: number;
@@ -363,6 +365,7 @@ export declare const useLineChart: (props: extendedLineChartPropsType) => {
     showDataPointOnFocus: boolean;
     showStripOnFocus: boolean;
     showTextOnFocus: boolean;
+    showDataPointLabelOnFocus: boolean;
     stripHeight: number | undefined;
     stripWidth: number;
     stripColor: any;
@@ -376,7 +379,6 @@ export declare const useLineChart: (props: extendedLineChartPropsType) => {
     lineGradientEndColor: string;
     getPointerY: (value: number) => number;
     initialisePointers: () => void;
-    setPointerConfig: (initialPointerIndex: number, item: lineDataItem, x: number, y: number, y2: number, y3: number, y4: number, y5: number) => void;
     barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes;
     yAxisExtraHeightAtTop: number;
 };

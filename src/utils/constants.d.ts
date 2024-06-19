@@ -157,6 +157,7 @@ export declare const LineDefaults: {
     showDataPointOnFocus: boolean;
     showStripOnFocus: boolean;
     showTextOnFocus: boolean;
+    showDataPointLabelOnFocus: boolean;
     stripWidth: number;
     unFocusOnPressOut: boolean;
     delayBeforeUnFocus: number;

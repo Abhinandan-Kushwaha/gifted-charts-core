@@ -248,6 +248,7 @@ export interface Pointer {
     pointer3Color?: ColorValue;
     pointer4Color?: ColorValue;
     pointer5Color?: ColorValue;
+    pointerColorsForDataSet?: ColorValue[];
     secondaryPointerColor?: ColorValue;
     pointerComponent?: Function;
     showPointerStrip?: boolean;
