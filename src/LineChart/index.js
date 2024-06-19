@@ -30,49 +30,50 @@ import { AxesAndRulesDefaults, LineDefaults, SEGMENT_END, SEGMENT_START, chartTy
 import { adjustToOffset, computeMaxAndMinItems, getAllArrowProperties, getArrowPoints, getAxesAndRulesProps, getCurvePathWithSegments, getExtendedContainerHeightWithPadding, getInterpolatedData, getLineSegmentsForMissingValues, getMaxValue, getNoOfSections, getPathWithHighlight, getSanitisedData, getSecondaryDataWithOffsetIncluded, getSegmentString, svgPath } from '../utils';
 import { EdgePosition } from '../utils/types';
 export var useLineChart = function (props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50, _51, _52, _53, _54, _55, _56, _57, _58, _59, _60, _61, _62, _63, _64, _65, _66, _67, _68, _69, _70, _71, _72, _73, _74, _75, _76, _77, _78, _79, _80, _81, _82, _83, _84, _85, _86, _87, _88, _89, _90, _91, _92, _93, _94, _95, _96, _97, _98, _99, _100, _101, _102, _103, _104, _105, _106, _107, _108, _109, _110, _111, _112, _113, _114, _115, _116, _117, _118, _119, _120, _121, _122, _123, _124, _125, _126, _127, _128, _129, _130, _131, _132, _133, _134, _135, _136, _137, _138, _139, _140, _141, _142, _143, _144, _145, _146, _147, _148, _149, _150, _151, _152, _153, _154, _155, _156, _157, _158, _159, _160, _161, _162, _163, _164, _165, _166, _167, _168, _169, _170, _171, _172, _173, _174, _175, _176, _177, _178, _179, _180, _181, _182, _183, _184, _185, _186, _187, _188, _189, _190, _191, _192, _193, _194, _195, _196, _197, _198, _199, _200, _201, _202, _203, _204, _205, _206, _207, _208, _209, _210, _211, _212, _213, _214, _215, _216, _217, _218, _219, _220, _221, _222, _223, _224, _225, _226, _227, _228, _229, _230, _231, _232, _233, _234, _235, _236, _237, _238, _239, _240, _241, _242, _243, _244, _245, _246, _247, _248, _249, _250, _251, _252, _253, _254, _255, _256, _257, _258, _259, _260, _261, _262, _263, _264, _265, _266, _267, _268, _269, _270, _271, _272, _273, _274, _275, _276, _277, _278, _279, _280, _281, _282, _283, _284, _285, _286, _287, _288, _289, _290, _291;
-    var animations = props.animations, showDataPointsForMissingValues = props.showDataPointsForMissingValues, _292 = props.interpolateMissingValues, interpolateMissingValues = _292 === void 0 ? true : _292, onlyPositive = props.onlyPositive, yAxisOffset = props.yAxisOffset, parentWidth = props.parentWidth;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50, _51, _52, _53, _54, _55, _56, _57, _58, _59, _60, _61, _62, _63, _64, _65, _66, _67, _68, _69, _70, _71, _72, _73, _74, _75, _76, _77, _78, _79, _80, _81, _82, _83, _84, _85, _86, _87, _88, _89, _90, _91, _92, _93, _94, _95, _96, _97, _98, _99, _100, _101, _102, _103, _104, _105, _106, _107, _108, _109, _110, _111, _112, _113, _114, _115, _116, _117, _118, _119, _120, _121, _122, _123, _124, _125, _126, _127, _128, _129, _130, _131, _132, _133, _134, _135, _136, _137, _138, _139, _140, _141, _142, _143, _144, _145, _146, _147, _148, _149, _150, _151, _152, _153, _154, _155, _156, _157, _158, _159, _160, _161, _162, _163, _164, _165, _166, _167, _168, _169, _170, _171, _172, _173, _174, _175, _176, _177, _178, _179, _180, _181, _182, _183, _184, _185, _186, _187, _188, _189, _190, _191, _192, _193, _194, _195, _196, _197, _198, _199, _200, _201, _202, _203, _204, _205, _206, _207, _208, _209, _210, _211, _212, _213, _214, _215, _216, _217, _218, _219, _220, _221, _222, _223, _224, _225, _226, _227, _228, _229, _230, _231, _232, _233, _234, _235, _236, _237, _238, _239, _240, _241, _242, _243, _244, _245, _246, _247, _248, _249, _250, _251, _252, _253, _254, _255, _256, _257, _258, _259, _260, _261, _262, _263, _264, _265, _266, _267, _268, _269, _270, _271, _272, _273, _274, _275, _276, _277, _278, _279, _280, _281, _282, _283, _284, _285, _286, _287, _288, _289, _290, _291, _292;
+    var animations = props.animations, showDataPointsForMissingValues = props.showDataPointsForMissingValues, _293 = props.interpolateMissingValues, interpolateMissingValues = _293 === void 0 ? true : _293, onlyPositive = props.onlyPositive, yAxisOffset = props.yAxisOffset, parentWidth = props.parentWidth;
     var curvature = (_a = props.curvature) !== null && _a !== void 0 ? _a : LineDefaults.curvature;
     var curveType = (_b = props.curveType) !== null && _b !== void 0 ? _b : LineDefaults.curveType;
-    var _293 = __read(useState(0), 2), scrollX = _293[0], setScrollX = _293[1];
-    var _294 = __read(useState(''), 2), arrow1Points = _294[0], setArrow1Points = _294[1];
-    var _295 = __read(useState(''), 2), arrow2Points = _295[0], setArrow2Points = _295[1];
-    var _296 = __read(useState(''), 2), arrow3Points = _296[0], setArrow3Points = _296[1];
-    var _297 = __read(useState(''), 2), arrow4Points = _297[0], setArrow4Points = _297[1];
-    var _298 = __read(useState(''), 2), arrow5Points = _298[0], setArrow5Points = _298[1];
-    var _299 = __read(useState(''), 2), secondaryArrowPoints = _299[0], setSecondaryArrowPoints = _299[1];
-    var _300 = __read(useState(-1), 2), pointerIndex = _300[0], setPointerIndex = _300[1];
-    var _301 = __read(useState(0), 2), pointerX = _301[0], setPointerX = _301[1];
-    var _302 = __read(useState(0), 2), pointerY = _302[0], setPointerY = _302[1];
-    var _303 = __read(useState(), 2), pointerItem = _303[0], setPointerItem = _303[1];
-    var _304 = __read(useState(0), 2), pointerY2 = _304[0], setPointerY2 = _304[1];
-    var _305 = __read(useState(), 2), pointerItem2 = _305[0], setPointerItem2 = _305[1];
-    var _306 = __read(useState(0), 2), pointerY3 = _306[0], setPointerY3 = _306[1];
-    var _307 = __read(useState(), 2), pointerItem3 = _307[0], setPointerItem3 = _307[1];
-    var _308 = __read(useState(0), 2), pointerY4 = _308[0], setPointerY4 = _308[1];
-    var _309 = __read(useState(), 2), pointerItem4 = _309[0], setPointerItem4 = _309[1];
-    var _310 = __read(useState(0), 2), pointerY5 = _310[0], setPointerY5 = _310[1];
-    var _311 = __read(useState(), 2), pointerItem5 = _311[0], setPointerItem5 = _311[1];
-    var _312 = __read(useState(0), 2), secondaryPointerY = _312[0], setSecondaryPointerY = _312[1];
-    var _313 = __read(useState(), 2), secondaryPointerItem = _313[0], setSecondaryPointerItem = _313[1];
-    var _314 = __read(useState(0), 2), responderStartTime = _314[0], setResponderStartTime = _314[1];
-    var _315 = __read(useState(false), 2), responderActive = _315[0], setResponderActive = _315[1];
-    var _316 = __read(useState(''), 2), points = _316[0], setPoints = _316[1];
-    var _317 = __read(useState(''), 2), points2 = _317[0], setPoints2 = _317[1];
-    var _318 = __read(useState(''), 2), points3 = _318[0], setPoints3 = _318[1];
-    var _319 = __read(useState(''), 2), points4 = _319[0], setPoints4 = _319[1];
-    var _320 = __read(useState(''), 2), points5 = _320[0], setPoints5 = _320[1];
-    var _321 = __read(useState(''), 2), secondaryPoints = _321[0], setSecondaryPoints = _321[1];
-    var _322 = __read(useState(''), 2), fillPoints = _322[0], setFillPoints = _322[1];
-    var _323 = __read(useState(''), 2), fillPoints2 = _323[0], setFillPoints2 = _323[1];
-    var _324 = __read(useState(''), 2), fillPoints3 = _324[0], setFillPoints3 = _324[1];
-    var _325 = __read(useState(''), 2), fillPoints4 = _325[0], setFillPoints4 = _325[1];
-    var _326 = __read(useState(''), 2), fillPoints5 = _326[0], setFillPoints5 = _326[1];
-    var _327 = __read(useState(''), 2), secondaryFillPoints = _327[0], setSecondaryFillPoints = _327[1];
-    var _328 = __read(useState([]), 2), pointsFromSet = _328[0], setPointsFromSet = _328[1];
-    var _329 = __read(useState([]), 2), fillPointsFromSet = _329[0], setFillPointsFromSet = _329[1];
-    var _330 = __read(useState([]), 2), arrowPointsFromSet = _330[0], setArrowPointsFromSet = _330[1];
-    var _331 = __read(useState(-1), 2), selectedIndex = _331[0], setSelectedIndex = _331[1];
+    var _294 = __read(useState(0), 2), scrollX = _294[0], setScrollX = _294[1];
+    var _295 = __read(useState(''), 2), arrow1Points = _295[0], setArrow1Points = _295[1];
+    var _296 = __read(useState(''), 2), arrow2Points = _296[0], setArrow2Points = _296[1];
+    var _297 = __read(useState(''), 2), arrow3Points = _297[0], setArrow3Points = _297[1];
+    var _298 = __read(useState(''), 2), arrow4Points = _298[0], setArrow4Points = _298[1];
+    var _299 = __read(useState(''), 2), arrow5Points = _299[0], setArrow5Points = _299[1];
+    var _300 = __read(useState(''), 2), secondaryArrowPoints = _300[0], setSecondaryArrowPoints = _300[1];
+    var _301 = __read(useState(-1), 2), pointerIndex = _301[0], setPointerIndex = _301[1];
+    var _302 = __read(useState(0), 2), pointerX = _302[0], setPointerX = _302[1];
+    var _303 = __read(useState(0), 2), pointerY = _303[0], setPointerY = _303[1];
+    var _304 = __read(useState(), 2), pointerItem = _304[0], setPointerItem = _304[1];
+    var _305 = __read(useState(0), 2), pointerY2 = _305[0], setPointerY2 = _305[1];
+    var _306 = __read(useState(), 2), pointerItem2 = _306[0], setPointerItem2 = _306[1];
+    var _307 = __read(useState(0), 2), pointerY3 = _307[0], setPointerY3 = _307[1];
+    var _308 = __read(useState(), 2), pointerItem3 = _308[0], setPointerItem3 = _308[1];
+    var _309 = __read(useState(0), 2), pointerY4 = _309[0], setPointerY4 = _309[1];
+    var _310 = __read(useState(), 2), pointerItem4 = _310[0], setPointerItem4 = _310[1];
+    var _311 = __read(useState(0), 2), pointerY5 = _311[0], setPointerY5 = _311[1];
+    var _312 = __read(useState([]), 2), pointerYsForDataSet = _312[0], setPointerYsForDataSet = _312[1];
+    var _313 = __read(useState(), 2), pointerItem5 = _313[0], setPointerItem5 = _313[1];
+    var _314 = __read(useState(0), 2), secondaryPointerY = _314[0], setSecondaryPointerY = _314[1];
+    var _315 = __read(useState(), 2), secondaryPointerItem = _315[0], setSecondaryPointerItem = _315[1];
+    var _316 = __read(useState(0), 2), responderStartTime = _316[0], setResponderStartTime = _316[1];
+    var _317 = __read(useState(false), 2), responderActive = _317[0], setResponderActive = _317[1];
+    var _318 = __read(useState(''), 2), points = _318[0], setPoints = _318[1];
+    var _319 = __read(useState(''), 2), points2 = _319[0], setPoints2 = _319[1];
+    var _320 = __read(useState(''), 2), points3 = _320[0], setPoints3 = _320[1];
+    var _321 = __read(useState(''), 2), points4 = _321[0], setPoints4 = _321[1];
+    var _322 = __read(useState(''), 2), points5 = _322[0], setPoints5 = _322[1];
+    var _323 = __read(useState(''), 2), secondaryPoints = _323[0], setSecondaryPoints = _323[1];
+    var _324 = __read(useState(''), 2), fillPoints = _324[0], setFillPoints = _324[1];
+    var _325 = __read(useState(''), 2), fillPoints2 = _325[0], setFillPoints2 = _325[1];
+    var _326 = __read(useState(''), 2), fillPoints3 = _326[0], setFillPoints3 = _326[1];
+    var _327 = __read(useState(''), 2), fillPoints4 = _327[0], setFillPoints4 = _327[1];
+    var _328 = __read(useState(''), 2), fillPoints5 = _328[0], setFillPoints5 = _328[1];
+    var _329 = __read(useState(''), 2), secondaryFillPoints = _329[0], setSecondaryFillPoints = _329[1];
+    var _330 = __read(useState([]), 2), pointsFromSet = _330[0], setPointsFromSet = _330[1];
+    var _331 = __read(useState([]), 2), fillPointsFromSet = _331[0], setFillPointsFromSet = _331[1];
+    var _332 = __read(useState([]), 2), arrowPointsFromSet = _332[0], setArrowPointsFromSet = _332[1];
+    var _333 = __read(useState(-1), 2), selectedIndex = _333[0], setSelectedIndex = _333[1];
     var noOfSections = getNoOfSections(props.noOfSections, props.maxValue, props.stepValue);
     var containerHeight = (_c = props.height) !== null && _c !== void 0 ? _c : (((_d = props.stepHeight) !== null && _d !== void 0 ? _d : 0) * noOfSections ||
         AxesAndRulesDefaults.containerHeight);
@@ -229,7 +230,7 @@ export var useLineChart = function (props) {
     var textColor4 = (_94 = (_93 = props.textColor4) !== null && _93 !== void 0 ? _93 : props.textColor) !== null && _94 !== void 0 ? _94 : LineDefaults.textColor;
     var textColor5 = (_96 = (_95 = props.textColor5) !== null && _95 !== void 0 ? _95 : props.textColor) !== null && _96 !== void 0 ? _96 : LineDefaults.textColor;
     var totalWidth = initialSpacing + spacing * (data0 !== null && data0 !== void 0 ? data0 : data).length;
-    var _332 = computeMaxAndMinItems(data0 !== null && data0 !== void 0 ? data0 : data, props.roundToDigits, props.showFractionalValues), maxItem = _332.maxItem, minItem = _332.minItem;
+    var _334 = computeMaxAndMinItems(data0 !== null && data0 !== void 0 ? data0 : data, props.roundToDigits, props.showFractionalValues), maxItem = _334.maxItem, minItem = _334.minItem;
     var maxValue = getMaxValue(props.maxValue, props.stepValue, noOfSections, maxItem);
     var mostNegativeValue = (_97 = props.mostNegativeValue) !== null && _97 !== void 0 ? _97 : minItem;
     var overflowTop = (_98 = props.overflowTop) !== null && _98 !== void 0 ? _98 : 0;
@@ -337,7 +338,7 @@ export var useLineChart = function (props) {
     var endOpacity5 = (_177 = props.endOpacity5) !== null && _177 !== void 0 ? _177 : endOpacity;
     defaultArrowConfig.strokeWidth = (_179 = (_178 = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _178 === void 0 ? void 0 : _178.thickness) !== null && _179 !== void 0 ? _179 : thickness1;
     defaultArrowConfig.strokeColor = (_181 = (_180 = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _180 === void 0 ? void 0 : _180.color) !== null && _181 !== void 0 ? _181 : color1;
-    var _333 = getAllArrowProperties(props, defaultArrowConfig), arrowLength1 = _333.arrowLength1, arrowWidth1 = _333.arrowWidth1, arrowStrokeWidth1 = _333.arrowStrokeWidth1, arrowStrokeColor1 = _333.arrowStrokeColor1, arrowFillColor1 = _333.arrowFillColor1, showArrowBase1 = _333.showArrowBase1, arrowLength2 = _333.arrowLength2, arrowWidth2 = _333.arrowWidth2, arrowStrokeWidth2 = _333.arrowStrokeWidth2, arrowStrokeColor2 = _333.arrowStrokeColor2, arrowFillColor2 = _333.arrowFillColor2, showArrowBase2 = _333.showArrowBase2, arrowLength3 = _333.arrowLength3, arrowWidth3 = _333.arrowWidth3, arrowStrokeWidth3 = _333.arrowStrokeWidth3, arrowStrokeColor3 = _333.arrowStrokeColor3, arrowFillColor3 = _333.arrowFillColor3, showArrowBase3 = _333.showArrowBase3, arrowLength4 = _333.arrowLength4, arrowWidth4 = _333.arrowWidth4, arrowStrokeWidth4 = _333.arrowStrokeWidth4, arrowStrokeColor4 = _333.arrowStrokeColor4, arrowFillColor4 = _333.arrowFillColor4, showArrowBase4 = _333.showArrowBase4, arrowLength5 = _333.arrowLength5, arrowWidth5 = _333.arrowWidth5, arrowStrokeWidth5 = _333.arrowStrokeWidth5, arrowStrokeColor5 = _333.arrowStrokeColor5, arrowFillColor5 = _333.arrowFillColor5, showArrowBase5 = _333.showArrowBase5, arrowLengthsFromSet = _333.arrowLengthsFromSet, arrowWidthsFromSet = _333.arrowWidthsFromSet, arrowStrokeWidthsFromSet = _333.arrowStrokeWidthsFromSet, arrowStrokeColorsFromSet = _333.arrowStrokeColorsFromSet, arrowFillColorsFromSet = _333.arrowFillColorsFromSet, showArrowBasesFromSet = _333.showArrowBasesFromSet;
+    var _335 = getAllArrowProperties(props, defaultArrowConfig), arrowLength1 = _335.arrowLength1, arrowWidth1 = _335.arrowWidth1, arrowStrokeWidth1 = _335.arrowStrokeWidth1, arrowStrokeColor1 = _335.arrowStrokeColor1, arrowFillColor1 = _335.arrowFillColor1, showArrowBase1 = _335.showArrowBase1, arrowLength2 = _335.arrowLength2, arrowWidth2 = _335.arrowWidth2, arrowStrokeWidth2 = _335.arrowStrokeWidth2, arrowStrokeColor2 = _335.arrowStrokeColor2, arrowFillColor2 = _335.arrowFillColor2, showArrowBase2 = _335.showArrowBase2, arrowLength3 = _335.arrowLength3, arrowWidth3 = _335.arrowWidth3, arrowStrokeWidth3 = _335.arrowStrokeWidth3, arrowStrokeColor3 = _335.arrowStrokeColor3, arrowFillColor3 = _335.arrowFillColor3, showArrowBase3 = _335.showArrowBase3, arrowLength4 = _335.arrowLength4, arrowWidth4 = _335.arrowWidth4, arrowStrokeWidth4 = _335.arrowStrokeWidth4, arrowStrokeColor4 = _335.arrowStrokeColor4, arrowFillColor4 = _335.arrowFillColor4, showArrowBase4 = _335.showArrowBase4, arrowLength5 = _335.arrowLength5, arrowWidth5 = _335.arrowWidth5, arrowStrokeWidth5 = _335.arrowStrokeWidth5, arrowStrokeColor5 = _335.arrowStrokeColor5, arrowFillColor5 = _335.arrowFillColor5, showArrowBase5 = _335.showArrowBase5, arrowLengthsFromSet = _335.arrowLengthsFromSet, arrowWidthsFromSet = _335.arrowWidthsFromSet, arrowStrokeWidthsFromSet = _335.arrowStrokeWidthsFromSet, arrowStrokeColorsFromSet = _335.arrowStrokeColorsFromSet, arrowFillColorsFromSet = _335.arrowFillColorsFromSet, showArrowBasesFromSet = _335.showArrowBasesFromSet;
     var secondaryLineConfig = {
         zIndex: (_183 = (_182 = props.secondaryLineConfig) === null || _182 === void 0 ? void 0 : _182.zIndex) !== null && _183 !== void 0 ? _183 : zIndex1,
         curved: (_185 = (_184 = props.secondaryLineConfig) === null || _184 === void 0 ? void 0 : _184.curved) !== null && _185 !== void 0 ? _185 : props.curved,
@@ -955,17 +956,18 @@ export var useLineChart = function (props) {
     var showDataPointOnFocus = (_279 = props.showDataPointOnFocus) !== null && _279 !== void 0 ? _279 : LineDefaults.showDataPointOnFocus;
     var showStripOnFocus = (_280 = props.showStripOnFocus) !== null && _280 !== void 0 ? _280 : LineDefaults.showStripOnFocus;
     var showTextOnFocus = (_281 = props.showTextOnFocus) !== null && _281 !== void 0 ? _281 : LineDefaults.showTextOnFocus;
+    var showDataPointLabelOnFocus = (_282 = props.showDataPointLabelOnFocus) !== null && _282 !== void 0 ? _282 : LineDefaults.showDataPointLabelOnFocus;
     var stripHeight = props.stripHeight;
-    var stripWidth = (_282 = props.stripWidth) !== null && _282 !== void 0 ? _282 : LineDefaults.stripWidth;
-    var stripColor = (_283 = props.stripColor) !== null && _283 !== void 0 ? _283 : color1;
-    var stripOpacity = (_284 = props.stripOpacity) !== null && _284 !== void 0 ? _284 : (startOpacity1 + endOpacity1) / 2;
-    var unFocusOnPressOut = (_285 = props.unFocusOnPressOut) !== null && _285 !== void 0 ? _285 : LineDefaults.unFocusOnPressOut;
-    var delayBeforeUnFocus = (_286 = props.delayBeforeUnFocus) !== null && _286 !== void 0 ? _286 : LineDefaults.delayBeforeUnFocus;
+    var stripWidth = (_283 = props.stripWidth) !== null && _283 !== void 0 ? _283 : LineDefaults.stripWidth;
+    var stripColor = (_284 = props.stripColor) !== null && _284 !== void 0 ? _284 : color1;
+    var stripOpacity = (_285 = props.stripOpacity) !== null && _285 !== void 0 ? _285 : (startOpacity1 + endOpacity1) / 2;
+    var unFocusOnPressOut = (_286 = props.unFocusOnPressOut) !== null && _286 !== void 0 ? _286 : LineDefaults.unFocusOnPressOut;
+    var delayBeforeUnFocus = (_287 = props.delayBeforeUnFocus) !== null && _287 !== void 0 ? _287 : LineDefaults.delayBeforeUnFocus;
     var containerHeightIncludingBelowXAxis = extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight;
-    var lineGradient = (_287 = props.lineGradient) !== null && _287 !== void 0 ? _287 : LineDefaults.lineGradient;
-    var lineGradientDirection = (_288 = props.lineGradientDirection) !== null && _288 !== void 0 ? _288 : 'vertical';
-    var lineGradientStartColor = (_289 = props.lineGradientStartColor) !== null && _289 !== void 0 ? _289 : LineDefaults.lineGradientStartColor;
-    var lineGradientEndColor = (_290 = props.lineGradientEndColor) !== null && _290 !== void 0 ? _290 : LineDefaults.lineGradientEndColor;
+    var lineGradient = (_288 = props.lineGradient) !== null && _288 !== void 0 ? _288 : LineDefaults.lineGradient;
+    var lineGradientDirection = (_289 = props.lineGradientDirection) !== null && _289 !== void 0 ? _289 : 'vertical';
+    var lineGradientStartColor = (_290 = props.lineGradientStartColor) !== null && _290 !== void 0 ? _290 : LineDefaults.lineGradientStartColor;
+    var lineGradientEndColor = (_291 = props.lineGradientEndColor) !== null && _291 !== void 0 ? _291 : LineDefaults.lineGradientEndColor;
     var getPointerY = function (value) {
         return value
             ? containerHeight -
@@ -977,23 +979,36 @@ export var useLineChart = function (props) {
     var initialisePointers = function () {
         var _a, _b, _c, _d;
         if (initialPointerIndex !== -1) {
-            var item_1 = (data0 !== null && data0 !== void 0 ? data0 : data)[initialPointerIndex];
             var x_1 = initialSpacing +
                 spacing * initialPointerIndex -
                 (pointerRadius || pointerWidth / 2) -
                 1;
-            var y_1 = getPointerY(item_1.value);
-            var y2_1 = getPointerY((_a = data2 === null || data2 === void 0 ? void 0 : data2[initialPointerIndex]) === null || _a === void 0 ? void 0 : _a.value);
-            var y3_1 = getPointerY((_b = data3 === null || data3 === void 0 ? void 0 : data3[initialPointerIndex]) === null || _b === void 0 ? void 0 : _b.value);
-            var y4_1 = getPointerY((_c = data4 === null || data4 === void 0 ? void 0 : data4[initialPointerIndex]) === null || _c === void 0 ? void 0 : _c.value);
-            var y5_1 = getPointerY((_d = data5 === null || data5 === void 0 ? void 0 : data5[initialPointerIndex]) === null || _d === void 0 ? void 0 : _d.value);
-            if (initialPointerAppearDelay) {
-                setTimeout(function () {
-                    setPointerConfig(initialPointerIndex, item_1, x_1, y_1, y2_1, y3_1, y4_1, y5_1);
-                }, initialPointerAppearDelay);
+            if (dataSet === null || dataSet === void 0 ? void 0 : dataSet.length) {
+                var item_1 = dataSet[0].data[initialPointerIndex];
+                if (initialPointerAppearDelay) {
+                    setTimeout(function () {
+                        setPointerConfigForDataSet(initialPointerIndex, item_1, x_1);
+                    }, initialPointerAppearDelay);
+                }
+                else {
+                    setPointerConfigForDataSet(initialPointerIndex, item_1, x_1);
+                }
             }
             else {
-                setPointerConfig(initialPointerIndex, item_1, x_1, y_1, y2_1, y3_1, y4_1, y5_1);
+                var item_2 = (data0 !== null && data0 !== void 0 ? data0 : data)[initialPointerIndex];
+                var y_1 = getPointerY(item_2.value);
+                var y2_1 = getPointerY((_a = data2 === null || data2 === void 0 ? void 0 : data2[initialPointerIndex]) === null || _a === void 0 ? void 0 : _a.value);
+                var y3_1 = getPointerY((_b = data3 === null || data3 === void 0 ? void 0 : data3[initialPointerIndex]) === null || _b === void 0 ? void 0 : _b.value);
+                var y4_1 = getPointerY((_c = data4 === null || data4 === void 0 ? void 0 : data4[initialPointerIndex]) === null || _c === void 0 ? void 0 : _c.value);
+                var y5_1 = getPointerY((_d = data5 === null || data5 === void 0 ? void 0 : data5[initialPointerIndex]) === null || _d === void 0 ? void 0 : _d.value);
+                if (initialPointerAppearDelay) {
+                    setTimeout(function () {
+                        setPointerConfig(initialPointerIndex, item_2, x_1, y_1, y2_1, y3_1, y4_1, y5_1);
+                    }, initialPointerAppearDelay);
+                }
+                else {
+                    setPointerConfig(initialPointerIndex, item_2, x_1, y_1, y2_1, y3_1, y4_1, y5_1);
+                }
             }
         }
     };
@@ -1014,6 +1029,14 @@ export var useLineChart = function (props) {
         setPointerY3(y3);
         setPointerY4(y4);
         setPointerY5(y5);
+    };
+    var setPointerConfigForDataSet = function (initialPointerIndex, item, x) {
+        var _a;
+        setPointerIndex(initialPointerIndex);
+        setPointerItem(item);
+        setPointerX(x);
+        var initialPointerYs = (_a = dataSet === null || dataSet === void 0 ? void 0 : dataSet.map(function (set) { return getPointerY(set.data[initialPointerIndex].value); })) !== null && _a !== void 0 ? _a : [];
+        setPointerYsForDataSet(initialPointerYs);
     };
     var barAndLineChartsWrapperProps = {
         chartType: chartTypes.LINE,
@@ -1076,7 +1099,7 @@ export var useLineChart = function (props) {
         pointerY: pointerY,
         onEndReached: props.onEndReached,
         onStartReached: props.onStartReached,
-        endReachedOffset: (_291 = props.endReachedOffset) !== null && _291 !== void 0 ? _291 : LineDefaults.endReachedOffset,
+        endReachedOffset: (_292 = props.endReachedOffset) !== null && _292 !== void 0 ? _292 : LineDefaults.endReachedOffset,
         onMomentumScrollEnd: props.onMomentumScrollEnd
     };
     return {
@@ -1118,6 +1141,8 @@ export var useLineChart = function (props) {
         setPointerItem4: setPointerItem4,
         pointerY5: pointerY5,
         setPointerY5: setPointerY5,
+        pointerYsForDataSet: pointerYsForDataSet,
+        setPointerYsForDataSet: setPointerYsForDataSet,
         pointerItem5: pointerItem5,
         setPointerItem5: setPointerItem5,
         secondaryPointerY: secondaryPointerY,
@@ -1407,6 +1432,7 @@ export var useLineChart = function (props) {
         showDataPointOnFocus: showDataPointOnFocus,
         showStripOnFocus: showStripOnFocus,
         showTextOnFocus: showTextOnFocus,
+        showDataPointLabelOnFocus: showDataPointLabelOnFocus,
         stripHeight: stripHeight,
         stripWidth: stripWidth,
         stripColor: stripColor,
@@ -1420,7 +1446,6 @@ export var useLineChart = function (props) {
         lineGradientEndColor: lineGradientEndColor,
         getPointerY: getPointerY,
         initialisePointers: initialisePointers,
-        setPointerConfig: setPointerConfig,
         barAndLineChartsWrapperProps: barAndLineChartsWrapperProps,
         yAxisExtraHeightAtTop: yAxisExtraHeightAtTop
     };

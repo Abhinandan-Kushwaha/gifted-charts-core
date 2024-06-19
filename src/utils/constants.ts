@@ -228,6 +228,7 @@ export const LineDefaults = {
   showDataPointOnFocus: false,
   showStripOnFocus: false,
   showTextOnFocus: false,
+  showDataPointLabelOnFocus: false,
   stripWidth: 2,
   unFocusOnPressOut: true,
   delayBeforeUnFocus: 300,

@@ -70,6 +70,7 @@ export interface LineChartPropsType {
   showDataPointOnFocus?: boolean
   showStripOnFocus?: boolean
   showTextOnFocus?: boolean
+  showDataPointLabelOnFocus?: boolean
   stripHeight?: number
   stripWidth?: number
   stripColor?: ColorValue | string | any
@@ -461,6 +462,7 @@ export interface LineChartBicolorPropsType {
   showDataPointOnFocus?: boolean
   showStripOnFocus?: boolean
   showTextOnFocus?: boolean
+  showDataPointLabelOnFocus?: boolean
   stripHeight?: number
   stripWidth?: number
   stripColor?: ColorValue | string | any

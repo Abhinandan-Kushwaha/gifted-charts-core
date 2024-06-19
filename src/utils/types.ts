@@ -20,13 +20,13 @@ export interface RuleTypes {
 
 export enum CurveType {
   CUBIC,
-  QUADRATIC,
+  QUADRATIC
 }
 
 export enum EdgePosition {
   AFTER_DATA_POINT,
   AROUND_DATA_POINT,
-  BEFORE_DATA_POINT,
+  BEFORE_DATA_POINT
 }
 
 export interface RulesConfig {
@@ -280,6 +280,7 @@ export interface Pointer {
   pointer3Color?: ColorValue
   pointer4Color?: ColorValue
   pointer5Color?: ColorValue
+  pointerColorsForDataSet?: ColorValue[]
   secondaryPointerColor?: ColorValue
   pointerComponent?: Function
   showPointerStrip?: boolean
