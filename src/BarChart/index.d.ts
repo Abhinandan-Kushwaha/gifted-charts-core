@@ -3,6 +3,7 @@ import { type lineConfigType, type BarChartPropsType, type barDataItem, type sta
 import { type BarAndLineChartsWrapperTypes, type secondaryYAxisType } from '../utils/types';
 import { type Animated } from 'react-native';
 export interface extendedBarChartPropsType extends BarChartPropsType {
+    parentWidth: number;
     heightValue?: Animated.Value;
     widthValue?: Animated.Value;
     opacValue?: Animated.Value;
@@ -125,7 +126,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         spacing: any;
         propSpacing: number;
         xAxisThickness: number;
-        barWidth: number | undefined;
+        barWidth: number;
         opacity: number;
         disablePress: any;
         rotateLabel: boolean;

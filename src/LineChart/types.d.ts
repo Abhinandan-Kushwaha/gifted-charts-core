@@ -292,6 +292,7 @@ export interface LineChartPropsType {
     showDataPointsForMissingValues?: boolean;
     interpolateMissingValues?: boolean;
     onlyPositive?: boolean;
+    parentWidth?: number;
 }
 export interface lineDataItem {
     value: number;
@@ -522,6 +523,7 @@ export interface LineChartBicolorPropsType {
     formatYLabel?: (label: string) => string;
     onScroll?: Function;
     endReachedOffset?: number;
+    parentWidth?: number;
 }
 export interface IDataSanitisationProps {
     showDataPointsForMissingValues: boolean | undefined;

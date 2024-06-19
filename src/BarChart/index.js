@@ -30,24 +30,12 @@ import { getArrowPoints, getAxesAndRulesProps, getExtendedContainerHeightWithPad
 import { AxesAndRulesDefaults, BarDefaults, chartTypes, defaultLineConfig, defaultPointerConfig } from '../utils/constants';
 export var useBarChart = function (props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47;
-    var heightValue = props.heightValue, widthValue = props.widthValue, opacValue = props.opacValue, yAxisOffset = props.yAxisOffset;
+    var heightValue = props.heightValue, widthValue = props.widthValue, opacValue = props.opacValue, yAxisOffset = props.yAxisOffset, adjustToWidth = props.adjustToWidth, parentWidth = props.parentWidth;
     var _48 = __read(useState(''), 2), points = _48[0], setPoints = _48[1];
     var _49 = __read(useState(''), 2), points2 = _49[0], setPoints2 = _49[1];
     var _50 = __read(useState(''), 2), arrowPoints = _50[0], setArrowPoints = _50[1];
     var _51 = __read(useState(-1), 2), selectedIndex = _51[0], setSelectedIndex = _51[1];
     var showLine = (_a = props.showLine) !== null && _a !== void 0 ? _a : BarDefaults.showLine;
-    var spacing = (_b = props.spacing) !== null && _b !== void 0 ? _b : BarDefaults.spacing;
-    var initialSpacing = (_c = props.initialSpacing) !== null && _c !== void 0 ? _c : spacing;
-    var endSpacing = (_d = props.endSpacing) !== null && _d !== void 0 ? _d : spacing;
-    var showFractionalValues = (_e = props.showFractionalValues) !== null && _e !== void 0 ? _e : AxesAndRulesDefaults.showFractionalValues;
-    var horizontal = (_f = props.horizontal) !== null && _f !== void 0 ? _f : BarDefaults.horizontal;
-    var rtl = (_g = props.rtl) !== null && _g !== void 0 ? _g : BarDefaults.rtl;
-    var yAxisAtTop = (_h = props.yAxisAtTop) !== null && _h !== void 0 ? _h : BarDefaults.yAxisAtTop;
-    var intactTopLabel = (_j = props.intactTopLabel) !== null && _j !== void 0 ? _j : BarDefaults.intactTopLabel;
-    var heightFromProps = horizontal ? props.width : props.height;
-    var widthFromProps = horizontal ? props.height : props.width;
-    var isAnimated = (_k = props.isAnimated) !== null && _k !== void 0 ? _k : BarDefaults.isAnimated;
-    var animationDuration = (_l = props.animationDuration) !== null && _l !== void 0 ? _l : BarDefaults.animationDuration;
     var data = useMemo(function () {
         if (!props.data) {
             return [];
@@ -60,6 +48,30 @@ export var useBarChart = function (props) {
         }
         return props.data;
     }, [yAxisOffset, props.data]);
+    var yAxisLabelWidth = (_b = props.yAxisLabelWidth) !== null && _b !== void 0 ? _b : (props.hideYAxisText
+        ? AxesAndRulesDefaults.yAxisEmptyLabelWidth
+        : AxesAndRulesDefaults.yAxisLabelWidth);
+    var autoComputedSectionWidth = props.initialSpacing !== undefined
+        ? (parentWidth - yAxisLabelWidth) / data.length - props.initialSpacing
+        : (parentWidth - yAxisLabelWidth) / (data.length + 0.5);
+    var autoComputedBarWidth = autoComputedSectionWidth * 0.6;
+    var defaultBarWidth = adjustToWidth
+        ? autoComputedBarWidth
+        : BarDefaults.barWidth;
+    var barWidth = (_c = props.barWidth) !== null && _c !== void 0 ? _c : defaultBarWidth;
+    var autoComputedSpacing = autoComputedSectionWidth * 0.4;
+    var spacing = (_d = props.spacing) !== null && _d !== void 0 ? _d : (adjustToWidth ? autoComputedSpacing : BarDefaults.spacing);
+    var initialSpacing = (_e = props.initialSpacing) !== null && _e !== void 0 ? _e : spacing;
+    var endSpacing = (_f = props.endSpacing) !== null && _f !== void 0 ? _f : spacing;
+    var showFractionalValues = (_g = props.showFractionalValues) !== null && _g !== void 0 ? _g : AxesAndRulesDefaults.showFractionalValues;
+    var horizontal = (_h = props.horizontal) !== null && _h !== void 0 ? _h : BarDefaults.horizontal;
+    var rtl = (_j = props.rtl) !== null && _j !== void 0 ? _j : BarDefaults.rtl;
+    var yAxisAtTop = (_k = props.yAxisAtTop) !== null && _k !== void 0 ? _k : BarDefaults.yAxisAtTop;
+    var intactTopLabel = (_l = props.intactTopLabel) !== null && _l !== void 0 ? _l : BarDefaults.intactTopLabel;
+    var heightFromProps = horizontal ? props.width : props.height;
+    var widthFromProps = horizontal ? props.height : props.width;
+    var isAnimated = (_m = props.isAnimated) !== null && _m !== void 0 ? _m : BarDefaults.isAnimated;
+    var animationDuration = (_o = props.animationDuration) !== null && _o !== void 0 ? _o : BarDefaults.animationDuration;
     var secondaryData = getSecondaryDataWithOffsetIncluded(props.secondaryData, props.secondaryYAxis);
     var lineData = useMemo(function () {
         var _a;
@@ -75,7 +87,7 @@ export var useBarChart = function (props) {
         return props.lineData;
     }, [yAxisOffset, props.lineData, data, props.stackData]);
     var lineData2 = props.lineData2;
-    var lineBehindBars = (_m = props.lineBehindBars) !== null && _m !== void 0 ? _m : BarDefaults.lineBehindBars;
+    var lineBehindBars = (_p = props.lineBehindBars) !== null && _p !== void 0 ? _p : BarDefaults.lineBehindBars;
     defaultLineConfig.initialSpacing = initialSpacing;
     defaultLineConfig.endIndex = lineData.length - 1;
     defaultLineConfig.animationDuration = animationDuration;
@@ -90,12 +102,12 @@ export var useBarChart = function (props) {
         ? props.stepHeight * noOfSections
         : AxesAndRulesDefaults.containerHeight);
     var horizSections = [{ value: '0' }];
-    var stepHeight = (_o = props.stepHeight) !== null && _o !== void 0 ? _o : containerHeight / noOfSections;
-    var labelWidth = (_p = props.labelWidth) !== null && _p !== void 0 ? _p : AxesAndRulesDefaults.labelWidth;
-    var scrollToEnd = (_q = props.scrollToEnd) !== null && _q !== void 0 ? _q : BarDefaults.scrollToEnd;
-    var scrollAnimation = (_r = props.scrollAnimation) !== null && _r !== void 0 ? _r : BarDefaults.scrollAnimation;
-    var scrollEventThrottle = (_s = props.scrollEventThrottle) !== null && _s !== void 0 ? _s : BarDefaults.scrollEventThrottle;
-    var labelsExtraHeight = (_t = props.labelsExtraHeight) !== null && _t !== void 0 ? _t : AxesAndRulesDefaults.labelsExtraHeight;
+    var stepHeight = (_q = props.stepHeight) !== null && _q !== void 0 ? _q : containerHeight / noOfSections;
+    var labelWidth = (_r = props.labelWidth) !== null && _r !== void 0 ? _r : AxesAndRulesDefaults.labelWidth;
+    var scrollToEnd = (_s = props.scrollToEnd) !== null && _s !== void 0 ? _s : BarDefaults.scrollToEnd;
+    var scrollAnimation = (_t = props.scrollAnimation) !== null && _t !== void 0 ? _t : BarDefaults.scrollAnimation;
+    var scrollEventThrottle = (_u = props.scrollEventThrottle) !== null && _u !== void 0 ? _u : BarDefaults.scrollEventThrottle;
+    var labelsExtraHeight = (_v = props.labelsExtraHeight) !== null && _v !== void 0 ? _v : AxesAndRulesDefaults.labelsExtraHeight;
     var totalWidth = initialSpacing;
     var maxItem = 0;
     var minItem = 0;
@@ -111,7 +123,8 @@ export var useBarChart = function (props) {
                 minItem = stackSumMin;
             }
             totalWidth +=
-                ((_b = (_a = stackItem.stacks[0].barWidth) !== null && _a !== void 0 ? _a : props.barWidth) !== null && _b !== void 0 ? _b : BarDefaults.barWidth) + spacing;
+                ((_b = (_a = stackItem.stacks[0].barWidth) !== null && _a !== void 0 ? _a : props.barWidth) !== null && _b !== void 0 ? _b : defaultBarWidth) +
+                    spacing;
         });
     }
     else {
@@ -124,7 +137,7 @@ export var useBarChart = function (props) {
                 minItem = item.value;
             }
             totalWidth +=
-                ((_b = (_a = item.barWidth) !== null && _a !== void 0 ? _a : props.barWidth) !== null && _b !== void 0 ? _b : BarDefaults.barWidth) +
+                ((_b = (_a = item.barWidth) !== null && _a !== void 0 ? _a : props.barWidth) !== null && _b !== void 0 ? _b : defaultBarWidth) +
                     ((_c = item.spacing) !== null && _c !== void 0 ? _c : spacing);
         });
     }
@@ -146,30 +159,26 @@ export var useBarChart = function (props) {
     var maxValue = getMaxValue(props.maxValue, props.stepValue, noOfSections, maxAndMin.maxItem);
     var secondaryMaxValue = lineConfig.isSecondary
         ? typeof props.secondaryYAxis !== 'boolean'
-            ? (_u = props.secondaryYAxis.maxValue) !== null && _u !== void 0 ? _u : secondaryMaxAndMin.maxItem
+            ? (_w = props.secondaryYAxis.maxValue) !== null && _w !== void 0 ? _w : secondaryMaxAndMin.maxItem
             : secondaryMaxAndMin.maxItem
         : maxValue;
-    var mostNegativeValue = (_v = props.mostNegativeValue) !== null && _v !== void 0 ? _v : maxAndMin.minItem;
-    var stepValue = (_w = props.stepValue) !== null && _w !== void 0 ? _w : maxValue / noOfSections;
-    var noOfSectionsBelowXAxis = (_x = props.noOfSectionsBelowXAxis) !== null && _x !== void 0 ? _x : -mostNegativeValue / stepValue;
-    var showScrollIndicator = (_y = props.showScrollIndicator) !== null && _y !== void 0 ? _y : BarDefaults.showScrollIndicator;
-    var side = (_z = props.side) !== null && _z !== void 0 ? _z : BarDefaults.side;
-    var rotateLabel = (_0 = props.rotateLabel) !== null && _0 !== void 0 ? _0 : AxesAndRulesDefaults.rotateLabel;
-    var opacity = (_1 = props.opacity) !== null && _1 !== void 0 ? _1 : BarDefaults.opacity;
-    var isThreeD = (_2 = props.isThreeD) !== null && _2 !== void 0 ? _2 : BarDefaults.isThreeD;
-    var showXAxisIndices = (_3 = props.showXAxisIndices) !== null && _3 !== void 0 ? _3 : AxesAndRulesDefaults.showXAxisIndices;
-    var xAxisIndicesHeight = (_4 = props.xAxisIndicesHeight) !== null && _4 !== void 0 ? _4 : AxesAndRulesDefaults.xAxisIndicesHeight;
-    var xAxisIndicesWidth = (_5 = props.xAxisIndicesWidth) !== null && _5 !== void 0 ? _5 : AxesAndRulesDefaults.xAxisIndicesWidth;
-    var xAxisIndicesColor = (_6 = props.xAxisIndicesColor) !== null && _6 !== void 0 ? _6 : AxesAndRulesDefaults.xAxisIndicesColor;
-    var xAxisThickness = (_7 = props.xAxisThickness) !== null && _7 !== void 0 ? _7 : AxesAndRulesDefaults.xAxisThickness;
-    var xAxisTextNumberOfLines = (_8 = props.xAxisTextNumberOfLines) !== null && _8 !== void 0 ? _8 : AxesAndRulesDefaults.xAxisTextNumberOfLines;
-    var xAxisLabelsVerticalShift = (_9 = props.xAxisLabelsVerticalShift) !== null && _9 !== void 0 ? _9 : AxesAndRulesDefaults.xAxisLabelsVerticalShift;
+    var mostNegativeValue = (_x = props.mostNegativeValue) !== null && _x !== void 0 ? _x : maxAndMin.minItem;
+    var stepValue = (_y = props.stepValue) !== null && _y !== void 0 ? _y : maxValue / noOfSections;
+    var noOfSectionsBelowXAxis = (_z = props.noOfSectionsBelowXAxis) !== null && _z !== void 0 ? _z : -mostNegativeValue / stepValue;
+    var showScrollIndicator = (_0 = props.showScrollIndicator) !== null && _0 !== void 0 ? _0 : BarDefaults.showScrollIndicator;
+    var side = (_1 = props.side) !== null && _1 !== void 0 ? _1 : BarDefaults.side;
+    var rotateLabel = (_2 = props.rotateLabel) !== null && _2 !== void 0 ? _2 : AxesAndRulesDefaults.rotateLabel;
+    var opacity = (_3 = props.opacity) !== null && _3 !== void 0 ? _3 : BarDefaults.opacity;
+    var isThreeD = (_4 = props.isThreeD) !== null && _4 !== void 0 ? _4 : BarDefaults.isThreeD;
+    var showXAxisIndices = (_5 = props.showXAxisIndices) !== null && _5 !== void 0 ? _5 : AxesAndRulesDefaults.showXAxisIndices;
+    var xAxisIndicesHeight = (_6 = props.xAxisIndicesHeight) !== null && _6 !== void 0 ? _6 : AxesAndRulesDefaults.xAxisIndicesHeight;
+    var xAxisIndicesWidth = (_7 = props.xAxisIndicesWidth) !== null && _7 !== void 0 ? _7 : AxesAndRulesDefaults.xAxisIndicesWidth;
+    var xAxisIndicesColor = (_8 = props.xAxisIndicesColor) !== null && _8 !== void 0 ? _8 : AxesAndRulesDefaults.xAxisIndicesColor;
+    var xAxisThickness = (_9 = props.xAxisThickness) !== null && _9 !== void 0 ? _9 : AxesAndRulesDefaults.xAxisThickness;
+    var xAxisTextNumberOfLines = (_10 = props.xAxisTextNumberOfLines) !== null && _10 !== void 0 ? _10 : AxesAndRulesDefaults.xAxisTextNumberOfLines;
+    var xAxisLabelsVerticalShift = (_11 = props.xAxisLabelsVerticalShift) !== null && _11 !== void 0 ? _11 : AxesAndRulesDefaults.xAxisLabelsVerticalShift;
     var horizontalRulesStyle = props.horizontalRulesStyle;
-    var yAxisLabelWidth = (_10 = props.yAxisLabelWidth) !== null && _10 !== void 0 ? _10 : (props.hideYAxisText
-        ? AxesAndRulesDefaults.yAxisEmptyLabelWidth
-        : AxesAndRulesDefaults.yAxisLabelWidth);
-    var autoShiftLabels = (_11 = props.autoShiftLabels) !== null && _11 !== void 0 ? _11 : false;
-    var barWidth = (_12 = props.barWidth) !== null && _12 !== void 0 ? _12 : BarDefaults.barWidth;
+    var autoShiftLabels = (_12 = props.autoShiftLabels) !== null && _12 !== void 0 ? _12 : false;
     var barBorderColor = (_13 = props.barBorderColor) !== null && _13 !== void 0 ? _13 : BarDefaults.barBorderColor;
     var extendedContainerHeight = getExtendedContainerHeightWithPadding(containerHeight, 0);
     var containerHeightIncludingBelowXAxis = extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight;
@@ -232,7 +241,7 @@ export var useBarChart = function (props) {
                         i > ((_f = lineConfig.endIndex) !== null && _f !== void 0 ? _f : 0)) {
                         continue;
                     }
-                    var currentBarWidth = (_j = (_h = (_g = data === null || data === void 0 ? void 0 : data[i]) === null || _g === void 0 ? void 0 : _g.barWidth) !== null && _h !== void 0 ? _h : props.barWidth) !== null && _j !== void 0 ? _j : BarDefaults.barWidth;
+                    var currentBarWidth = (_j = (_h = (_g = data === null || data === void 0 ? void 0 : data[i]) === null || _g === void 0 ? void 0 : _g.barWidth) !== null && _h !== void 0 ? _h : props.barWidth) !== null && _j !== void 0 ? _j : defaultBarWidth;
                     var currentValue = props.lineData
                         ? props.lineData[i].value
                         : props.stackData
@@ -263,7 +272,7 @@ export var useBarChart = function (props) {
                         i > ((_p = lineConfig.endIndex) !== null && _p !== void 0 ? _p : 0)) {
                         continue;
                     }
-                    var currentBarWidth = (_s = (_r = (_q = data === null || data === void 0 ? void 0 : data[i]) === null || _q === void 0 ? void 0 : _q.barWidth) !== null && _r !== void 0 ? _r : props.barWidth) !== null && _s !== void 0 ? _s : BarDefaults.barWidth;
+                    var currentBarWidth = (_s = (_r = (_q = data === null || data === void 0 ? void 0 : data[i]) === null || _q === void 0 ? void 0 : _q.barWidth) !== null && _r !== void 0 ? _r : props.barWidth) !== null && _s !== void 0 ? _s : defaultBarWidth;
                     var currentValue = props.lineData
                         ? props.lineData[i].value
                         : props.stackData
@@ -284,7 +293,7 @@ export var useBarChart = function (props) {
                             i > ((_u = lineConfig2.endIndex) !== null && _u !== void 0 ? _u : 0)) {
                             continue;
                         }
-                        var currentBarWidth = (_x = (_w = (_v = data === null || data === void 0 ? void 0 : data[i]) === null || _v === void 0 ? void 0 : _v.barWidth) !== null && _w !== void 0 ? _w : props.barWidth) !== null && _x !== void 0 ? _x : BarDefaults.barWidth;
+                        var currentBarWidth = (_x = (_w = (_v = data === null || data === void 0 ? void 0 : data[i]) === null || _v === void 0 ? void 0 : _v.barWidth) !== null && _w !== void 0 ? _w : props.barWidth) !== null && _x !== void 0 ? _x : defaultBarWidth;
                         var currentValue = lineData2[i].value;
                         pp2 +=
                             'L' +
@@ -302,7 +311,7 @@ export var useBarChart = function (props) {
                             i > ((_z = lineConfig2.endIndex) !== null && _z !== void 0 ? _z : 0)) {
                             continue;
                         }
-                        var currentBarWidth = (_2 = (_1 = (_0 = data === null || data === void 0 ? void 0 : data[i]) === null || _0 === void 0 ? void 0 : _0.barWidth) !== null && _1 !== void 0 ? _1 : props.barWidth) !== null && _2 !== void 0 ? _2 : BarDefaults.barWidth;
+                        var currentBarWidth = (_2 = (_1 = (_0 = data === null || data === void 0 ? void 0 : data[i]) === null || _0 === void 0 ? void 0 : _0.barWidth) !== null && _1 !== void 0 ? _1 : props.barWidth) !== null && _2 !== void 0 ? _2 : defaultBarWidth;
                         var currentValue = lineData2[i].value;
                         p2Array.push([
                             getXForLineInBar(i, firstBarWidth, currentBarWidth, yAxisLabelWidth, lineConfig2, spacing),
@@ -382,7 +391,7 @@ export var useBarChart = function (props) {
         outputRange: [0, initialSpacing + totalWidth + endSpacing]
     });
     var getPropsCommonForBarAndStack = function (item, index) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         return {
             key: index,
             item: item,
@@ -392,9 +401,9 @@ export var useBarChart = function (props) {
             spacing: (_a = item.spacing) !== null && _a !== void 0 ? _a : spacing,
             propSpacing: spacing,
             xAxisThickness: xAxisThickness,
-            barWidth: props.barWidth,
+            barWidth: (_b = props.barWidth) !== null && _b !== void 0 ? _b : defaultBarWidth,
             opacity: opacity,
-            disablePress: (_b = item.disablePress) !== null && _b !== void 0 ? _b : props.disablePress,
+            disablePress: (_c = item.disablePress) !== null && _c !== void 0 ? _c : props.disablePress,
             rotateLabel: rotateLabel,
             showXAxisIndices: showXAxisIndices,
             xAxisIndicesHeight: xAxisIndicesHeight,
@@ -428,15 +437,15 @@ export var useBarChart = function (props) {
             xAxisLabelsHeight: props.xAxisLabelsHeight,
             xAxisLabelsVerticalShift: xAxisLabelsVerticalShift,
             renderTooltip: props.renderTooltip,
-            leftShiftForTooltip: (_c = props.leftShiftForTooltip) !== null && _c !== void 0 ? _c : 0,
+            leftShiftForTooltip: (_d = props.leftShiftForTooltip) !== null && _d !== void 0 ? _d : 0,
             initialSpacing: initialSpacing,
             selectedIndex: selectedIndex,
             setSelectedIndex: setSelectedIndex,
-            activeOpacity: (_d = props.activeOpacity) !== null && _d !== void 0 ? _d : 0.2,
+            activeOpacity: (_e = props.activeOpacity) !== null && _e !== void 0 ? _e : 0.2,
             noOfSectionsBelowXAxis: noOfSectionsBelowXAxis,
-            leftShiftForLastIndexTooltip: (_e = props.leftShiftForLastIndexTooltip) !== null && _e !== void 0 ? _e : 0,
-            label: (_f = item.label) !== null && _f !== void 0 ? _f : (((_g = props.xAxisLabelTexts) === null || _g === void 0 ? void 0 : _g[index]) ? props.xAxisLabelTexts[index] : ''),
-            labelTextStyle: (_h = item.labelTextStyle) !== null && _h !== void 0 ? _h : props.xAxisLabelTextStyle,
+            leftShiftForLastIndexTooltip: (_f = props.leftShiftForLastIndexTooltip) !== null && _f !== void 0 ? _f : 0,
+            label: (_g = item.label) !== null && _g !== void 0 ? _g : (((_h = props.xAxisLabelTexts) === null || _h === void 0 ? void 0 : _h[index]) ? props.xAxisLabelTexts[index] : ''),
+            labelTextStyle: (_j = item.labelTextStyle) !== null && _j !== void 0 ? _j : props.xAxisLabelTextStyle,
             pointerConfig: pointerConfig,
             yAxisExtraHeightAtTop: yAxisExtraHeightAtTop,
             yAxisOffset: yAxisOffset !== null && yAxisOffset !== void 0 ? yAxisOffset : 0
@@ -458,7 +467,7 @@ export var useBarChart = function (props) {
         data: data,
         stackData: props.stackData,
         secondaryData: secondaryData,
-        barWidth: (_46 = props.barWidth) !== null && _46 !== void 0 ? _46 : BarDefaults.barWidth,
+        barWidth: (_46 = props.barWidth) !== null && _46 !== void 0 ? _46 : defaultBarWidth,
         xAxisThickness: xAxisThickness,
         totalWidth: totalWidth,
         disableScroll: disableScroll,

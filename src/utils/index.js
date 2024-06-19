@@ -531,6 +531,7 @@ export var getAxesAndRulesProps = function (props, stepValue, maxValue) {
         verticalLinesHeight: props.verticalLinesHeight,
         verticalLinesColor: props.verticalLinesColor,
         verticalLinesShift: props.verticalLinesShift,
+        verticalLinesStrokeDashArray: props.verticalLinesStrokeDashArray,
         verticalLinesZIndex: props.verticalLinesZIndex,
         verticalLinesSpacing: props.verticalLinesSpacing,
         noOfVerticalLines: props.noOfVerticalLines,

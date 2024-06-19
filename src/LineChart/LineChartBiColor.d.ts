@@ -5,7 +5,10 @@ interface Points {
     points: string;
     color: string;
 }
-export declare const useLineChartBiColor: (props: LineChartBicolorPropsType) => {
+interface extendedLineChartBicolorPropsType extends LineChartBicolorPropsType {
+    parentWidth: number;
+}
+export declare const useLineChartBiColor: (props: extendedLineChartBicolorPropsType) => {
     toggle: boolean;
     setToggle: import("react").Dispatch<import("react").SetStateAction<boolean>>;
     pointsArray: Points[];

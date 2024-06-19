@@ -4,7 +4,7 @@ import { type BarAndLineChartsWrapperTypes, EdgePosition, type LineSegment } fro
 import { type Animated } from 'react-native';
 export interface extendedLineChartPropsType extends LineChartPropsType {
     animations?: Animated.Value[];
-    screenWidth: number;
+    parentWidth: number;
 }
 export declare const useLineChart: (props: extendedLineChartPropsType) => {
     curvature: number;

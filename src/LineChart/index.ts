@@ -43,7 +43,7 @@ export interface extendedLineChartPropsType extends LineChartPropsType {
   // heightValue: Animated.Value
   // widthValue: Animated.Value
   // opacValue: Animated.Value
-  screenWidth: number
+  parentWidth: number
 }
 
 export const useLineChart = (props: extendedLineChartPropsType) => {
@@ -53,7 +53,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     interpolateMissingValues = true,
     onlyPositive,
     yAxisOffset,
-    screenWidth
+    parentWidth
   } = props
   const curvature = props.curvature ?? LineDefaults.curvature
   const curveType = props.curveType ?? LineDefaults.curveType
@@ -245,7 +245,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const spacing =
     props.spacing ??
     (adjustToWidth
-      ? ((props.width ?? screenWidth - yAxisLabelWidth) - initialSpacing) /
+      ? ((props.width ?? parentWidth - yAxisLabelWidth) - initialSpacing) /
         Math.max((data0 ?? data).length - 1, 1)
       : LineDefaults.spacing)
 
