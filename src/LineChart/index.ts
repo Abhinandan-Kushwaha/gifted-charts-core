@@ -463,6 +463,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   if (animateOnDataChange && animations) {
     animations.forEach((item, index) => {
       item.addListener((val) => {
+        if (typeof data[index] === 'undefined') { return; }
+
         const temp = data[index]?.value ?? 0
         data[index].value = val.value
         let pp = ''
