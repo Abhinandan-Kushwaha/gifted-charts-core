@@ -100,7 +100,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const [fillPointsFromSet, setFillPointsFromSet] = useState<string[]>([])
   const [arrowPointsFromSet, setArrowPointsFromSet] = useState<string[]>([])
 
-  const [selectedIndex, setSelectedIndex] = useState(-1)
+  const [selectedIndex, setSelectedIndex] = useState(
+    props.focusedDataPointIndex ?? -1
+  )
+
+  useEffect(() => {
+    setSelectedIndex(props.focusedDataPointIndex ?? -1)
+  }, [props.focusedDataPointIndex])
 
   const noOfSections = getNoOfSections(
     props.noOfSections,
@@ -1750,6 +1756,19 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     setPointerYsForDataSet(initialPointerYs)
   }
 
+  const dataPointsRadius =
+    props.dataPointsRadius1 ??
+    props.dataPointsRadius ??
+    LineDefaults.dataPointsRadius
+  const dataPointsWidth =
+    props.dataPointsWidth1 ??
+    props.dataPointsWidth ??
+    LineDefaults.dataPointsWidth
+
+  const extraWidthDueToDataPoint = props.hideDataPoints
+    ? 0
+    : dataPointsRadius ?? dataPointsWidth
+
   const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
     chartType: chartTypes.LINE,
     containerHeight,
@@ -1817,7 +1836,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     onEndReached: props.onEndReached,
     onStartReached: props.onStartReached,
     endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset,
-    onMomentumScrollEnd: props.onMomentumScrollEnd
+    onMomentumScrollEnd: props.onMomentumScrollEnd,
+    extraWidthDueToDataPoint
   }
 
   return {

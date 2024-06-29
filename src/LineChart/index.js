@@ -30,52 +30,56 @@ import { AxesAndRulesDefaults, LineDefaults, SEGMENT_END, SEGMENT_START, chartTy
 import { adjustToOffset, computeMaxAndMinItems, getAllArrowProperties, getArrowPoints, getAxesAndRulesProps, getCurvePathWithSegments, getExtendedContainerHeightWithPadding, getInterpolatedData, getLineSegmentsForMissingValues, getMaxValue, getNoOfSections, getPathWithHighlight, getSanitisedData, getSecondaryDataWithOffsetIncluded, getSegmentString, svgPath } from '../utils';
 import { EdgePosition } from '../utils/types';
 export var useLineChart = function (props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50, _51, _52, _53, _54, _55, _56, _57, _58, _59, _60, _61, _62, _63, _64, _65, _66, _67, _68, _69, _70, _71, _72, _73, _74, _75, _76, _77, _78, _79, _80, _81, _82, _83, _84, _85, _86, _87, _88, _89, _90, _91, _92, _93, _94, _95, _96, _97, _98, _99, _100, _101, _102, _103, _104, _105, _106, _107, _108, _109, _110, _111, _112, _113, _114, _115, _116, _117, _118, _119, _120, _121, _122, _123, _124, _125, _126, _127, _128, _129, _130, _131, _132, _133, _134, _135, _136, _137, _138, _139, _140, _141, _142, _143, _144, _145, _146, _147, _148, _149, _150, _151, _152, _153, _154, _155, _156, _157, _158, _159, _160, _161, _162, _163, _164, _165, _166, _167, _168, _169, _170, _171, _172, _173, _174, _175, _176, _177, _178, _179, _180, _181, _182, _183, _184, _185, _186, _187, _188, _189, _190, _191, _192, _193, _194, _195, _196, _197, _198, _199, _200, _201, _202, _203, _204, _205, _206, _207, _208, _209, _210, _211, _212, _213, _214, _215, _216, _217, _218, _219, _220, _221, _222, _223, _224, _225, _226, _227, _228, _229, _230, _231, _232, _233, _234, _235, _236, _237, _238, _239, _240, _241, _242, _243, _244, _245, _246, _247, _248, _249, _250, _251, _252, _253, _254, _255, _256, _257, _258, _259, _260, _261, _262, _263, _264, _265, _266, _267, _268, _269, _270, _271, _272, _273, _274, _275, _276, _277, _278, _279, _280, _281, _282, _283, _284, _285, _286, _287, _288, _289, _290, _291, _292;
-    var animations = props.animations, showDataPointsForMissingValues = props.showDataPointsForMissingValues, _293 = props.interpolateMissingValues, interpolateMissingValues = _293 === void 0 ? true : _293, onlyPositive = props.onlyPositive, yAxisOffset = props.yAxisOffset, parentWidth = props.parentWidth;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50, _51, _52, _53, _54, _55, _56, _57, _58, _59, _60, _61, _62, _63, _64, _65, _66, _67, _68, _69, _70, _71, _72, _73, _74, _75, _76, _77, _78, _79, _80, _81, _82, _83, _84, _85, _86, _87, _88, _89, _90, _91, _92, _93, _94, _95, _96, _97, _98, _99, _100, _101, _102, _103, _104, _105, _106, _107, _108, _109, _110, _111, _112, _113, _114, _115, _116, _117, _118, _119, _120, _121, _122, _123, _124, _125, _126, _127, _128, _129, _130, _131, _132, _133, _134, _135, _136, _137, _138, _139, _140, _141, _142, _143, _144, _145, _146, _147, _148, _149, _150, _151, _152, _153, _154, _155, _156, _157, _158, _159, _160, _161, _162, _163, _164, _165, _166, _167, _168, _169, _170, _171, _172, _173, _174, _175, _176, _177, _178, _179, _180, _181, _182, _183, _184, _185, _186, _187, _188, _189, _190, _191, _192, _193, _194, _195, _196, _197, _198, _199, _200, _201, _202, _203, _204, _205, _206, _207, _208, _209, _210, _211, _212, _213, _214, _215, _216, _217, _218, _219, _220, _221, _222, _223, _224, _225, _226, _227, _228, _229, _230, _231, _232, _233, _234, _235, _236, _237, _238, _239, _240, _241, _242, _243, _244, _245, _246, _247, _248, _249, _250, _251, _252, _253, _254, _255, _256, _257, _258, _259, _260, _261, _262, _263, _264, _265, _266, _267, _268, _269, _270, _271, _272, _273, _274, _275, _276, _277, _278, _279, _280, _281, _282, _283, _284, _285, _286, _287, _288, _289, _290, _291, _292, _293, _294, _295, _296, _297;
+    var animations = props.animations, showDataPointsForMissingValues = props.showDataPointsForMissingValues, _298 = props.interpolateMissingValues, interpolateMissingValues = _298 === void 0 ? true : _298, onlyPositive = props.onlyPositive, yAxisOffset = props.yAxisOffset, parentWidth = props.parentWidth;
     var curvature = (_a = props.curvature) !== null && _a !== void 0 ? _a : LineDefaults.curvature;
     var curveType = (_b = props.curveType) !== null && _b !== void 0 ? _b : LineDefaults.curveType;
-    var _294 = __read(useState(0), 2), scrollX = _294[0], setScrollX = _294[1];
-    var _295 = __read(useState(''), 2), arrow1Points = _295[0], setArrow1Points = _295[1];
-    var _296 = __read(useState(''), 2), arrow2Points = _296[0], setArrow2Points = _296[1];
-    var _297 = __read(useState(''), 2), arrow3Points = _297[0], setArrow3Points = _297[1];
-    var _298 = __read(useState(''), 2), arrow4Points = _298[0], setArrow4Points = _298[1];
-    var _299 = __read(useState(''), 2), arrow5Points = _299[0], setArrow5Points = _299[1];
-    var _300 = __read(useState(''), 2), secondaryArrowPoints = _300[0], setSecondaryArrowPoints = _300[1];
-    var _301 = __read(useState(-1), 2), pointerIndex = _301[0], setPointerIndex = _301[1];
-    var _302 = __read(useState(0), 2), pointerX = _302[0], setPointerX = _302[1];
-    var _303 = __read(useState(0), 2), pointerY = _303[0], setPointerY = _303[1];
-    var _304 = __read(useState(), 2), pointerItem = _304[0], setPointerItem = _304[1];
-    var _305 = __read(useState(0), 2), pointerY2 = _305[0], setPointerY2 = _305[1];
-    var _306 = __read(useState(), 2), pointerItem2 = _306[0], setPointerItem2 = _306[1];
-    var _307 = __read(useState(0), 2), pointerY3 = _307[0], setPointerY3 = _307[1];
-    var _308 = __read(useState(), 2), pointerItem3 = _308[0], setPointerItem3 = _308[1];
-    var _309 = __read(useState(0), 2), pointerY4 = _309[0], setPointerY4 = _309[1];
-    var _310 = __read(useState(), 2), pointerItem4 = _310[0], setPointerItem4 = _310[1];
-    var _311 = __read(useState(0), 2), pointerY5 = _311[0], setPointerY5 = _311[1];
-    var _312 = __read(useState([]), 2), pointerYsForDataSet = _312[0], setPointerYsForDataSet = _312[1];
-    var _313 = __read(useState(), 2), pointerItem5 = _313[0], setPointerItem5 = _313[1];
-    var _314 = __read(useState(0), 2), secondaryPointerY = _314[0], setSecondaryPointerY = _314[1];
-    var _315 = __read(useState(), 2), secondaryPointerItem = _315[0], setSecondaryPointerItem = _315[1];
-    var _316 = __read(useState(0), 2), responderStartTime = _316[0], setResponderStartTime = _316[1];
-    var _317 = __read(useState(false), 2), responderActive = _317[0], setResponderActive = _317[1];
-    var _318 = __read(useState(''), 2), points = _318[0], setPoints = _318[1];
-    var _319 = __read(useState(''), 2), points2 = _319[0], setPoints2 = _319[1];
-    var _320 = __read(useState(''), 2), points3 = _320[0], setPoints3 = _320[1];
-    var _321 = __read(useState(''), 2), points4 = _321[0], setPoints4 = _321[1];
-    var _322 = __read(useState(''), 2), points5 = _322[0], setPoints5 = _322[1];
-    var _323 = __read(useState(''), 2), secondaryPoints = _323[0], setSecondaryPoints = _323[1];
-    var _324 = __read(useState(''), 2), fillPoints = _324[0], setFillPoints = _324[1];
-    var _325 = __read(useState(''), 2), fillPoints2 = _325[0], setFillPoints2 = _325[1];
-    var _326 = __read(useState(''), 2), fillPoints3 = _326[0], setFillPoints3 = _326[1];
-    var _327 = __read(useState(''), 2), fillPoints4 = _327[0], setFillPoints4 = _327[1];
-    var _328 = __read(useState(''), 2), fillPoints5 = _328[0], setFillPoints5 = _328[1];
-    var _329 = __read(useState(''), 2), secondaryFillPoints = _329[0], setSecondaryFillPoints = _329[1];
-    var _330 = __read(useState([]), 2), pointsFromSet = _330[0], setPointsFromSet = _330[1];
-    var _331 = __read(useState([]), 2), fillPointsFromSet = _331[0], setFillPointsFromSet = _331[1];
-    var _332 = __read(useState([]), 2), arrowPointsFromSet = _332[0], setArrowPointsFromSet = _332[1];
-    var _333 = __read(useState(-1), 2), selectedIndex = _333[0], setSelectedIndex = _333[1];
+    var _299 = __read(useState(0), 2), scrollX = _299[0], setScrollX = _299[1];
+    var _300 = __read(useState(''), 2), arrow1Points = _300[0], setArrow1Points = _300[1];
+    var _301 = __read(useState(''), 2), arrow2Points = _301[0], setArrow2Points = _301[1];
+    var _302 = __read(useState(''), 2), arrow3Points = _302[0], setArrow3Points = _302[1];
+    var _303 = __read(useState(''), 2), arrow4Points = _303[0], setArrow4Points = _303[1];
+    var _304 = __read(useState(''), 2), arrow5Points = _304[0], setArrow5Points = _304[1];
+    var _305 = __read(useState(''), 2), secondaryArrowPoints = _305[0], setSecondaryArrowPoints = _305[1];
+    var _306 = __read(useState(-1), 2), pointerIndex = _306[0], setPointerIndex = _306[1];
+    var _307 = __read(useState(0), 2), pointerX = _307[0], setPointerX = _307[1];
+    var _308 = __read(useState(0), 2), pointerY = _308[0], setPointerY = _308[1];
+    var _309 = __read(useState(), 2), pointerItem = _309[0], setPointerItem = _309[1];
+    var _310 = __read(useState(0), 2), pointerY2 = _310[0], setPointerY2 = _310[1];
+    var _311 = __read(useState(), 2), pointerItem2 = _311[0], setPointerItem2 = _311[1];
+    var _312 = __read(useState(0), 2), pointerY3 = _312[0], setPointerY3 = _312[1];
+    var _313 = __read(useState(), 2), pointerItem3 = _313[0], setPointerItem3 = _313[1];
+    var _314 = __read(useState(0), 2), pointerY4 = _314[0], setPointerY4 = _314[1];
+    var _315 = __read(useState(), 2), pointerItem4 = _315[0], setPointerItem4 = _315[1];
+    var _316 = __read(useState(0), 2), pointerY5 = _316[0], setPointerY5 = _316[1];
+    var _317 = __read(useState([]), 2), pointerYsForDataSet = _317[0], setPointerYsForDataSet = _317[1];
+    var _318 = __read(useState(), 2), pointerItem5 = _318[0], setPointerItem5 = _318[1];
+    var _319 = __read(useState(0), 2), secondaryPointerY = _319[0], setSecondaryPointerY = _319[1];
+    var _320 = __read(useState(), 2), secondaryPointerItem = _320[0], setSecondaryPointerItem = _320[1];
+    var _321 = __read(useState(0), 2), responderStartTime = _321[0], setResponderStartTime = _321[1];
+    var _322 = __read(useState(false), 2), responderActive = _322[0], setResponderActive = _322[1];
+    var _323 = __read(useState(''), 2), points = _323[0], setPoints = _323[1];
+    var _324 = __read(useState(''), 2), points2 = _324[0], setPoints2 = _324[1];
+    var _325 = __read(useState(''), 2), points3 = _325[0], setPoints3 = _325[1];
+    var _326 = __read(useState(''), 2), points4 = _326[0], setPoints4 = _326[1];
+    var _327 = __read(useState(''), 2), points5 = _327[0], setPoints5 = _327[1];
+    var _328 = __read(useState(''), 2), secondaryPoints = _328[0], setSecondaryPoints = _328[1];
+    var _329 = __read(useState(''), 2), fillPoints = _329[0], setFillPoints = _329[1];
+    var _330 = __read(useState(''), 2), fillPoints2 = _330[0], setFillPoints2 = _330[1];
+    var _331 = __read(useState(''), 2), fillPoints3 = _331[0], setFillPoints3 = _331[1];
+    var _332 = __read(useState(''), 2), fillPoints4 = _332[0], setFillPoints4 = _332[1];
+    var _333 = __read(useState(''), 2), fillPoints5 = _333[0], setFillPoints5 = _333[1];
+    var _334 = __read(useState(''), 2), secondaryFillPoints = _334[0], setSecondaryFillPoints = _334[1];
+    var _335 = __read(useState([]), 2), pointsFromSet = _335[0], setPointsFromSet = _335[1];
+    var _336 = __read(useState([]), 2), fillPointsFromSet = _336[0], setFillPointsFromSet = _336[1];
+    var _337 = __read(useState([]), 2), arrowPointsFromSet = _337[0], setArrowPointsFromSet = _337[1];
+    var _338 = __read(useState((_c = props.focusedDataPointIndex) !== null && _c !== void 0 ? _c : -1), 2), selectedIndex = _338[0], setSelectedIndex = _338[1];
+    useEffect(function () {
+        var _a;
+        setSelectedIndex((_a = props.focusedDataPointIndex) !== null && _a !== void 0 ? _a : -1);
+    }, [props.focusedDataPointIndex]);
     var noOfSections = getNoOfSections(props.noOfSections, props.maxValue, props.stepValue);
-    var containerHeight = (_c = props.height) !== null && _c !== void 0 ? _c : (((_d = props.stepHeight) !== null && _d !== void 0 ? _d : 0) * noOfSections ||
+    var containerHeight = (_d = props.height) !== null && _d !== void 0 ? _d : (((_e = props.stepHeight) !== null && _e !== void 0 ? _e : 0) * noOfSections ||
         AxesAndRulesDefaults.containerHeight);
     var dataSanitisationProps = {
         showDataPointsForMissingValues: showDataPointsForMissingValues,
@@ -88,7 +92,7 @@ export var useLineChart = function (props) {
     var data3 = useMemo(function () { return getSanitisedData(props.data3, dataSanitisationProps); }, [yAxisOffset, props.data3]);
     var data4 = useMemo(function () { return getSanitisedData(props.data4, dataSanitisationProps); }, [yAxisOffset, props.data4]);
     var data5 = useMemo(function () { return getSanitisedData(props.data5, dataSanitisationProps); }, [yAxisOffset, props.data5]);
-    var secondaryData = (_e = getSecondaryDataWithOffsetIncluded(props.secondaryData, props.secondaryYAxis, showDataPointsForMissingValues, interpolateMissingValues, onlyPositive)) !== null && _e !== void 0 ? _e : [];
+    var secondaryData = (_f = getSecondaryDataWithOffsetIncluded(props.secondaryData, props.secondaryYAxis, showDataPointsForMissingValues, interpolateMissingValues, onlyPositive)) !== null && _f !== void 0 ? _f : [];
     var dataSet = props.dataSet;
     if (dataSet === null || dataSet === void 0 ? void 0 : dataSet.length) {
         dataSet = useMemo(function () {
@@ -98,18 +102,18 @@ export var useLineChart = function (props) {
             });
         }, [yAxisOffset, dataSet]);
     }
-    var data0 = (_f = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _f === void 0 ? void 0 : _f.data;
-    var scrollToEnd = (_g = props.scrollToEnd) !== null && _g !== void 0 ? _g : LineDefaults.scrollToEnd;
-    var scrollAnimation = (_h = props.scrollAnimation) !== null && _h !== void 0 ? _h : LineDefaults.scrollAnimation;
-    var scrollEventThrottle = (_j = props.scrollEventThrottle) !== null && _j !== void 0 ? _j : LineDefaults.scrollEventThrottle;
-    var labelsExtraHeight = (_k = props.labelsExtraHeight) !== null && _k !== void 0 ? _k : 0;
-    var animationDuration = (_l = props.animationDuration) !== null && _l !== void 0 ? _l : LineDefaults.animationDuration;
-    var onDataChangeAnimationDuration = (_m = props.onDataChangeAnimationDuration) !== null && _m !== void 0 ? _m : 400;
-    var animateTogether = (_o = props.animateTogether) !== null && _o !== void 0 ? _o : LineDefaults.animateTogether;
+    var data0 = (_g = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _g === void 0 ? void 0 : _g.data;
+    var scrollToEnd = (_h = props.scrollToEnd) !== null && _h !== void 0 ? _h : LineDefaults.scrollToEnd;
+    var scrollAnimation = (_j = props.scrollAnimation) !== null && _j !== void 0 ? _j : LineDefaults.scrollAnimation;
+    var scrollEventThrottle = (_k = props.scrollEventThrottle) !== null && _k !== void 0 ? _k : LineDefaults.scrollEventThrottle;
+    var labelsExtraHeight = (_l = props.labelsExtraHeight) !== null && _l !== void 0 ? _l : 0;
+    var animationDuration = (_m = props.animationDuration) !== null && _m !== void 0 ? _m : LineDefaults.animationDuration;
+    var onDataChangeAnimationDuration = (_o = props.onDataChangeAnimationDuration) !== null && _o !== void 0 ? _o : 400;
+    var animateTogether = (_p = props.animateTogether) !== null && _p !== void 0 ? _p : LineDefaults.animateTogether;
     var animateOnDataChange = yAxisOffset
         ? false
-        : (_p = props.animateOnDataChange) !== null && _p !== void 0 ? _p : false;
-    var startIndex1 = (_r = (_q = props.startIndex1) !== null && _q !== void 0 ? _q : props.startIndex) !== null && _r !== void 0 ? _r : 0;
+        : (_q = props.animateOnDataChange) !== null && _q !== void 0 ? _q : false;
+    var startIndex1 = (_s = (_r = props.startIndex1) !== null && _r !== void 0 ? _r : props.startIndex) !== null && _s !== void 0 ? _s : 0;
     var endIndex1;
     if (props.endIndex1 === undefined || props.endIndex1 === null) {
         if (props.endIndex === undefined || props.endIndex === null) {
@@ -122,14 +126,14 @@ export var useLineChart = function (props) {
     else {
         endIndex1 = props.endIndex1;
     }
-    var startIndex2 = (_s = props.startIndex2) !== null && _s !== void 0 ? _s : 0;
-    var endIndex2 = (_t = props.endIndex2) !== null && _t !== void 0 ? _t : data2.length - 1;
-    var startIndex3 = (_u = props.startIndex3) !== null && _u !== void 0 ? _u : 0;
-    var endIndex3 = (_v = props.endIndex3) !== null && _v !== void 0 ? _v : data3.length - 1;
-    var startIndex4 = (_w = props.startIndex4) !== null && _w !== void 0 ? _w : 0;
-    var endIndex4 = (_x = props.endIndex4) !== null && _x !== void 0 ? _x : data4.length - 1;
-    var startIndex5 = (_y = props.startIndex5) !== null && _y !== void 0 ? _y : 0;
-    var endIndex5 = (_z = props.endIndex5) !== null && _z !== void 0 ? _z : data5.length - 1;
+    var startIndex2 = (_t = props.startIndex2) !== null && _t !== void 0 ? _t : 0;
+    var endIndex2 = (_u = props.endIndex2) !== null && _u !== void 0 ? _u : data2.length - 1;
+    var startIndex3 = (_v = props.startIndex3) !== null && _v !== void 0 ? _v : 0;
+    var endIndex3 = (_w = props.endIndex3) !== null && _w !== void 0 ? _w : data3.length - 1;
+    var startIndex4 = (_x = props.startIndex4) !== null && _x !== void 0 ? _x : 0;
+    var endIndex4 = (_y = props.endIndex4) !== null && _y !== void 0 ? _y : data4.length - 1;
+    var startIndex5 = (_z = props.startIndex5) !== null && _z !== void 0 ? _z : 0;
+    var endIndex5 = (_0 = props.endIndex5) !== null && _0 !== void 0 ? _0 : data5.length - 1;
     var lineSegments = !interpolateMissingValues
         ? getLineSegmentsForMissingValues(props.data)
         : props.lineSegments;
@@ -149,50 +153,50 @@ export var useLineChart = function (props) {
     var newPoints = '';
     var newFillPoints = '';
     var counter = 0;
-    var adjustToWidth = (_0 = props.adjustToWidth) !== null && _0 !== void 0 ? _0 : false;
-    var initialSpacing = (_1 = props.initialSpacing) !== null && _1 !== void 0 ? _1 : LineDefaults.initialSpacing;
-    var endSpacing = (_2 = props.endSpacing) !== null && _2 !== void 0 ? _2 : (adjustToWidth ? 0 : LineDefaults.endSpacing);
-    var thickness = (_3 = props.thickness) !== null && _3 !== void 0 ? _3 : LineDefaults.thickness;
-    var yAxisLabelWidth = (_4 = props.yAxisLabelWidth) !== null && _4 !== void 0 ? _4 : (props.hideYAxisText
+    var adjustToWidth = (_1 = props.adjustToWidth) !== null && _1 !== void 0 ? _1 : false;
+    var initialSpacing = (_2 = props.initialSpacing) !== null && _2 !== void 0 ? _2 : LineDefaults.initialSpacing;
+    var endSpacing = (_3 = props.endSpacing) !== null && _3 !== void 0 ? _3 : (adjustToWidth ? 0 : LineDefaults.endSpacing);
+    var thickness = (_4 = props.thickness) !== null && _4 !== void 0 ? _4 : LineDefaults.thickness;
+    var yAxisLabelWidth = (_5 = props.yAxisLabelWidth) !== null && _5 !== void 0 ? _5 : (props.hideYAxisText
         ? AxesAndRulesDefaults.yAxisEmptyLabelWidth
         : AxesAndRulesDefaults.yAxisLabelWidth);
-    var spacing = (_5 = props.spacing) !== null && _5 !== void 0 ? _5 : (adjustToWidth
-        ? (((_6 = props.width) !== null && _6 !== void 0 ? _6 : parentWidth - yAxisLabelWidth) - initialSpacing) /
+    var spacing = (_6 = props.spacing) !== null && _6 !== void 0 ? _6 : (adjustToWidth
+        ? (((_7 = props.width) !== null && _7 !== void 0 ? _7 : parentWidth - yAxisLabelWidth) - initialSpacing) /
             Math.max((data0 !== null && data0 !== void 0 ? data0 : data).length - 1, 1)
         : LineDefaults.spacing);
-    var xAxisThickness = (_7 = props.xAxisThickness) !== null && _7 !== void 0 ? _7 : AxesAndRulesDefaults.xAxisThickness;
-    var dataPointsHeight1 = (_9 = (_8 = props.dataPointsHeight1) !== null && _8 !== void 0 ? _8 : props.dataPointsHeight) !== null && _9 !== void 0 ? _9 : LineDefaults.dataPointsHeight;
-    var dataPointsWidth1 = (_11 = (_10 = props.dataPointsWidth1) !== null && _10 !== void 0 ? _10 : props.dataPointsWidth) !== null && _11 !== void 0 ? _11 : LineDefaults.dataPointsWidth;
-    var dataPointsRadius1 = (_13 = (_12 = props.dataPointsRadius1) !== null && _12 !== void 0 ? _12 : props.dataPointsRadius) !== null && _13 !== void 0 ? _13 : LineDefaults.dataPointsRadius;
-    var dataPointsColor1 = (_15 = (_14 = props.dataPointsColor1) !== null && _14 !== void 0 ? _14 : props.dataPointsColor) !== null && _15 !== void 0 ? _15 : LineDefaults.dataPointsColor;
-    var dataPointsShape1 = (_17 = (_16 = props.dataPointsShape1) !== null && _16 !== void 0 ? _16 : props.dataPointsShape) !== null && _17 !== void 0 ? _17 : LineDefaults.dataPointsShape;
-    var dataPointsHeight2 = (_19 = (_18 = props.dataPointsHeight2) !== null && _18 !== void 0 ? _18 : props.dataPointsHeight) !== null && _19 !== void 0 ? _19 : LineDefaults.dataPointsHeight;
-    var dataPointsWidth2 = (_21 = (_20 = props.dataPointsWidth2) !== null && _20 !== void 0 ? _20 : props.dataPointsWidth) !== null && _21 !== void 0 ? _21 : LineDefaults.dataPointsWidth;
-    var dataPointsRadius2 = (_23 = (_22 = props.dataPointsRadius2) !== null && _22 !== void 0 ? _22 : props.dataPointsRadius) !== null && _23 !== void 0 ? _23 : LineDefaults.dataPointsRadius;
-    var dataPointsColor2 = (_25 = (_24 = props.dataPointsColor2) !== null && _24 !== void 0 ? _24 : props.dataPointsColor) !== null && _25 !== void 0 ? _25 : LineDefaults.dataPointsColor2;
-    var dataPointsShape2 = (_27 = (_26 = props.dataPointsShape2) !== null && _26 !== void 0 ? _26 : props.dataPointsShape) !== null && _27 !== void 0 ? _27 : LineDefaults.dataPointsShape;
-    var dataPointsHeight3 = (_29 = (_28 = props.dataPointsHeight3) !== null && _28 !== void 0 ? _28 : props.dataPointsHeight) !== null && _29 !== void 0 ? _29 : LineDefaults.dataPointsHeight;
-    var dataPointsWidth3 = (_31 = (_30 = props.dataPointsWidth3) !== null && _30 !== void 0 ? _30 : props.dataPointsWidth) !== null && _31 !== void 0 ? _31 : LineDefaults.dataPointsWidth;
-    var dataPointsRadius3 = (_33 = (_32 = props.dataPointsRadius3) !== null && _32 !== void 0 ? _32 : props.dataPointsRadius) !== null && _33 !== void 0 ? _33 : LineDefaults.dataPointsRadius;
-    var dataPointsColor3 = (_35 = (_34 = props.dataPointsColor3) !== null && _34 !== void 0 ? _34 : props.dataPointsColor) !== null && _35 !== void 0 ? _35 : LineDefaults.dataPointsColor3;
-    var dataPointsShape3 = (_37 = (_36 = props.dataPointsShape3) !== null && _36 !== void 0 ? _36 : props.dataPointsShape) !== null && _37 !== void 0 ? _37 : LineDefaults.dataPointsShape;
-    var dataPointsHeight4 = (_39 = (_38 = props.dataPointsHeight4) !== null && _38 !== void 0 ? _38 : props.dataPointsHeight) !== null && _39 !== void 0 ? _39 : LineDefaults.dataPointsHeight;
-    var dataPointsWidth4 = (_41 = (_40 = props.dataPointsWidth4) !== null && _40 !== void 0 ? _40 : props.dataPointsWidth) !== null && _41 !== void 0 ? _41 : LineDefaults.dataPointsWidth;
-    var dataPointsRadius4 = (_43 = (_42 = props.dataPointsRadius4) !== null && _42 !== void 0 ? _42 : props.dataPointsRadius) !== null && _43 !== void 0 ? _43 : LineDefaults.dataPointsRadius;
-    var dataPointsColor4 = (_45 = (_44 = props.dataPointsColor4) !== null && _44 !== void 0 ? _44 : props.dataPointsColor) !== null && _45 !== void 0 ? _45 : LineDefaults.dataPointsColor;
-    var dataPointsShape4 = (_47 = (_46 = props.dataPointsShape4) !== null && _46 !== void 0 ? _46 : props.dataPointsShape) !== null && _47 !== void 0 ? _47 : LineDefaults.dataPointsShape;
-    var dataPointsHeight5 = (_49 = (_48 = props.dataPointsHeight5) !== null && _48 !== void 0 ? _48 : props.dataPointsHeight) !== null && _49 !== void 0 ? _49 : LineDefaults.dataPointsHeight;
-    var dataPointsWidth5 = (_51 = (_50 = props.dataPointsWidth5) !== null && _50 !== void 0 ? _50 : props.dataPointsWidth) !== null && _51 !== void 0 ? _51 : LineDefaults.dataPointsWidth;
-    var dataPointsRadius5 = (_53 = (_52 = props.dataPointsRadius5) !== null && _52 !== void 0 ? _52 : props.dataPointsRadius) !== null && _53 !== void 0 ? _53 : LineDefaults.dataPointsRadius;
-    var dataPointsColor5 = (_55 = (_54 = props.dataPointsColor5) !== null && _54 !== void 0 ? _54 : props.dataPointsColor) !== null && _55 !== void 0 ? _55 : LineDefaults.dataPointsColor;
-    var dataPointsShape5 = (_57 = (_56 = props.dataPointsShape5) !== null && _56 !== void 0 ? _56 : props.dataPointsShape) !== null && _57 !== void 0 ? _57 : LineDefaults.dataPointsShape;
-    var areaChart = (_58 = props.areaChart) !== null && _58 !== void 0 ? _58 : false;
-    var areaChart1 = (_59 = props.areaChart1) !== null && _59 !== void 0 ? _59 : false;
-    var areaChart2 = (_60 = props.areaChart2) !== null && _60 !== void 0 ? _60 : false;
-    var areaChart3 = (_61 = props.areaChart3) !== null && _61 !== void 0 ? _61 : false;
-    var areaChart4 = (_62 = props.areaChart4) !== null && _62 !== void 0 ? _62 : false;
-    var areaChart5 = (_63 = props.areaChart5) !== null && _63 !== void 0 ? _63 : false;
-    var atLeastOneAreaChart = (_69 = (_68 = (_67 = (_66 = (_65 = (_64 = dataSet === null || dataSet === void 0 ? void 0 : dataSet.some(function (set) { return set.areaChart; })) !== null && _64 !== void 0 ? _64 : areaChart) !== null && _65 !== void 0 ? _65 : areaChart1) !== null && _66 !== void 0 ? _66 : areaChart2) !== null && _67 !== void 0 ? _67 : areaChart3) !== null && _68 !== void 0 ? _68 : areaChart4) !== null && _69 !== void 0 ? _69 : areaChart5;
+    var xAxisThickness = (_8 = props.xAxisThickness) !== null && _8 !== void 0 ? _8 : AxesAndRulesDefaults.xAxisThickness;
+    var dataPointsHeight1 = (_10 = (_9 = props.dataPointsHeight1) !== null && _9 !== void 0 ? _9 : props.dataPointsHeight) !== null && _10 !== void 0 ? _10 : LineDefaults.dataPointsHeight;
+    var dataPointsWidth1 = (_12 = (_11 = props.dataPointsWidth1) !== null && _11 !== void 0 ? _11 : props.dataPointsWidth) !== null && _12 !== void 0 ? _12 : LineDefaults.dataPointsWidth;
+    var dataPointsRadius1 = (_14 = (_13 = props.dataPointsRadius1) !== null && _13 !== void 0 ? _13 : props.dataPointsRadius) !== null && _14 !== void 0 ? _14 : LineDefaults.dataPointsRadius;
+    var dataPointsColor1 = (_16 = (_15 = props.dataPointsColor1) !== null && _15 !== void 0 ? _15 : props.dataPointsColor) !== null && _16 !== void 0 ? _16 : LineDefaults.dataPointsColor;
+    var dataPointsShape1 = (_18 = (_17 = props.dataPointsShape1) !== null && _17 !== void 0 ? _17 : props.dataPointsShape) !== null && _18 !== void 0 ? _18 : LineDefaults.dataPointsShape;
+    var dataPointsHeight2 = (_20 = (_19 = props.dataPointsHeight2) !== null && _19 !== void 0 ? _19 : props.dataPointsHeight) !== null && _20 !== void 0 ? _20 : LineDefaults.dataPointsHeight;
+    var dataPointsWidth2 = (_22 = (_21 = props.dataPointsWidth2) !== null && _21 !== void 0 ? _21 : props.dataPointsWidth) !== null && _22 !== void 0 ? _22 : LineDefaults.dataPointsWidth;
+    var dataPointsRadius2 = (_24 = (_23 = props.dataPointsRadius2) !== null && _23 !== void 0 ? _23 : props.dataPointsRadius) !== null && _24 !== void 0 ? _24 : LineDefaults.dataPointsRadius;
+    var dataPointsColor2 = (_26 = (_25 = props.dataPointsColor2) !== null && _25 !== void 0 ? _25 : props.dataPointsColor) !== null && _26 !== void 0 ? _26 : LineDefaults.dataPointsColor2;
+    var dataPointsShape2 = (_28 = (_27 = props.dataPointsShape2) !== null && _27 !== void 0 ? _27 : props.dataPointsShape) !== null && _28 !== void 0 ? _28 : LineDefaults.dataPointsShape;
+    var dataPointsHeight3 = (_30 = (_29 = props.dataPointsHeight3) !== null && _29 !== void 0 ? _29 : props.dataPointsHeight) !== null && _30 !== void 0 ? _30 : LineDefaults.dataPointsHeight;
+    var dataPointsWidth3 = (_32 = (_31 = props.dataPointsWidth3) !== null && _31 !== void 0 ? _31 : props.dataPointsWidth) !== null && _32 !== void 0 ? _32 : LineDefaults.dataPointsWidth;
+    var dataPointsRadius3 = (_34 = (_33 = props.dataPointsRadius3) !== null && _33 !== void 0 ? _33 : props.dataPointsRadius) !== null && _34 !== void 0 ? _34 : LineDefaults.dataPointsRadius;
+    var dataPointsColor3 = (_36 = (_35 = props.dataPointsColor3) !== null && _35 !== void 0 ? _35 : props.dataPointsColor) !== null && _36 !== void 0 ? _36 : LineDefaults.dataPointsColor3;
+    var dataPointsShape3 = (_38 = (_37 = props.dataPointsShape3) !== null && _37 !== void 0 ? _37 : props.dataPointsShape) !== null && _38 !== void 0 ? _38 : LineDefaults.dataPointsShape;
+    var dataPointsHeight4 = (_40 = (_39 = props.dataPointsHeight4) !== null && _39 !== void 0 ? _39 : props.dataPointsHeight) !== null && _40 !== void 0 ? _40 : LineDefaults.dataPointsHeight;
+    var dataPointsWidth4 = (_42 = (_41 = props.dataPointsWidth4) !== null && _41 !== void 0 ? _41 : props.dataPointsWidth) !== null && _42 !== void 0 ? _42 : LineDefaults.dataPointsWidth;
+    var dataPointsRadius4 = (_44 = (_43 = props.dataPointsRadius4) !== null && _43 !== void 0 ? _43 : props.dataPointsRadius) !== null && _44 !== void 0 ? _44 : LineDefaults.dataPointsRadius;
+    var dataPointsColor4 = (_46 = (_45 = props.dataPointsColor4) !== null && _45 !== void 0 ? _45 : props.dataPointsColor) !== null && _46 !== void 0 ? _46 : LineDefaults.dataPointsColor;
+    var dataPointsShape4 = (_48 = (_47 = props.dataPointsShape4) !== null && _47 !== void 0 ? _47 : props.dataPointsShape) !== null && _48 !== void 0 ? _48 : LineDefaults.dataPointsShape;
+    var dataPointsHeight5 = (_50 = (_49 = props.dataPointsHeight5) !== null && _49 !== void 0 ? _49 : props.dataPointsHeight) !== null && _50 !== void 0 ? _50 : LineDefaults.dataPointsHeight;
+    var dataPointsWidth5 = (_52 = (_51 = props.dataPointsWidth5) !== null && _51 !== void 0 ? _51 : props.dataPointsWidth) !== null && _52 !== void 0 ? _52 : LineDefaults.dataPointsWidth;
+    var dataPointsRadius5 = (_54 = (_53 = props.dataPointsRadius5) !== null && _53 !== void 0 ? _53 : props.dataPointsRadius) !== null && _54 !== void 0 ? _54 : LineDefaults.dataPointsRadius;
+    var dataPointsColor5 = (_56 = (_55 = props.dataPointsColor5) !== null && _55 !== void 0 ? _55 : props.dataPointsColor) !== null && _56 !== void 0 ? _56 : LineDefaults.dataPointsColor;
+    var dataPointsShape5 = (_58 = (_57 = props.dataPointsShape5) !== null && _57 !== void 0 ? _57 : props.dataPointsShape) !== null && _58 !== void 0 ? _58 : LineDefaults.dataPointsShape;
+    var areaChart = (_59 = props.areaChart) !== null && _59 !== void 0 ? _59 : false;
+    var areaChart1 = (_60 = props.areaChart1) !== null && _60 !== void 0 ? _60 : false;
+    var areaChart2 = (_61 = props.areaChart2) !== null && _61 !== void 0 ? _61 : false;
+    var areaChart3 = (_62 = props.areaChart3) !== null && _62 !== void 0 ? _62 : false;
+    var areaChart4 = (_63 = props.areaChart4) !== null && _63 !== void 0 ? _63 : false;
+    var areaChart5 = (_64 = props.areaChart5) !== null && _64 !== void 0 ? _64 : false;
+    var atLeastOneAreaChart = (_70 = (_69 = (_68 = (_67 = (_66 = (_65 = dataSet === null || dataSet === void 0 ? void 0 : dataSet.some(function (set) { return set.areaChart; })) !== null && _65 !== void 0 ? _65 : areaChart) !== null && _66 !== void 0 ? _66 : areaChart1) !== null && _67 !== void 0 ? _67 : areaChart2) !== null && _68 !== void 0 ? _68 : areaChart3) !== null && _69 !== void 0 ? _69 : areaChart4) !== null && _70 !== void 0 ? _70 : areaChart5;
     var getIsNthAreaChart = function (n) {
         if (areaChart)
             return true;
@@ -212,35 +216,35 @@ export var useLineChart = function (props) {
         }
         return false;
     };
-    var stepChart = (_70 = props.stepChart) !== null && _70 !== void 0 ? _70 : false;
-    var stepChart1 = (_71 = props.stepChart1) !== null && _71 !== void 0 ? _71 : false;
-    var stepChart2 = (_72 = props.stepChart2) !== null && _72 !== void 0 ? _72 : false;
-    var stepChart3 = (_73 = props.stepChart3) !== null && _73 !== void 0 ? _73 : false;
-    var stepChart4 = (_74 = props.stepChart4) !== null && _74 !== void 0 ? _74 : false;
-    var stepChart5 = (_75 = props.stepChart5) !== null && _75 !== void 0 ? _75 : false;
-    var edgePosition = (_76 = props.edgePosition) !== null && _76 !== void 0 ? _76 : LineDefaults.edgePosition;
-    var textFontSize1 = (_78 = (_77 = props.textFontSize1) !== null && _77 !== void 0 ? _77 : props.textFontSize) !== null && _78 !== void 0 ? _78 : LineDefaults.textFontSize;
-    var textFontSize2 = (_80 = (_79 = props.textFontSize2) !== null && _79 !== void 0 ? _79 : props.textFontSize) !== null && _80 !== void 0 ? _80 : LineDefaults.textFontSize;
-    var textFontSize3 = (_82 = (_81 = props.textFontSize3) !== null && _81 !== void 0 ? _81 : props.textFontSize) !== null && _82 !== void 0 ? _82 : LineDefaults.textFontSize;
-    var textFontSize4 = (_84 = (_83 = props.textFontSize4) !== null && _83 !== void 0 ? _83 : props.textFontSize) !== null && _84 !== void 0 ? _84 : LineDefaults.textFontSize;
-    var textFontSize5 = (_86 = (_85 = props.textFontSize5) !== null && _85 !== void 0 ? _85 : props.textFontSize) !== null && _86 !== void 0 ? _86 : LineDefaults.textFontSize;
-    var textColor1 = (_88 = (_87 = props.textColor1) !== null && _87 !== void 0 ? _87 : props.textColor) !== null && _88 !== void 0 ? _88 : LineDefaults.textColor;
-    var textColor2 = (_90 = (_89 = props.textColor2) !== null && _89 !== void 0 ? _89 : props.textColor) !== null && _90 !== void 0 ? _90 : LineDefaults.textColor;
-    var textColor3 = (_92 = (_91 = props.textColor3) !== null && _91 !== void 0 ? _91 : props.textColor) !== null && _92 !== void 0 ? _92 : LineDefaults.textColor;
-    var textColor4 = (_94 = (_93 = props.textColor4) !== null && _93 !== void 0 ? _93 : props.textColor) !== null && _94 !== void 0 ? _94 : LineDefaults.textColor;
-    var textColor5 = (_96 = (_95 = props.textColor5) !== null && _95 !== void 0 ? _95 : props.textColor) !== null && _96 !== void 0 ? _96 : LineDefaults.textColor;
+    var stepChart = (_71 = props.stepChart) !== null && _71 !== void 0 ? _71 : false;
+    var stepChart1 = (_72 = props.stepChart1) !== null && _72 !== void 0 ? _72 : false;
+    var stepChart2 = (_73 = props.stepChart2) !== null && _73 !== void 0 ? _73 : false;
+    var stepChart3 = (_74 = props.stepChart3) !== null && _74 !== void 0 ? _74 : false;
+    var stepChart4 = (_75 = props.stepChart4) !== null && _75 !== void 0 ? _75 : false;
+    var stepChart5 = (_76 = props.stepChart5) !== null && _76 !== void 0 ? _76 : false;
+    var edgePosition = (_77 = props.edgePosition) !== null && _77 !== void 0 ? _77 : LineDefaults.edgePosition;
+    var textFontSize1 = (_79 = (_78 = props.textFontSize1) !== null && _78 !== void 0 ? _78 : props.textFontSize) !== null && _79 !== void 0 ? _79 : LineDefaults.textFontSize;
+    var textFontSize2 = (_81 = (_80 = props.textFontSize2) !== null && _80 !== void 0 ? _80 : props.textFontSize) !== null && _81 !== void 0 ? _81 : LineDefaults.textFontSize;
+    var textFontSize3 = (_83 = (_82 = props.textFontSize3) !== null && _82 !== void 0 ? _82 : props.textFontSize) !== null && _83 !== void 0 ? _83 : LineDefaults.textFontSize;
+    var textFontSize4 = (_85 = (_84 = props.textFontSize4) !== null && _84 !== void 0 ? _84 : props.textFontSize) !== null && _85 !== void 0 ? _85 : LineDefaults.textFontSize;
+    var textFontSize5 = (_87 = (_86 = props.textFontSize5) !== null && _86 !== void 0 ? _86 : props.textFontSize) !== null && _87 !== void 0 ? _87 : LineDefaults.textFontSize;
+    var textColor1 = (_89 = (_88 = props.textColor1) !== null && _88 !== void 0 ? _88 : props.textColor) !== null && _89 !== void 0 ? _89 : LineDefaults.textColor;
+    var textColor2 = (_91 = (_90 = props.textColor2) !== null && _90 !== void 0 ? _90 : props.textColor) !== null && _91 !== void 0 ? _91 : LineDefaults.textColor;
+    var textColor3 = (_93 = (_92 = props.textColor3) !== null && _92 !== void 0 ? _92 : props.textColor) !== null && _93 !== void 0 ? _93 : LineDefaults.textColor;
+    var textColor4 = (_95 = (_94 = props.textColor4) !== null && _94 !== void 0 ? _94 : props.textColor) !== null && _95 !== void 0 ? _95 : LineDefaults.textColor;
+    var textColor5 = (_97 = (_96 = props.textColor5) !== null && _96 !== void 0 ? _96 : props.textColor) !== null && _97 !== void 0 ? _97 : LineDefaults.textColor;
     var totalWidth = initialSpacing + spacing * (data0 !== null && data0 !== void 0 ? data0 : data).length;
-    var _334 = computeMaxAndMinItems(data0 !== null && data0 !== void 0 ? data0 : data, props.roundToDigits, props.showFractionalValues), maxItem = _334.maxItem, minItem = _334.minItem;
+    var _339 = computeMaxAndMinItems(data0 !== null && data0 !== void 0 ? data0 : data, props.roundToDigits, props.showFractionalValues), maxItem = _339.maxItem, minItem = _339.minItem;
     var maxValue = getMaxValue(props.maxValue, props.stepValue, noOfSections, maxItem);
-    var mostNegativeValue = (_97 = props.mostNegativeValue) !== null && _97 !== void 0 ? _97 : minItem;
-    var overflowTop = (_98 = props.overflowTop) !== null && _98 !== void 0 ? _98 : 0;
+    var mostNegativeValue = (_98 = props.mostNegativeValue) !== null && _98 !== void 0 ? _98 : minItem;
+    var overflowTop = (_99 = props.overflowTop) !== null && _99 !== void 0 ? _99 : 0;
     var extendedContainerHeight = getExtendedContainerHeightWithPadding(containerHeight, overflowTop);
     var getX = function (index) { return initialSpacing + spacing * index - 1; };
     var getY = function (value) {
         return extendedContainerHeight - (value * containerHeight) / maxValue;
     };
-    var secondaryMaxItem = computeMaxAndMinItems(secondaryData, (_99 = props.secondaryYAxis) === null || _99 === void 0 ? void 0 : _99.roundToDigits, (_100 = props.secondaryYAxis) === null || _100 === void 0 ? void 0 : _100.showFractionalValues).maxItem;
-    var secondaryMaxValue = (_102 = (_101 = props.secondaryYAxis) === null || _101 === void 0 ? void 0 : _101.maxValue) !== null && _102 !== void 0 ? _102 : (secondaryMaxItem || maxValue);
+    var secondaryMaxItem = computeMaxAndMinItems(secondaryData, (_100 = props.secondaryYAxis) === null || _100 === void 0 ? void 0 : _100.roundToDigits, (_101 = props.secondaryYAxis) === null || _101 === void 0 ? void 0 : _101.showFractionalValues).maxItem;
+    var secondaryMaxValue = (_103 = (_102 = props.secondaryYAxis) === null || _102 === void 0 ? void 0 : _102.maxValue) !== null && _103 !== void 0 ? _103 : (secondaryMaxItem || maxValue);
     var getSecondaryY = function (value) {
         return extendedContainerHeight - (value * containerHeight) / secondaryMaxValue;
     };
@@ -286,90 +290,90 @@ export var useLineChart = function (props) {
             }
         }
     };
-    var showValuesAsDataPointsText = (_103 = props.showValuesAsDataPointsText) !== null && _103 !== void 0 ? _103 : LineDefaults.showValuesAsDataPointsText;
-    var thickness1 = (_105 = (_104 = props.thickness1) !== null && _104 !== void 0 ? _104 : props.thickness) !== null && _105 !== void 0 ? _105 : LineDefaults.thickness;
-    var thickness2 = (_107 = (_106 = props.thickness2) !== null && _106 !== void 0 ? _106 : props.thickness) !== null && _107 !== void 0 ? _107 : LineDefaults.thickness;
-    var thickness3 = (_109 = (_108 = props.thickness3) !== null && _108 !== void 0 ? _108 : props.thickness) !== null && _109 !== void 0 ? _109 : LineDefaults.thickness;
-    var thickness4 = (_111 = (_110 = props.thickness4) !== null && _110 !== void 0 ? _110 : props.thickness) !== null && _111 !== void 0 ? _111 : LineDefaults.thickness;
-    var thickness5 = (_113 = (_112 = props.thickness5) !== null && _112 !== void 0 ? _112 : props.thickness) !== null && _113 !== void 0 ? _113 : LineDefaults.thickness;
-    var zIndex1 = (_114 = props.zIndex1) !== null && _114 !== void 0 ? _114 : 0;
-    var zIndex2 = (_115 = props.zIndex2) !== null && _115 !== void 0 ? _115 : 0;
-    var zIndex3 = (_116 = props.zIndex3) !== null && _116 !== void 0 ? _116 : 0;
-    var zIndex4 = (_117 = props.zIndex4) !== null && _117 !== void 0 ? _117 : 0;
-    var zIndex5 = (_118 = props.zIndex5) !== null && _118 !== void 0 ? _118 : 0;
-    var strokeDashArray1 = (_119 = props.strokeDashArray1) !== null && _119 !== void 0 ? _119 : props.strokeDashArray;
-    var strokeDashArray2 = (_120 = props.strokeDashArray2) !== null && _120 !== void 0 ? _120 : props.strokeDashArray;
-    var strokeDashArray3 = (_121 = props.strokeDashArray3) !== null && _121 !== void 0 ? _121 : props.strokeDashArray;
-    var strokeDashArray4 = (_122 = props.strokeDashArray4) !== null && _122 !== void 0 ? _122 : props.strokeDashArray;
-    var strokeDashArray5 = (_123 = props.strokeDashArray5) !== null && _123 !== void 0 ? _123 : props.strokeDashArray;
-    var rotateLabel = (_124 = props.rotateLabel) !== null && _124 !== void 0 ? _124 : false;
-    var isAnimated = (_125 = props.isAnimated) !== null && _125 !== void 0 ? _125 : false;
-    var hideDataPoints1 = (_127 = (_126 = props.hideDataPoints) !== null && _126 !== void 0 ? _126 : props.hideDataPoints1) !== null && _127 !== void 0 ? _127 : false;
-    var hideDataPoints2 = (_129 = (_128 = props.hideDataPoints) !== null && _128 !== void 0 ? _128 : props.hideDataPoints2) !== null && _129 !== void 0 ? _129 : false;
-    var hideDataPoints3 = (_131 = (_130 = props.hideDataPoints) !== null && _130 !== void 0 ? _130 : props.hideDataPoints3) !== null && _131 !== void 0 ? _131 : false;
-    var hideDataPoints4 = (_133 = (_132 = props.hideDataPoints) !== null && _132 !== void 0 ? _132 : props.hideDataPoints4) !== null && _133 !== void 0 ? _133 : false;
-    var hideDataPoints5 = (_135 = (_134 = props.hideDataPoints) !== null && _134 !== void 0 ? _134 : props.hideDataPoints5) !== null && _135 !== void 0 ? _135 : false;
-    var color1 = (_137 = (_136 = props.color1) !== null && _136 !== void 0 ? _136 : props.color) !== null && _137 !== void 0 ? _137 : LineDefaults.color;
-    var color2 = (_139 = (_138 = props.color2) !== null && _138 !== void 0 ? _138 : props.color) !== null && _139 !== void 0 ? _139 : LineDefaults.color;
-    var color3 = (_141 = (_140 = props.color3) !== null && _140 !== void 0 ? _140 : props.color) !== null && _141 !== void 0 ? _141 : LineDefaults.color;
-    var color4 = (_143 = (_142 = props.color4) !== null && _142 !== void 0 ? _142 : props.color) !== null && _143 !== void 0 ? _143 : LineDefaults.color;
-    var color5 = (_145 = (_144 = props.color5) !== null && _144 !== void 0 ? _144 : props.color) !== null && _145 !== void 0 ? _145 : LineDefaults.color;
-    var startFillColor1 = (_147 = (_146 = props.startFillColor1) !== null && _146 !== void 0 ? _146 : props.startFillColor) !== null && _147 !== void 0 ? _147 : LineDefaults.startFillColor;
-    var endFillColor1 = (_149 = (_148 = props.endFillColor1) !== null && _148 !== void 0 ? _148 : props.endFillColor) !== null && _149 !== void 0 ? _149 : LineDefaults.endFillColor;
-    var startOpacity = (_150 = props.startOpacity) !== null && _150 !== void 0 ? _150 : LineDefaults.startOpacity;
-    var endOpacity = (_151 = props.endOpacity) !== null && _151 !== void 0 ? _151 : LineDefaults.endOpacity;
-    var startOpacity1 = (_152 = props.startOpacity1) !== null && _152 !== void 0 ? _152 : startOpacity;
-    var endOpacity1 = (_153 = props.endOpacity1) !== null && _153 !== void 0 ? _153 : endOpacity;
-    var startFillColor2 = (_155 = (_154 = props.startFillColor2) !== null && _154 !== void 0 ? _154 : props.startFillColor) !== null && _155 !== void 0 ? _155 : LineDefaults.startFillColor;
-    var endFillColor2 = (_157 = (_156 = props.endFillColor2) !== null && _156 !== void 0 ? _156 : props.endFillColor) !== null && _157 !== void 0 ? _157 : LineDefaults.endFillColor;
-    var startOpacity2 = (_158 = props.startOpacity2) !== null && _158 !== void 0 ? _158 : startOpacity;
-    var endOpacity2 = (_159 = props.endOpacity2) !== null && _159 !== void 0 ? _159 : endOpacity;
-    var startFillColor3 = (_161 = (_160 = props.startFillColor3) !== null && _160 !== void 0 ? _160 : props.startFillColor) !== null && _161 !== void 0 ? _161 : LineDefaults.startFillColor;
-    var endFillColor3 = (_163 = (_162 = props.endFillColor3) !== null && _162 !== void 0 ? _162 : props.endFillColor) !== null && _163 !== void 0 ? _163 : LineDefaults.endFillColor;
-    var startOpacity3 = (_164 = props.startOpacity3) !== null && _164 !== void 0 ? _164 : startOpacity;
-    var endOpacity3 = (_165 = props.endOpacity3) !== null && _165 !== void 0 ? _165 : endOpacity;
-    var startFillColor4 = (_167 = (_166 = props.startFillColor4) !== null && _166 !== void 0 ? _166 : props.startFillColor) !== null && _167 !== void 0 ? _167 : LineDefaults.startFillColor;
-    var endFillColor4 = (_169 = (_168 = props.endFillColor4) !== null && _168 !== void 0 ? _168 : props.endFillColor) !== null && _169 !== void 0 ? _169 : LineDefaults.endFillColor;
-    var startOpacity4 = (_170 = props.startOpacity4) !== null && _170 !== void 0 ? _170 : startOpacity;
-    var endOpacity4 = (_171 = props.endOpacity4) !== null && _171 !== void 0 ? _171 : endOpacity;
-    var startFillColor5 = (_173 = (_172 = props.startFillColor5) !== null && _172 !== void 0 ? _172 : props.startFillColor) !== null && _173 !== void 0 ? _173 : LineDefaults.startFillColor;
-    var endFillColor5 = (_175 = (_174 = props.endFillColor5) !== null && _174 !== void 0 ? _174 : props.endFillColor) !== null && _175 !== void 0 ? _175 : LineDefaults.endFillColor;
-    var startOpacity5 = (_176 = props.startOpacity5) !== null && _176 !== void 0 ? _176 : startOpacity;
-    var endOpacity5 = (_177 = props.endOpacity5) !== null && _177 !== void 0 ? _177 : endOpacity;
-    defaultArrowConfig.strokeWidth = (_179 = (_178 = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _178 === void 0 ? void 0 : _178.thickness) !== null && _179 !== void 0 ? _179 : thickness1;
-    defaultArrowConfig.strokeColor = (_181 = (_180 = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _180 === void 0 ? void 0 : _180.color) !== null && _181 !== void 0 ? _181 : color1;
-    var _335 = getAllArrowProperties(props, defaultArrowConfig), arrowLength1 = _335.arrowLength1, arrowWidth1 = _335.arrowWidth1, arrowStrokeWidth1 = _335.arrowStrokeWidth1, arrowStrokeColor1 = _335.arrowStrokeColor1, arrowFillColor1 = _335.arrowFillColor1, showArrowBase1 = _335.showArrowBase1, arrowLength2 = _335.arrowLength2, arrowWidth2 = _335.arrowWidth2, arrowStrokeWidth2 = _335.arrowStrokeWidth2, arrowStrokeColor2 = _335.arrowStrokeColor2, arrowFillColor2 = _335.arrowFillColor2, showArrowBase2 = _335.showArrowBase2, arrowLength3 = _335.arrowLength3, arrowWidth3 = _335.arrowWidth3, arrowStrokeWidth3 = _335.arrowStrokeWidth3, arrowStrokeColor3 = _335.arrowStrokeColor3, arrowFillColor3 = _335.arrowFillColor3, showArrowBase3 = _335.showArrowBase3, arrowLength4 = _335.arrowLength4, arrowWidth4 = _335.arrowWidth4, arrowStrokeWidth4 = _335.arrowStrokeWidth4, arrowStrokeColor4 = _335.arrowStrokeColor4, arrowFillColor4 = _335.arrowFillColor4, showArrowBase4 = _335.showArrowBase4, arrowLength5 = _335.arrowLength5, arrowWidth5 = _335.arrowWidth5, arrowStrokeWidth5 = _335.arrowStrokeWidth5, arrowStrokeColor5 = _335.arrowStrokeColor5, arrowFillColor5 = _335.arrowFillColor5, showArrowBase5 = _335.showArrowBase5, arrowLengthsFromSet = _335.arrowLengthsFromSet, arrowWidthsFromSet = _335.arrowWidthsFromSet, arrowStrokeWidthsFromSet = _335.arrowStrokeWidthsFromSet, arrowStrokeColorsFromSet = _335.arrowStrokeColorsFromSet, arrowFillColorsFromSet = _335.arrowFillColorsFromSet, showArrowBasesFromSet = _335.showArrowBasesFromSet;
+    var showValuesAsDataPointsText = (_104 = props.showValuesAsDataPointsText) !== null && _104 !== void 0 ? _104 : LineDefaults.showValuesAsDataPointsText;
+    var thickness1 = (_106 = (_105 = props.thickness1) !== null && _105 !== void 0 ? _105 : props.thickness) !== null && _106 !== void 0 ? _106 : LineDefaults.thickness;
+    var thickness2 = (_108 = (_107 = props.thickness2) !== null && _107 !== void 0 ? _107 : props.thickness) !== null && _108 !== void 0 ? _108 : LineDefaults.thickness;
+    var thickness3 = (_110 = (_109 = props.thickness3) !== null && _109 !== void 0 ? _109 : props.thickness) !== null && _110 !== void 0 ? _110 : LineDefaults.thickness;
+    var thickness4 = (_112 = (_111 = props.thickness4) !== null && _111 !== void 0 ? _111 : props.thickness) !== null && _112 !== void 0 ? _112 : LineDefaults.thickness;
+    var thickness5 = (_114 = (_113 = props.thickness5) !== null && _113 !== void 0 ? _113 : props.thickness) !== null && _114 !== void 0 ? _114 : LineDefaults.thickness;
+    var zIndex1 = (_115 = props.zIndex1) !== null && _115 !== void 0 ? _115 : 0;
+    var zIndex2 = (_116 = props.zIndex2) !== null && _116 !== void 0 ? _116 : 0;
+    var zIndex3 = (_117 = props.zIndex3) !== null && _117 !== void 0 ? _117 : 0;
+    var zIndex4 = (_118 = props.zIndex4) !== null && _118 !== void 0 ? _118 : 0;
+    var zIndex5 = (_119 = props.zIndex5) !== null && _119 !== void 0 ? _119 : 0;
+    var strokeDashArray1 = (_120 = props.strokeDashArray1) !== null && _120 !== void 0 ? _120 : props.strokeDashArray;
+    var strokeDashArray2 = (_121 = props.strokeDashArray2) !== null && _121 !== void 0 ? _121 : props.strokeDashArray;
+    var strokeDashArray3 = (_122 = props.strokeDashArray3) !== null && _122 !== void 0 ? _122 : props.strokeDashArray;
+    var strokeDashArray4 = (_123 = props.strokeDashArray4) !== null && _123 !== void 0 ? _123 : props.strokeDashArray;
+    var strokeDashArray5 = (_124 = props.strokeDashArray5) !== null && _124 !== void 0 ? _124 : props.strokeDashArray;
+    var rotateLabel = (_125 = props.rotateLabel) !== null && _125 !== void 0 ? _125 : false;
+    var isAnimated = (_126 = props.isAnimated) !== null && _126 !== void 0 ? _126 : false;
+    var hideDataPoints1 = (_128 = (_127 = props.hideDataPoints) !== null && _127 !== void 0 ? _127 : props.hideDataPoints1) !== null && _128 !== void 0 ? _128 : false;
+    var hideDataPoints2 = (_130 = (_129 = props.hideDataPoints) !== null && _129 !== void 0 ? _129 : props.hideDataPoints2) !== null && _130 !== void 0 ? _130 : false;
+    var hideDataPoints3 = (_132 = (_131 = props.hideDataPoints) !== null && _131 !== void 0 ? _131 : props.hideDataPoints3) !== null && _132 !== void 0 ? _132 : false;
+    var hideDataPoints4 = (_134 = (_133 = props.hideDataPoints) !== null && _133 !== void 0 ? _133 : props.hideDataPoints4) !== null && _134 !== void 0 ? _134 : false;
+    var hideDataPoints5 = (_136 = (_135 = props.hideDataPoints) !== null && _135 !== void 0 ? _135 : props.hideDataPoints5) !== null && _136 !== void 0 ? _136 : false;
+    var color1 = (_138 = (_137 = props.color1) !== null && _137 !== void 0 ? _137 : props.color) !== null && _138 !== void 0 ? _138 : LineDefaults.color;
+    var color2 = (_140 = (_139 = props.color2) !== null && _139 !== void 0 ? _139 : props.color) !== null && _140 !== void 0 ? _140 : LineDefaults.color;
+    var color3 = (_142 = (_141 = props.color3) !== null && _141 !== void 0 ? _141 : props.color) !== null && _142 !== void 0 ? _142 : LineDefaults.color;
+    var color4 = (_144 = (_143 = props.color4) !== null && _143 !== void 0 ? _143 : props.color) !== null && _144 !== void 0 ? _144 : LineDefaults.color;
+    var color5 = (_146 = (_145 = props.color5) !== null && _145 !== void 0 ? _145 : props.color) !== null && _146 !== void 0 ? _146 : LineDefaults.color;
+    var startFillColor1 = (_148 = (_147 = props.startFillColor1) !== null && _147 !== void 0 ? _147 : props.startFillColor) !== null && _148 !== void 0 ? _148 : LineDefaults.startFillColor;
+    var endFillColor1 = (_150 = (_149 = props.endFillColor1) !== null && _149 !== void 0 ? _149 : props.endFillColor) !== null && _150 !== void 0 ? _150 : LineDefaults.endFillColor;
+    var startOpacity = (_151 = props.startOpacity) !== null && _151 !== void 0 ? _151 : LineDefaults.startOpacity;
+    var endOpacity = (_152 = props.endOpacity) !== null && _152 !== void 0 ? _152 : LineDefaults.endOpacity;
+    var startOpacity1 = (_153 = props.startOpacity1) !== null && _153 !== void 0 ? _153 : startOpacity;
+    var endOpacity1 = (_154 = props.endOpacity1) !== null && _154 !== void 0 ? _154 : endOpacity;
+    var startFillColor2 = (_156 = (_155 = props.startFillColor2) !== null && _155 !== void 0 ? _155 : props.startFillColor) !== null && _156 !== void 0 ? _156 : LineDefaults.startFillColor;
+    var endFillColor2 = (_158 = (_157 = props.endFillColor2) !== null && _157 !== void 0 ? _157 : props.endFillColor) !== null && _158 !== void 0 ? _158 : LineDefaults.endFillColor;
+    var startOpacity2 = (_159 = props.startOpacity2) !== null && _159 !== void 0 ? _159 : startOpacity;
+    var endOpacity2 = (_160 = props.endOpacity2) !== null && _160 !== void 0 ? _160 : endOpacity;
+    var startFillColor3 = (_162 = (_161 = props.startFillColor3) !== null && _161 !== void 0 ? _161 : props.startFillColor) !== null && _162 !== void 0 ? _162 : LineDefaults.startFillColor;
+    var endFillColor3 = (_164 = (_163 = props.endFillColor3) !== null && _163 !== void 0 ? _163 : props.endFillColor) !== null && _164 !== void 0 ? _164 : LineDefaults.endFillColor;
+    var startOpacity3 = (_165 = props.startOpacity3) !== null && _165 !== void 0 ? _165 : startOpacity;
+    var endOpacity3 = (_166 = props.endOpacity3) !== null && _166 !== void 0 ? _166 : endOpacity;
+    var startFillColor4 = (_168 = (_167 = props.startFillColor4) !== null && _167 !== void 0 ? _167 : props.startFillColor) !== null && _168 !== void 0 ? _168 : LineDefaults.startFillColor;
+    var endFillColor4 = (_170 = (_169 = props.endFillColor4) !== null && _169 !== void 0 ? _169 : props.endFillColor) !== null && _170 !== void 0 ? _170 : LineDefaults.endFillColor;
+    var startOpacity4 = (_171 = props.startOpacity4) !== null && _171 !== void 0 ? _171 : startOpacity;
+    var endOpacity4 = (_172 = props.endOpacity4) !== null && _172 !== void 0 ? _172 : endOpacity;
+    var startFillColor5 = (_174 = (_173 = props.startFillColor5) !== null && _173 !== void 0 ? _173 : props.startFillColor) !== null && _174 !== void 0 ? _174 : LineDefaults.startFillColor;
+    var endFillColor5 = (_176 = (_175 = props.endFillColor5) !== null && _175 !== void 0 ? _175 : props.endFillColor) !== null && _176 !== void 0 ? _176 : LineDefaults.endFillColor;
+    var startOpacity5 = (_177 = props.startOpacity5) !== null && _177 !== void 0 ? _177 : startOpacity;
+    var endOpacity5 = (_178 = props.endOpacity5) !== null && _178 !== void 0 ? _178 : endOpacity;
+    defaultArrowConfig.strokeWidth = (_180 = (_179 = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _179 === void 0 ? void 0 : _179.thickness) !== null && _180 !== void 0 ? _180 : thickness1;
+    defaultArrowConfig.strokeColor = (_182 = (_181 = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _181 === void 0 ? void 0 : _181.color) !== null && _182 !== void 0 ? _182 : color1;
+    var _340 = getAllArrowProperties(props, defaultArrowConfig), arrowLength1 = _340.arrowLength1, arrowWidth1 = _340.arrowWidth1, arrowStrokeWidth1 = _340.arrowStrokeWidth1, arrowStrokeColor1 = _340.arrowStrokeColor1, arrowFillColor1 = _340.arrowFillColor1, showArrowBase1 = _340.showArrowBase1, arrowLength2 = _340.arrowLength2, arrowWidth2 = _340.arrowWidth2, arrowStrokeWidth2 = _340.arrowStrokeWidth2, arrowStrokeColor2 = _340.arrowStrokeColor2, arrowFillColor2 = _340.arrowFillColor2, showArrowBase2 = _340.showArrowBase2, arrowLength3 = _340.arrowLength3, arrowWidth3 = _340.arrowWidth3, arrowStrokeWidth3 = _340.arrowStrokeWidth3, arrowStrokeColor3 = _340.arrowStrokeColor3, arrowFillColor3 = _340.arrowFillColor3, showArrowBase3 = _340.showArrowBase3, arrowLength4 = _340.arrowLength4, arrowWidth4 = _340.arrowWidth4, arrowStrokeWidth4 = _340.arrowStrokeWidth4, arrowStrokeColor4 = _340.arrowStrokeColor4, arrowFillColor4 = _340.arrowFillColor4, showArrowBase4 = _340.showArrowBase4, arrowLength5 = _340.arrowLength5, arrowWidth5 = _340.arrowWidth5, arrowStrokeWidth5 = _340.arrowStrokeWidth5, arrowStrokeColor5 = _340.arrowStrokeColor5, arrowFillColor5 = _340.arrowFillColor5, showArrowBase5 = _340.showArrowBase5, arrowLengthsFromSet = _340.arrowLengthsFromSet, arrowWidthsFromSet = _340.arrowWidthsFromSet, arrowStrokeWidthsFromSet = _340.arrowStrokeWidthsFromSet, arrowStrokeColorsFromSet = _340.arrowStrokeColorsFromSet, arrowFillColorsFromSet = _340.arrowFillColorsFromSet, showArrowBasesFromSet = _340.showArrowBasesFromSet;
     var secondaryLineConfig = {
-        zIndex: (_183 = (_182 = props.secondaryLineConfig) === null || _182 === void 0 ? void 0 : _182.zIndex) !== null && _183 !== void 0 ? _183 : zIndex1,
-        curved: (_185 = (_184 = props.secondaryLineConfig) === null || _184 === void 0 ? void 0 : _184.curved) !== null && _185 !== void 0 ? _185 : props.curved,
-        curvature: (_187 = (_186 = props.secondaryLineConfig) === null || _186 === void 0 ? void 0 : _186.curvature) !== null && _187 !== void 0 ? _187 : curvature,
-        curveType: (_189 = (_188 = props.secondaryLineConfig) === null || _188 === void 0 ? void 0 : _188.curveType) !== null && _189 !== void 0 ? _189 : curveType,
-        areaChart: (_191 = (_190 = props.secondaryLineConfig) === null || _190 === void 0 ? void 0 : _190.areaChart) !== null && _191 !== void 0 ? _191 : areaChart,
-        color: (_193 = (_192 = props.secondaryLineConfig) === null || _192 === void 0 ? void 0 : _192.color) !== null && _193 !== void 0 ? _193 : color1,
-        thickness: (_195 = (_194 = props.secondaryLineConfig) === null || _194 === void 0 ? void 0 : _194.thickness) !== null && _195 !== void 0 ? _195 : thickness1,
-        zIndex1: (_197 = (_196 = props.secondaryLineConfig) === null || _196 === void 0 ? void 0 : _196.zIndex1) !== null && _197 !== void 0 ? _197 : zIndex1,
-        strokeDashArray: (_199 = (_198 = props.secondaryLineConfig) === null || _198 === void 0 ? void 0 : _198.strokeDashArray) !== null && _199 !== void 0 ? _199 : strokeDashArray1,
-        startIndex: (_201 = (_200 = props.secondaryLineConfig) === null || _200 === void 0 ? void 0 : _200.startIndex) !== null && _201 !== void 0 ? _201 : startIndex1,
-        endIndex: (_203 = (_202 = props.secondaryLineConfig) === null || _202 === void 0 ? void 0 : _202.endIndex) !== null && _203 !== void 0 ? _203 : endIndex1,
-        hideDataPoints: (_205 = (_204 = props.secondaryLineConfig) === null || _204 === void 0 ? void 0 : _204.hideDataPoints) !== null && _205 !== void 0 ? _205 : hideDataPoints1,
-        dataPointsHeight: (_207 = (_206 = props.secondaryLineConfig) === null || _206 === void 0 ? void 0 : _206.dataPointsHeight) !== null && _207 !== void 0 ? _207 : dataPointsHeight1,
-        dataPointsWidth: (_209 = (_208 = props.secondaryLineConfig) === null || _208 === void 0 ? void 0 : _208.dataPointsWidth) !== null && _209 !== void 0 ? _209 : dataPointsWidth1,
-        dataPointsRadius: (_211 = (_210 = props.secondaryLineConfig) === null || _210 === void 0 ? void 0 : _210.dataPointsRadius) !== null && _211 !== void 0 ? _211 : dataPointsRadius1,
-        dataPointsColor: (_213 = (_212 = props.secondaryLineConfig) === null || _212 === void 0 ? void 0 : _212.dataPointsColor) !== null && _213 !== void 0 ? _213 : dataPointsColor1,
-        dataPointsShape: (_215 = (_214 = props.secondaryLineConfig) === null || _214 === void 0 ? void 0 : _214.dataPointsShape) !== null && _215 !== void 0 ? _215 : dataPointsShape1,
-        showValuesAsDataPointsText: (_217 = (_216 = props.secondaryLineConfig) === null || _216 === void 0 ? void 0 : _216.showValuesAsDataPointsText) !== null && _217 !== void 0 ? _217 : showValuesAsDataPointsText,
-        startFillColor: (_219 = (_218 = props.secondaryLineConfig) === null || _218 === void 0 ? void 0 : _218.startFillColor) !== null && _219 !== void 0 ? _219 : startFillColor1,
-        endFillColor: (_221 = (_220 = props.secondaryLineConfig) === null || _220 === void 0 ? void 0 : _220.endFillColor) !== null && _221 !== void 0 ? _221 : endFillColor1,
-        startOpacity: (_223 = (_222 = props.secondaryLineConfig) === null || _222 === void 0 ? void 0 : _222.startOpacity) !== null && _223 !== void 0 ? _223 : startOpacity1,
-        endOpacity: (_225 = (_224 = props.secondaryLineConfig) === null || _224 === void 0 ? void 0 : _224.endOpacity) !== null && _225 !== void 0 ? _225 : endOpacity1,
-        textFontSize: (_227 = (_226 = props.secondaryLineConfig) === null || _226 === void 0 ? void 0 : _226.textFontSize) !== null && _227 !== void 0 ? _227 : textFontSize1,
-        textColor: (_229 = (_228 = props.secondaryLineConfig) === null || _228 === void 0 ? void 0 : _228.textColor) !== null && _229 !== void 0 ? _229 : textColor1,
-        showArrow: (_231 = (_230 = props.secondaryLineConfig) === null || _230 === void 0 ? void 0 : _230.showArrow) !== null && _231 !== void 0 ? _231 : props.showArrows,
-        arrowConfig: (_233 = (_232 = props.secondaryLineConfig) === null || _232 === void 0 ? void 0 : _232.arrowConfig) !== null && _233 !== void 0 ? _233 : props.arrowConfig
+        zIndex: (_184 = (_183 = props.secondaryLineConfig) === null || _183 === void 0 ? void 0 : _183.zIndex) !== null && _184 !== void 0 ? _184 : zIndex1,
+        curved: (_186 = (_185 = props.secondaryLineConfig) === null || _185 === void 0 ? void 0 : _185.curved) !== null && _186 !== void 0 ? _186 : props.curved,
+        curvature: (_188 = (_187 = props.secondaryLineConfig) === null || _187 === void 0 ? void 0 : _187.curvature) !== null && _188 !== void 0 ? _188 : curvature,
+        curveType: (_190 = (_189 = props.secondaryLineConfig) === null || _189 === void 0 ? void 0 : _189.curveType) !== null && _190 !== void 0 ? _190 : curveType,
+        areaChart: (_192 = (_191 = props.secondaryLineConfig) === null || _191 === void 0 ? void 0 : _191.areaChart) !== null && _192 !== void 0 ? _192 : areaChart,
+        color: (_194 = (_193 = props.secondaryLineConfig) === null || _193 === void 0 ? void 0 : _193.color) !== null && _194 !== void 0 ? _194 : color1,
+        thickness: (_196 = (_195 = props.secondaryLineConfig) === null || _195 === void 0 ? void 0 : _195.thickness) !== null && _196 !== void 0 ? _196 : thickness1,
+        zIndex1: (_198 = (_197 = props.secondaryLineConfig) === null || _197 === void 0 ? void 0 : _197.zIndex1) !== null && _198 !== void 0 ? _198 : zIndex1,
+        strokeDashArray: (_200 = (_199 = props.secondaryLineConfig) === null || _199 === void 0 ? void 0 : _199.strokeDashArray) !== null && _200 !== void 0 ? _200 : strokeDashArray1,
+        startIndex: (_202 = (_201 = props.secondaryLineConfig) === null || _201 === void 0 ? void 0 : _201.startIndex) !== null && _202 !== void 0 ? _202 : startIndex1,
+        endIndex: (_204 = (_203 = props.secondaryLineConfig) === null || _203 === void 0 ? void 0 : _203.endIndex) !== null && _204 !== void 0 ? _204 : endIndex1,
+        hideDataPoints: (_206 = (_205 = props.secondaryLineConfig) === null || _205 === void 0 ? void 0 : _205.hideDataPoints) !== null && _206 !== void 0 ? _206 : hideDataPoints1,
+        dataPointsHeight: (_208 = (_207 = props.secondaryLineConfig) === null || _207 === void 0 ? void 0 : _207.dataPointsHeight) !== null && _208 !== void 0 ? _208 : dataPointsHeight1,
+        dataPointsWidth: (_210 = (_209 = props.secondaryLineConfig) === null || _209 === void 0 ? void 0 : _209.dataPointsWidth) !== null && _210 !== void 0 ? _210 : dataPointsWidth1,
+        dataPointsRadius: (_212 = (_211 = props.secondaryLineConfig) === null || _211 === void 0 ? void 0 : _211.dataPointsRadius) !== null && _212 !== void 0 ? _212 : dataPointsRadius1,
+        dataPointsColor: (_214 = (_213 = props.secondaryLineConfig) === null || _213 === void 0 ? void 0 : _213.dataPointsColor) !== null && _214 !== void 0 ? _214 : dataPointsColor1,
+        dataPointsShape: (_216 = (_215 = props.secondaryLineConfig) === null || _215 === void 0 ? void 0 : _215.dataPointsShape) !== null && _216 !== void 0 ? _216 : dataPointsShape1,
+        showValuesAsDataPointsText: (_218 = (_217 = props.secondaryLineConfig) === null || _217 === void 0 ? void 0 : _217.showValuesAsDataPointsText) !== null && _218 !== void 0 ? _218 : showValuesAsDataPointsText,
+        startFillColor: (_220 = (_219 = props.secondaryLineConfig) === null || _219 === void 0 ? void 0 : _219.startFillColor) !== null && _220 !== void 0 ? _220 : startFillColor1,
+        endFillColor: (_222 = (_221 = props.secondaryLineConfig) === null || _221 === void 0 ? void 0 : _221.endFillColor) !== null && _222 !== void 0 ? _222 : endFillColor1,
+        startOpacity: (_224 = (_223 = props.secondaryLineConfig) === null || _223 === void 0 ? void 0 : _223.startOpacity) !== null && _224 !== void 0 ? _224 : startOpacity1,
+        endOpacity: (_226 = (_225 = props.secondaryLineConfig) === null || _225 === void 0 ? void 0 : _225.endOpacity) !== null && _226 !== void 0 ? _226 : endOpacity1,
+        textFontSize: (_228 = (_227 = props.secondaryLineConfig) === null || _227 === void 0 ? void 0 : _227.textFontSize) !== null && _228 !== void 0 ? _228 : textFontSize1,
+        textColor: (_230 = (_229 = props.secondaryLineConfig) === null || _229 === void 0 ? void 0 : _229.textColor) !== null && _230 !== void 0 ? _230 : textColor1,
+        showArrow: (_232 = (_231 = props.secondaryLineConfig) === null || _231 === void 0 ? void 0 : _231.showArrow) !== null && _232 !== void 0 ? _232 : props.showArrows,
+        arrowConfig: (_234 = (_233 = props.secondaryLineConfig) === null || _233 === void 0 ? void 0 : _233.arrowConfig) !== null && _234 !== void 0 ? _234 : props.arrowConfig
     };
     var yAxisExtraHeightAtTop = props.trimYAxisAtTop
         ? 0
-        : (_234 = props.yAxisExtraHeight) !== null && _234 !== void 0 ? _234 : containerHeight / 20;
+        : (_235 = props.yAxisExtraHeight) !== null && _235 !== void 0 ? _235 : containerHeight / 20;
     var addLeadingAndTrailingPathForAreaFill = function (initialPath, value, dataLength) {
         return ('M ' +
             initialSpacing +
@@ -893,81 +897,81 @@ export var useLineChart = function (props) {
             }
         }
     }, [secondaryData, secondaryLineConfig]);
-    var gradientDirection = (_235 = props.gradientDirection) !== null && _235 !== void 0 ? _235 : 'vertical';
+    var gradientDirection = (_236 = props.gradientDirection) !== null && _236 !== void 0 ? _236 : 'vertical';
     var horizSections = [{ value: '0' }];
-    var stepHeight = (_236 = props.stepHeight) !== null && _236 !== void 0 ? _236 : containerHeight / noOfSections;
-    var stepValue = (_237 = props.stepValue) !== null && _237 !== void 0 ? _237 : maxValue / noOfSections;
-    var noOfSectionsBelowXAxis = (_238 = props.noOfSectionsBelowXAxis) !== null && _238 !== void 0 ? _238 : -mostNegativeValue / (stepValue || 1);
-    var showXAxisIndices = (_239 = props.showXAxisIndices) !== null && _239 !== void 0 ? _239 : AxesAndRulesDefaults.showXAxisIndices;
-    var xAxisIndicesHeight = (_240 = props.xAxisIndicesHeight) !== null && _240 !== void 0 ? _240 : AxesAndRulesDefaults.xAxisIndicesHeight;
-    var xAxisIndicesWidth = (_241 = props.xAxisIndicesWidth) !== null && _241 !== void 0 ? _241 : AxesAndRulesDefaults.xAxisIndicesWidth;
-    var xAxisIndicesColor = (_242 = props.xAxisIndicesColor) !== null && _242 !== void 0 ? _242 : AxesAndRulesDefaults.xAxisIndicesColor;
-    var xAxisTextNumberOfLines = (_243 = props.xAxisTextNumberOfLines) !== null && _243 !== void 0 ? _243 : AxesAndRulesDefaults.xAxisTextNumberOfLines;
-    var xAxisLabelsVerticalShift = (_244 = props.xAxisLabelsVerticalShift) !== null && _244 !== void 0 ? _244 : AxesAndRulesDefaults.xAxisLabelsVerticalShift;
+    var stepHeight = (_237 = props.stepHeight) !== null && _237 !== void 0 ? _237 : containerHeight / noOfSections;
+    var stepValue = (_238 = props.stepValue) !== null && _238 !== void 0 ? _238 : maxValue / noOfSections;
+    var noOfSectionsBelowXAxis = (_239 = props.noOfSectionsBelowXAxis) !== null && _239 !== void 0 ? _239 : -mostNegativeValue / (stepValue || 1);
+    var showXAxisIndices = (_240 = props.showXAxisIndices) !== null && _240 !== void 0 ? _240 : AxesAndRulesDefaults.showXAxisIndices;
+    var xAxisIndicesHeight = (_241 = props.xAxisIndicesHeight) !== null && _241 !== void 0 ? _241 : AxesAndRulesDefaults.xAxisIndicesHeight;
+    var xAxisIndicesWidth = (_242 = props.xAxisIndicesWidth) !== null && _242 !== void 0 ? _242 : AxesAndRulesDefaults.xAxisIndicesWidth;
+    var xAxisIndicesColor = (_243 = props.xAxisIndicesColor) !== null && _243 !== void 0 ? _243 : AxesAndRulesDefaults.xAxisIndicesColor;
+    var xAxisTextNumberOfLines = (_244 = props.xAxisTextNumberOfLines) !== null && _244 !== void 0 ? _244 : AxesAndRulesDefaults.xAxisTextNumberOfLines;
+    var xAxisLabelsVerticalShift = (_245 = props.xAxisLabelsVerticalShift) !== null && _245 !== void 0 ? _245 : AxesAndRulesDefaults.xAxisLabelsVerticalShift;
     var horizontalRulesStyle = props.horizontalRulesStyle;
-    var showFractionalValues = (_245 = props.showFractionalValues) !== null && _245 !== void 0 ? _245 : AxesAndRulesDefaults.showFractionalValues;
+    var showFractionalValues = (_246 = props.showFractionalValues) !== null && _246 !== void 0 ? _246 : AxesAndRulesDefaults.showFractionalValues;
     var horizontal = false;
     var yAxisAtTop = false;
     defaultPointerConfig.pointerStripHeight = containerHeight;
     var pointerConfig = props.pointerConfig;
-    var getPointerProps = (_246 = props.getPointerProps) !== null && _246 !== void 0 ? _246 : null;
-    var pointerHeight = (_247 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.height) !== null && _247 !== void 0 ? _247 : defaultPointerConfig.height;
-    var pointerWidth = (_248 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.width) !== null && _248 !== void 0 ? _248 : defaultPointerConfig.width;
-    var pointerRadius = (_249 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.radius) !== null && _249 !== void 0 ? _249 : defaultPointerConfig.radius;
-    var pointerColor = (_250 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerColor) !== null && _250 !== void 0 ? _250 : defaultPointerConfig.pointerColor;
-    var pointerComponent = (_251 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerComponent) !== null && _251 !== void 0 ? _251 : defaultPointerConfig.pointerComponent;
+    var getPointerProps = (_247 = props.getPointerProps) !== null && _247 !== void 0 ? _247 : null;
+    var pointerHeight = (_248 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.height) !== null && _248 !== void 0 ? _248 : defaultPointerConfig.height;
+    var pointerWidth = (_249 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.width) !== null && _249 !== void 0 ? _249 : defaultPointerConfig.width;
+    var pointerRadius = (_250 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.radius) !== null && _250 !== void 0 ? _250 : defaultPointerConfig.radius;
+    var pointerColor = (_251 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerColor) !== null && _251 !== void 0 ? _251 : defaultPointerConfig.pointerColor;
+    var pointerComponent = (_252 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerComponent) !== null && _252 !== void 0 ? _252 : defaultPointerConfig.pointerComponent;
     var showPointerStrip = (pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.showPointerStrip) === false
         ? false
         : defaultPointerConfig.showPointerStrip;
-    var pointerStripHeight = (_252 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerStripHeight) !== null && _252 !== void 0 ? _252 : defaultPointerConfig.pointerStripHeight;
-    var pointerStripWidth = (_253 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerStripWidth) !== null && _253 !== void 0 ? _253 : defaultPointerConfig.pointerStripWidth;
-    var pointerStripColor = (_254 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerStripColor) !== null && _254 !== void 0 ? _254 : defaultPointerConfig.pointerStripColor;
-    var pointerStripUptoDataPoint = (_255 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerStripUptoDataPoint) !== null && _255 !== void 0 ? _255 : defaultPointerConfig.pointerStripUptoDataPoint;
-    var pointerLabelComponent = (_256 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerLabelComponent) !== null && _256 !== void 0 ? _256 : defaultPointerConfig.pointerLabelComponent;
-    var stripOverPointer = (_257 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.stripOverPointer) !== null && _257 !== void 0 ? _257 : defaultPointerConfig.stripOverPointer;
-    var shiftPointerLabelX = (_258 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.shiftPointerLabelX) !== null && _258 !== void 0 ? _258 : defaultPointerConfig.shiftPointerLabelX;
-    var shiftPointerLabelY = (_259 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.shiftPointerLabelY) !== null && _259 !== void 0 ? _259 : defaultPointerConfig.shiftPointerLabelY;
-    var pointerLabelWidth = (_260 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerLabelWidth) !== null && _260 !== void 0 ? _260 : defaultPointerConfig.pointerLabelWidth;
-    var pointerLabelHeight = (_261 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerLabelHeight) !== null && _261 !== void 0 ? _261 : defaultPointerConfig.pointerLabelHeight;
-    var autoAdjustPointerLabelPosition = (_262 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.autoAdjustPointerLabelPosition) !== null && _262 !== void 0 ? _262 : defaultPointerConfig.autoAdjustPointerLabelPosition;
-    var pointerVanishDelay = (_263 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerVanishDelay) !== null && _263 !== void 0 ? _263 : defaultPointerConfig.pointerVanishDelay;
-    var activatePointersOnLongPress = (_264 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.activatePointersOnLongPress) !== null && _264 !== void 0 ? _264 : defaultPointerConfig.activatePointersOnLongPress;
-    var activatePointersDelay = (_265 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.activatePointersDelay) !== null && _265 !== void 0 ? _265 : defaultPointerConfig.activatePointersDelay;
-    var initialPointerIndex = (_266 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.initialPointerIndex) !== null && _266 !== void 0 ? _266 : defaultPointerConfig.initialPointerIndex;
-    var initialPointerAppearDelay = (_267 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.initialPointerAppearDelay) !== null && _267 !== void 0 ? _267 : (isAnimated
+    var pointerStripHeight = (_253 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerStripHeight) !== null && _253 !== void 0 ? _253 : defaultPointerConfig.pointerStripHeight;
+    var pointerStripWidth = (_254 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerStripWidth) !== null && _254 !== void 0 ? _254 : defaultPointerConfig.pointerStripWidth;
+    var pointerStripColor = (_255 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerStripColor) !== null && _255 !== void 0 ? _255 : defaultPointerConfig.pointerStripColor;
+    var pointerStripUptoDataPoint = (_256 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerStripUptoDataPoint) !== null && _256 !== void 0 ? _256 : defaultPointerConfig.pointerStripUptoDataPoint;
+    var pointerLabelComponent = (_257 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerLabelComponent) !== null && _257 !== void 0 ? _257 : defaultPointerConfig.pointerLabelComponent;
+    var stripOverPointer = (_258 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.stripOverPointer) !== null && _258 !== void 0 ? _258 : defaultPointerConfig.stripOverPointer;
+    var shiftPointerLabelX = (_259 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.shiftPointerLabelX) !== null && _259 !== void 0 ? _259 : defaultPointerConfig.shiftPointerLabelX;
+    var shiftPointerLabelY = (_260 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.shiftPointerLabelY) !== null && _260 !== void 0 ? _260 : defaultPointerConfig.shiftPointerLabelY;
+    var pointerLabelWidth = (_261 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerLabelWidth) !== null && _261 !== void 0 ? _261 : defaultPointerConfig.pointerLabelWidth;
+    var pointerLabelHeight = (_262 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerLabelHeight) !== null && _262 !== void 0 ? _262 : defaultPointerConfig.pointerLabelHeight;
+    var autoAdjustPointerLabelPosition = (_263 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.autoAdjustPointerLabelPosition) !== null && _263 !== void 0 ? _263 : defaultPointerConfig.autoAdjustPointerLabelPosition;
+    var pointerVanishDelay = (_264 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerVanishDelay) !== null && _264 !== void 0 ? _264 : defaultPointerConfig.pointerVanishDelay;
+    var activatePointersOnLongPress = (_265 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.activatePointersOnLongPress) !== null && _265 !== void 0 ? _265 : defaultPointerConfig.activatePointersOnLongPress;
+    var activatePointersDelay = (_266 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.activatePointersDelay) !== null && _266 !== void 0 ? _266 : defaultPointerConfig.activatePointersDelay;
+    var initialPointerIndex = (_267 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.initialPointerIndex) !== null && _267 !== void 0 ? _267 : defaultPointerConfig.initialPointerIndex;
+    var initialPointerAppearDelay = (_268 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.initialPointerAppearDelay) !== null && _268 !== void 0 ? _268 : (isAnimated
         ? animationDuration
         : defaultPointerConfig.initialPointerAppearDelay);
-    var persistPointer = (_268 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.persistPointer) !== null && _268 !== void 0 ? _268 : defaultPointerConfig.persistPointer;
-    var hidePointer1 = (_269 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer1) !== null && _269 !== void 0 ? _269 : defaultPointerConfig.hidePointer1;
-    var hidePointer2 = (_270 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer2) !== null && _270 !== void 0 ? _270 : defaultPointerConfig.hidePointer2;
-    var hidePointer3 = (_271 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer3) !== null && _271 !== void 0 ? _271 : defaultPointerConfig.hidePointer3;
-    var hidePointer4 = (_272 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer4) !== null && _272 !== void 0 ? _272 : defaultPointerConfig.hidePointer4;
-    var hidePointer5 = (_273 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer5) !== null && _273 !== void 0 ? _273 : defaultPointerConfig.hidePointer5;
-    var hideSecondaryPointer = (_274 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hideSecondaryPointer) !== null && _274 !== void 0 ? _274 : defaultPointerConfig.hideSecondaryPointer;
-    var resetPointerOnDataChange = (_275 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.resetPointerOnDataChange) !== null && _275 !== void 0 ? _275 : defaultPointerConfig.resetPointerOnDataChange;
+    var persistPointer = (_269 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.persistPointer) !== null && _269 !== void 0 ? _269 : defaultPointerConfig.persistPointer;
+    var hidePointer1 = (_270 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer1) !== null && _270 !== void 0 ? _270 : defaultPointerConfig.hidePointer1;
+    var hidePointer2 = (_271 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer2) !== null && _271 !== void 0 ? _271 : defaultPointerConfig.hidePointer2;
+    var hidePointer3 = (_272 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer3) !== null && _272 !== void 0 ? _272 : defaultPointerConfig.hidePointer3;
+    var hidePointer4 = (_273 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer4) !== null && _273 !== void 0 ? _273 : defaultPointerConfig.hidePointer4;
+    var hidePointer5 = (_274 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hidePointer5) !== null && _274 !== void 0 ? _274 : defaultPointerConfig.hidePointer5;
+    var hideSecondaryPointer = (_275 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.hideSecondaryPointer) !== null && _275 !== void 0 ? _275 : defaultPointerConfig.hideSecondaryPointer;
+    var resetPointerOnDataChange = (_276 = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.resetPointerOnDataChange) !== null && _276 !== void 0 ? _276 : defaultPointerConfig.resetPointerOnDataChange;
     var pointerEvents = pointerConfig === null || pointerConfig === void 0 ? void 0 : pointerConfig.pointerEvents;
-    var disableScroll = (_276 = props.disableScroll) !== null && _276 !== void 0 ? _276 : (pointerConfig
+    var disableScroll = (_277 = props.disableScroll) !== null && _277 !== void 0 ? _277 : (pointerConfig
         ? activatePointersOnLongPress
             ? !!responderActive
             : true
         : false);
-    var showScrollIndicator = (_277 = props.showScrollIndicator) !== null && _277 !== void 0 ? _277 : LineDefaults.showScrollIndicator;
-    var focusEnabled = (_278 = props.focusEnabled) !== null && _278 !== void 0 ? _278 : LineDefaults.focusEnabled;
-    var showDataPointOnFocus = (_279 = props.showDataPointOnFocus) !== null && _279 !== void 0 ? _279 : LineDefaults.showDataPointOnFocus;
-    var showStripOnFocus = (_280 = props.showStripOnFocus) !== null && _280 !== void 0 ? _280 : LineDefaults.showStripOnFocus;
-    var showTextOnFocus = (_281 = props.showTextOnFocus) !== null && _281 !== void 0 ? _281 : LineDefaults.showTextOnFocus;
-    var showDataPointLabelOnFocus = (_282 = props.showDataPointLabelOnFocus) !== null && _282 !== void 0 ? _282 : LineDefaults.showDataPointLabelOnFocus;
+    var showScrollIndicator = (_278 = props.showScrollIndicator) !== null && _278 !== void 0 ? _278 : LineDefaults.showScrollIndicator;
+    var focusEnabled = (_279 = props.focusEnabled) !== null && _279 !== void 0 ? _279 : LineDefaults.focusEnabled;
+    var showDataPointOnFocus = (_280 = props.showDataPointOnFocus) !== null && _280 !== void 0 ? _280 : LineDefaults.showDataPointOnFocus;
+    var showStripOnFocus = (_281 = props.showStripOnFocus) !== null && _281 !== void 0 ? _281 : LineDefaults.showStripOnFocus;
+    var showTextOnFocus = (_282 = props.showTextOnFocus) !== null && _282 !== void 0 ? _282 : LineDefaults.showTextOnFocus;
+    var showDataPointLabelOnFocus = (_283 = props.showDataPointLabelOnFocus) !== null && _283 !== void 0 ? _283 : LineDefaults.showDataPointLabelOnFocus;
     var stripHeight = props.stripHeight;
-    var stripWidth = (_283 = props.stripWidth) !== null && _283 !== void 0 ? _283 : LineDefaults.stripWidth;
-    var stripColor = (_284 = props.stripColor) !== null && _284 !== void 0 ? _284 : color1;
-    var stripOpacity = (_285 = props.stripOpacity) !== null && _285 !== void 0 ? _285 : (startOpacity1 + endOpacity1) / 2;
-    var unFocusOnPressOut = (_286 = props.unFocusOnPressOut) !== null && _286 !== void 0 ? _286 : LineDefaults.unFocusOnPressOut;
-    var delayBeforeUnFocus = (_287 = props.delayBeforeUnFocus) !== null && _287 !== void 0 ? _287 : LineDefaults.delayBeforeUnFocus;
+    var stripWidth = (_284 = props.stripWidth) !== null && _284 !== void 0 ? _284 : LineDefaults.stripWidth;
+    var stripColor = (_285 = props.stripColor) !== null && _285 !== void 0 ? _285 : color1;
+    var stripOpacity = (_286 = props.stripOpacity) !== null && _286 !== void 0 ? _286 : (startOpacity1 + endOpacity1) / 2;
+    var unFocusOnPressOut = (_287 = props.unFocusOnPressOut) !== null && _287 !== void 0 ? _287 : LineDefaults.unFocusOnPressOut;
+    var delayBeforeUnFocus = (_288 = props.delayBeforeUnFocus) !== null && _288 !== void 0 ? _288 : LineDefaults.delayBeforeUnFocus;
     var containerHeightIncludingBelowXAxis = extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight;
-    var lineGradient = (_288 = props.lineGradient) !== null && _288 !== void 0 ? _288 : LineDefaults.lineGradient;
-    var lineGradientDirection = (_289 = props.lineGradientDirection) !== null && _289 !== void 0 ? _289 : 'vertical';
-    var lineGradientStartColor = (_290 = props.lineGradientStartColor) !== null && _290 !== void 0 ? _290 : LineDefaults.lineGradientStartColor;
-    var lineGradientEndColor = (_291 = props.lineGradientEndColor) !== null && _291 !== void 0 ? _291 : LineDefaults.lineGradientEndColor;
+    var lineGradient = (_289 = props.lineGradient) !== null && _289 !== void 0 ? _289 : LineDefaults.lineGradient;
+    var lineGradientDirection = (_290 = props.lineGradientDirection) !== null && _290 !== void 0 ? _290 : 'vertical';
+    var lineGradientStartColor = (_291 = props.lineGradientStartColor) !== null && _291 !== void 0 ? _291 : LineDefaults.lineGradientStartColor;
+    var lineGradientEndColor = (_292 = props.lineGradientEndColor) !== null && _292 !== void 0 ? _292 : LineDefaults.lineGradientEndColor;
     var getPointerY = function (value) {
         return value
             ? containerHeight -
@@ -1038,6 +1042,11 @@ export var useLineChart = function (props) {
         var initialPointerYs = (_a = dataSet === null || dataSet === void 0 ? void 0 : dataSet.map(function (set) { return getPointerY(set.data[initialPointerIndex].value); })) !== null && _a !== void 0 ? _a : [];
         setPointerYsForDataSet(initialPointerYs);
     };
+    var dataPointsRadius = (_294 = (_293 = props.dataPointsRadius1) !== null && _293 !== void 0 ? _293 : props.dataPointsRadius) !== null && _294 !== void 0 ? _294 : LineDefaults.dataPointsRadius;
+    var dataPointsWidth = (_296 = (_295 = props.dataPointsWidth1) !== null && _295 !== void 0 ? _295 : props.dataPointsWidth) !== null && _296 !== void 0 ? _296 : LineDefaults.dataPointsWidth;
+    var extraWidthDueToDataPoint = props.hideDataPoints
+        ? 0
+        : dataPointsRadius !== null && dataPointsRadius !== void 0 ? dataPointsRadius : dataPointsWidth;
     var barAndLineChartsWrapperProps = {
         chartType: chartTypes.LINE,
         containerHeight: containerHeight,
@@ -1099,8 +1108,9 @@ export var useLineChart = function (props) {
         pointerY: pointerY,
         onEndReached: props.onEndReached,
         onStartReached: props.onStartReached,
-        endReachedOffset: (_292 = props.endReachedOffset) !== null && _292 !== void 0 ? _292 : LineDefaults.endReachedOffset,
-        onMomentumScrollEnd: props.onMomentumScrollEnd
+        endReachedOffset: (_297 = props.endReachedOffset) !== null && _297 !== void 0 ? _297 : LineDefaults.endReachedOffset,
+        onMomentumScrollEnd: props.onMomentumScrollEnd,
+        extraWidthDueToDataPoint: extraWidthDueToDataPoint
     };
     return {
         curvature: curvature,

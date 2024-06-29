@@ -64,6 +64,7 @@ export interface LineChartPropsType {
     onPress?: Function;
     unFocusOnPressOut?: boolean;
     delayBeforeUnFocus?: number;
+    focusedDataPointIndex?: number;
     showValuesAsDataPointsText?: boolean;
     rulesType?: RuleType;
     dashWidth?: number;

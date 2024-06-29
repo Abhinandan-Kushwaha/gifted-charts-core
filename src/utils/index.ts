@@ -1082,7 +1082,7 @@ export const getLabelTextUtil = (
   formatYLabel?: (label: string) => string
 ): string => {
   let label = ''
-  if (showFractionalValues ?? yAxisLabelTexts?.[index] !== undefined) {
+  if (showFractionalValues || yAxisLabelTexts?.[index] !== undefined) {
     if (yAxisLabelTexts?.[index]) return val
     if (val) {
       label = isNaN(Number(val))

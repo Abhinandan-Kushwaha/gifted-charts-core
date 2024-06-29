@@ -8,7 +8,10 @@ import {
   getAxesAndRulesProps,
   getExtendedContainerHeightWithPadding
 } from '../utils'
-import { type LineChartBicolorPropsType, type bicolorLineDataItem } from './types'
+import {
+  type LineChartBicolorPropsType,
+  type bicolorLineDataItem
+} from './types'
 import { type BarAndLineChartsWrapperTypes } from '../utils/types'
 import { type Animated } from 'react-native'
 
@@ -23,7 +26,9 @@ interface extendedLineChartBicolorPropsType extends LineChartBicolorPropsType {
   parentWidth: number
 }
 
-export const useLineChartBiColor = (props: extendedLineChartBicolorPropsType) => {
+export const useLineChartBiColor = (
+  props: extendedLineChartBicolorPropsType
+) => {
   const [toggle, setToggle] = useState(false)
   const [pointsArray, setPointsArray] = useState<Points[]>([])
   const [fillPointsArray, setFillPointsArray] = useState<Points[]>([])
@@ -35,7 +40,7 @@ export const useLineChartBiColor = (props: extendedLineChartBicolorPropsType) =>
       return []
     }
     if (props.yAxisOffset) {
-      return props.data.map(item => {
+      return props.data.map((item) => {
         item.value = item.value - (props.yAxisOffset ?? 0)
         return item
       })
@@ -84,14 +89,11 @@ export const useLineChartBiColor = (props: extendedLineChartBicolorPropsType) =>
     props.xAxisThickness ?? AxesAndRulesDefaults.xAxisThickness
   const dataPointsHeight1 =
     props.dataPointsHeight ?? LineDefaults.dataPointsHeight
-  const dataPointsWidth1 =
-    props.dataPointsWidth ?? LineDefaults.dataPointsWidth
+  const dataPointsWidth1 = props.dataPointsWidth ?? LineDefaults.dataPointsWidth
   const dataPointsRadius1 =
     props.dataPointsRadius ?? LineDefaults.dataPointsRadius
-  const dataPointsColor1 =
-    props.dataPointsColor ?? LineDefaults.dataPointsColor
-  const dataPointsShape1 =
-    props.dataPointsShape ?? LineDefaults.dataPointsShape
+  const dataPointsColor1 = props.dataPointsColor ?? LineDefaults.dataPointsColor
+  const dataPointsShape1 = props.dataPointsShape ?? LineDefaults.dataPointsShape
 
   const areaChart = props.areaChart ?? false
   const textFontSize1 = props.textFontSize ?? LineDefaults.textFontSize
@@ -380,8 +382,7 @@ export const useLineChartBiColor = (props: extendedLineChartBicolorPropsType) =>
   const endFillColorNegative = props.endFillColorNegative ?? 'white'
   const startOpacityNegative =
     props.startOpacityNegative ?? LineDefaults.startOpacity
-  const endOpacityNegative =
-    props.endOpacityNegative ?? LineDefaults.endOpacity
+  const endOpacityNegative = props.endOpacityNegative ?? LineDefaults.endOpacity
 
   const gradientDirection = props.gradientDirection ?? 'vertical'
 
@@ -439,6 +440,14 @@ export const useLineChartBiColor = (props: extendedLineChartBicolorPropsType) =>
         : value.toString()
     })
   }
+
+  const dataPointsRadius =
+    props.dataPointsRadius ?? LineDefaults.dataPointsRadius
+  const dataPointsWidth = props.dataPointsWidth ?? LineDefaults.dataPointsWidth
+
+  const extraWidthDueToDataPoint = props.hideDataPoints
+    ? 0
+    : dataPointsRadius ?? dataPointsWidth
 
   const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
     chartType: chartTypes.LINE_BI_COLOR,
@@ -506,7 +515,8 @@ export const useLineChartBiColor = (props: extendedLineChartBicolorPropsType) =>
     pointerIndex: 0,
     pointerX: 0,
     pointerY: 0,
-    endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset
+    endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset,
+    extraWidthDueToDataPoint
   }
 
   return {

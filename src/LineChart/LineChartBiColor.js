@@ -28,11 +28,11 @@ import { AxesAndRulesDefaults, LineDefaults, chartTypes } from '../utils/constan
 import { getAxesAndRulesProps, getExtendedContainerHeightWithPadding } from '../utils';
 var initialData = null;
 export var useLineChartBiColor = function (props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48;
-    var _49 = __read(useState(false), 2), toggle = _49[0], setToggle = _49[1];
-    var _50 = __read(useState([]), 2), pointsArray = _50[0], setPointsArray = _50[1];
-    var _51 = __read(useState([]), 2), fillPointsArray = _51[0], setFillPointsArray = _51[1];
-    var _52 = __read(useState(-1), 2), selectedIndex = _52[0], setSelectedIndex = _52[1];
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50;
+    var _51 = __read(useState(false), 2), toggle = _51[0], setToggle = _51[1];
+    var _52 = __read(useState([]), 2), pointsArray = _52[0], setPointsArray = _52[1];
+    var _53 = __read(useState([]), 2), fillPointsArray = _53[0], setFillPointsArray = _53[1];
+    var _54 = __read(useState(-1), 2), selectedIndex = _54[0], setSelectedIndex = _54[1];
     var containerHeight = (_a = props.height) !== null && _a !== void 0 ? _a : AxesAndRulesDefaults.containerHeight;
     var noOfSections = (_b = props.noOfSections) !== null && _b !== void 0 ? _b : AxesAndRulesDefaults.noOfSections;
     var data = useMemo(function () {
@@ -366,6 +366,11 @@ export var useLineChartBiColor = function (props) {
                 : value.toString()
         });
     }
+    var dataPointsRadius = (_48 = props.dataPointsRadius) !== null && _48 !== void 0 ? _48 : LineDefaults.dataPointsRadius;
+    var dataPointsWidth = (_49 = props.dataPointsWidth) !== null && _49 !== void 0 ? _49 : LineDefaults.dataPointsWidth;
+    var extraWidthDueToDataPoint = props.hideDataPoints
+        ? 0
+        : dataPointsRadius !== null && dataPointsRadius !== void 0 ? dataPointsRadius : dataPointsWidth;
     var barAndLineChartsWrapperProps = {
         chartType: chartTypes.LINE_BI_COLOR,
         containerHeight: containerHeight,
@@ -427,7 +432,8 @@ export var useLineChartBiColor = function (props) {
         pointerIndex: 0,
         pointerX: 0,
         pointerY: 0,
-        endReachedOffset: (_48 = props.endReachedOffset) !== null && _48 !== void 0 ? _48 : LineDefaults.endReachedOffset
+        endReachedOffset: (_50 = props.endReachedOffset) !== null && _50 !== void 0 ? _50 : LineDefaults.endReachedOffset,
+        extraWidthDueToDataPoint: extraWidthDueToDataPoint
     };
     return {
         toggle: toggle,

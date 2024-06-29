@@ -268,6 +268,7 @@ export interface BarAndLineChartsWrapperTypes {
   onMomentumScrollEnd?: Function
   endReachedOffset: number
   isRTL?: boolean
+  extraWidthDueToDataPoint?: number
 }
 
 export interface Pointer {
