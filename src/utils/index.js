@@ -684,7 +684,7 @@ export var computeMaxAndMinItems = function (data, roundToDigits, showFractional
 export var getLabelTextUtil = function (val, index, showFractionalValues, yAxisLabelTexts, yAxisOffset, yAxisLabelPrefix, yAxisLabelSuffix, roundToDigits, formatYLabel) {
     var _a, _b;
     var label = '';
-    if (showFractionalValues !== null && showFractionalValues !== void 0 ? showFractionalValues : (yAxisLabelTexts === null || yAxisLabelTexts === void 0 ? void 0 : yAxisLabelTexts[index]) !== undefined) {
+    if (showFractionalValues || (yAxisLabelTexts === null || yAxisLabelTexts === void 0 ? void 0 : yAxisLabelTexts[index]) !== undefined) {
         if (yAxisLabelTexts === null || yAxisLabelTexts === void 0 ? void 0 : yAxisLabelTexts[index])
             return val;
         if (val) {
