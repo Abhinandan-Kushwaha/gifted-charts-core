@@ -1,6 +1,13 @@
-import { screenWidth } from "../../utils/constants";
+import { type StripAndLabelProps } from './types'
 
-export const getTopAndLeftForStripAndLabel = (props) => {
+interface IgetTopAndLeftForStripAndLabel {
+  top: number
+  left: number
+}
+
+export const getTopAndLeftForStripAndLabel = (
+  props: StripAndLabelProps
+): IgetTopAndLeftForStripAndLabel => {
   const {
     autoAdjustPointerLabelPosition,
     pointerX,
@@ -16,45 +23,46 @@ export const getTopAndLeftForStripAndLabel = (props) => {
     pointerStripHeight,
     shiftPointerLabelY,
     scrollX,
-  } = props;
-  let left = 0,
-    top = 0;
+    width,
+    screenWidth
+  } = props
+  let left = 0
+  let top = 0
   if (autoAdjustPointerLabelPosition) {
     if (pointerX < pointerLabelWidth / 2) {
-      left = 7;
+      left = 7
     } else if (
       activatePointersOnLongPress &&
       pointerX - scrollX < pointerLabelWidth / 2 - 10
     ) {
-      left = 7;
+      left = 7
     } else {
       if (
         !activatePointersOnLongPress &&
         pointerX >
-          (props.width || screenWidth - yAxisLabelWidth - 15) -
-            pointerLabelWidth / 2
+          (width || screenWidth - yAxisLabelWidth - 15) - pointerLabelWidth / 2
       ) {
-        left = -pointerLabelWidth - 4;
+        left = -pointerLabelWidth - 4
       } else if (
         activatePointersOnLongPress &&
         pointerX - scrollX >
-          ((props.width ?? 0) + 10 || screenWidth - yAxisLabelWidth - 15) -
+          ((width ?? 0) + 10 || screenWidth - yAxisLabelWidth - 15) -
             pointerLabelWidth / 2
       ) {
-        left = -pointerLabelWidth - 4;
+        left = -pointerLabelWidth - 4
       } else {
-        left = -pointerLabelWidth / 2 + 5;
+        left = -pointerLabelWidth / 2 + 5
       }
     }
   } else {
-    left = (pointerRadius || pointerWidth / 2) - 10 + shiftPointerLabelX;
+    left = (pointerRadius || pointerWidth / 2) - 10 + shiftPointerLabelX
   }
 
   if (autoAdjustPointerLabelPosition) {
     if (pointerLabelHeight - pointerYLocal > 10) {
-      top = 10;
+      top = 10
     } else {
-      top = -pointerLabelHeight;
+      top = -pointerLabelHeight
     }
   } else {
     top =
@@ -62,11 +70,11 @@ export const getTopAndLeftForStripAndLabel = (props) => {
         ? pointerRadius || pointerStripHeight / 2
         : -pointerYLocal + 8) -
       pointerLabelWidth / 2 +
-      shiftPointerLabelY;
+      shiftPointerLabelY
   }
 
   return {
     top,
-    left,
-  };
-};
+    left
+  }
+}

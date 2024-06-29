@@ -1,8 +1,41 @@
-import { ViewStyle } from "react-native";
-import { getBarFrontColor, getBarWidth } from "../utils";
-import { CommonPropsFor2Dand3DbarsType } from "./types";
+import { type ColorValue, type ViewStyle } from 'react-native'
+import { getBarFrontColor, getBarWidth } from '../utils'
+import {
+  type FocusedBarConfig,
+  type BarChartPropsType,
+  type CommonPropsFor2Dand3DbarsType,
+  type barDataItem,
+  type stackDataItem
+} from './types'
+import { type ReactNode } from 'react'
 
-export const getPropsForAnimated2DWithGradient = (props) => {
+interface Animated2dWithGradientPropsType extends BarChartPropsType {
+  item: barDataItem
+  index: number
+  barHeight: number
+  selectedIndex: number
+  barBackgroundPattern?: () => ReactNode
+  barInnerComponent?: (
+    item?: stackDataItem | barDataItem,
+    index?: number
+  ) => ReactNode
+  patternId?: string
+  barStyle?: object
+  intactTopLabel: boolean
+}
+
+interface IgetPropsForAnimated2DWithGradientReturnType {
+  commonStyleForBar: ViewStyle[]
+  barStyleWithBackground: ViewStyle[]
+  commonPropsFor2Dand3Dbars: CommonPropsFor2Dand3DbarsType
+  isFocused?: boolean
+  focusedBarConfig?: FocusedBarConfig
+  localFrontColor: ColorValue
+}
+
+export const getPropsForAnimated2DWithGradient = (
+  props: Animated2dWithGradientPropsType
+): IgetPropsForAnimated2DWithGradientReturnType => {
   const {
     barBorderWidth,
     barBorderColor,
@@ -35,35 +68,37 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     focusBarOnPress,
     focusedBarConfig,
     isThreeD,
-  } = props;
+    yAxisOffset
+  } = props
 
-  const isFocused = focusBarOnPress && selectedIndex === index;
+  const isFocused = (focusBarOnPress ?? false) && selectedIndex === index
   const itemOrPropsBarBorderRadius =
-    item.barBorderRadius ?? barBorderRadius ?? 0;
-  const localBarBorderRadius = isFocused
-    ? focusedBarConfig?.borderRadius ?? itemOrPropsBarBorderRadius
-    : itemOrPropsBarBorderRadius;
+    item.barBorderRadius ?? barBorderRadius ?? 0
+  const localBarBorderRadius =
+    isFocused ?? false
+      ? focusedBarConfig?.borderRadius ?? itemOrPropsBarBorderRadius
+      : itemOrPropsBarBorderRadius
   const localBarWidth = getBarWidth(
     isFocused,
     focusedBarConfig,
     item.barWidth,
     barWidth
-  );
+  )
   const localFrontColor = getBarFrontColor(
     isFocused,
     focusedBarConfig,
     item.frontColor,
     frontColor,
     isThreeD
-  );
-  const localGradientColor = item.gradientColor || gradientColor;
-  const localOpacity = opacity || 1;
+  )
+  const localGradientColor = item.gradientColor ?? gradientColor
+  const localOpacity = opacity ?? 1
 
   const commonStyleForBar: ViewStyle[] = [
     {
-      position: "absolute",
-      width: "100%",
-      height: "100%",
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
       borderWidth: barBorderWidth ?? 0,
       borderColor: barBorderColor,
       borderRadius: localBarBorderRadius,
@@ -82,52 +117,56 @@ export const getPropsForAnimated2DWithGradient = (props) => {
       borderBottomRightRadius:
         item.barBorderBottomRightRadius ??
         barBorderBottomRightRadius ??
-        localBarBorderRadius,
-    },
-  ];
+        localBarBorderRadius
+    }
+  ]
 
-  if (roundedBottom || (isFocused && focusedBarConfig?.roundedBottom)) {
+  if (
+    roundedBottom ??
+    (isFocused && focusedBarConfig?.roundedBottom) ??
+    false
+  ) {
     commonStyleForBar.push({
       borderBottomLeftRadius: localBarWidth / 2,
-      borderBottomRightRadius: localBarWidth / 2,
-    });
+      borderBottomRightRadius: localBarWidth / 2
+    })
   }
 
-  if (cappedBars) {
+  if (cappedBars ?? false) {
     commonStyleForBar.push({
       borderTopLeftRadius:
-        item.capRadius === 0 ? 0 : item.capRadius || capRadius || 0,
+        item.capRadius === 0 ? 0 : item.capRadius ?? capRadius ?? 0,
       borderTopRightRadius:
-        item.capRadius === 0 ? 0 : item.capRadius || capRadius || 0,
-    });
+        item.capRadius === 0 ? 0 : item.capRadius ?? capRadius ?? 0
+    })
   }
 
-  if (roundedTop || (isFocused && focusedBarConfig?.roundedTop)) {
+  if (roundedTop ?? (isFocused && focusedBarConfig?.roundedTop) ?? false) {
     commonStyleForBar.push({
       borderTopLeftRadius: localBarWidth / 2,
-      borderTopRightRadius: localBarWidth / 2,
-    });
+      borderTopRightRadius: localBarWidth / 2
+    })
   }
   const barStyleWithBackground: ViewStyle[] = [
     ...commonStyleForBar,
     {
-      backgroundColor: localFrontColor,
-    },
-  ];
+      backgroundColor: localFrontColor
+    }
+  ]
 
   const commonPropsFor2Dand3Dbars: CommonPropsFor2Dand3DbarsType = {
-    barBackgroundPattern: item.barBackgroundPattern || barBackgroundPattern,
+    barBackgroundPattern: item.barBackgroundPattern ?? barBackgroundPattern,
     barInnerComponent: isFocused
       ? focusedBarConfig?.barInnerComponent ?? barInnerComponent
       : barInnerComponent,
-    patternId: item.patternId || patternId,
+    patternId: item.patternId ?? patternId,
     barWidth: localBarWidth,
-    barStyle: barStyle,
-    item: item,
-    index: index,
+    barStyle,
+    item,
+    index,
 
     frontColor: localFrontColor,
-    showGradient: item.showGradient || showGradient || false,
+    showGradient: item.showGradient ?? showGradient ?? false,
     gradientColor: isFocused
       ? focusedBarConfig?.gradientColor ?? localGradientColor
       : localGradientColor,
@@ -136,10 +175,11 @@ export const getPropsForAnimated2DWithGradient = (props) => {
       : localOpacity,
     height: barHeight,
     intactTopLabel,
-    showValuesAsTopLabel: !!showValuesAsTopLabel,
+    showValuesAsTopLabel: showValuesAsTopLabel ?? false,
     topLabelContainerStyle,
     topLabelTextStyle,
-  };
+    yAxisOffset: yAxisOffset ?? 0
+  }
 
   return {
     commonStyleForBar,
@@ -147,6 +187,6 @@ export const getPropsForAnimated2DWithGradient = (props) => {
     commonPropsFor2Dand3Dbars,
     isFocused,
     focusedBarConfig,
-    localFrontColor,
-  };
-};
+    localFrontColor
+  }
+}
