@@ -523,6 +523,7 @@ export interface RenderBarsPropsType {
   isThreeD?: boolean
   isAnimated?: boolean
   rotateLabel?: boolean
+  labelsDistanceFromXaxis?: number
   animatedHeight?: any
   appearingOpacity?: any
   animationDuration?: number
