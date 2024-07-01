@@ -32,7 +32,7 @@ import {
 import { type Animated } from 'react-native'
 
 export interface extendedBarChartPropsType extends BarChartPropsType {
-  parentWidth: number,
+  parentWidth: number
   heightValue?: Animated.Value
   widthValue?: Animated.Value
   opacValue?: Animated.Value
@@ -48,12 +48,19 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     yAxisOffset,
     adjustToWidth,
     parentWidth,
+    labelsDistanceFromXaxis,
+    autoShiftLabelsForNegativeStacks,
+    focusedBarIndex
   } = props
   const [points, setPoints] = useState('')
   const [points2, setPoints2] = useState('')
   const [arrowPoints, setArrowPoints] = useState('')
-  const [selectedIndex, setSelectedIndex] = useState(-1)
+  const [selectedIndex, setSelectedIndex] = useState(focusedBarIndex ?? -1)
   const showLine = props.showLine ?? BarDefaults.showLine
+
+  useEffect(() => {
+    setSelectedIndex(focusedBarIndex ?? -1)
+  }, [focusedBarIndex])
 
   const data = useMemo(() => {
     if (!props.data) {
@@ -241,7 +248,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
   const stepValue = props.stepValue ?? maxValue / noOfSections
   const noOfSectionsBelowXAxis =
-    props.noOfSectionsBelowXAxis ?? -mostNegativeValue / stepValue
+    props.noOfSectionsBelowXAxis ??
+    Math.round(Math.ceil(-mostNegativeValue / stepValue))
   const showScrollIndicator =
     props.showScrollIndicator ?? BarDefaults.showScrollIndicator
   const side = props.side ?? BarDefaults.side
@@ -638,6 +646,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       xAxisIndicesHeight,
       xAxisIndicesWidth,
       xAxisIndicesColor,
+      labelsDistanceFromXaxis:
+        item.labelsDistanceFromXaxis ?? labelsDistanceFromXaxis,
       horizontal,
       rtl,
       intactTopLabel,
@@ -680,7 +690,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       labelTextStyle: item.labelTextStyle ?? props.xAxisLabelTextStyle,
       pointerConfig,
       yAxisExtraHeightAtTop,
-      yAxisOffset: yAxisOffset ?? 0
+      yAxisOffset: yAxisOffset ?? 0,
+      focusedBarIndex
     }
   }
 
@@ -821,6 +832,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     xAxisIndicesHeight,
     xAxisIndicesWidth,
     xAxisIndicesColor,
+    autoShiftLabelsForNegativeStacks,
     horizontal,
     rtl,
     intactTopLabel,

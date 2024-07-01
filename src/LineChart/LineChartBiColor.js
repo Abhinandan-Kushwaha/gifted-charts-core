@@ -312,7 +312,7 @@ export var useLineChartBiColor = function (props) {
     var horizSections = [{ value: '0' }];
     var stepHeight = (_8 = props.stepHeight) !== null && _8 !== void 0 ? _8 : containerHeight / noOfSections;
     var stepValue = (_9 = props.stepValue) !== null && _9 !== void 0 ? _9 : maxValue / noOfSections;
-    var noOfSectionsBelowXAxis = (_10 = props.noOfSectionsBelowXAxis) !== null && _10 !== void 0 ? _10 : -mostNegativeValue / stepValue;
+    var noOfSectionsBelowXAxis = (_10 = props.noOfSectionsBelowXAxis) !== null && _10 !== void 0 ? _10 : Math.round(Math.ceil(-mostNegativeValue / stepValue));
     var thickness1 = (_11 = props.thickness) !== null && _11 !== void 0 ? _11 : LineDefaults.thickness;
     var zIndex = (_12 = props.zIndex) !== null && _12 !== void 0 ? _12 : 0;
     var strokeDashArray1 = props.strokeDashArray;

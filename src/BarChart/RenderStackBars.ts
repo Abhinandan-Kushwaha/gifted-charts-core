@@ -10,7 +10,8 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     propSpacing,
     initialSpacing,
     stackData,
-    isAnimated
+    isAnimated,
+    xAxisThickness
   } = props
   const cotainsNegative = item.stacks.some((item) => item.value < 0)
   const noAnimation = cotainsNegative || !isAnimated
@@ -60,7 +61,7 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
 
     const itemValue = item.stacks[index].value
     const isNegative = itemValue <= 0
-    let position = isNegative ? -(height || 0) : 0
+    let position = isNegative ? -(height || 0) - xAxisThickness : 0
 
     for (let i = 0; i < index; i++) {
       const valueOnIndex = item.stacks[i].value

@@ -361,7 +361,8 @@ export const useLineChartBiColor = (
   const stepHeight = props.stepHeight ?? containerHeight / noOfSections
   const stepValue = props.stepValue ?? maxValue / noOfSections
   const noOfSectionsBelowXAxis =
-    props.noOfSectionsBelowXAxis ?? -mostNegativeValue / stepValue
+    props.noOfSectionsBelowXAxis ??
+    Math.round(Math.ceil(-mostNegativeValue / stepValue))
   const thickness1 = props.thickness ?? LineDefaults.thickness
   const zIndex = props.zIndex ?? 0
 
