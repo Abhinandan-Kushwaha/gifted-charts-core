@@ -17,7 +17,7 @@ var __read = (this && this.__read) || function (o, n) {
 import { useState } from 'react';
 export var useRenderStackBars = function (props) {
     var _a, _b, _c, _d, _e, _f;
-    var item = props.item, index = props.index, containerHeight = props.containerHeight, maxValue = props.maxValue, propSpacing = props.propSpacing, initialSpacing = props.initialSpacing, stackData = props.stackData, isAnimated = props.isAnimated;
+    var item = props.item, index = props.index, containerHeight = props.containerHeight, maxValue = props.maxValue, propSpacing = props.propSpacing, initialSpacing = props.initialSpacing, stackData = props.stackData, isAnimated = props.isAnimated, xAxisThickness = props.xAxisThickness;
     var cotainsNegative = item.stacks.some(function (item) { return item.value < 0; });
     var noAnimation = cotainsNegative || !isAnimated;
     var localBarInnerComponent = (_a = item.barInnerComponent) !== null && _a !== void 0 ? _a : props.barInnerComponent;
@@ -44,7 +44,7 @@ export var useRenderStackBars = function (props) {
         var height = getBarHeight(item.stacks[index].value, item.stacks[index].marginBottom);
         var itemValue = item.stacks[index].value;
         var isNegative = itemValue <= 0;
-        var position = isNegative ? -(height || 0) : 0;
+        var position = isNegative ? -(height || 0) - xAxisThickness : 0;
         for (var i = 0; i < index; i++) {
             var valueOnIndex = item.stacks[i].value;
             if (isNegative && valueOnIndex <= 0) {

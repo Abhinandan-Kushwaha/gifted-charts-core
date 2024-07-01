@@ -70,6 +70,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
     xAxisIndicesHeight: number;
     xAxisIndicesWidth: number;
     xAxisIndicesColor: import("react-native").ColorValue;
+    autoShiftLabelsForNegativeStacks: boolean | undefined;
     horizontal: boolean;
     rtl: boolean;
     intactTopLabel: boolean;
@@ -134,6 +135,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         xAxisIndicesHeight: number;
         xAxisIndicesWidth: number;
         xAxisIndicesColor: import("react-native").ColorValue;
+        labelsDistanceFromXaxis: any;
         horizontal: boolean;
         rtl: boolean;
         intactTopLabel: boolean;
@@ -174,6 +176,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         pointerConfig: import("../utils/types").Pointer | undefined;
         yAxisExtraHeightAtTop: number;
         yAxisOffset: number;
+        focusedBarIndex: number | undefined;
     };
     barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes;
     yAxisExtraHeightAtTop: number;

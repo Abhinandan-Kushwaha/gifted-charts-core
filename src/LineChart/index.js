@@ -901,7 +901,7 @@ export var useLineChart = function (props) {
     var horizSections = [{ value: '0' }];
     var stepHeight = (_237 = props.stepHeight) !== null && _237 !== void 0 ? _237 : containerHeight / noOfSections;
     var stepValue = (_238 = props.stepValue) !== null && _238 !== void 0 ? _238 : maxValue / noOfSections;
-    var noOfSectionsBelowXAxis = (_239 = props.noOfSectionsBelowXAxis) !== null && _239 !== void 0 ? _239 : -mostNegativeValue / (stepValue || 1);
+    var noOfSectionsBelowXAxis = (_239 = props.noOfSectionsBelowXAxis) !== null && _239 !== void 0 ? _239 : Math.round(Math.ceil(-mostNegativeValue / stepValue));
     var showXAxisIndices = (_240 = props.showXAxisIndices) !== null && _240 !== void 0 ? _240 : AxesAndRulesDefaults.showXAxisIndices;
     var xAxisIndicesHeight = (_241 = props.xAxisIndicesHeight) !== null && _241 !== void 0 ? _241 : AxesAndRulesDefaults.xAxisIndicesHeight;
     var xAxisIndicesWidth = (_242 = props.xAxisIndicesWidth) !== null && _242 !== void 0 ? _242 : AxesAndRulesDefaults.xAxisIndicesWidth;

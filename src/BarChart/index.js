@@ -30,12 +30,15 @@ import { getArrowPoints, getAxesAndRulesProps, getExtendedContainerHeightWithPad
 import { AxesAndRulesDefaults, BarDefaults, chartTypes, defaultLineConfig, defaultPointerConfig } from '../utils/constants';
 export var useBarChart = function (props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47;
-    var heightValue = props.heightValue, widthValue = props.widthValue, opacValue = props.opacValue, yAxisOffset = props.yAxisOffset, adjustToWidth = props.adjustToWidth, parentWidth = props.parentWidth;
+    var heightValue = props.heightValue, widthValue = props.widthValue, opacValue = props.opacValue, yAxisOffset = props.yAxisOffset, adjustToWidth = props.adjustToWidth, parentWidth = props.parentWidth, labelsDistanceFromXaxis = props.labelsDistanceFromXaxis, autoShiftLabelsForNegativeStacks = props.autoShiftLabelsForNegativeStacks, focusedBarIndex = props.focusedBarIndex;
     var _48 = __read(useState(''), 2), points = _48[0], setPoints = _48[1];
     var _49 = __read(useState(''), 2), points2 = _49[0], setPoints2 = _49[1];
     var _50 = __read(useState(''), 2), arrowPoints = _50[0], setArrowPoints = _50[1];
-    var _51 = __read(useState(-1), 2), selectedIndex = _51[0], setSelectedIndex = _51[1];
+    var _51 = __read(useState(focusedBarIndex !== null && focusedBarIndex !== void 0 ? focusedBarIndex : -1), 2), selectedIndex = _51[0], setSelectedIndex = _51[1];
     var showLine = (_a = props.showLine) !== null && _a !== void 0 ? _a : BarDefaults.showLine;
+    useEffect(function () {
+        setSelectedIndex(focusedBarIndex !== null && focusedBarIndex !== void 0 ? focusedBarIndex : -1);
+    }, [focusedBarIndex]);
     var data = useMemo(function () {
         if (!props.data) {
             return [];
@@ -164,7 +167,7 @@ export var useBarChart = function (props) {
         : maxValue;
     var mostNegativeValue = (_x = props.mostNegativeValue) !== null && _x !== void 0 ? _x : maxAndMin.minItem;
     var stepValue = (_y = props.stepValue) !== null && _y !== void 0 ? _y : maxValue / noOfSections;
-    var noOfSectionsBelowXAxis = (_z = props.noOfSectionsBelowXAxis) !== null && _z !== void 0 ? _z : -mostNegativeValue / stepValue;
+    var noOfSectionsBelowXAxis = (_z = props.noOfSectionsBelowXAxis) !== null && _z !== void 0 ? _z : Math.round(Math.ceil(-mostNegativeValue / stepValue));
     var showScrollIndicator = (_0 = props.showScrollIndicator) !== null && _0 !== void 0 ? _0 : BarDefaults.showScrollIndicator;
     var side = (_1 = props.side) !== null && _1 !== void 0 ? _1 : BarDefaults.side;
     var rotateLabel = (_2 = props.rotateLabel) !== null && _2 !== void 0 ? _2 : AxesAndRulesDefaults.rotateLabel;
@@ -391,7 +394,7 @@ export var useBarChart = function (props) {
         outputRange: [0, initialSpacing + totalWidth + endSpacing]
     });
     var getPropsCommonForBarAndStack = function (item, index) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         return {
             key: index,
             item: item,
@@ -409,6 +412,7 @@ export var useBarChart = function (props) {
             xAxisIndicesHeight: xAxisIndicesHeight,
             xAxisIndicesWidth: xAxisIndicesWidth,
             xAxisIndicesColor: xAxisIndicesColor,
+            labelsDistanceFromXaxis: (_d = item.labelsDistanceFromXaxis) !== null && _d !== void 0 ? _d : labelsDistanceFromXaxis,
             horizontal: horizontal,
             rtl: rtl,
             intactTopLabel: intactTopLabel,
@@ -437,18 +441,19 @@ export var useBarChart = function (props) {
             xAxisLabelsHeight: props.xAxisLabelsHeight,
             xAxisLabelsVerticalShift: xAxisLabelsVerticalShift,
             renderTooltip: props.renderTooltip,
-            leftShiftForTooltip: (_d = props.leftShiftForTooltip) !== null && _d !== void 0 ? _d : 0,
+            leftShiftForTooltip: (_e = props.leftShiftForTooltip) !== null && _e !== void 0 ? _e : 0,
             initialSpacing: initialSpacing,
             selectedIndex: selectedIndex,
             setSelectedIndex: setSelectedIndex,
-            activeOpacity: (_e = props.activeOpacity) !== null && _e !== void 0 ? _e : 0.2,
+            activeOpacity: (_f = props.activeOpacity) !== null && _f !== void 0 ? _f : 0.2,
             noOfSectionsBelowXAxis: noOfSectionsBelowXAxis,
-            leftShiftForLastIndexTooltip: (_f = props.leftShiftForLastIndexTooltip) !== null && _f !== void 0 ? _f : 0,
-            label: (_g = item.label) !== null && _g !== void 0 ? _g : (((_h = props.xAxisLabelTexts) === null || _h === void 0 ? void 0 : _h[index]) ? props.xAxisLabelTexts[index] : ''),
-            labelTextStyle: (_j = item.labelTextStyle) !== null && _j !== void 0 ? _j : props.xAxisLabelTextStyle,
+            leftShiftForLastIndexTooltip: (_g = props.leftShiftForLastIndexTooltip) !== null && _g !== void 0 ? _g : 0,
+            label: (_h = item.label) !== null && _h !== void 0 ? _h : (((_j = props.xAxisLabelTexts) === null || _j === void 0 ? void 0 : _j[index]) ? props.xAxisLabelTexts[index] : ''),
+            labelTextStyle: (_k = item.labelTextStyle) !== null && _k !== void 0 ? _k : props.xAxisLabelTextStyle,
             pointerConfig: pointerConfig,
             yAxisExtraHeightAtTop: yAxisExtraHeightAtTop,
-            yAxisOffset: yAxisOffset !== null && yAxisOffset !== void 0 ? yAxisOffset : 0
+            yAxisOffset: yAxisOffset !== null && yAxisOffset !== void 0 ? yAxisOffset : 0,
+            focusedBarIndex: focusedBarIndex
         };
     };
     var barAndLineChartsWrapperProps = {
@@ -577,6 +582,7 @@ export var useBarChart = function (props) {
         xAxisIndicesHeight: xAxisIndicesHeight,
         xAxisIndicesWidth: xAxisIndicesWidth,
         xAxisIndicesColor: xAxisIndicesColor,
+        autoShiftLabelsForNegativeStacks: autoShiftLabelsForNegativeStacks,
         horizontal: horizontal,
         rtl: rtl,
         intactTopLabel: intactTopLabel,

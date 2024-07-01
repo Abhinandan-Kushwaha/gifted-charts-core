@@ -9,6 +9,7 @@ export interface stackDataItem {
     onLongPress?: any;
     onPressOut?: any;
     label?: string;
+    labelsDistanceFromXaxis?: number;
     barWidth?: number;
     spacing?: number;
     labelTextStyle?: any;
@@ -59,6 +60,8 @@ export interface StackedBarChartPropsType {
     opacity?: number;
     label: string;
     labelTextStyle?: any;
+    autoShiftLabelsForNegativeStacks?: boolean;
+    labelsDistanceFromXaxis?: number;
     disablePress?: boolean;
     item: stackDataItem;
     index: number;
@@ -255,6 +258,8 @@ export interface BarChartPropsType {
     scrollAnimation?: boolean;
     scrollEventThrottle?: number;
     labelsExtraHeight?: number;
+    labelsDistanceFromXaxis?: number;
+    autoShiftLabelsForNegativeStacks?: boolean;
     barBackgroundPattern?: () => ReactNode;
     patternId?: string;
     barMarginBottom?: number;
@@ -278,6 +283,7 @@ export interface BarChartPropsType {
     onMomentumScrollEnd?: Function;
     focusBarOnPress?: boolean;
     focusedBarConfig?: FocusedBarConfig;
+    focusedBarIndex?: number;
     adjustToWidth?: boolean;
     parentWidth?: number;
 }
@@ -374,6 +380,7 @@ export interface barDataItem {
     showGradient?: boolean;
     gradientColor?: any;
     label?: string;
+    labelsDistanceFromXaxis?: number;
     barWidth?: number;
     sideWidth?: number;
     labelTextStyle?: any;
@@ -519,6 +526,7 @@ export interface RenderBarsPropsType {
     xAxisThickness?: number;
     pointerConfig?: Pointer;
     focusBarOnPress?: boolean;
+    focusedBarIndex?: number;
     noOfSectionsBelowXAxis?: number;
     yAxisOffset: number;
 }
