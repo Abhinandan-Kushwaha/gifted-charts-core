@@ -122,11 +122,14 @@ export interface BarChartPropsType {
     overflowTop?: number;
     minHeight?: number;
     noOfSections?: number;
+    sectionColors?: ColorValue[];
     noOfSectionsBelowXAxis?: number;
     maxValue?: number;
     mostNegativeValue?: number;
     stepHeight?: number;
     stepValue?: number;
+    negativeStepHeight?: number;
+    negativeStepValue?: number;
     spacing?: number;
     data?: barDataItem[];
     stackData?: stackDataItem[];
@@ -530,6 +533,10 @@ export interface RenderBarsPropsType {
     focusedBarIndex?: number;
     noOfSectionsBelowXAxis?: number;
     yAxisOffset: number;
+    stepHeight: number;
+    stepValue: number;
+    negativeStepHeight: number;
+    negativeStepValue: number;
 }
 export interface trianglePropTypes {
     style: any;

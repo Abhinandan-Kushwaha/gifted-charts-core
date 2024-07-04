@@ -376,6 +376,7 @@ export var useLineChartBiColor = function (props) {
         containerHeight: containerHeight,
         noOfSectionsBelowXAxis: noOfSectionsBelowXAxis,
         stepHeight: stepHeight,
+        negativeStepHeight: stepHeight,
         labelsExtraHeight: labelsExtraHeight,
         yAxisLabelWidth: yAxisLabelWidth,
         horizontal: horizontal,

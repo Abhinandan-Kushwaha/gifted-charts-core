@@ -13,7 +13,9 @@ export const useBarAndLineChartsWrapper = (
     chartType,
     containerHeight,
     noOfSectionsBelowXAxis,
+    sectionColors,
     stepHeight,
+    negativeStepHeight,
     labelsExtraHeight,
     yAxisLabelWidth,
     horizontal,
@@ -126,6 +128,7 @@ export const useBarAndLineChartsWrapper = (
   const yAxisTextStyle = axesAndRulesProps.yAxisTextStyle
   const secondaryYAxis = axesAndRulesProps.secondaryYAxis
   const stepValue = axesAndRulesProps.stepValue
+  const negativeStepValue = axesAndRulesProps.negativeStepValue
   const roundToDigits = axesAndRulesProps.roundToDigits
 
   const referenceLinesConfig = axesAndRulesProps.referenceLinesConfig
@@ -173,7 +176,9 @@ export const useBarAndLineChartsWrapper = (
     yAxisSide,
     horizontalRulesStyle,
     noOfSections,
+    sectionColors,
     stepHeight,
+    negativeStepHeight,
     yAxisLabelWidth,
     yAxisLabelContainerStyle,
     yAxisThickness,
@@ -222,6 +227,7 @@ export const useBarAndLineChartsWrapper = (
     yAxisAtTop,
 
     stepValue,
+    negativeStepValue,
     roundToDigits,
 
     secondaryData,

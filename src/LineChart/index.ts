@@ -470,12 +470,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     animations.forEach((item, index) => {
       item.addListener((val) => {
         const temp = data[index]?.value ?? 0
-        data[index].value = val.value
+        data[index].value = val?.value ?? 0
         let pp = ''
         let ppp = ''
         if (!(dataSet?.[0].curved ?? props.curved)) {
           for (let i = 0; i < (data0 ?? data).length; i++) {
-            pp += 'L' + getX(i) + ' ' + getY((data0 ?? data)[i].value) + ' '
+            pp +=
+              'L' + getX(i) + ' ' + getY((data0 ?? data)[i]?.value ?? 0) + ' '
           }
           if (dataSet?.[0]?.areaChart ?? areaChart) {
             ppp = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
@@ -1775,6 +1776,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     containerHeight,
     noOfSectionsBelowXAxis,
     stepHeight,
+    negativeStepHeight: stepHeight,
     labelsExtraHeight,
     yAxisLabelWidth,
     horizontal,

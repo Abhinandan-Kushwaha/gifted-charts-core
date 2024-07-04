@@ -252,16 +252,17 @@ export var useLineChart = function (props) {
     if (animateOnDataChange && animations) {
         animations.forEach(function (item, index) {
             item.addListener(function (val) {
-                var _a, _b, _c, _d, _e;
+                var _a, _b, _c, _d, _e, _f, _g, _h;
                 var temp = (_b = (_a = data[index]) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : 0;
-                data[index].value = val.value;
+                data[index].value = (_c = val === null || val === void 0 ? void 0 : val.value) !== null && _c !== void 0 ? _c : 0;
                 var pp = '';
                 var ppp = '';
-                if (!((_c = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0].curved) !== null && _c !== void 0 ? _c : props.curved)) {
+                if (!((_d = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0].curved) !== null && _d !== void 0 ? _d : props.curved)) {
                     for (var i = 0; i < (data0 !== null && data0 !== void 0 ? data0 : data).length; i++) {
-                        pp += 'L' + getX(i) + ' ' + getY((data0 !== null && data0 !== void 0 ? data0 : data)[i].value) + ' ';
+                        pp +=
+                            'L' + getX(i) + ' ' + getY((_f = (_e = (data0 !== null && data0 !== void 0 ? data0 : data)[i]) === null || _e === void 0 ? void 0 : _e.value) !== null && _f !== void 0 ? _f : 0) + ' ';
                     }
-                    if ((_e = (_d = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _d === void 0 ? void 0 : _d.areaChart) !== null && _e !== void 0 ? _e : areaChart) {
+                    if ((_h = (_g = dataSet === null || dataSet === void 0 ? void 0 : dataSet[0]) === null || _g === void 0 ? void 0 : _g.areaChart) !== null && _h !== void 0 ? _h : areaChart) {
                         ppp = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' ';
                         ppp += pp;
                         ppp +=
@@ -1052,6 +1053,7 @@ export var useLineChart = function (props) {
         containerHeight: containerHeight,
         noOfSectionsBelowXAxis: noOfSectionsBelowXAxis,
         stepHeight: stepHeight,
+        negativeStepHeight: stepHeight,
         labelsExtraHeight: labelsExtraHeight,
         yAxisLabelWidth: yAxisLabelWidth,
         horizontal: horizontal,

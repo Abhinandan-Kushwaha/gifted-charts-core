@@ -19,7 +19,8 @@ import {
   type HighlightedRange,
   type LineProperties,
   type LineSegment,
-  Framework
+  Framework,
+  referenceConfigType
 } from './types'
 import {
   type lineConfigType,
@@ -645,20 +646,34 @@ export const getArrowPoints = (
   return arrowPoints
 }
 
+interface ReferenceLinesConfig {
+  showReferenceLine1?: boolean
+  referenceLine1Position?: number
+  referenceLine1Config?: referenceConfigType
+  showReferenceLine2?: boolean
+  referenceLine2Position?: number
+  referenceLine2Config?: referenceConfigType
+  showReferenceLine3?: boolean
+  referenceLine3Position?: number
+  referenceLine3Config?: referenceConfigType
+  referenceLinesOverChartContent?: boolean
+}
 interface IgetAxesAndRulesProps extends BarChartPropsType {
   verticalLinesUptoDataPoint?: boolean
+  referenceLinesConfig: ReferenceLinesConfig
 }
 
 export const getAxesAndRulesProps = (
   props: extendedBarChartPropsType,
   stepValue: number,
+  negativeStepValue?: number,
   maxValue?: number
 ): IgetAxesAndRulesProps => {
   const secondaryYAxis =
     !props.secondaryYAxis || props.secondaryYAxis === true
       ? {}
       : props.secondaryYAxis
-  const axesAndRulesProps = {
+  const axesAndRulesProps: IgetAxesAndRulesProps = {
     yAxisSide: props.yAxisSide,
     yAxisLabelContainerStyle: props.yAxisLabelContainerStyle,
     yAxisColor: props.yAxisColor,
@@ -721,6 +736,7 @@ export const getAxesAndRulesProps = (
 
     roundToDigits: props.roundToDigits,
     stepValue,
+    negativeStepValue: negativeStepValue ?? stepValue,
 
     secondaryYAxis: props.secondaryYAxis,
     formatYLabel: props.formatYLabel
@@ -1040,7 +1056,9 @@ export const maxAndMinUtil = (
   } else {
     maxItem = maxItem + (10 - (maxItem % 10))
     if (minItem !== 0) {
+      minItem *= 10
       minItem = minItem - (10 + (minItem % 10))
+      minItem /= 10
     }
   }
 
@@ -1236,6 +1254,14 @@ export const getMaxValue = (
   noOfSections: number,
   maxItem: number
 ): number => maxValue ?? (stepValue ? stepValue * noOfSections : maxItem)
+
+export const getMostNegativeValue = (
+  minValue: number | undefined,
+  stepValue: number | undefined,
+  noOfSections: number | undefined,
+  minItem: number
+): number =>
+  minValue ?? (stepValue && noOfSections ? stepValue * noOfSections : minItem)
 
 export const getBarFrontColor = (
   isFocused?: boolean,

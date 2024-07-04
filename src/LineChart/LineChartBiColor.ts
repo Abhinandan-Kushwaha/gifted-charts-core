@@ -455,6 +455,7 @@ export const useLineChartBiColor = (
     containerHeight,
     noOfSectionsBelowXAxis,
     stepHeight,
+    negativeStepHeight: stepHeight,
     labelsExtraHeight,
     yAxisLabelWidth,
     horizontal,

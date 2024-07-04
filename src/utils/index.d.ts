@@ -1,6 +1,6 @@
 import { type ColorValue } from 'react-native';
 import { type IDataSanitisationProps, type lineDataItem } from '../LineChart/types';
-import { type arrowConfigType, CurveType, type HighlightedRange, type LineProperties, type LineSegment, Framework } from './types';
+import { type arrowConfigType, CurveType, type HighlightedRange, type LineProperties, type LineSegment, Framework, referenceConfigType } from './types';
 import { type lineConfigType, type BarChartPropsType, type FocusedBarConfig, type barDataItem } from '../BarChart/types';
 import { type extendedLineChartPropsType } from '../LineChart';
 import { type extendedBarChartPropsType } from '../BarChart';
@@ -16,10 +16,23 @@ export declare const getPathWithHighlight: (data: lineDataItem[], i: number, hig
 export declare const getRegionPathObjects: (points: string, color: ColorValue, currentLineThickness: number, thickness: number, strokeDashArray: number[], isCurved: boolean, startDelimeter: string, stop: string, endDelimeter: string) => LineProperties[];
 export declare const getSegmentedPathObjects: (points: string, color: ColorValue, currentLineThickness: number, thickness: number, strokeDashArray: number[], isCurved: boolean, startDelimeter: string, endDelimeter: string) => LineProperties[];
 export declare const getArrowPoints: (arrowTipX: number, arrowTipY: number, x1: number, y1: number, arrowLength?: number, arrowWidth?: number, showArrowBase?: boolean) => string;
+interface ReferenceLinesConfig {
+    showReferenceLine1?: boolean;
+    referenceLine1Position?: number;
+    referenceLine1Config?: referenceConfigType;
+    showReferenceLine2?: boolean;
+    referenceLine2Position?: number;
+    referenceLine2Config?: referenceConfigType;
+    showReferenceLine3?: boolean;
+    referenceLine3Position?: number;
+    referenceLine3Config?: referenceConfigType;
+    referenceLinesOverChartContent?: boolean;
+}
 interface IgetAxesAndRulesProps extends BarChartPropsType {
     verticalLinesUptoDataPoint?: boolean;
+    referenceLinesConfig: ReferenceLinesConfig;
 }
-export declare const getAxesAndRulesProps: (props: extendedBarChartPropsType, stepValue: number, maxValue?: number) => IgetAxesAndRulesProps;
+export declare const getAxesAndRulesProps: (props: extendedBarChartPropsType, stepValue: number, negativeStepValue?: number, maxValue?: number) => IgetAxesAndRulesProps;
 export declare const getExtendedContainerHeightWithPadding: (containerHeight: number, overflowTop?: number) => number;
 export declare const getSecondaryDataWithOffsetIncluded: (secondaryData?: barDataItem[] | lineDataItem[], secondaryYAxis?: any | undefined, showDataPointsForMissingValues?: boolean, interpolateMissingValues?: boolean, onlyPositive?: boolean) => barDataItem[] | lineDataItem[] | undefined;
 export declare const getArrowProperty: (property: string, count: number, props: extendedLineChartPropsType, defaultArrowConfig: arrowConfigType) => any;
@@ -75,6 +88,7 @@ export declare const clone: (obj: any) => any;
 export declare const getLineConfigForBarChart: (lineConfig: lineConfigType, barInitialSpacing: number) => lineConfigType;
 export declare const getNoOfSections: (noOfSections: number | undefined, maxValue: number | undefined, stepValue: number | undefined) => number;
 export declare const getMaxValue: (maxValue: number | undefined, stepValue: number | undefined, noOfSections: number, maxItem: number) => number;
+export declare const getMostNegativeValue: (minValue: number | undefined, stepValue: number | undefined, noOfSections: number | undefined, minItem: number) => number;
 export declare const getBarFrontColor: (isFocused?: boolean, focusedBarConfig?: FocusedBarConfig, itemFrontColor?: ColorValue, frontColor?: ColorValue, isThreeD?: boolean) => ColorValue;
 export declare const getBarSideColor: (isFocused?: boolean, focusedBarConfig?: FocusedBarConfig, itemSideColor?: ColorValue, sideColor?: ColorValue) => ColorValue | undefined;
 export declare const getBarTopColor: (isFocused?: boolean, focusedBarConfig?: FocusedBarConfig, itemTopColor?: ColorValue, topColor?: ColorValue) => ColorValue | undefined;

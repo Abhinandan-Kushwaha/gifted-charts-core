@@ -177,6 +177,10 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         yAxisExtraHeightAtTop: number;
         yAxisOffset: number;
         focusedBarIndex: number | undefined;
+        stepHeight: number;
+        stepValue: number;
+        negativeStepHeight: number;
+        negativeStepValue: number;
     };
     barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes;
     yAxisExtraHeightAtTop: number;

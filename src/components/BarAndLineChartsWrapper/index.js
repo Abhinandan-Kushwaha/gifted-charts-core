@@ -38,7 +38,7 @@ import { useEffect, useState } from 'react';
 import { AxesAndRulesDefaults, BarDefaults } from '../../utils/constants';
 export var useBarAndLineChartsWrapper = function (props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12;
-    var chartType = props.chartType, containerHeight = props.containerHeight, noOfSectionsBelowXAxis = props.noOfSectionsBelowXAxis, stepHeight = props.stepHeight, labelsExtraHeight = props.labelsExtraHeight, yAxisLabelWidth = props.yAxisLabelWidth, horizontal = props.horizontal, rtl = props.rtl, shiftX = props.shiftX, shiftY = props.shiftY, initialSpacing = props.initialSpacing, data = props.data, stackData = props.stackData, secondaryData = props.secondaryData, barWidth = props.barWidth, xAxisThickness = props.xAxisThickness, totalWidth = props.totalWidth, spacing = props.spacing, lineConfig = props.lineConfig, lineConfig2 = props.lineConfig2, maxValue = props.maxValue, lineData = props.lineData, lineData2 = props.lineData2, animatedWidth = props.animatedWidth, lineBehindBars = props.lineBehindBars, points = props.points, points2 = props.points2, arrowPoints = props.arrowPoints, width = props.width, horizSections = props.horizSections, endSpacing = props.endSpacing, horizontalRulesStyle = props.horizontalRulesStyle, noOfSections = props.noOfSections, showFractionalValues = props.showFractionalValues, axesAndRulesProps = props.axesAndRulesProps, yAxisLabelTexts = props.yAxisLabelTexts, yAxisOffset = props.yAxisOffset, rotateYAxisTexts = props.rotateYAxisTexts, pointerConfig = props.pointerConfig, getPointerProps = props.getPointerProps, pointerIndex = props.pointerIndex, pointerX = props.pointerX, pointerY = props.pointerY, scrollEventThrottle = props.scrollEventThrottle, endReachedOffset = props.endReachedOffset, isRTL = props.isRTL;
+    var chartType = props.chartType, containerHeight = props.containerHeight, noOfSectionsBelowXAxis = props.noOfSectionsBelowXAxis, sectionColors = props.sectionColors, stepHeight = props.stepHeight, negativeStepHeight = props.negativeStepHeight, labelsExtraHeight = props.labelsExtraHeight, yAxisLabelWidth = props.yAxisLabelWidth, horizontal = props.horizontal, rtl = props.rtl, shiftX = props.shiftX, shiftY = props.shiftY, initialSpacing = props.initialSpacing, data = props.data, stackData = props.stackData, secondaryData = props.secondaryData, barWidth = props.barWidth, xAxisThickness = props.xAxisThickness, totalWidth = props.totalWidth, spacing = props.spacing, lineConfig = props.lineConfig, lineConfig2 = props.lineConfig2, maxValue = props.maxValue, lineData = props.lineData, lineData2 = props.lineData2, animatedWidth = props.animatedWidth, lineBehindBars = props.lineBehindBars, points = props.points, points2 = props.points2, arrowPoints = props.arrowPoints, width = props.width, horizSections = props.horizSections, endSpacing = props.endSpacing, horizontalRulesStyle = props.horizontalRulesStyle, noOfSections = props.noOfSections, showFractionalValues = props.showFractionalValues, axesAndRulesProps = props.axesAndRulesProps, yAxisLabelTexts = props.yAxisLabelTexts, yAxisOffset = props.yAxisOffset, rotateYAxisTexts = props.rotateYAxisTexts, pointerConfig = props.pointerConfig, getPointerProps = props.getPointerProps, pointerIndex = props.pointerIndex, pointerX = props.pointerX, pointerY = props.pointerY, scrollEventThrottle = props.scrollEventThrottle, endReachedOffset = props.endReachedOffset, isRTL = props.isRTL;
     var yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop;
     var hideOrigin = (_a = axesAndRulesProps.hideOrigin) !== null && _a !== void 0 ? _a : AxesAndRulesDefaults.hideOrigin;
     var yAxisSide = (_b = axesAndRulesProps.yAxisSide) !== null && _b !== void 0 ? _b : AxesAndRulesDefaults.yAxisSide;
@@ -74,6 +74,7 @@ export var useBarAndLineChartsWrapper = function (props) {
     var yAxisTextStyle = axesAndRulesProps.yAxisTextStyle;
     var secondaryYAxis = axesAndRulesProps.secondaryYAxis;
     var stepValue = axesAndRulesProps.stepValue;
+    var negativeStepValue = axesAndRulesProps.negativeStepValue;
     var roundToDigits = axesAndRulesProps.roundToDigits;
     var referenceLinesConfig = axesAndRulesProps.referenceLinesConfig;
     var referenceLinesOverChartContent = (_2 = referenceLinesConfig.referenceLinesOverChartContent) !== null && _2 !== void 0 ? _2 : AxesAndRulesDefaults.referenceLinesOverChartContent;
@@ -98,7 +99,9 @@ export var useBarAndLineChartsWrapper = function (props) {
         yAxisSide: yAxisSide,
         horizontalRulesStyle: horizontalRulesStyle,
         noOfSections: noOfSections,
+        sectionColors: sectionColors,
         stepHeight: stepHeight,
+        negativeStepHeight: negativeStepHeight,
         yAxisLabelWidth: yAxisLabelWidth,
         yAxisLabelContainerStyle: yAxisLabelContainerStyle,
         yAxisThickness: yAxisThickness,
@@ -141,6 +144,7 @@ export var useBarAndLineChartsWrapper = function (props) {
         horizontal: horizontal,
         yAxisAtTop: yAxisAtTop,
         stepValue: stepValue,
+        negativeStepValue: negativeStepValue,
         roundToDigits: roundToDigits,
         secondaryData: secondaryData,
         secondaryYAxis: secondaryYAxis,

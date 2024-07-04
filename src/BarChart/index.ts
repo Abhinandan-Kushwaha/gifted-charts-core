@@ -11,6 +11,7 @@ import {
   getExtendedContainerHeightWithPadding,
   getLineConfigForBarChart,
   getMaxValue,
+  getMostNegativeValue,
   getNoOfSections,
   getSecondaryDataWithOffsetIncluded,
   getXForLineInBar,
@@ -50,7 +51,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     parentWidth,
     labelsDistanceFromXaxis,
     autoShiftLabelsForNegativeStacks,
-    focusedBarIndex
+    focusedBarIndex,
+    negativeStepValue
   } = props
   const [points, setPoints] = useState('')
   const [points2, setPoints2] = useState('')
@@ -244,12 +246,17 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         secondaryMaxAndMin.maxItem
       : secondaryMaxAndMin.maxItem
     : maxValue
-  const mostNegativeValue = props.mostNegativeValue ?? maxAndMin.minItem
+  const mostNegativeValue = getMostNegativeValue(
+    props.mostNegativeValue,
+    props.negativeStepValue,
+    props.noOfSectionsBelowXAxis,
+    maxAndMin.minItem
+  )
 
   const stepValue = props.stepValue ?? maxValue / noOfSections
   const noOfSectionsBelowXAxis =
     props.noOfSectionsBelowXAxis ??
-    Math.round(Math.ceil(-mostNegativeValue / stepValue))
+    Math.round(Math.ceil(-mostNegativeValue / (negativeStepValue ?? stepValue)))
   const showScrollIndicator =
     props.showScrollIndicator ?? BarDefaults.showScrollIndicator
   const side = props.side ?? BarDefaults.side
@@ -691,7 +698,11 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       pointerConfig,
       yAxisExtraHeightAtTop,
       yAxisOffset: yAxisOffset ?? 0,
-      focusedBarIndex
+      focusedBarIndex,
+      stepHeight,
+      stepValue,
+      negativeStepHeight: props.negativeStepHeight ?? stepHeight,
+      negativeStepValue: props.negativeStepValue ?? stepValue
     }
   }
 
@@ -700,6 +711,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     containerHeight,
     noOfSectionsBelowXAxis,
     stepHeight,
+    negativeStepHeight: props.negativeStepHeight ?? stepHeight,
     labelsExtraHeight,
     yAxisLabelWidth,
     horizontal,
@@ -741,11 +753,13 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     endSpacing,
     horizontalRulesStyle,
     noOfSections,
+    sectionColors: props.sectionColors,
     showFractionalValues,
 
     axesAndRulesProps: getAxesAndRulesProps(
       props,
       stepValue,
+      negativeStepValue,
       secondaryMaxValue
     ),
 

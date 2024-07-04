@@ -475,7 +475,7 @@ export var getArrowPoints = function (arrowTipX, arrowTipY, x1, y1, arrowLength,
     arrowPoints += " L".concat(arrowTipX, " ").concat(arrowTipY);
     return arrowPoints;
 };
-export var getAxesAndRulesProps = function (props, stepValue, maxValue) {
+export var getAxesAndRulesProps = function (props, stepValue, negativeStepValue, maxValue) {
     var _a, _b, _c, _d;
     var secondaryYAxis = !props.secondaryYAxis || props.secondaryYAxis === true
         ? {}
@@ -539,6 +539,7 @@ export var getAxesAndRulesProps = function (props, stepValue, maxValue) {
         verticalLinesUptoDataPoint: props.verticalLinesUptoDataPoint,
         roundToDigits: props.roundToDigits,
         stepValue: stepValue,
+        negativeStepValue: negativeStepValue !== null && negativeStepValue !== void 0 ? negativeStepValue : stepValue,
         secondaryYAxis: props.secondaryYAxis,
         formatYLabel: props.formatYLabel
     };
@@ -660,7 +661,9 @@ export var maxAndMinUtil = function (maxItem, minItem, roundToDigits, showFracti
     else {
         maxItem = maxItem + (10 - (maxItem % 10));
         if (minItem !== 0) {
+            minItem *= 10;
             minItem = minItem - (10 + (minItem % 10));
+            minItem /= 10;
         }
     }
     return { maxItem: maxItem, minItem: minItem };
@@ -788,6 +791,9 @@ export var getNoOfSections = function (noOfSections, maxValue, stepValue) {
         : noOfSections !== null && noOfSections !== void 0 ? noOfSections : AxesAndRulesDefaults.noOfSections;
 };
 export var getMaxValue = function (maxValue, stepValue, noOfSections, maxItem) { return maxValue !== null && maxValue !== void 0 ? maxValue : (stepValue ? stepValue * noOfSections : maxItem); };
+export var getMostNegativeValue = function (minValue, stepValue, noOfSections, minItem) {
+    return minValue !== null && minValue !== void 0 ? minValue : (stepValue && noOfSections ? stepValue * noOfSections : minItem);
+};
 export var getBarFrontColor = function (isFocused, focusedBarConfig, itemFrontColor, frontColor, isThreeD) {
     var _a, _b;
     if (isFocused) {
