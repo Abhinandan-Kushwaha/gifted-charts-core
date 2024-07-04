@@ -45,6 +45,7 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
     yAxisLabelTexts,
 
     stepValue,
+    negativeStepValue,
     roundToDigits,
 
     yAxisOffset,
@@ -68,6 +69,9 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
     mostNegativeValue: secondaryYAxis?.mostNegativeValue,
     stepValue: secondaryYAxis?.stepValue,
     stepHeight: secondaryYAxis?.stepHeight,
+
+    negativeStepValue: secondaryYAxis?.stepValue,
+    negativeStepHeight: secondaryYAxis?.stepHeight,
 
     showFractionalValues:
       secondaryYAxis?.showFractionalValues ?? showFractionalValues,
@@ -136,7 +140,7 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
   const horizSectionsBelow: HorizSectionsType = []
   if (noOfSectionsBelowXAxis) {
     for (let i = 1; i <= noOfSectionsBelowXAxis; i++) {
-      let value = stepValue * -i
+      let value = negativeStepValue * -i
       if (showFractionalValues || roundToDigits) {
         value = parseFloat(
           value.toFixed(roundToDigits ?? AxesAndRulesDefaults.roundToDigits)
@@ -356,7 +360,10 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
     )
   }
 
-  const getLabelTextsForSecondaryYAxis = (val: string, index: number): string => {
+  const getLabelTextsForSecondaryYAxis = (
+    val: string,
+    index: number
+  ): string => {
     const {
       showFractionalValues,
       yAxisLabelTexts,

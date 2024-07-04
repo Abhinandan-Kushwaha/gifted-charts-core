@@ -37,6 +37,8 @@ export interface secondaryYAxisType {
     mostNegativeValue?: number;
     stepValue?: number;
     stepHeight?: number;
+    negativeStepValue?: number;
+    negativeStepHeight?: number;
     showFractionalValues?: boolean;
     roundToDigits?: number;
     noOfSectionsBelowXAxis?: number;
@@ -116,7 +118,9 @@ export interface horizSectionPropTypes {
     yAxisSide: yAxisSides;
     horizontalRulesStyle: any;
     noOfSections: number;
+    sectionColors?: ColorValue[];
     stepHeight: number;
+    negativeStepHeight: number;
     yAxisLabelWidth: number;
     yAxisLabelContainerStyle: any;
     yAxisThickness: number;
@@ -159,6 +163,7 @@ export interface horizSectionPropTypes {
     horizontal: boolean;
     yAxisAtTop: boolean;
     stepValue: number;
+    negativeStepValue: number;
     roundToDigits: number | undefined;
     secondaryData: any[] | undefined;
     secondaryYAxis: secondaryYAxisType | null;
@@ -174,7 +179,9 @@ export interface BarAndLineChartsWrapperTypes {
     chartType: chartTypes;
     containerHeight: number;
     noOfSectionsBelowXAxis: number;
+    sectionColors?: ColorValue[];
     stepHeight: number;
+    negativeStepHeight: number;
     labelsExtraHeight: number;
     yAxisLabelWidth: number;
     horizontal: boolean;
