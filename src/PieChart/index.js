@@ -17,14 +17,18 @@ var __read = (this && this.__read) || function (o, n) {
 import { useEffect, useState } from 'react';
 import { getTextSizeForPieLabels } from '../utils';
 export var usePieChart = function (props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v;
     var radius = (_a = props.radius) !== null && _a !== void 0 ? _a : 120;
     var extraRadiusForFocused = (_b = props.extraRadiusForFocused) !== null && _b !== void 0 ? _b : (((_c = props.focusOnPress) !== null && _c !== void 0 ? _c : props.sectionAutoFocus) ? radius / 10 : 0);
     var pi = props.semiCircle ? Math.PI / 2 : Math.PI;
-    var _v = __read(useState(-1), 2), selectedIndex = _v[0], setSelectedIndex = _v[1]; // at the start, nothing is selected
+    var _w = __read(useState((_d = props.focusedPieIndex) !== null && _d !== void 0 ? _d : -1), 2), selectedIndex = _w[0], setSelectedIndex = _w[1]; // at the start, nothing is selected
     // because we're going to use a useEffect, we need startAngle and total to be state variables
-    var _w = __read(useState((_d = props.initialAngle) !== null && _d !== void 0 ? _d : (props.semiCircle ? -pi : 0)), 2), startAngle = _w[0], setStartAngle = _w[1];
-    var _x = __read(useState(0), 2), total = _x[0], setTotal = _x[1];
+    var _x = __read(useState((_e = props.initialAngle) !== null && _e !== void 0 ? _e : (props.semiCircle ? -pi : 0)), 2), startAngle = _x[0], setStartAngle = _x[1];
+    var _y = __read(useState(0), 2), total = _y[0], setTotal = _y[1];
+    useEffect(function () {
+        var _a;
+        setSelectedIndex((_a = props.focusedPieIndex) !== null && _a !== void 0 ? _a : -1);
+    }, [props.focusedPieIndex]);
     useEffect(function () {
         var _a;
         // Update the total, this could be use to replace the forEach : const newTotal = props.data.reduce((acc, item) => acc + item.value, 0);
@@ -63,30 +67,30 @@ export var usePieChart = function (props) {
             }
         }
     }, [selectedIndex]);
-    var pro = props.pro, data = props.data, donut = props.donut, isThreeD = props.isThreeD, semiCircle = props.semiCircle, _y = props.inwardExtraLengthForFocused, inwardExtraLengthForFocused = _y === void 0 ? 0 : _y, _z = props.isAnimated, isAnimated = _z === void 0 ? false : _z, edgesRadius = props.edgesRadius;
-    var endAngle = (_e = props.endAngle) !== null && _e !== void 0 ? _e : startAngle + Math.PI * (semiCircle ? 1 : 2);
+    var pro = props.pro, data = props.data, donut = props.donut, isThreeD = props.isThreeD, semiCircle = props.semiCircle, _z = props.inwardExtraLengthForFocused, inwardExtraLengthForFocused = _z === void 0 ? 0 : _z, _0 = props.isAnimated, isAnimated = _0 === void 0 ? false : _0, edgesRadius = props.edgesRadius;
+    var endAngle = (_f = props.endAngle) !== null && _f !== void 0 ? _f : startAngle + Math.PI * (semiCircle ? 1 : 2);
     var canvasWidth = radius * 2;
     var canvasHeight = isThreeD ? radius * 2.3 : radius * 2;
-    var strokeWidth = (_f = props.strokeWidth) !== null && _f !== void 0 ? _f : 0;
-    var innerRadius = (_g = props.innerRadius) !== null && _g !== void 0 ? _g : radius / 2.5;
-    var innerCircleColor = (_j = (_h = props.innerCircleColor) !== null && _h !== void 0 ? _h : props.backgroundColor) !== null && _j !== void 0 ? _j : 'white';
-    var innerCircleBorderWidth = (_k = props.innerCircleBorderWidth) !== null && _k !== void 0 ? _k : (props.innerCircleBorderColor ? strokeWidth || 2 : 0);
-    var innerCircleBorderColor = (_l = props.innerCircleBorderColor) !== null && _l !== void 0 ? _l : 'lightgray';
-    var shiftInnerCenterX = (_m = props.shiftInnerCenterX) !== null && _m !== void 0 ? _m : 0;
-    var shiftInnerCenterY = (_o = props.shiftInnerCenterY) !== null && _o !== void 0 ? _o : 0;
-    var tiltAngle = (_p = props.tiltAngle) !== null && _p !== void 0 ? _p : '55deg';
+    var strokeWidth = (_g = props.strokeWidth) !== null && _g !== void 0 ? _g : 0;
+    var innerRadius = (_h = props.innerRadius) !== null && _h !== void 0 ? _h : radius / 2.5;
+    var innerCircleColor = (_k = (_j = props.innerCircleColor) !== null && _j !== void 0 ? _j : props.backgroundColor) !== null && _k !== void 0 ? _k : 'white';
+    var innerCircleBorderWidth = (_l = props.innerCircleBorderWidth) !== null && _l !== void 0 ? _l : (props.innerCircleBorderColor ? strokeWidth || 2 : 0);
+    var innerCircleBorderColor = (_m = props.innerCircleBorderColor) !== null && _m !== void 0 ? _m : 'lightgray';
+    var shiftInnerCenterX = (_o = props.shiftInnerCenterX) !== null && _o !== void 0 ? _o : 0;
+    var shiftInnerCenterY = (_p = props.shiftInnerCenterY) !== null && _p !== void 0 ? _p : 0;
+    var tiltAngle = (_q = props.tiltAngle) !== null && _q !== void 0 ? _q : '55deg';
     var isDataShifted = false;
     data.forEach(function (item) {
         if (item.shiftX || item.shiftY) {
             isDataShifted = true;
         }
     });
-    var textSize = getTextSizeForPieLabels((_q = props.textSize) !== null && _q !== void 0 ? _q : 0, radius);
-    var paddingHorizontal = ((_r = props.paddingHorizontal) !== null && _r !== void 0 ? _r : props.labelsPosition === 'onBorder')
-        ? ((_s = props.textBackgroundRadius) !== null && _s !== void 0 ? _s : textSize) * 2 + 6
+    var textSize = getTextSizeForPieLabels((_r = props.textSize) !== null && _r !== void 0 ? _r : 0, radius);
+    var paddingHorizontal = ((_s = props.paddingHorizontal) !== null && _s !== void 0 ? _s : props.labelsPosition === 'onBorder')
+        ? ((_t = props.textBackgroundRadius) !== null && _t !== void 0 ? _t : textSize) * 2 + 6
         : 0;
-    var paddingVertical = ((_t = props.paddingVertical) !== null && _t !== void 0 ? _t : props.labelsPosition === 'onBorder')
-        ? ((_u = props.textBackgroundRadius) !== null && _u !== void 0 ? _u : textSize) * 2 + 6
+    var paddingVertical = ((_u = props.paddingVertical) !== null && _u !== void 0 ? _u : props.labelsPosition === 'onBorder')
+        ? ((_v = props.textBackgroundRadius) !== null && _v !== void 0 ? _v : textSize) * 2 + 6
         : 0;
     return {
         radius: radius,

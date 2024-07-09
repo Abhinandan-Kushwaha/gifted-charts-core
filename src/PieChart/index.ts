@@ -44,12 +44,18 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     props.extraRadiusForFocused ??
     (props.focusOnPress ?? props.sectionAutoFocus ? radius / 10 : 0)
   const pi = props.semiCircle ? Math.PI / 2 : Math.PI
-  const [selectedIndex, setSelectedIndex] = useState(-1) // at the start, nothing is selected
+  const [selectedIndex, setSelectedIndex] = useState(
+    props.focusedPieIndex ?? -1
+  ) // at the start, nothing is selected
   // because we're going to use a useEffect, we need startAngle and total to be state variables
   const [startAngle, setStartAngle] = useState(
     props.initialAngle ?? (props.semiCircle ? -pi : 0)
   )
   const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    setSelectedIndex(props.focusedPieIndex ?? -1)
+  }, [props.focusedPieIndex])
 
   useEffect(() => {
     // Update the total, this could be use to replace the forEach : const newTotal = props.data.reduce((acc, item) => acc + item.value, 0);
