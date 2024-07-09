@@ -168,6 +168,7 @@ export const useBarAndLineChartsWrapper = (
     : [...Array(stackData ? stackData.length : data.length).keys()]
 
   const horizSectionProps: horizSectionPropTypes = {
+    chartType,
     width,
     horizSections,
     noOfSectionsBelowXAxis,

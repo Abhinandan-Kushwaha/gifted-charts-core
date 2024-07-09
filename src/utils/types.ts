@@ -125,6 +125,7 @@ export interface arrowConfigType {
 }
 
 export interface horizSectionPropTypes {
+  chartType: chartTypes
   width: number | undefined
   horizSections: any[]
   noOfSectionsBelowXAxis: number

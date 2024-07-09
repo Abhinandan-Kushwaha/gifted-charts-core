@@ -253,6 +253,9 @@ export var useLineChart = function (props) {
         animations.forEach(function (item, index) {
             item.addListener(function (val) {
                 var _a, _b, _c, _d, _e, _f, _g, _h;
+                if (typeof data[index] === 'undefined') {
+                    return;
+                }
                 var temp = (_b = (_a = data[index]) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : 0;
                 data[index].value = (_c = val === null || val === void 0 ? void 0 : val.value) !== null && _c !== void 0 ? _c : 0;
                 var pp = '';

@@ -91,6 +91,7 @@ export var useBarAndLineChartsWrapper = function (props) {
     var verticalLinesAr = noOfVerticalLines
         ? __spreadArray([], __read(Array(noOfVerticalLines).keys()), false) : __spreadArray([], __read(Array(stackData ? stackData.length : data.length).keys()), false);
     var horizSectionProps = {
+        chartType: chartType,
         width: width,
         horizSections: horizSections,
         noOfSectionsBelowXAxis: noOfSectionsBelowXAxis,
