@@ -81,17 +81,17 @@ export var useLineChartBiColor = function (props) {
     var areaChart = (_w = props.areaChart) !== null && _w !== void 0 ? _w : false;
     var textFontSize1 = (_x = props.textFontSize) !== null && _x !== void 0 ? _x : LineDefaults.textFontSize;
     var textColor1 = (_y = props.textColor) !== null && _y !== void 0 ? _y : LineDefaults.textColor;
-    var totalWidth = initialSpacing;
+    var totalWidth = initialSpacing + endSpacing;
     var maxItem = 0;
     var minItem = 0;
-    data.forEach(function (item) {
+    data.forEach(function (item, index) {
         if (item.value > maxItem) {
             maxItem = item.value;
         }
         if (item.value < minItem) {
             minItem = item.value;
         }
-        totalWidth += spacing;
+        totalWidth += index === data.length - 1 ? 0 : spacing;
     });
     if ((_z = props.showFractionalValues) !== null && _z !== void 0 ? _z : props.roundToDigits) {
         maxItem *= 10 * ((_0 = props.roundToDigits) !== null && _0 !== void 0 ? _0 : 1);

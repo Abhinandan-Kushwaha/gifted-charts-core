@@ -233,7 +233,7 @@ export var useLineChart = function (props) {
     var textColor3 = (_93 = (_92 = props.textColor3) !== null && _92 !== void 0 ? _92 : props.textColor) !== null && _93 !== void 0 ? _93 : LineDefaults.textColor;
     var textColor4 = (_95 = (_94 = props.textColor4) !== null && _94 !== void 0 ? _94 : props.textColor) !== null && _95 !== void 0 ? _95 : LineDefaults.textColor;
     var textColor5 = (_97 = (_96 = props.textColor5) !== null && _96 !== void 0 ? _96 : props.textColor) !== null && _97 !== void 0 ? _97 : LineDefaults.textColor;
-    var totalWidth = initialSpacing + spacing * (data0 !== null && data0 !== void 0 ? data0 : data).length;
+    var totalWidth = initialSpacing + spacing * (data0 !== null && data0 !== void 0 ? data0 : data).length - 1 + endSpacing;
     var _339 = computeMaxAndMinItems(data0 !== null && data0 !== void 0 ? data0 : data, props.roundToDigits, props.showFractionalValues), maxItem = _339.maxItem, minItem = _339.minItem;
     var maxValue = getMaxValue(props.maxValue, props.stepValue, noOfSections, maxItem);
     var mostNegativeValue = (_98 = props.mostNegativeValue) !== null && _98 !== void 0 ? _98 : minItem;

@@ -428,7 +428,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const textColor5 =
     props.textColor5 ?? props.textColor ?? LineDefaults.textColor
 
-  const totalWidth = initialSpacing + spacing * (data0 ?? data).length
+  const totalWidth =
+    initialSpacing + spacing * (data0 ?? data).length - 1 + endSpacing
 
   const { maxItem, minItem } = computeMaxAndMinItems(
     data0 ?? data,
@@ -469,7 +470,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   if (animateOnDataChange && animations) {
     animations.forEach((item, index) => {
       item.addListener((val) => {
-        if (typeof data[index] === 'undefined') { return; }
+        if (typeof data[index] === 'undefined') {
+          return
+        }
 
         const temp = data[index]?.value ?? 0
         data[index].value = val?.value ?? 0

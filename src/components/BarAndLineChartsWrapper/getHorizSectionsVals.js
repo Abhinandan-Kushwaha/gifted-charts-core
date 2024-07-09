@@ -112,7 +112,7 @@ export var getHorizSectionVals = function (props) {
     var showReferenceLine1 = referenceLinesConfig.showReferenceLine1, referenceLine1Position = referenceLinesConfig.referenceLine1Position, referenceLine1Config = referenceLinesConfig.referenceLine1Config, showReferenceLine2 = referenceLinesConfig.showReferenceLine2, referenceLine2Position = referenceLinesConfig.referenceLine2Position, referenceLine2Config = referenceLinesConfig.referenceLine2Config, showReferenceLine3 = referenceLinesConfig.showReferenceLine3, referenceLine3Position = referenceLinesConfig.referenceLine3Position, referenceLine3Config = referenceLinesConfig.referenceLine3Config;
     var defaultReferenceConfig = {
         thickness: rulesThickness,
-        width: (width || totalWidth - spacing) + endSpacing,
+        width: (width || totalWidth - endSpacing) + endSpacing,
         color: 'black',
         type: rulesType,
         dashWidth: dashWidth,
