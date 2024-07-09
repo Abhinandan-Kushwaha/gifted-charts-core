@@ -58,6 +58,7 @@ export interface PieChartPropsType {
     edgesRadius?: number;
     isAnimated?: boolean;
     animationDuration?: number;
+    focusedPieIndex?: number;
 }
 export interface pieDataItem {
     value: number;
