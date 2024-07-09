@@ -228,7 +228,7 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
 
   const defaultReferenceConfig = {
     thickness: rulesThickness,
-    width: (width || totalWidth - spacing) + endSpacing,
+    width: (width || totalWidth - endSpacing) + endSpacing,
     color: 'black',
     type: rulesType,
     dashWidth,

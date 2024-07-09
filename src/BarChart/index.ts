@@ -167,11 +167,11 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const labelsExtraHeight =
     props.labelsExtraHeight ?? AxesAndRulesDefaults.labelsExtraHeight
 
-  let totalWidth = initialSpacing
+  let totalWidth = initialSpacing + endSpacing
   let maxItem = 0
   let minItem = 0
   if (props.stackData) {
-    props.stackData.forEach((stackItem) => {
+    props.stackData.forEach((stackItem, index) => {
       const stackSumMax = stackItem.stacks.reduce(
         (acc, stack) => acc + (stack.value >= 0 ? stack.value : 0),
         0
@@ -190,10 +190,10 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }
       totalWidth +=
         (stackItem.stacks[0].barWidth ?? props.barWidth ?? defaultBarWidth) +
-        spacing
+        (index === data.length - 1 ? 0 : stackItem.spacing ?? spacing)
     })
   } else {
-    data.forEach((item: barDataItem) => {
+    data.forEach((item: barDataItem, index) => {
       if (item.value > maxItem) {
         maxItem = item.value
       }
@@ -202,7 +202,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }
       totalWidth +=
         (item.barWidth ?? props.barWidth ?? defaultBarWidth) +
-        (item.spacing ?? spacing)
+        (index === data.length - 1 ? spacing : item.spacing ?? spacing)
     })
   }
 
@@ -632,7 +632,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
   const animatedWidth = widthValue?.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, initialSpacing + totalWidth + endSpacing]
+    outputRange: [0, initialSpacing + totalWidth]
   })
 
   const getPropsCommonForBarAndStack = (item: any, index: number) => {

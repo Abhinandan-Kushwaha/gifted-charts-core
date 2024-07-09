@@ -99,17 +99,17 @@ export const useLineChartBiColor = (
   const textFontSize1 = props.textFontSize ?? LineDefaults.textFontSize
   const textColor1 = props.textColor ?? LineDefaults.textColor
 
-  let totalWidth = initialSpacing
+  let totalWidth = initialSpacing + endSpacing
   let maxItem = 0
   let minItem = 0
-  data.forEach((item: bicolorLineDataItem) => {
+  data.forEach((item: bicolorLineDataItem, index) => {
     if (item.value > maxItem) {
       maxItem = item.value
     }
     if (item.value < minItem) {
       minItem = item.value
     }
-    totalWidth += spacing
+    totalWidth += index === data.length - 1 ? 0 : spacing
   })
 
   if (props.showFractionalValues ?? props.roundToDigits) {

@@ -111,12 +111,12 @@ export var useBarChart = function (props) {
     var scrollAnimation = (_t = props.scrollAnimation) !== null && _t !== void 0 ? _t : BarDefaults.scrollAnimation;
     var scrollEventThrottle = (_u = props.scrollEventThrottle) !== null && _u !== void 0 ? _u : BarDefaults.scrollEventThrottle;
     var labelsExtraHeight = (_v = props.labelsExtraHeight) !== null && _v !== void 0 ? _v : AxesAndRulesDefaults.labelsExtraHeight;
-    var totalWidth = initialSpacing;
+    var totalWidth = initialSpacing + endSpacing;
     var maxItem = 0;
     var minItem = 0;
     if (props.stackData) {
-        props.stackData.forEach(function (stackItem) {
-            var _a, _b;
+        props.stackData.forEach(function (stackItem, index) {
+            var _a, _b, _c;
             var stackSumMax = stackItem.stacks.reduce(function (acc, stack) { return acc + (stack.value >= 0 ? stack.value : 0); }, 0);
             var stackSumMin = stackItem.stacks.reduce(function (acc, stack) { return acc + (stack.value < 0 ? stack.value : 0); }, 0);
             if (stackSumMax > maxItem) {
@@ -127,11 +127,11 @@ export var useBarChart = function (props) {
             }
             totalWidth +=
                 ((_b = (_a = stackItem.stacks[0].barWidth) !== null && _a !== void 0 ? _a : props.barWidth) !== null && _b !== void 0 ? _b : defaultBarWidth) +
-                    spacing;
+                    (index === data.length - 1 ? 0 : (_c = stackItem.spacing) !== null && _c !== void 0 ? _c : spacing);
         });
     }
     else {
-        data.forEach(function (item) {
+        data.forEach(function (item, index) {
             var _a, _b, _c;
             if (item.value > maxItem) {
                 maxItem = item.value;
@@ -141,7 +141,7 @@ export var useBarChart = function (props) {
             }
             totalWidth +=
                 ((_b = (_a = item.barWidth) !== null && _a !== void 0 ? _a : props.barWidth) !== null && _b !== void 0 ? _b : defaultBarWidth) +
-                    ((_c = item.spacing) !== null && _c !== void 0 ? _c : spacing);
+                    (index === data.length - 1 ? spacing : (_c = item.spacing) !== null && _c !== void 0 ? _c : spacing);
         });
     }
     var secondaryMaxItem = 0;
@@ -391,7 +391,7 @@ export var useBarChart = function (props) {
     });
     var animatedWidth = widthValue === null || widthValue === void 0 ? void 0 : widthValue.interpolate({
         inputRange: [0, 1],
-        outputRange: [0, initialSpacing + totalWidth + endSpacing]
+        outputRange: [0, initialSpacing + totalWidth]
     });
     var getPropsCommonForBarAndStack = function (item, index) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
