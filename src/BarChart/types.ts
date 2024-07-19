@@ -121,6 +121,7 @@ export interface StackedBarChartPropsType {
   renderTooltip: Function | undefined
   leftShiftForTooltip?: number
   leftShiftForLastIndexTooltip: number
+  autoCenterTooltip?: boolean
   initialSpacing: number
   selectedIndex: number
   setSelectedIndex: Function

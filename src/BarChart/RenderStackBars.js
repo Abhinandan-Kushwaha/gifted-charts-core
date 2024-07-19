@@ -16,8 +16,8 @@ var __read = (this && this.__read) || function (o, n) {
 };
 import { useState } from 'react';
 export var useRenderStackBars = function (props) {
-    var _a, _b, _c, _d, _e, _f;
-    var item = props.item, index = props.index, containerHeight = props.containerHeight, maxValue = props.maxValue, propSpacing = props.propSpacing, initialSpacing = props.initialSpacing, stackData = props.stackData, isAnimated = props.isAnimated, xAxisThickness = props.xAxisThickness;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var item = props.item, index = props.index, containerHeight = props.containerHeight, maxValue = props.maxValue, propSpacing = props.propSpacing, initialSpacing = props.initialSpacing, stackData = props.stackData, isAnimated = props.isAnimated, xAxisThickness = props.xAxisThickness, renderTooltip = props.renderTooltip, leftShiftForTooltip = props.leftShiftForTooltip, leftShiftForLastIndexTooltip = props.leftShiftForLastIndexTooltip, autoCenterTooltip = props.autoCenterTooltip, horizontal = props.horizontal;
     var cotainsNegative = item.stacks.some(function (item) { return item.value < 0; });
     var noAnimation = cotainsNegative || !isAnimated;
     var localBarInnerComponent = (_a = item.barInnerComponent) !== null && _a !== void 0 ? _a : props.barInnerComponent;
@@ -33,7 +33,7 @@ export var useRenderStackBars = function (props) {
         return acc +
             (Math.abs(stack.value) * (containerHeight !== null && containerHeight !== void 0 ? containerHeight : 200)) / (maxValue || 200);
     }, 0);
-    var _g = __read(useState(noAnimation ? totalHeight : 1), 2), height = _g[0], setHeight = _g[1];
+    var _j = __read(useState(noAnimation ? totalHeight : 1), 2), height = _j[0], setHeight = _j[1];
     var getBarHeight = function (value, marginBottom) {
         return ((Math.abs(value) * (containerHeight !== null && containerHeight !== void 0 ? containerHeight : 200)) / (maxValue || 200) -
             (marginBottom !== null && marginBottom !== void 0 ? marginBottom : 0));
@@ -76,6 +76,19 @@ export var useRenderStackBars = function (props) {
         };
         return borderRadii;
     };
+    var tooltipProps = {
+        barHeight: totalHeight,
+        barWidth: item.barWidth || props.barWidth || 30,
+        item: item,
+        index: index,
+        isLast: index === stackData.length - 1,
+        leftSpacing: leftSpacing,
+        leftShiftForLastIndexTooltip: leftShiftForLastIndexTooltip,
+        leftShiftForTooltip: (_h = (_g = item.leftShiftForTooltip) !== null && _g !== void 0 ? _g : leftShiftForTooltip) !== null && _h !== void 0 ? _h : 0,
+        renderTooltip: renderTooltip,
+        autoCenterTooltip: autoCenterTooltip,
+        horizontal: horizontal
+    };
     return {
         cotainsNegative: cotainsNegative,
         noAnimation: noAnimation,
@@ -94,6 +107,7 @@ export var useRenderStackBars = function (props) {
         getPosition: getPosition,
         getLowestPosition: getLowestPosition,
         lowestBarPosition: lowestBarPosition,
-        getStackBorderRadii: getStackBorderRadii
+        getStackBorderRadii: getStackBorderRadii,
+        tooltipProps: tooltipProps
     };
 };

@@ -24,4 +24,17 @@ export declare const useRenderStackBars: (props: StackedBarChartPropsType) => {
         borderBottomLeftRadius: number;
         borderBottomRightRadius: number;
     };
+    tooltipProps: {
+        barHeight: number;
+        barWidth: number;
+        item: stackDataItem;
+        index: number;
+        isLast: boolean;
+        leftSpacing: number;
+        leftShiftForLastIndexTooltip: number;
+        leftShiftForTooltip: number;
+        renderTooltip: Function | undefined;
+        autoCenterTooltip: boolean | undefined;
+        horizontal: boolean;
+    };
 };
