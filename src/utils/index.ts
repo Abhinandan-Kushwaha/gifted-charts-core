@@ -744,7 +744,7 @@ export const getAxesAndRulesProps = (
   if (
     (props.secondaryYAxis ?? props.lineConfig?.isSecondary) &&
     maxValue !== undefined &&
-    secondaryYAxis.maxValue === undefined
+    secondaryYAxis && secondaryYAxis.maxValue === undefined
   ) {
     axesAndRulesProps.secondaryYAxis = { ...secondaryYAxis, maxValue }
   }

@@ -1,4 +1,4 @@
-import { type ColorValue } from 'react-native'
+import { GestureResponderEvent, type ColorValue } from 'react-native'
 import { type yAxisSides } from '../utils/constants'
 import {
   type CurveType,
@@ -20,6 +20,7 @@ export interface LineChartPropsType {
   overflowTop?: number
   overflowBottom?: number
   noOfSections?: number
+  sectionColors?: ColorValue[]
   maxValue?: number
   mostNegativeValue?: number
   stepHeight?: number
@@ -125,6 +126,7 @@ export interface LineChartPropsType {
   pointerConfig?: Pointer
   showScrollIndicator?: boolean
   indicatorColor?: 'black' | 'default' | 'white'
+  nestedScrollEnabled?: boolean
 
   // Indices
 
@@ -329,6 +331,9 @@ export interface LineChartPropsType {
   interpolateMissingValues?: boolean
   onlyPositive?: boolean
   parentWidth?: number
+
+  onChartAreaPress?: (event: GestureResponderEvent) => void
+  onBackgroundPress?: (event: GestureResponderEvent) => void
 }
 
 export interface lineDataItem {
@@ -502,6 +507,7 @@ export interface LineChartBicolorPropsType {
   disableScroll?: boolean
   showScrollIndicator?: boolean
   indicatorColor?: 'black' | 'default' | 'white'
+  nestedScrollEnabled?: boolean
 
   // Indices
 

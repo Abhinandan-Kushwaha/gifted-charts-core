@@ -246,6 +246,7 @@ export interface BarAndLineChartsWrapperTypes {
     endReachedOffset: number;
     isRTL?: boolean;
     extraWidthDueToDataPoint?: number;
+    nestedScrollEnabled?: boolean;
 }
 export interface Pointer {
     height?: number;

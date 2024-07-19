@@ -30,7 +30,7 @@ import { getArrowPoints, getAxesAndRulesProps, getExtendedContainerHeightWithPad
 import { AxesAndRulesDefaults, BarDefaults, chartTypes, defaultLineConfig, defaultPointerConfig } from '../utils/constants';
 export var useBarChart = function (props) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47;
-    var heightValue = props.heightValue, widthValue = props.widthValue, opacValue = props.opacValue, yAxisOffset = props.yAxisOffset, adjustToWidth = props.adjustToWidth, parentWidth = props.parentWidth, labelsDistanceFromXaxis = props.labelsDistanceFromXaxis, autoShiftLabelsForNegativeStacks = props.autoShiftLabelsForNegativeStacks, focusedBarIndex = props.focusedBarIndex, negativeStepValue = props.negativeStepValue;
+    var heightValue = props.heightValue, widthValue = props.widthValue, opacValue = props.opacValue, yAxisOffset = props.yAxisOffset, adjustToWidth = props.adjustToWidth, parentWidth = props.parentWidth, labelsDistanceFromXaxis = props.labelsDistanceFromXaxis, autoShiftLabelsForNegativeStacks = props.autoShiftLabelsForNegativeStacks, focusedBarIndex = props.focusedBarIndex, negativeStepValue = props.negativeStepValue, autoCenterTooltip = props.autoCenterTooltip;
     var _48 = __read(useState(''), 2), points = _48[0], setPoints = _48[1];
     var _49 = __read(useState(''), 2), points2 = _49[0], setPoints2 = _49[1];
     var _50 = __read(useState(''), 2), arrowPoints = _50[0], setArrowPoints = _50[1];
@@ -396,7 +396,6 @@ export var useBarChart = function (props) {
     var getPropsCommonForBarAndStack = function (item, index) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         return {
-            key: index,
             item: item,
             index: index,
             containerHeight: containerHeight,
@@ -442,6 +441,7 @@ export var useBarChart = function (props) {
             xAxisLabelsVerticalShift: xAxisLabelsVerticalShift,
             renderTooltip: props.renderTooltip,
             leftShiftForTooltip: (_e = props.leftShiftForTooltip) !== null && _e !== void 0 ? _e : 0,
+            autoCenterTooltip: autoCenterTooltip,
             initialSpacing: initialSpacing,
             selectedIndex: selectedIndex,
             setSelectedIndex: setSelectedIndex,

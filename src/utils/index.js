@@ -545,7 +545,7 @@ export var getAxesAndRulesProps = function (props, stepValue, negativeStepValue,
     };
     if (((_c = props.secondaryYAxis) !== null && _c !== void 0 ? _c : (_d = props.lineConfig) === null || _d === void 0 ? void 0 : _d.isSecondary) &&
         maxValue !== undefined &&
-        secondaryYAxis.maxValue === undefined) {
+        secondaryYAxis && secondaryYAxis.maxValue === undefined) {
         axesAndRulesProps.secondaryYAxis = __assign(__assign({}, secondaryYAxis), { maxValue: maxValue });
     }
     return axesAndRulesProps;

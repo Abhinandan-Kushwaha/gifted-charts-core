@@ -1822,6 +1822,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     endSpacing,
     horizontalRulesStyle,
     noOfSections,
+    sectionColors: props.sectionColors,
     showFractionalValues,
 
     axesAndRulesProps: getAxesAndRulesProps(props, stepValue, undefined),

@@ -1,4 +1,4 @@
-import { type ColorValue } from 'react-native';
+import { GestureResponderEvent, type ColorValue } from 'react-native';
 import { type yAxisSides } from '../utils/constants';
 import { type CurveType, type DataSet, type EdgePosition, type HighlightedRange, type LineSegment, type Pointer, type RuleType, type RulesConfig, type arrowConfigType, type referenceConfigType, type secondaryLineConfigType, type secondaryYAxisType } from '../utils/types';
 export interface LineChartPropsType {
@@ -6,6 +6,7 @@ export interface LineChartPropsType {
     overflowTop?: number;
     overflowBottom?: number;
     noOfSections?: number;
+    sectionColors?: ColorValue[];
     maxValue?: number;
     mostNegativeValue?: number;
     stepHeight?: number;
@@ -107,6 +108,7 @@ export interface LineChartPropsType {
     pointerConfig?: Pointer;
     showScrollIndicator?: boolean;
     indicatorColor?: 'black' | 'default' | 'white';
+    nestedScrollEnabled?: boolean;
     showYAxisIndices?: boolean;
     showXAxisIndices?: boolean;
     yAxisIndicesHeight?: number;
@@ -295,6 +297,8 @@ export interface LineChartPropsType {
     interpolateMissingValues?: boolean;
     onlyPositive?: boolean;
     parentWidth?: number;
+    onChartAreaPress?: (event: GestureResponderEvent) => void;
+    onBackgroundPress?: (event: GestureResponderEvent) => void;
 }
 export interface lineDataItem {
     value: number;
@@ -451,6 +455,7 @@ export interface LineChartBicolorPropsType {
     disableScroll?: boolean;
     showScrollIndicator?: boolean;
     indicatorColor?: 'black' | 'default' | 'white';
+    nestedScrollEnabled?: boolean;
     showYAxisIndices?: boolean;
     showXAxisIndices?: boolean;
     yAxisIndicesHeight?: number;
