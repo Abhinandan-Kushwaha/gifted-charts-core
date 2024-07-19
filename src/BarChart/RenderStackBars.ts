@@ -11,7 +11,12 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     initialSpacing,
     stackData,
     isAnimated,
-    xAxisThickness
+    xAxisThickness,
+    renderTooltip,
+    leftShiftForTooltip,
+    leftShiftForLastIndexTooltip,
+    autoCenterTooltip,
+    horizontal
   } = props
   const cotainsNegative = item.stacks.some((item) => item.value < 0)
   const noAnimation = cotainsNegative || !isAnimated
@@ -117,6 +122,20 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     return borderRadii
   }
 
+  const tooltipProps = {
+    barHeight: totalHeight,
+    barWidth: item.barWidth || props.barWidth || 30,
+    item,
+    index,
+    isLast: index === stackData.length - 1,
+    leftSpacing,
+    leftShiftForLastIndexTooltip,
+    leftShiftForTooltip: item.leftShiftForTooltip ?? leftShiftForTooltip ?? 0,
+    renderTooltip,
+    autoCenterTooltip,
+    horizontal
+  }
+
   return {
     cotainsNegative,
     noAnimation,
@@ -135,6 +154,7 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     getPosition,
     getLowestPosition,
     lowestBarPosition,
-    getStackBorderRadii
+    getStackBorderRadii,
+    tooltipProps
   }
 }
