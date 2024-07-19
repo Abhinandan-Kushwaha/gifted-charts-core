@@ -119,7 +119,6 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
     getPointerProps: Function | null;
     pointerIndex: number;
     getPropsCommonForBarAndStack: (item: any, index: number) => {
-        key: number;
         item: any;
         index: number;
         containerHeight: number;
@@ -165,6 +164,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         xAxisLabelsVerticalShift: number;
         renderTooltip: Function | undefined;
         leftShiftForTooltip: number;
+        autoCenterTooltip: boolean | undefined;
         initialSpacing: number;
         selectedIndex: number;
         setSelectedIndex: import("react").Dispatch<import("react").SetStateAction<number>>;

@@ -1096,6 +1096,7 @@ export var useLineChart = function (props) {
         endSpacing: endSpacing,
         horizontalRulesStyle: horizontalRulesStyle,
         noOfSections: noOfSections,
+        sectionColors: props.sectionColors,
         showFractionalValues: showFractionalValues,
         axesAndRulesProps: getAxesAndRulesProps(props, stepValue, undefined),
         yAxisLabelTexts: props.yAxisLabelTexts,

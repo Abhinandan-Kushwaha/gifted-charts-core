@@ -240,6 +240,7 @@ export interface BarChartPropsType {
   disableScroll?: boolean
   showScrollIndicator?: boolean
   indicatorColor?: 'black' | 'default' | 'white'
+  nestedScrollEnabled?: boolean
   roundedTop?: boolean
   roundedBottom?: boolean
   disablePress?: boolean
@@ -300,6 +301,7 @@ export interface BarChartPropsType {
   onPressOut?: Function
   renderTooltip?: Function
   leftShiftForTooltip?: number
+  autoCenterTooltip?: boolean
   leftShiftForLastIndexTooltip?: number
   barStyle?: object
   barInnerComponent?: (
@@ -446,9 +448,11 @@ export interface barDataItem {
   patternId?: string
   barMarginBottom?: number
   leftShiftForTooltip?: number
+  autoCenterTooltip?: boolean
   barStyle?: object
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
   showXAxisIndex?: boolean
+  isSecondary?: boolean
 }
 
 export interface Animated2DWithGradientPropsType {
@@ -569,6 +573,7 @@ export interface RenderBarsPropsType {
   xAxisLabelsVerticalShift: number
   renderTooltip: Function | undefined
   leftShiftForTooltip?: number
+  autoCenterTooltip?: boolean
   leftShiftForLastIndexTooltip: number
   initialSpacing: number
   selectedIndex: number

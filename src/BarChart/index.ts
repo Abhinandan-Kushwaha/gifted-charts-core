@@ -52,7 +52,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     labelsDistanceFromXaxis,
     autoShiftLabelsForNegativeStacks,
     focusedBarIndex,
-    negativeStepValue
+    negativeStepValue,
+    autoCenterTooltip
   } = props
   const [points, setPoints] = useState('')
   const [points2, setPoints2] = useState('')
@@ -637,7 +638,6 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
   const getPropsCommonForBarAndStack = (item: any, index: number) => {
     return {
-      key: index,
       item,
       index,
       containerHeight,
@@ -684,6 +684,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       xAxisLabelsVerticalShift,
       renderTooltip: props.renderTooltip,
       leftShiftForTooltip: props.leftShiftForTooltip ?? 0,
+      autoCenterTooltip,
       initialSpacing,
       selectedIndex,
       setSelectedIndex,
