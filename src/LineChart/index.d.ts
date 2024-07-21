@@ -370,6 +370,7 @@ export declare const useLineChart: (props: extendedLineChartPropsType) => {
     stripWidth: number;
     stripColor: any;
     stripOpacity: number;
+    stripStrokeDashArray: number[] | undefined;
     unFocusOnPressOut: boolean;
     delayBeforeUnFocus: number;
     containerHeightIncludingBelowXAxis: number;
