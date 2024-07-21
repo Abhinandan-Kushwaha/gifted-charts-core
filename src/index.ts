@@ -128,8 +128,8 @@ export {
   type RuleType,
   type RuleTypes,
   type RulesConfig,
-  type CurveType,
-  type EdgePosition,
+  CurveType,
+  EdgePosition,
   type LabelsPosition,
   type PointerEvents,
   type secondaryYAxisType,
@@ -145,5 +145,5 @@ export {
   type LineSvgProps,
   type LineProperties,
   type DataSet,
-  type Framework
+  Framework
 } from './utils/types'
