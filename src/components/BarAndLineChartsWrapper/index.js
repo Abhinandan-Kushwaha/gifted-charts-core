@@ -37,7 +37,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import { useEffect, useState } from 'react';
 import { AxesAndRulesDefaults, BarDefaults } from '../../utils/constants';
 export var useBarAndLineChartsWrapper = function (props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11;
     var chartType = props.chartType, containerHeight = props.containerHeight, noOfSectionsBelowXAxis = props.noOfSectionsBelowXAxis, sectionColors = props.sectionColors, stepHeight = props.stepHeight, negativeStepHeight = props.negativeStepHeight, labelsExtraHeight = props.labelsExtraHeight, yAxisLabelWidth = props.yAxisLabelWidth, horizontal = props.horizontal, rtl = props.rtl, shiftX = props.shiftX, shiftY = props.shiftY, initialSpacing = props.initialSpacing, data = props.data, stackData = props.stackData, secondaryData = props.secondaryData, barWidth = props.barWidth, xAxisThickness = props.xAxisThickness, totalWidth = props.totalWidth, spacing = props.spacing, lineConfig = props.lineConfig, lineConfig2 = props.lineConfig2, maxValue = props.maxValue, lineData = props.lineData, lineData2 = props.lineData2, animatedWidth = props.animatedWidth, lineBehindBars = props.lineBehindBars, points = props.points, points2 = props.points2, arrowPoints = props.arrowPoints, width = props.width, horizSections = props.horizSections, endSpacing = props.endSpacing, horizontalRulesStyle = props.horizontalRulesStyle, noOfSections = props.noOfSections, showFractionalValues = props.showFractionalValues, axesAndRulesProps = props.axesAndRulesProps, yAxisLabelTexts = props.yAxisLabelTexts, yAxisOffset = props.yAxisOffset, rotateYAxisTexts = props.rotateYAxisTexts, pointerConfig = props.pointerConfig, getPointerProps = props.getPointerProps, pointerIndex = props.pointerIndex, pointerX = props.pointerX, pointerY = props.pointerY, scrollEventThrottle = props.scrollEventThrottle, endReachedOffset = props.endReachedOffset, isRTL = props.isRTL;
     var yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop;
     var hideOrigin = (_a = axesAndRulesProps.hideOrigin) !== null && _a !== void 0 ? _a : AxesAndRulesDefaults.hideOrigin;
@@ -46,48 +46,49 @@ export var useBarAndLineChartsWrapper = function (props) {
     var yAxisColor = (_c = axesAndRulesProps.yAxisColor) !== null && _c !== void 0 ? _c : AxesAndRulesDefaults.yAxisColor;
     var yAxisExtraHeight = (_d = axesAndRulesProps.yAxisExtraHeight) !== null && _d !== void 0 ? _d : containerHeight / 20;
     var trimYAxisAtTop = (_e = axesAndRulesProps.trimYAxisAtTop) !== null && _e !== void 0 ? _e : AxesAndRulesDefaults.trimYAxisAtTop;
-    var overflowTop = (_f = axesAndRulesProps.overflowTop) !== null && _f !== void 0 ? _f : AxesAndRulesDefaults.overflowTop;
-    var yAxisThickness = (_g = axesAndRulesProps.yAxisThickness) !== null && _g !== void 0 ? _g : AxesAndRulesDefaults.yAxisThickness;
-    var xAxisColor = (_h = axesAndRulesProps.xAxisColor) !== null && _h !== void 0 ? _h : AxesAndRulesDefaults.xAxisColor;
+    var overflowTop = axesAndRulesProps.overflowTop;
+    var yAxisThickness = (_f = axesAndRulesProps.yAxisThickness) !== null && _f !== void 0 ? _f : AxesAndRulesDefaults.yAxisThickness;
+    var xAxisColor = (_g = axesAndRulesProps.xAxisColor) !== null && _g !== void 0 ? _g : AxesAndRulesDefaults.xAxisColor;
     var xAxisLength = axesAndRulesProps.xAxisLength;
-    var xAxisType = (_j = axesAndRulesProps.xAxisType) !== null && _j !== void 0 ? _j : AxesAndRulesDefaults.xAxisType;
-    var xAxisLabelsVerticalShift = (_k = axesAndRulesProps.xAxisLabelsVerticalShift) !== null && _k !== void 0 ? _k : AxesAndRulesDefaults.xAxisLabelsVerticalShift;
+    var xAxisType = (_h = axesAndRulesProps.xAxisType) !== null && _h !== void 0 ? _h : AxesAndRulesDefaults.xAxisType;
+    var xAxisLabelsVerticalShift = (_j = axesAndRulesProps.xAxisLabelsVerticalShift) !== null && _j !== void 0 ? _j : AxesAndRulesDefaults.xAxisLabelsVerticalShift;
     var xAxisLabelsHeight = axesAndRulesProps.xAxisLabelsHeight;
     var xAxisTextNumberOfLines = axesAndRulesProps.xAxisTextNumberOfLines;
-    var dashWidth = (_l = axesAndRulesProps.dashWidth) !== null && _l !== void 0 ? _l : AxesAndRulesDefaults.dashWidth;
-    var dashGap = (_m = axesAndRulesProps.dashGap) !== null && _m !== void 0 ? _m : AxesAndRulesDefaults.dashGap;
-    var backgroundColor = (_o = axesAndRulesProps.backgroundColor) !== null && _o !== void 0 ? _o : AxesAndRulesDefaults.backgroundColor;
-    var hideRules = (_p = axesAndRulesProps.hideRules) !== null && _p !== void 0 ? _p : AxesAndRulesDefaults.hideRules;
+    var dashWidth = (_k = axesAndRulesProps.dashWidth) !== null && _k !== void 0 ? _k : AxesAndRulesDefaults.dashWidth;
+    var dashGap = (_l = axesAndRulesProps.dashGap) !== null && _l !== void 0 ? _l : AxesAndRulesDefaults.dashGap;
+    var backgroundColor = (_m = axesAndRulesProps.backgroundColor) !== null && _m !== void 0 ? _m : AxesAndRulesDefaults.backgroundColor;
+    var hideRules = (_o = axesAndRulesProps.hideRules) !== null && _o !== void 0 ? _o : AxesAndRulesDefaults.hideRules;
     var rulesLength = axesAndRulesProps.rulesLength;
-    var rulesType = (_q = axesAndRulesProps.rulesType) !== null && _q !== void 0 ? _q : AxesAndRulesDefaults.rulesType;
-    var rulesThickness = (_r = axesAndRulesProps.rulesThickness) !== null && _r !== void 0 ? _r : AxesAndRulesDefaults.rulesThickness;
-    var rulesColor = (_s = axesAndRulesProps.rulesColor) !== null && _s !== void 0 ? _s : AxesAndRulesDefaults.rulesColor;
-    var rulesConfigArray = (_t = axesAndRulesProps.rulesConfigArray) !== null && _t !== void 0 ? _t : AxesAndRulesDefaults.rulesConfigArray;
-    var showYAxisIndices = (_u = axesAndRulesProps.showYAxisIndices) !== null && _u !== void 0 ? _u : false;
-    var yAxisIndicesHeight = (_v = axesAndRulesProps.yAxisIndicesHeight) !== null && _v !== void 0 ? _v : AxesAndRulesDefaults.yAxisIndicesHeight;
-    var yAxisIndicesWidth = (_w = axesAndRulesProps.yAxisIndicesWidth) !== null && _w !== void 0 ? _w : AxesAndRulesDefaults.yAxisIndicesWidth;
-    var yAxisIndicesColor = (_x = axesAndRulesProps.yAxisIndicesColor) !== null && _x !== void 0 ? _x : AxesAndRulesDefaults.yAxisIndicesColor;
-    var hideYAxisText = (_y = axesAndRulesProps.hideYAxisText) !== null && _y !== void 0 ? _y : AxesAndRulesDefaults.hideYAxisText;
-    var yAxisTextNumberOfLines = (_z = axesAndRulesProps.yAxisTextNumberOfLines) !== null && _z !== void 0 ? _z : AxesAndRulesDefaults.yAxisTextNumberOfLines;
-    var yAxisLabelPrefix = (_0 = axesAndRulesProps.yAxisLabelPrefix) !== null && _0 !== void 0 ? _0 : '';
-    var yAxisLabelSuffix = (_1 = axesAndRulesProps.yAxisLabelSuffix) !== null && _1 !== void 0 ? _1 : '';
+    var rulesType = (_p = axesAndRulesProps.rulesType) !== null && _p !== void 0 ? _p : AxesAndRulesDefaults.rulesType;
+    var rulesThickness = (_q = axesAndRulesProps.rulesThickness) !== null && _q !== void 0 ? _q : AxesAndRulesDefaults.rulesThickness;
+    var rulesColor = (_r = axesAndRulesProps.rulesColor) !== null && _r !== void 0 ? _r : AxesAndRulesDefaults.rulesColor;
+    var rulesConfigArray = (_s = axesAndRulesProps.rulesConfigArray) !== null && _s !== void 0 ? _s : AxesAndRulesDefaults.rulesConfigArray;
+    var showYAxisIndices = (_t = axesAndRulesProps.showYAxisIndices) !== null && _t !== void 0 ? _t : false;
+    var yAxisIndicesHeight = (_u = axesAndRulesProps.yAxisIndicesHeight) !== null && _u !== void 0 ? _u : AxesAndRulesDefaults.yAxisIndicesHeight;
+    var yAxisIndicesWidth = (_v = axesAndRulesProps.yAxisIndicesWidth) !== null && _v !== void 0 ? _v : AxesAndRulesDefaults.yAxisIndicesWidth;
+    var yAxisIndicesColor = (_w = axesAndRulesProps.yAxisIndicesColor) !== null && _w !== void 0 ? _w : AxesAndRulesDefaults.yAxisIndicesColor;
+    var hideYAxisText = (_x = axesAndRulesProps.hideYAxisText) !== null && _x !== void 0 ? _x : AxesAndRulesDefaults.hideYAxisText;
+    var yAxisTextNumberOfLines = (_y = axesAndRulesProps.yAxisTextNumberOfLines) !== null && _y !== void 0 ? _y : AxesAndRulesDefaults.yAxisTextNumberOfLines;
+    var yAxisLabelPrefix = (_z = axesAndRulesProps.yAxisLabelPrefix) !== null && _z !== void 0 ? _z : '';
+    var yAxisLabelSuffix = (_0 = axesAndRulesProps.yAxisLabelSuffix) !== null && _0 !== void 0 ? _0 : '';
     var yAxisTextStyle = axesAndRulesProps.yAxisTextStyle;
     var secondaryYAxis = axesAndRulesProps.secondaryYAxis;
     var stepValue = axesAndRulesProps.stepValue;
     var negativeStepValue = axesAndRulesProps.negativeStepValue;
     var roundToDigits = axesAndRulesProps.roundToDigits;
     var referenceLinesConfig = axesAndRulesProps.referenceLinesConfig;
-    var referenceLinesOverChartContent = (_2 = referenceLinesConfig.referenceLinesOverChartContent) !== null && _2 !== void 0 ? _2 : AxesAndRulesDefaults.referenceLinesOverChartContent;
-    var showVerticalLines = (_3 = axesAndRulesProps.showVerticalLines) !== null && _3 !== void 0 ? _3 : AxesAndRulesDefaults.showVerticalLines;
-    var verticalLinesThickness = (_4 = axesAndRulesProps.verticalLinesThickness) !== null && _4 !== void 0 ? _4 : AxesAndRulesDefaults.verticalLinesThickness;
+    var referenceLinesOverChartContent = (_1 = referenceLinesConfig.referenceLinesOverChartContent) !== null && _1 !== void 0 ? _1 : AxesAndRulesDefaults.referenceLinesOverChartContent;
+    var showVerticalLines = (_2 = axesAndRulesProps.showVerticalLines) !== null && _2 !== void 0 ? _2 : AxesAndRulesDefaults.showVerticalLines;
+    var verticalLinesThickness = (_3 = axesAndRulesProps.verticalLinesThickness) !== null && _3 !== void 0 ? _3 : AxesAndRulesDefaults.verticalLinesThickness;
     var verticalLinesHeight = axesAndRulesProps.verticalLinesHeight;
-    var verticalLinesColor = (_5 = axesAndRulesProps.verticalLinesColor) !== null && _5 !== void 0 ? _5 : AxesAndRulesDefaults.verticalLinesColor;
-    var verticalLinesStrokeDashArray = (_6 = axesAndRulesProps.verticalLinesStrokeDashArray) !== null && _6 !== void 0 ? _6 : AxesAndRulesDefaults.verticalLinesStrokeDashArray;
-    var verticalLinesShift = (_7 = axesAndRulesProps.verticalLinesShift) !== null && _7 !== void 0 ? _7 : AxesAndRulesDefaults.verticalLinesShift;
-    var verticalLinesZIndex = (_8 = axesAndRulesProps.verticalLinesZIndex) !== null && _8 !== void 0 ? _8 : AxesAndRulesDefaults.verticalLinesZIndex;
-    var verticalLinesSpacing = (_9 = axesAndRulesProps.verticalLinesSpacing) !== null && _9 !== void 0 ? _9 : AxesAndRulesDefaults.verticalLinesSpacing;
-    var verticalLinesUptoDataPoint = (_10 = axesAndRulesProps.verticalLinesUptoDataPoint) !== null && _10 !== void 0 ? _10 : AxesAndRulesDefaults.verticalLinesUptoDataPoint;
+    var verticalLinesColor = (_4 = axesAndRulesProps.verticalLinesColor) !== null && _4 !== void 0 ? _4 : AxesAndRulesDefaults.verticalLinesColor;
+    var verticalLinesStrokeDashArray = (_5 = axesAndRulesProps.verticalLinesStrokeDashArray) !== null && _5 !== void 0 ? _5 : AxesAndRulesDefaults.verticalLinesStrokeDashArray;
+    var verticalLinesShift = (_6 = axesAndRulesProps.verticalLinesShift) !== null && _6 !== void 0 ? _6 : AxesAndRulesDefaults.verticalLinesShift;
+    var verticalLinesZIndex = (_7 = axesAndRulesProps.verticalLinesZIndex) !== null && _7 !== void 0 ? _7 : AxesAndRulesDefaults.verticalLinesZIndex;
+    var verticalLinesSpacing = (_8 = axesAndRulesProps.verticalLinesSpacing) !== null && _8 !== void 0 ? _8 : AxesAndRulesDefaults.verticalLinesSpacing;
+    var verticalLinesUptoDataPoint = (_9 = axesAndRulesProps.verticalLinesUptoDataPoint) !== null && _9 !== void 0 ? _9 : AxesAndRulesDefaults.verticalLinesUptoDataPoint;
     var noOfVerticalLines = axesAndRulesProps.noOfVerticalLines;
+    var secondaryXAxis = axesAndRulesProps.secondaryXAxis;
     var verticalLinesAr = noOfVerticalLines
         ? __spreadArray([], __read(Array(noOfVerticalLines).keys()), false) : __spreadArray([], __read(Array(stackData ? stackData.length : data.length).keys()), false);
     var horizSectionProps = {
@@ -149,7 +150,8 @@ export var useBarAndLineChartsWrapper = function (props) {
         roundToDigits: roundToDigits,
         secondaryData: secondaryData,
         secondaryYAxis: secondaryYAxis,
-        formatYLabel: axesAndRulesProps.formatYLabel
+        formatYLabel: axesAndRulesProps.formatYLabel,
+        secondaryXAxis: secondaryXAxis
     };
     var lineInBarChartProps = {
         yAxisLabelWidth: yAxisLabelWidth,
@@ -157,7 +159,7 @@ export var useBarAndLineChartsWrapper = function (props) {
         spacing: spacing,
         containerHeight: containerHeight,
         lineConfig: lineConfig,
-        maxValue: (_11 = secondaryYAxis === null || secondaryYAxis === void 0 ? void 0 : secondaryYAxis.maxValue) !== null && _11 !== void 0 ? _11 : maxValue,
+        maxValue: (_10 = secondaryYAxis === null || secondaryYAxis === void 0 ? void 0 : secondaryYAxis.maxValue) !== null && _10 !== void 0 ? _10 : maxValue,
         animatedWidth: animatedWidth,
         lineBehindBars: lineBehindBars,
         points: points,
@@ -175,7 +177,7 @@ export var useBarAndLineChartsWrapper = function (props) {
     var verticalLinesProps = {
         verticalLinesAr: verticalLinesAr,
         verticalLinesSpacing: verticalLinesSpacing,
-        spacing: (_12 = lineConfig === null || lineConfig === void 0 ? void 0 : lineConfig.spacing) !== null && _12 !== void 0 ? _12 : spacing,
+        spacing: (_11 = lineConfig === null || lineConfig === void 0 ? void 0 : lineConfig.spacing) !== null && _11 !== void 0 ? _11 : spacing,
         initialSpacing: initialSpacing,
         verticalLinesZIndex: verticalLinesZIndex,
         verticalLinesHeight: verticalLinesHeight,
@@ -229,7 +231,7 @@ export var useBarAndLineChartsWrapper = function (props) {
                 : difBwWidthHeight - 40) /
             2 +
         (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52), ")");
-    var _13 = __read(useState(false), 2), canMomentum = _13[0], setCanMomentum = _13[1];
+    var _12 = __read(useState(false), 2), canMomentum = _12[0], setCanMomentum = _12[1];
     var isCloseToEnd = function (_a) {
         var layoutMeasurement = _a.layoutMeasurement, contentOffset = _a.contentOffset, contentSize = _a.contentSize;
         return isRTL

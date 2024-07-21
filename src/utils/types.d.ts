@@ -30,6 +30,14 @@ export interface RulesConfig {
     dashWidth?: number;
     dashGap?: number;
 }
+export interface XAxisConfig {
+    thickness?: number;
+    color?: ColorValue;
+    labelsDistanceFromXaxis?: number;
+    labelsHeight?: number;
+    labelsTextStyle?: any;
+    labelTexts?: string[];
+}
 export type PointerEvents = 'box-none' | 'none' | 'box-only' | 'auto';
 export interface secondaryYAxisType {
     noOfSections?: number;
@@ -171,6 +179,7 @@ export interface horizSectionPropTypes {
     formatYLabel?: (label: string) => string;
     onlyReferenceLines?: boolean;
     renderReferenceLines?: boolean;
+    secondaryXAxis?: XAxisConfig;
 }
 interface HorizSectionObject {
     value: string;

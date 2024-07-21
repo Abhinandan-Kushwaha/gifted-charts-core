@@ -476,7 +476,7 @@ export var getArrowPoints = function (arrowTipX, arrowTipY, x1, y1, arrowLength,
     return arrowPoints;
 };
 export var getAxesAndRulesProps = function (props, stepValue, negativeStepValue, maxValue) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
     var secondaryYAxis = !props.secondaryYAxis || props.secondaryYAxis === true
         ? {}
         : props.secondaryYAxis;
@@ -486,13 +486,15 @@ export var getAxesAndRulesProps = function (props, stepValue, negativeStepValue,
         yAxisColor: props.yAxisColor,
         yAxisExtraHeight: props.yAxisExtraHeight,
         trimYAxisAtTop: props.trimYAxisAtTop,
-        overflowTop: props.overflowTop,
+        overflowTop: ((_a = props.overflowTop) !== null && _a !== void 0 ? _a : props.secondaryXAxis)
+            ? AxesAndRulesDefaults.overflowTopWithSecondaryXAxis
+            : AxesAndRulesDefaults.overflowTop,
         yAxisThickness: props.yAxisThickness,
         xAxisColor: props.xAxisColor,
         xAxisLength: props.xAxisLength,
         xAxisType: props.xAxisType,
-        xAxisTextNumberOfLines: (_a = props.xAxisTextNumberOfLines) !== null && _a !== void 0 ? _a : 1,
-        xAxisThickness: (_b = props.xAxisThickness) !== null && _b !== void 0 ? _b : AxesAndRulesDefaults.xAxisThickness,
+        xAxisTextNumberOfLines: (_b = props.xAxisTextNumberOfLines) !== null && _b !== void 0 ? _b : 1,
+        xAxisThickness: (_c = props.xAxisThickness) !== null && _c !== void 0 ? _c : AxesAndRulesDefaults.xAxisThickness,
         xAxisLabelsHeight: props.xAxisLabelsHeight,
         xAxisLabelsVerticalShift: props.xAxisLabelsVerticalShift,
         dashWidth: props.dashWidth,
@@ -541,11 +543,13 @@ export var getAxesAndRulesProps = function (props, stepValue, negativeStepValue,
         stepValue: stepValue,
         negativeStepValue: negativeStepValue !== null && negativeStepValue !== void 0 ? negativeStepValue : stepValue,
         secondaryYAxis: props.secondaryYAxis,
-        formatYLabel: props.formatYLabel
+        formatYLabel: props.formatYLabel,
+        secondaryXAxis: props.secondaryXAxis
     };
-    if (((_c = props.secondaryYAxis) !== null && _c !== void 0 ? _c : (_d = props.lineConfig) === null || _d === void 0 ? void 0 : _d.isSecondary) &&
+    if (((_d = props.secondaryYAxis) !== null && _d !== void 0 ? _d : (_e = props.lineConfig) === null || _e === void 0 ? void 0 : _e.isSecondary) &&
         maxValue !== undefined &&
-        secondaryYAxis && secondaryYAxis.maxValue === undefined) {
+        secondaryYAxis &&
+        secondaryYAxis.maxValue === undefined) {
         axesAndRulesProps.secondaryYAxis = __assign(__assign({}, secondaryYAxis), { maxValue: maxValue });
     }
     return axesAndRulesProps;

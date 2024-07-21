@@ -172,7 +172,9 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         noOfSectionsBelowXAxis: number;
         leftShiftForLastIndexTooltip: number;
         label: any;
+        secondaryLabel: any;
         labelTextStyle: any;
+        secondaryLabelTextStyle: any;
         pointerConfig: import("../utils/types").Pointer | undefined;
         yAxisExtraHeightAtTop: number;
         yAxisOffset: number;
@@ -181,6 +183,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         stepValue: number;
         negativeStepHeight: number;
         negativeStepValue: number;
+        secondaryXAxis: import("../utils/types").XAxisConfig | undefined;
     };
     barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes;
     yAxisExtraHeightAtTop: number;

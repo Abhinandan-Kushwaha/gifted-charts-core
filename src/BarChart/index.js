@@ -394,7 +394,7 @@ export var useBarChart = function (props) {
         outputRange: [0, initialSpacing + totalWidth]
     });
     var getPropsCommonForBarAndStack = function (item, index) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v;
         return {
             item: item,
             index: index,
@@ -449,15 +449,18 @@ export var useBarChart = function (props) {
             noOfSectionsBelowXAxis: noOfSectionsBelowXAxis,
             leftShiftForLastIndexTooltip: (_g = props.leftShiftForLastIndexTooltip) !== null && _g !== void 0 ? _g : 0,
             label: (_h = item.label) !== null && _h !== void 0 ? _h : (((_j = props.xAxisLabelTexts) === null || _j === void 0 ? void 0 : _j[index]) ? props.xAxisLabelTexts[index] : ''),
-            labelTextStyle: (_k = item.labelTextStyle) !== null && _k !== void 0 ? _k : props.xAxisLabelTextStyle,
+            secondaryLabel: (_o = (_k = item.secondaryLabel) !== null && _k !== void 0 ? _k : (_m = (_l = props.secondaryXAxis) === null || _l === void 0 ? void 0 : _l.labelTexts) === null || _m === void 0 ? void 0 : _m[index]) !== null && _o !== void 0 ? _o : '',
+            labelTextStyle: (_p = item.labelTextStyle) !== null && _p !== void 0 ? _p : props.xAxisLabelTextStyle,
+            secondaryLabelTextStyle: (_t = (_s = (_q = item.secondaryLabelTextStyle) !== null && _q !== void 0 ? _q : (_r = props.secondaryXAxis) === null || _r === void 0 ? void 0 : _r.labelsTextStyle) !== null && _s !== void 0 ? _s : item.labelTextStyle) !== null && _t !== void 0 ? _t : props.xAxisLabelTextStyle,
             pointerConfig: pointerConfig,
             yAxisExtraHeightAtTop: yAxisExtraHeightAtTop,
             yAxisOffset: yAxisOffset !== null && yAxisOffset !== void 0 ? yAxisOffset : 0,
             focusedBarIndex: focusedBarIndex,
             stepHeight: stepHeight,
             stepValue: stepValue,
-            negativeStepHeight: (_l = props.negativeStepHeight) !== null && _l !== void 0 ? _l : stepHeight,
-            negativeStepValue: (_m = props.negativeStepValue) !== null && _m !== void 0 ? _m : stepValue
+            negativeStepHeight: (_u = props.negativeStepHeight) !== null && _u !== void 0 ? _u : stepHeight,
+            negativeStepValue: (_v = props.negativeStepValue) !== null && _v !== void 0 ? _v : stepValue,
+            secondaryXAxis: props.secondaryXAxis
         };
     };
     var barAndLineChartsWrapperProps = {

@@ -30,6 +30,7 @@ export declare const AxesAndRulesDefaults: {
     yAxisThickness: number;
     trimYAxisAtTop: boolean;
     overflowTop: number;
+    overflowTopWithSecondaryXAxis: number;
     xAxisColor: string;
     xAxisThickness: number;
     xAxisType: string;

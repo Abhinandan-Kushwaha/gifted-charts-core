@@ -1,6 +1,7 @@
 import { GestureResponderEvent, type ColorValue } from 'react-native'
 import { type yAxisSides } from '../utils/constants'
 import {
+  XAxisConfig,
   type CurveType,
   type DataSet,
   type EdgePosition,
@@ -334,6 +335,8 @@ export interface LineChartPropsType {
 
   onChartAreaPress?: (event: GestureResponderEvent) => void
   onBackgroundPress?: (event: GestureResponderEvent) => void
+
+  secondaryXAxis?: XAxisConfig
 }
 
 export interface lineDataItem {
@@ -341,6 +344,9 @@ export interface lineDataItem {
   label?: string
   labelComponent?: Function
   labelTextStyle?: any
+  secondaryLabel?: string
+  secondaryLabelComponent?: Function
+  secondaryLabelTextStyle?: any
   dataPointText?: string
   textShiftX?: number
   textShiftY?: number

@@ -78,8 +78,7 @@ export const useBarAndLineChartsWrapper = (
     axesAndRulesProps.yAxisExtraHeight ?? containerHeight / 20
   const trimYAxisAtTop =
     axesAndRulesProps.trimYAxisAtTop ?? AxesAndRulesDefaults.trimYAxisAtTop
-  const overflowTop =
-    axesAndRulesProps.overflowTop ?? AxesAndRulesDefaults.overflowTop
+  const overflowTop = axesAndRulesProps.overflowTop
   const yAxisThickness =
     axesAndRulesProps.yAxisThickness ?? AxesAndRulesDefaults.yAxisThickness
   const xAxisColor =
@@ -162,6 +161,7 @@ export const useBarAndLineChartsWrapper = (
     axesAndRulesProps.verticalLinesUptoDataPoint ??
     AxesAndRulesDefaults.verticalLinesUptoDataPoint
   const noOfVerticalLines = axesAndRulesProps.noOfVerticalLines
+  const secondaryXAxis = axesAndRulesProps.secondaryXAxis
 
   const verticalLinesAr = noOfVerticalLines
     ? [...Array(noOfVerticalLines).keys()]
@@ -233,7 +233,8 @@ export const useBarAndLineChartsWrapper = (
 
     secondaryData,
     secondaryYAxis,
-    formatYLabel: axesAndRulesProps.formatYLabel
+    formatYLabel: axesAndRulesProps.formatYLabel,
+    secondaryXAxis
   }
 
   const lineInBarChartProps = {

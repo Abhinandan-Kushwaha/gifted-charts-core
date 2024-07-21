@@ -40,6 +40,7 @@ export var AxesAndRulesDefaults = {
     yAxisThickness: 1,
     trimYAxisAtTop: false,
     overflowTop: 0,
+    overflowTopWithSecondaryXAxis: 30,
     xAxisColor: 'black',
     xAxisThickness: 1,
     xAxisType: ruleTypes.SOLID,

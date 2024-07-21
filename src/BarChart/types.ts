@@ -5,6 +5,7 @@ import {
 } from 'react-native'
 import { type yAxisSides } from '../utils/constants'
 import {
+  XAxisConfig,
   type CurveType,
   type Pointer,
   type RuleType,
@@ -328,6 +329,7 @@ export interface BarChartPropsType {
 
   adjustToWidth?: boolean
   parentWidth?: number
+  secondaryXAxis?: XAxisConfig
 }
 
 export interface FocusedBarConfig {
@@ -445,6 +447,9 @@ export interface barDataItem {
   topLabelComponentHeight?: number
   spacing?: number
   labelWidth?: number
+  secondaryLabel?: string
+  secondaryLabelComponent?: Function
+  secondaryLabelTextStyle?: any
   barBackgroundPattern?: () => ReactNode
   patternId?: string
   barMarginBottom?: number
@@ -515,10 +520,12 @@ export interface RenderBarsPropsType {
   opacity?: number
   side?: string
   labelTextStyle?: any
+  secondaryLabelTextStyle?: any
 
   item: barDataItem
   index: number
   label: string
+  secondaryLabel: string
   containerHeight?: number
   maxValue: number
   spacing: number
@@ -590,6 +597,7 @@ export interface RenderBarsPropsType {
   stepValue: number
   negativeStepHeight: number
   negativeStepValue: number
+  secondaryXAxis?: XAxisConfig
 }
 
 export interface trianglePropTypes {

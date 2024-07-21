@@ -237,7 +237,9 @@ export var useLineChart = function (props) {
     var _339 = computeMaxAndMinItems(data0 !== null && data0 !== void 0 ? data0 : data, props.roundToDigits, props.showFractionalValues), maxItem = _339.maxItem, minItem = _339.minItem;
     var maxValue = getMaxValue(props.maxValue, props.stepValue, noOfSections, maxItem);
     var mostNegativeValue = (_98 = props.mostNegativeValue) !== null && _98 !== void 0 ? _98 : minItem;
-    var overflowTop = (_99 = props.overflowTop) !== null && _99 !== void 0 ? _99 : 0;
+    var overflowTop = ((_99 = props.overflowTop) !== null && _99 !== void 0 ? _99 : props.secondaryXAxis)
+        ? AxesAndRulesDefaults.overflowTopWithSecondaryXAxis
+        : AxesAndRulesDefaults.overflowTop;
     var extendedContainerHeight = getExtendedContainerHeightWithPadding(containerHeight, overflowTop);
     var getX = function (index) { return initialSpacing + spacing * index - 1; };
     var getY = function (value) {

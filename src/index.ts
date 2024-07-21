@@ -145,5 +145,6 @@ export {
   type LineSvgProps,
   type LineProperties,
   type DataSet,
-  Framework
+  Framework,
+  type XAxisConfig
 } from './utils/types'
