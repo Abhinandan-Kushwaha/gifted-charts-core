@@ -62,6 +62,7 @@ export interface LineChartPropsType {
     stripWidth?: number;
     stripColor?: ColorValue | string | any;
     stripOpacity?: number;
+    stripStrokeDashArray?: number[];
     onPress?: Function;
     unFocusOnPressOut?: boolean;
     delayBeforeUnFocus?: number;
@@ -325,6 +326,7 @@ export interface lineDataItem {
     stripWidth?: number;
     stripColor?: ColorValue | string | any;
     stripOpacity?: number;
+    stripStrokeDashArray?: number[];
     focusedDataPointShape?: string;
     focusedDataPointWidth?: number;
     focusedDataPointHeight?: number;

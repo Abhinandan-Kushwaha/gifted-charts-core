@@ -1663,6 +1663,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const stripWidth = props.stripWidth ?? LineDefaults.stripWidth
   const stripColor = props.stripColor ?? color1
   const stripOpacity = props.stripOpacity ?? (startOpacity1 + endOpacity1) / 2
+  const stripStrokeDashArray = props.stripStrokeDashArray
   const unFocusOnPressOut =
     props.unFocusOnPressOut ?? LineDefaults.unFocusOnPressOut
   const delayBeforeUnFocus =
@@ -2187,6 +2188,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     stripWidth,
     stripColor,
     stripOpacity,
+    stripStrokeDashArray,
     unFocusOnPressOut,
     delayBeforeUnFocus,
     containerHeightIncludingBelowXAxis,

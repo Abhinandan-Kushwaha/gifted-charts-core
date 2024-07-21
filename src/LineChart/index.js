@@ -971,6 +971,7 @@ export var useLineChart = function (props) {
     var stripWidth = (_284 = props.stripWidth) !== null && _284 !== void 0 ? _284 : LineDefaults.stripWidth;
     var stripColor = (_285 = props.stripColor) !== null && _285 !== void 0 ? _285 : color1;
     var stripOpacity = (_286 = props.stripOpacity) !== null && _286 !== void 0 ? _286 : (startOpacity1 + endOpacity1) / 2;
+    var stripStrokeDashArray = props.stripStrokeDashArray;
     var unFocusOnPressOut = (_287 = props.unFocusOnPressOut) !== null && _287 !== void 0 ? _287 : LineDefaults.unFocusOnPressOut;
     var delayBeforeUnFocus = (_288 = props.delayBeforeUnFocus) !== null && _288 !== void 0 ? _288 : LineDefaults.delayBeforeUnFocus;
     var containerHeightIncludingBelowXAxis = extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight;
@@ -1455,6 +1456,7 @@ export var useLineChart = function (props) {
         stripWidth: stripWidth,
         stripColor: stripColor,
         stripOpacity: stripOpacity,
+        stripStrokeDashArray: stripStrokeDashArray,
         unFocusOnPressOut: unFocusOnPressOut,
         delayBeforeUnFocus: delayBeforeUnFocus,
         containerHeightIncludingBelowXAxis: containerHeightIncludingBelowXAxis,
