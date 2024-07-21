@@ -25,7 +25,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 import { getBarFrontColor, getBarWidth } from '../utils';
 export var getPropsForAnimated2DWithGradient = function (props) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3;
     var barBorderWidth = props.barBorderWidth, barBorderColor = props.barBorderColor, barBorderRadius = props.barBorderRadius, item = props.item, barBorderTopLeftRadius = props.barBorderTopLeftRadius, barBorderTopRightRadius = props.barBorderTopRightRadius, barBorderBottomLeftRadius = props.barBorderBottomLeftRadius, barBorderBottomRightRadius = props.barBorderBottomRightRadius, barWidth = props.barWidth, barInnerComponent = props.barInnerComponent, barStyle = props.barStyle, index = props.index, opacity = props.opacity, barHeight = props.barHeight, intactTopLabel = props.intactTopLabel, showValuesAsTopLabel = props.showValuesAsTopLabel, topLabelContainerStyle = props.topLabelContainerStyle, topLabelTextStyle = props.topLabelTextStyle, roundedBottom = props.roundedBottom, cappedBars = props.cappedBars, capRadius = props.capRadius, roundedTop = props.roundedTop, barBackgroundPattern = props.barBackgroundPattern, patternId = props.patternId, frontColor = props.frontColor, showGradient = props.showGradient, gradientColor = props.gradientColor, selectedIndex = props.selectedIndex, focusBarOnPress = props.focusBarOnPress, focusedBarConfig = props.focusedBarConfig, isThreeD = props.isThreeD, yAxisOffset = props.yAxisOffset;
     var isFocused = (focusBarOnPress !== null && focusBarOnPress !== void 0 ? focusBarOnPress : false) && selectedIndex === index;
     var itemOrPropsBarBorderRadius = (_b = (_a = item.barBorderRadius) !== null && _a !== void 0 ? _a : barBorderRadius) !== null && _b !== void 0 ? _b : 0;
@@ -41,16 +41,16 @@ export var getPropsForAnimated2DWithGradient = function (props) {
             position: 'absolute',
             width: '100%',
             height: '100%',
-            borderWidth: barBorderWidth !== null && barBorderWidth !== void 0 ? barBorderWidth : 0,
-            borderColor: barBorderColor,
+            borderWidth: (_f = (_e = item.barBorderWidth) !== null && _e !== void 0 ? _e : barBorderWidth) !== null && _f !== void 0 ? _f : 0,
+            borderColor: (_g = item.barBorderColor) !== null && _g !== void 0 ? _g : barBorderColor,
             borderRadius: localBarBorderRadius,
-            borderTopLeftRadius: (_f = (_e = item.barBorderTopLeftRadius) !== null && _e !== void 0 ? _e : barBorderTopLeftRadius) !== null && _f !== void 0 ? _f : localBarBorderRadius,
-            borderTopRightRadius: (_h = (_g = item.barBorderTopRightRadius) !== null && _g !== void 0 ? _g : barBorderTopRightRadius) !== null && _h !== void 0 ? _h : localBarBorderRadius,
-            borderBottomLeftRadius: (_k = (_j = item.barBorderBottomLeftRadius) !== null && _j !== void 0 ? _j : barBorderBottomLeftRadius) !== null && _k !== void 0 ? _k : localBarBorderRadius,
-            borderBottomRightRadius: (_m = (_l = item.barBorderBottomRightRadius) !== null && _l !== void 0 ? _l : barBorderBottomRightRadius) !== null && _m !== void 0 ? _m : localBarBorderRadius
+            borderTopLeftRadius: (_j = (_h = item.barBorderTopLeftRadius) !== null && _h !== void 0 ? _h : barBorderTopLeftRadius) !== null && _j !== void 0 ? _j : localBarBorderRadius,
+            borderTopRightRadius: (_l = (_k = item.barBorderTopRightRadius) !== null && _k !== void 0 ? _k : barBorderTopRightRadius) !== null && _l !== void 0 ? _l : localBarBorderRadius,
+            borderBottomLeftRadius: (_o = (_m = item.barBorderBottomLeftRadius) !== null && _m !== void 0 ? _m : barBorderBottomLeftRadius) !== null && _o !== void 0 ? _o : localBarBorderRadius,
+            borderBottomRightRadius: (_q = (_p = item.barBorderBottomRightRadius) !== null && _p !== void 0 ? _p : barBorderBottomRightRadius) !== null && _q !== void 0 ? _q : localBarBorderRadius
         }
     ];
-    if ((_o = roundedBottom !== null && roundedBottom !== void 0 ? roundedBottom : (isFocused && (focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.roundedBottom))) !== null && _o !== void 0 ? _o : false) {
+    if ((_r = roundedBottom !== null && roundedBottom !== void 0 ? roundedBottom : (isFocused && (focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.roundedBottom))) !== null && _r !== void 0 ? _r : false) {
         commonStyleForBar.push({
             borderBottomLeftRadius: localBarWidth / 2,
             borderBottomRightRadius: localBarWidth / 2
@@ -58,11 +58,11 @@ export var getPropsForAnimated2DWithGradient = function (props) {
     }
     if (cappedBars !== null && cappedBars !== void 0 ? cappedBars : false) {
         commonStyleForBar.push({
-            borderTopLeftRadius: item.capRadius === 0 ? 0 : (_q = (_p = item.capRadius) !== null && _p !== void 0 ? _p : capRadius) !== null && _q !== void 0 ? _q : 0,
-            borderTopRightRadius: item.capRadius === 0 ? 0 : (_s = (_r = item.capRadius) !== null && _r !== void 0 ? _r : capRadius) !== null && _s !== void 0 ? _s : 0
+            borderTopLeftRadius: item.capRadius === 0 ? 0 : (_t = (_s = item.capRadius) !== null && _s !== void 0 ? _s : capRadius) !== null && _t !== void 0 ? _t : 0,
+            borderTopRightRadius: item.capRadius === 0 ? 0 : (_v = (_u = item.capRadius) !== null && _u !== void 0 ? _u : capRadius) !== null && _v !== void 0 ? _v : 0
         });
     }
-    if ((_t = roundedTop !== null && roundedTop !== void 0 ? roundedTop : (isFocused && (focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.roundedTop))) !== null && _t !== void 0 ? _t : false) {
+    if ((_w = roundedTop !== null && roundedTop !== void 0 ? roundedTop : (isFocused && (focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.roundedTop))) !== null && _w !== void 0 ? _w : false) {
         commonStyleForBar.push({
             borderTopLeftRadius: localBarWidth / 2,
             borderTopRightRadius: localBarWidth / 2
@@ -74,22 +74,22 @@ export var getPropsForAnimated2DWithGradient = function (props) {
         }
     ], false);
     var commonPropsFor2Dand3Dbars = {
-        barBackgroundPattern: (_u = item.barBackgroundPattern) !== null && _u !== void 0 ? _u : barBackgroundPattern,
+        barBackgroundPattern: (_x = item.barBackgroundPattern) !== null && _x !== void 0 ? _x : barBackgroundPattern,
         barInnerComponent: isFocused
-            ? (_v = focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.barInnerComponent) !== null && _v !== void 0 ? _v : barInnerComponent
+            ? (_y = focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.barInnerComponent) !== null && _y !== void 0 ? _y : barInnerComponent
             : barInnerComponent,
-        patternId: (_w = item.patternId) !== null && _w !== void 0 ? _w : patternId,
+        patternId: (_z = item.patternId) !== null && _z !== void 0 ? _z : patternId,
         barWidth: localBarWidth,
         barStyle: barStyle,
         item: item,
         index: index,
         frontColor: localFrontColor,
-        showGradient: (_y = (_x = item.showGradient) !== null && _x !== void 0 ? _x : showGradient) !== null && _y !== void 0 ? _y : false,
+        showGradient: (_1 = (_0 = item.showGradient) !== null && _0 !== void 0 ? _0 : showGradient) !== null && _1 !== void 0 ? _1 : false,
         gradientColor: isFocused
-            ? (_z = focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.gradientColor) !== null && _z !== void 0 ? _z : localGradientColor
+            ? (_2 = focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.gradientColor) !== null && _2 !== void 0 ? _2 : localGradientColor
             : localGradientColor,
         opacity: isFocused
-            ? (_0 = focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.opacity) !== null && _0 !== void 0 ? _0 : localOpacity
+            ? (_3 = focusedBarConfig === null || focusedBarConfig === void 0 ? void 0 : focusedBarConfig.opacity) !== null && _3 !== void 0 ? _3 : localOpacity
             : localOpacity,
         height: barHeight,
         intactTopLabel: intactTopLabel,

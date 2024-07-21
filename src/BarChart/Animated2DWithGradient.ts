@@ -99,8 +99,8 @@ export const getPropsForAnimated2DWithGradient = (
       position: 'absolute',
       width: '100%',
       height: '100%',
-      borderWidth: barBorderWidth ?? 0,
-      borderColor: barBorderColor,
+      borderWidth: item.barBorderWidth ?? barBorderWidth ?? 0,
+      borderColor: item.barBorderColor ?? barBorderColor,
       borderRadius: localBarBorderRadius,
       borderTopLeftRadius:
         item.barBorderTopLeftRadius ??

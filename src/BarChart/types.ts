@@ -431,6 +431,8 @@ export interface barDataItem {
   labelsDistanceFromXaxis?: number
   barWidth?: number
   sideWidth?: number
+  barBorderWidth?: number
+  barBorderColor?: ColorValue
   labelTextStyle?: any
   topLabelComponent?: Function
   topLabelContainerStyle?: any
