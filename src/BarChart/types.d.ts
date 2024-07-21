@@ -1,6 +1,6 @@
 import { type ColorValue, type GestureResponderEvent, type ViewStyle } from 'react-native';
 import { type yAxisSides } from '../utils/constants';
-import { type CurveType, type Pointer, type RuleType, type RulesConfig, type referenceConfigType, type secondaryYAxisType } from '../utils/types';
+import { XAxisConfig, type CurveType, type Pointer, type RuleType, type RulesConfig, type referenceConfigType, type secondaryYAxisType } from '../utils/types';
 import { type Component, type ReactNode } from 'react';
 import { type lineDataItem } from '../LineChart/types';
 export interface stackDataItem {
@@ -292,6 +292,7 @@ export interface BarChartPropsType {
     focusedBarIndex?: number;
     adjustToWidth?: boolean;
     parentWidth?: number;
+    secondaryXAxis?: XAxisConfig;
 }
 export interface FocusedBarConfig {
     color?: ColorValue;
@@ -405,6 +406,9 @@ export interface barDataItem {
     topLabelComponentHeight?: number;
     spacing?: number;
     labelWidth?: number;
+    secondaryLabel?: string;
+    secondaryLabelComponent?: Function;
+    secondaryLabelTextStyle?: any;
     barBackgroundPattern?: () => ReactNode;
     patternId?: string;
     barMarginBottom?: number;
@@ -473,9 +477,11 @@ export interface RenderBarsPropsType {
     opacity?: number;
     side?: string;
     labelTextStyle?: any;
+    secondaryLabelTextStyle?: any;
     item: barDataItem;
     index: number;
     label: string;
+    secondaryLabel: string;
     containerHeight?: number;
     maxValue: number;
     spacing: number;
@@ -543,6 +549,7 @@ export interface RenderBarsPropsType {
     stepValue: number;
     negativeStepHeight: number;
     negativeStepValue: number;
+    secondaryXAxis?: XAxisConfig;
 }
 export interface trianglePropTypes {
     style: any;

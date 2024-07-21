@@ -38,6 +38,15 @@ export interface RulesConfig {
   dashGap?: number
 }
 
+export interface XAxisConfig {
+  thickness?: number
+  color?: ColorValue
+  labelsDistanceFromXaxis?: number
+  labelsHeight?: number
+  labelsTextStyle?: any
+  labelTexts?: string[]
+}
+
 export type PointerEvents = 'box-none' | 'none' | 'box-only' | 'auto'
 
 export interface secondaryYAxisType {
@@ -193,6 +202,7 @@ export interface horizSectionPropTypes {
   formatYLabel?: (label: string) => string
   onlyReferenceLines?: boolean
   renderReferenceLines?: boolean
+  secondaryXAxis?: XAxisConfig
 }
 
 interface HorizSectionObject {

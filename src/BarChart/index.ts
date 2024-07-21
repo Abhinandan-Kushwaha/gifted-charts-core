@@ -695,7 +695,14 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       label:
         item.label ??
         (props.xAxisLabelTexts?.[index] ? props.xAxisLabelTexts[index] : ''),
+      secondaryLabel:
+        item.secondaryLabel ?? props.secondaryXAxis?.labelTexts?.[index] ?? '',
       labelTextStyle: item.labelTextStyle ?? props.xAxisLabelTextStyle,
+      secondaryLabelTextStyle:
+        item.secondaryLabelTextStyle ??
+        props.secondaryXAxis?.labelsTextStyle ??
+        item.labelTextStyle ??
+        props.xAxisLabelTextStyle,
       pointerConfig,
       yAxisExtraHeightAtTop,
       yAxisOffset: yAxisOffset ?? 0,
@@ -703,7 +710,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       stepHeight,
       stepValue,
       negativeStepHeight: props.negativeStepHeight ?? stepHeight,
-      negativeStepValue: props.negativeStepValue ?? stepValue
+      negativeStepValue: props.negativeStepValue ?? stepValue,
+      secondaryXAxis: props.secondaryXAxis
     }
   }
 

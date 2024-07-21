@@ -679,7 +679,10 @@ export const getAxesAndRulesProps = (
     yAxisColor: props.yAxisColor,
     yAxisExtraHeight: props.yAxisExtraHeight,
     trimYAxisAtTop: props.trimYAxisAtTop,
-    overflowTop: props.overflowTop,
+    overflowTop:
+      props.overflowTop ?? props.secondaryXAxis
+        ? AxesAndRulesDefaults.overflowTopWithSecondaryXAxis
+        : AxesAndRulesDefaults.overflowTop,
     yAxisThickness: props.yAxisThickness,
     xAxisColor: props.xAxisColor,
     xAxisLength: props.xAxisLength,
@@ -739,12 +742,14 @@ export const getAxesAndRulesProps = (
     negativeStepValue: negativeStepValue ?? stepValue,
 
     secondaryYAxis: props.secondaryYAxis,
-    formatYLabel: props.formatYLabel
+    formatYLabel: props.formatYLabel,
+    secondaryXAxis: props.secondaryXAxis
   }
   if (
     (props.secondaryYAxis ?? props.lineConfig?.isSecondary) &&
     maxValue !== undefined &&
-    secondaryYAxis && secondaryYAxis.maxValue === undefined
+    secondaryYAxis &&
+    secondaryYAxis.maxValue === undefined
   ) {
     axesAndRulesProps.secondaryYAxis = { ...secondaryYAxis, maxValue }
   }

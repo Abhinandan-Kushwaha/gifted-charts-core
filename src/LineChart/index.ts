@@ -446,7 +446,10 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const mostNegativeValue = props.mostNegativeValue ?? minItem
 
-  const overflowTop = props.overflowTop ?? 0
+  const overflowTop =
+    props.overflowTop ?? props.secondaryXAxis
+      ? AxesAndRulesDefaults.overflowTopWithSecondaryXAxis
+      : AxesAndRulesDefaults.overflowTop
 
   const extendedContainerHeight = getExtendedContainerHeightWithPadding(
     containerHeight,

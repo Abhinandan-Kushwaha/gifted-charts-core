@@ -1,6 +1,6 @@
 import { GestureResponderEvent, type ColorValue } from 'react-native';
 import { type yAxisSides } from '../utils/constants';
-import { type CurveType, type DataSet, type EdgePosition, type HighlightedRange, type LineSegment, type Pointer, type RuleType, type RulesConfig, type arrowConfigType, type referenceConfigType, type secondaryLineConfigType, type secondaryYAxisType } from '../utils/types';
+import { XAxisConfig, type CurveType, type DataSet, type EdgePosition, type HighlightedRange, type LineSegment, type Pointer, type RuleType, type RulesConfig, type arrowConfigType, type referenceConfigType, type secondaryLineConfigType, type secondaryYAxisType } from '../utils/types';
 export interface LineChartPropsType {
     height?: number;
     overflowTop?: number;
@@ -299,12 +299,16 @@ export interface LineChartPropsType {
     parentWidth?: number;
     onChartAreaPress?: (event: GestureResponderEvent) => void;
     onBackgroundPress?: (event: GestureResponderEvent) => void;
+    secondaryXAxis?: XAxisConfig;
 }
 export interface lineDataItem {
     value: number;
     label?: string;
     labelComponent?: Function;
     labelTextStyle?: any;
+    secondaryLabel?: string;
+    secondaryLabelComponent?: Function;
+    secondaryLabelTextStyle?: any;
     dataPointText?: string;
     textShiftX?: number;
     textShiftY?: number;
