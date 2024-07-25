@@ -1,7 +1,7 @@
 import { type ColorValue } from 'react-native';
 import { type chartTypes, type yAxisSides } from './constants';
 import { type lineDataItem } from '../LineChart/types';
-import { type barDataItem, type stackDataItem } from '../BarChart/types';
+import { lineConfigType, type barDataItem, type stackDataItem } from '../BarChart/types';
 export declare enum Framework {
     reactJS = 0,
     reactNative = 1
@@ -97,6 +97,41 @@ export interface secondaryLineConfigType {
     showArrow?: boolean;
     arrowConfig?: arrowConfigType;
     isSecondary?: boolean;
+}
+export interface ExtendedLineConfigType extends lineConfigType {
+    startIndex: number;
+    endIndex: number;
+    dataPointsHeight: number;
+}
+export interface LineInBarChartPropsType {
+    yAxisLabelWidth: number;
+    initialSpacing: number;
+    spacing: number;
+    containerHeight: number;
+    lineConfig: ExtendedLineConfigType;
+    maxValue: number;
+    animatedWidth: number;
+    lineBehindBars: boolean;
+    points: any;
+    arrowPoints: any;
+    data: any[];
+    totalWidth: number;
+    barWidth?: number;
+    labelsExtraHeight: number;
+    scrollEventThrottle: number;
+    xAxisLabelsVerticalShift: number;
+    selectedIndex: number;
+}
+export interface DataPointProps {
+    data: any[];
+    lineConfig: ExtendedLineConfigType;
+    barWidth?: number;
+    containerHeight: number;
+    maxValue: number;
+    firstBarWidth: number;
+    yAxisLabelWidth: number;
+    spacing: number;
+    selectedIndex: number;
 }
 export interface referenceConfigType {
     thickness?: number;
@@ -213,6 +248,7 @@ export interface BarAndLineChartsWrapperTypes {
     scrollToIndex: number | undefined;
     scrollAnimation: boolean;
     indicatorColor: 'black' | 'default' | 'white' | undefined;
+    selectedIndex: number;
     setSelectedIndex: any;
     spacing: number;
     showLine: boolean;

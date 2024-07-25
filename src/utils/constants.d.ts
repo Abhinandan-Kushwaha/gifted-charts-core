@@ -119,7 +119,6 @@ export declare const BarDefaults: {
     focusedBarSideColor: string;
     focusedBarTopColor: string;
 };
-export declare const defaultLineConfig: defaultLineConfigType;
 export declare const LineDefaults: {
     color: string;
     curvature: number;
@@ -145,6 +144,7 @@ export declare const LineDefaults: {
     dataPointsColor2: string;
     dataPointsColor3: string;
     dataPointsShape: string;
+    focusedDataPointColor: string;
     textFontSize: number;
     textColor: string;
     startFillColor: string;
@@ -165,6 +165,7 @@ export declare const LineDefaults: {
     edgePosition: EdgePosition;
     endReachedOffset: number;
 };
+export declare const defaultLineConfig: defaultLineConfigType;
 export declare const defaultPointerConfig: {
     height: number;
     width: number;

@@ -374,6 +374,10 @@ export interface lineConfigType {
   arrowConfig?: arrowType
   customDataPoint?: Function
   isSecondary?: boolean
+  focusEnabled?: boolean
+  focusedDataPointColor?: ColorValue
+  focusedDataPointRadius?: number
+  focusedDataPointIndex?: number
 }
 export interface defaultLineConfigType {
   initialSpacing: number
@@ -403,6 +407,9 @@ export interface defaultLineConfigType {
   arrowConfig: arrowType
   customDataPoint?: Function
   isSecondary: boolean
+  focusEnabled: boolean
+  focusedDataPointColor: ColorValue
+  focusedDataPointRadius: number
 }
 interface arrowType {
   length?: number

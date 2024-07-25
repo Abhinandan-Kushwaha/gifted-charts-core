@@ -490,6 +490,7 @@ export var useBarChart = function (props) {
         scrollAnimation: scrollAnimation,
         scrollEventThrottle: scrollEventThrottle,
         indicatorColor: props.indicatorColor,
+        selectedIndex: selectedIndex,
         setSelectedIndex: setSelectedIndex,
         spacing: spacing,
         showLine: showLine,

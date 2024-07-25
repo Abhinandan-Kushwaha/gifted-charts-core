@@ -130,34 +130,6 @@ export var BarDefaults = {
     focusedBarSideColor: '#776913',
     focusedBarTopColor: '#C8D565'
 };
-export var defaultLineConfig = {
-    initialSpacing: BarDefaults.spacing, // gets updated to spacing before being used
-    curved: false,
-    curvature: defaultCurvature,
-    curveType: defaultCurveType,
-    isAnimated: false,
-    animationDuration: defaultAnimationDuration,
-    thickness: 1,
-    color: 'black',
-    hideDataPoints: false,
-    dataPointsShape: 'circular',
-    dataPointsWidth: 4,
-    dataPointsHeight: 4,
-    dataPointsColor: 'black',
-    dataPointsRadius: 3,
-    textColor: 'gray',
-    textFontSize: 10,
-    textShiftX: 0,
-    textShiftY: 0,
-    shiftX: 0,
-    shiftY: 0,
-    delay: 0,
-    startIndex: 0,
-    endIndex: 0, // gets updated to lineData.length - 1
-    showArrow: false,
-    arrowConfig: defaultArrowConfig,
-    isSecondary: false
-};
 // Line chart specific
 export var LineDefaults = {
     color: 'black',
@@ -184,6 +156,7 @@ export var LineDefaults = {
     dataPointsColor2: 'blue',
     dataPointsColor3: 'red',
     dataPointsShape: 'circular',
+    focusedDataPointColor: 'orange',
     textFontSize: 10,
     textColor: 'gray',
     startFillColor: 'gray',
@@ -203,6 +176,37 @@ export var LineDefaults = {
     delayBeforeUnFocus: 300,
     edgePosition: EdgePosition.AFTER_DATA_POINT,
     endReachedOffset: defaultEndReachedOffset
+};
+export var defaultLineConfig = {
+    initialSpacing: BarDefaults.spacing, // gets updated to spacing before being used
+    curved: false,
+    curvature: defaultCurvature,
+    curveType: defaultCurveType,
+    isAnimated: false,
+    animationDuration: defaultAnimationDuration,
+    thickness: 1,
+    color: 'black',
+    hideDataPoints: false,
+    dataPointsShape: 'circular',
+    dataPointsWidth: 4,
+    dataPointsHeight: 4,
+    dataPointsColor: 'black',
+    dataPointsRadius: 3,
+    textColor: 'gray',
+    textFontSize: 10,
+    textShiftX: 0,
+    textShiftY: 0,
+    shiftX: 0,
+    shiftY: 0,
+    delay: 0,
+    startIndex: 0,
+    endIndex: 0, // gets updated to lineData.length - 1
+    showArrow: false,
+    arrowConfig: defaultArrowConfig,
+    isSecondary: false,
+    focusEnabled: false,
+    focusedDataPointColor: LineDefaults.focusedDataPointColor,
+    focusedDataPointRadius: LineDefaults.dataPointsRadius,
 };
 export var defaultPointerConfig = {
     height: 0,

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AxesAndRulesDefaults, BarDefaults } from '../../utils/constants'
 import {
+  LineInBarChartPropsType,
   type BarAndLineChartsWrapperTypes,
   type horizSectionPropTypes
 } from '../../utils/types'
@@ -61,7 +62,8 @@ export const useBarAndLineChartsWrapper = (
 
     scrollEventThrottle,
     endReachedOffset,
-    isRTL
+    isRTL,
+    selectedIndex
   } = props
 
   const yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop
@@ -237,7 +239,7 @@ export const useBarAndLineChartsWrapper = (
     secondaryXAxis
   }
 
-  const lineInBarChartProps = {
+  const lineInBarChartProps: LineInBarChartPropsType = {
     yAxisLabelWidth,
     initialSpacing,
     spacing,
@@ -253,13 +255,14 @@ export const useBarAndLineChartsWrapper = (
     barWidth,
     labelsExtraHeight,
     scrollEventThrottle,
-    xAxisLabelsVerticalShift
+    xAxisLabelsVerticalShift,
+    selectedIndex
   }
-  const lineInBarChartProps2 = {
+  const lineInBarChartProps2: LineInBarChartPropsType = {
     ...lineInBarChartProps,
     lineConfig: lineConfig2,
     points: points2,
-    data: lineData2
+    data: lineData2 ?? []
   }
   const extendedContainerHeight = containerHeight + overflowTop + 10
   const containerHeightIncludingBelowXAxis =

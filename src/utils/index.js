@@ -749,7 +749,7 @@ export var clone = function (obj) {
     return temp;
 };
 export var getLineConfigForBarChart = function (lineConfig, barInitialSpacing) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22;
     return {
         initialSpacing: (_b = (_a = lineConfig.initialSpacing) !== null && _a !== void 0 ? _a : barInitialSpacing) !== null && _b !== void 0 ? _b : defaultLineConfig.initialSpacing,
         spacing: lineConfig.spacing,
@@ -787,7 +787,11 @@ export var getLineConfigForBarChart = function (lineConfig, barInitialSpacing) {
             showArrowBase: (_17 = (_16 = lineConfig.arrowConfig) === null || _16 === void 0 ? void 0 : _16.showArrowBase) !== null && _17 !== void 0 ? _17 : (_18 = defaultLineConfig.arrowConfig) === null || _18 === void 0 ? void 0 : _18.showArrowBase
         },
         customDataPoint: lineConfig.customDataPoint,
-        isSecondary: (_19 = lineConfig.isSecondary) !== null && _19 !== void 0 ? _19 : defaultLineConfig.isSecondary
+        isSecondary: (_19 = lineConfig.isSecondary) !== null && _19 !== void 0 ? _19 : defaultLineConfig.isSecondary,
+        focusEnabled: (_20 = lineConfig.focusEnabled) !== null && _20 !== void 0 ? _20 : defaultLineConfig.focusEnabled,
+        focusedDataPointColor: (_21 = lineConfig.focusedDataPointColor) !== null && _21 !== void 0 ? _21 : defaultLineConfig.focusedDataPointColor,
+        focusedDataPointRadius: (_22 = lineConfig.focusedDataPointRadius) !== null && _22 !== void 0 ? _22 : defaultLineConfig.focusedDataPointRadius,
+        focusedDataPointIndex: lineConfig.focusedDataPointIndex
     };
 };
 export var getNoOfSections = function (noOfSections, maxValue, stepValue) {

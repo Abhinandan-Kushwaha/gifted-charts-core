@@ -742,6 +742,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     scrollAnimation,
     scrollEventThrottle,
     indicatorColor: props.indicatorColor,
+    selectedIndex,
     setSelectedIndex,
     spacing,
     showLine,

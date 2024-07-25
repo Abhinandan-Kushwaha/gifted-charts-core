@@ -1241,7 +1241,15 @@ export const getLineConfigForBarChart = (
         defaultLineConfig.arrowConfig?.showArrowBase
     },
     customDataPoint: lineConfig.customDataPoint,
-    isSecondary: lineConfig.isSecondary ?? defaultLineConfig.isSecondary
+    isSecondary: lineConfig.isSecondary ?? defaultLineConfig.isSecondary,
+    focusEnabled: lineConfig.focusEnabled ?? defaultLineConfig.focusEnabled,
+    focusedDataPointColor:
+      lineConfig.focusedDataPointColor ??
+      defaultLineConfig.focusedDataPointColor,
+    focusedDataPointRadius:
+      lineConfig.focusedDataPointRadius ??
+      defaultLineConfig.focusedDataPointRadius,
+    focusedDataPointIndex: lineConfig.focusedDataPointIndex
   }
 }
 

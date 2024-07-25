@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { type BarAndLineChartsWrapperTypes, type horizSectionPropTypes } from '../../utils/types';
+import { LineInBarChartPropsType, type BarAndLineChartsWrapperTypes, type horizSectionPropTypes } from '../../utils/types';
 import { type NativeScrollEvent } from 'react-native';
 export declare const useBarAndLineChartsWrapper: (props: BarAndLineChartsWrapperTypes) => {
     containerHeightIncludingBelowXAxis: any;
@@ -59,40 +59,6 @@ export declare const useBarAndLineChartsWrapper: (props: BarAndLineChartsWrapper
         totalWidth: number;
         xAxisLabelsVerticalShift: any;
     };
-    lineInBarChartProps: {
-        yAxisLabelWidth: number;
-        initialSpacing: number;
-        spacing: number;
-        containerHeight: number;
-        lineConfig: any;
-        maxValue: any;
-        animatedWidth: any;
-        lineBehindBars: boolean;
-        points: string | any[];
-        arrowPoints: any;
-        data: any[];
-        totalWidth: number;
-        barWidth: number | undefined;
-        labelsExtraHeight: number;
-        scrollEventThrottle: number;
-        xAxisLabelsVerticalShift: any;
-    };
-    lineInBarChartProps2: {
-        lineConfig: any;
-        points: string | any[];
-        data: (import("../..").lineDataItem | import("../..").barDataItem | import("../..").stackDataItem)[] | undefined;
-        yAxisLabelWidth: number;
-        initialSpacing: number;
-        spacing: number;
-        containerHeight: number;
-        maxValue: any;
-        animatedWidth: any;
-        lineBehindBars: boolean;
-        arrowPoints: any;
-        totalWidth: number;
-        barWidth: number | undefined;
-        labelsExtraHeight: number;
-        scrollEventThrottle: number;
-        xAxisLabelsVerticalShift: any;
-    };
+    lineInBarChartProps: LineInBarChartPropsType;
+    lineInBarChartProps2: LineInBarChartPropsType;
 };
