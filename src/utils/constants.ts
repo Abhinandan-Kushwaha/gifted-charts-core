@@ -156,35 +156,6 @@ export const BarDefaults = {
   focusedBarTopColor: '#C8D565'
 }
 
-export const defaultLineConfig: defaultLineConfigType = {
-  initialSpacing: BarDefaults.spacing, // gets updated to spacing before being used
-  curved: false,
-  curvature: defaultCurvature,
-  curveType: defaultCurveType,
-  isAnimated: false,
-  animationDuration: defaultAnimationDuration,
-  thickness: 1,
-  color: 'black',
-  hideDataPoints: false,
-  dataPointsShape: 'circular',
-  dataPointsWidth: 4,
-  dataPointsHeight: 4,
-  dataPointsColor: 'black',
-  dataPointsRadius: 3,
-  textColor: 'gray',
-  textFontSize: 10,
-  textShiftX: 0,
-  textShiftY: 0,
-  shiftX: 0,
-  shiftY: 0,
-  delay: 0,
-  startIndex: 0,
-  endIndex: 0, // gets updated to lineData.length - 1
-  showArrow: false,
-  arrowConfig: defaultArrowConfig,
-  isSecondary: false
-}
-
 // Line chart specific
 
 export const LineDefaults = {
@@ -213,6 +184,7 @@ export const LineDefaults = {
   dataPointsColor2: 'blue',
   dataPointsColor3: 'red',
   dataPointsShape: 'circular',
+  focusedDataPointColor: 'orange',
 
   textFontSize: 10,
   textColor: 'gray',
@@ -235,6 +207,38 @@ export const LineDefaults = {
   delayBeforeUnFocus: 300,
   edgePosition: EdgePosition.AFTER_DATA_POINT,
   endReachedOffset: defaultEndReachedOffset
+}
+
+export const defaultLineConfig: defaultLineConfigType = {
+  initialSpacing: BarDefaults.spacing, // gets updated to spacing before being used
+  curved: false,
+  curvature: defaultCurvature,
+  curveType: defaultCurveType,
+  isAnimated: false,
+  animationDuration: defaultAnimationDuration,
+  thickness: 1,
+  color: 'black',
+  hideDataPoints: false,
+  dataPointsShape: 'circular',
+  dataPointsWidth: 4,
+  dataPointsHeight: 4,
+  dataPointsColor: 'black',
+  dataPointsRadius: 3,
+  textColor: 'gray',
+  textFontSize: 10,
+  textShiftX: 0,
+  textShiftY: 0,
+  shiftX: 0,
+  shiftY: 0,
+  delay: 0,
+  startIndex: 0,
+  endIndex: 0, // gets updated to lineData.length - 1
+  showArrow: false,
+  arrowConfig: defaultArrowConfig,
+  isSecondary: false,
+  focusEnabled: false,
+  focusedDataPointColor: LineDefaults.focusedDataPointColor,
+  focusedDataPointRadius: LineDefaults.dataPointsRadius,
 }
 
 export const defaultPointerConfig = {

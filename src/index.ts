@@ -146,5 +146,7 @@ export {
   type LineProperties,
   type DataSet,
   Framework,
-  type XAxisConfig
+  type XAxisConfig,
+  type LineInBarChartPropsType,
+  type DataPointProps
 } from './utils/types'
