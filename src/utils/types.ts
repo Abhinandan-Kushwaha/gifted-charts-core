@@ -1,7 +1,11 @@
 import { type ColorValue } from 'react-native'
 import { type chartTypes, type yAxisSides } from './constants'
 import { type lineDataItem } from '../LineChart/types'
-import { lineConfigType, type barDataItem, type stackDataItem } from '../BarChart/types'
+import {
+  lineConfigType,
+  type barDataItem,
+  type stackDataItem
+} from '../BarChart/types'
 
 export enum Framework {
   reactJS,
@@ -11,6 +15,8 @@ export enum Framework {
 export type RuleType = 'solid' | 'dashed' | 'dotted' | string
 
 export type LabelsPosition = 'onBorder' | 'outward' | 'inward' | 'mid'
+
+export type Linecap = 'butt' | 'square' | 'round'
 
 export interface RuleTypes {
   SOLID: RuleType
@@ -139,15 +145,15 @@ export interface LineInBarChartPropsType {
 }
 
 export interface DataPointProps {
-  data: any[];
-  lineConfig: ExtendedLineConfigType;
-  barWidth?: number;
-  containerHeight: number;
-  maxValue: number;
-  firstBarWidth: number;
-  yAxisLabelWidth: number;
-  spacing: number;
-  selectedIndex: number;
+  data: any[]
+  lineConfig: ExtendedLineConfigType
+  barWidth?: number
+  containerHeight: number
+  maxValue: number
+  firstBarWidth: number
+  yAxisLabelWidth: number
+  spacing: number
+  selectedIndex: number
 }
 
 export interface referenceConfigType {

@@ -162,6 +162,9 @@ export const useBarAndLineChartsWrapper = (
   const verticalLinesUptoDataPoint =
     axesAndRulesProps.verticalLinesUptoDataPoint ??
     AxesAndRulesDefaults.verticalLinesUptoDataPoint
+  const verticalLinesStrokeLinecap =
+    axesAndRulesProps.verticalLinesStrokeLinecap ??
+    AxesAndRulesDefaults.verticalLinesStrokeLinecap
   const noOfVerticalLines = axesAndRulesProps.noOfVerticalLines
   const secondaryXAxis = axesAndRulesProps.secondaryXAxis
 
@@ -279,6 +282,7 @@ export const useBarAndLineChartsWrapper = (
     verticalLinesStrokeDashArray,
     verticalLinesShift,
     verticalLinesUptoDataPoint,
+    verticalLinesStrokeLinecap,
     xAxisThickness,
     labelsExtraHeight,
     containerHeight,

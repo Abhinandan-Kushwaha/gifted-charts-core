@@ -13,7 +13,8 @@ import {
   type arrowConfigType,
   type referenceConfigType,
   type secondaryLineConfigType,
-  type secondaryYAxisType
+  type secondaryYAxisType,
+  type Linecap
 } from '../utils/types'
 
 export interface LineChartPropsType {
@@ -82,7 +83,7 @@ export interface LineChartPropsType {
   unFocusOnPressOut?: boolean
   delayBeforeUnFocus?: number
   focusedDataPointIndex?: number
-  
+
   showValuesAsDataPointsText?: boolean
 
   rulesType?: RuleType
@@ -109,6 +110,7 @@ export interface LineChartPropsType {
   verticalLinesZIndex?: number
   noOfVerticalLines?: number
   verticalLinesSpacing?: number
+  verticalLinesStrokeLinecap?: Linecap
   hideAxesAndRules?: boolean
   areaChart?: boolean
   areaChart1?: boolean

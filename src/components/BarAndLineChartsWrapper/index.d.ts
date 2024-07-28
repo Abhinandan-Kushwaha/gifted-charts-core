@@ -45,6 +45,7 @@ export declare const useBarAndLineChartsWrapper: (props: BarAndLineChartsWrapper
         verticalLinesStrokeDashArray: any;
         verticalLinesShift: any;
         verticalLinesUptoDataPoint: any;
+        verticalLinesStrokeLinecap: any;
         xAxisThickness: number;
         labelsExtraHeight: number;
         containerHeight: number;

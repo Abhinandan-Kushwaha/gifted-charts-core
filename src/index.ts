@@ -148,5 +148,6 @@ export {
   Framework,
   type XAxisConfig,
   type LineInBarChartPropsType,
-  type DataPointProps
+  type DataPointProps,
+  type Linecap
 } from './utils/types'

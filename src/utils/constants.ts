@@ -1,5 +1,5 @@
 import { type defaultLineConfigType } from '../BarChart/types'
-import { CurveType, EdgePosition, type RuleTypes } from './types'
+import { CurveType, EdgePosition, Linecap, type RuleTypes } from './types'
 import { type FontStyle } from 'react-native-svg'
 
 // Global
@@ -88,6 +88,7 @@ export const AxesAndRulesDefaults = {
   verticalLinesZIndex: -1,
   verticalLinesSpacing: 0,
   verticalLinesUptoDataPoint: false,
+  verticalLinesStrokeLinecap: 'butt',
 
   noOfSections: 10,
   containerHeight: 200,
@@ -308,6 +309,7 @@ export const populationDefaults = {
   verticalLinesThickness: 1,
   verticalLinesType: ruleTypes.DASHED,
   verticalLinesStrokeDashArray: [4, 8],
+  verticalLinesStrokeLinecap: 'butt',
 
   defaultFontSize: 12,
   defaultFontColor: 'black',
