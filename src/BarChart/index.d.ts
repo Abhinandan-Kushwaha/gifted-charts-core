@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { type lineConfigType, type BarChartPropsType, type barDataItem, type stackDataItem } from './types';
 import { type BarAndLineChartsWrapperTypes, type secondaryYAxisType } from '../utils/types';
 import { type Animated } from 'react-native';
@@ -75,7 +74,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
     rtl: boolean;
     intactTopLabel: boolean;
     barBorderColor: import("react-native").ColorValue;
-    barInnerComponent: ((item?: barDataItem | stackDataItem | undefined, index?: number | undefined) => import("react").ReactNode) | undefined;
+    barInnerComponent: ((item?: stackDataItem | barDataItem, index?: number) => import("react").ReactNode) | undefined;
     xAxisTextNumberOfLines: number;
     selectedIndex: number;
     setSelectedIndex: import("react").Dispatch<import("react").SetStateAction<number>>;
@@ -148,7 +147,7 @@ export declare const useBarChart: (props: extendedBarChartPropsType) => {
         barBorderTopRightRadius: number | undefined;
         barBorderBottomLeftRadius: number | undefined;
         barBorderBottomRightRadius: number | undefined;
-        barInnerComponent: ((item?: barDataItem | stackDataItem | undefined, index?: number | undefined) => import("react").ReactNode) | undefined;
+        barInnerComponent: ((item?: stackDataItem | barDataItem, index?: number) => import("react").ReactNode) | undefined;
         color: import("react-native").ColorValue | undefined;
         showGradient: boolean | undefined;
         gradientColor: import("react-native").ColorValue | undefined;

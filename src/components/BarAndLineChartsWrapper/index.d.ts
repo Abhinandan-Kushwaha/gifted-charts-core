@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { LineInBarChartPropsType, type BarAndLineChartsWrapperTypes, type horizSectionPropTypes } from '../../utils/types';
 import { type NativeScrollEvent } from 'react-native';
 export declare const useBarAndLineChartsWrapper: (props: BarAndLineChartsWrapperTypes) => {

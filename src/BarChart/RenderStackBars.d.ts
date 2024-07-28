@@ -1,9 +1,8 @@
-/// <reference types="react" />
 import { type StackedBarChartPropsType, type stackDataItem } from './types';
 export declare const useRenderStackBars: (props: StackedBarChartPropsType) => {
     cotainsNegative: boolean;
     noAnimation: boolean;
-    localBarInnerComponent: ((item?: stackDataItem | undefined, index?: number | undefined) => import("react").ReactNode) | undefined;
+    localBarInnerComponent: ((item?: stackDataItem, index?: number) => import("react").ReactNode) | undefined;
     borderRadius: number | undefined;
     borderTopLeftRadius: number | undefined;
     borderTopRightRadius: number | undefined;
