@@ -110,10 +110,10 @@ export declare const usePopulationPyramid: (props: extendedPopulationPyramidProp
     leftXAfterMid: number;
     rightXAfterMid: number;
     yAxisLineProps: {
-        framework?: Framework.reactNative | undefined;
+        framework?: Framework.reactNative;
     } & import("./types").RulesProps;
     midAxisLineCommonProps: {
-        framework?: Framework.reactNative | undefined;
+        framework?: Framework.reactNative;
     } & import("./types").RulesProps;
     xAxisLabelY: number;
     xAxisIndicesCommonProps: {
@@ -123,7 +123,7 @@ export declare const usePopulationPyramid: (props: extendedPopulationPyramidProp
         strokeWidth: number;
     };
     verticalLinesCommonProps: {
-        framework?: Framework.reactNative | undefined;
+        framework?: Framework.reactNative;
     } & import("./types").RulesProps;
     xAxisLabelsCommonProps: {
         y: number;

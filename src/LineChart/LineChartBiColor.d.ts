@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { type LineChartBicolorPropsType, type bicolorLineDataItem } from './types';
 import { type BarAndLineChartsWrapperTypes } from '../utils/types';
 interface Points {

@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { type LineChartPropsType, type lineDataItem } from './types';
 import { type BarAndLineChartsWrapperTypes, EdgePosition, type LineSegment } from '../utils/types';
 import { type Animated } from 'react-native';

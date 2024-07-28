@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { type animatedBarPropTypes } from '../../BarChart/types';
 export declare const useAnimatedThreeDBar: (props: animatedBarPropTypes) => {
     showGradient: boolean;

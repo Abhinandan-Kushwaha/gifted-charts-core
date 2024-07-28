@@ -81,7 +81,7 @@ interface MaxAndMin {
 }
 export declare const maxAndMinUtil: (maxItem: number, minItem: number, roundToDigits?: number, showFractionalValues?: boolean) => MaxAndMin;
 export declare const computeMaxAndMinItems: (data: any[] | undefined, roundToDigits?: number, showFractionalValues?: boolean) => MaxAndMin;
-export declare const getLabelTextUtil: (val: string, index: number, showFractionalValues?: boolean, yAxisLabelTexts?: string[], yAxisOffset?: number, yAxisLabelPrefix?: string, yAxisLabelSuffix?: string, roundToDigits?: number, formatYLabel?: ((label: string) => string) | undefined) => string;
+export declare const getLabelTextUtil: (val: string, index: number, showFractionalValues?: boolean, yAxisLabelTexts?: string[], yAxisOffset?: number, yAxisLabelPrefix?: string, yAxisLabelSuffix?: string, roundToDigits?: number, formatYLabel?: (label: string) => string) => string;
 export declare const getXForLineInBar: (index: number, firstBarWidth: number, currentBarWidth: number, yAxisLabelWidth: number, lineConfig: any, spacing: number) => number;
 export declare const getYForLineInBar: (value: number | undefined, shiftY: number | undefined, containerHeight: number, maxValue: number) => number;
 export declare const clone: (obj: any) => any;
