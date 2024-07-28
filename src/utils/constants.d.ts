@@ -64,6 +64,7 @@ export declare const AxesAndRulesDefaults: {
     verticalLinesZIndex: number;
     verticalLinesSpacing: number;
     verticalLinesUptoDataPoint: boolean;
+    verticalLinesStrokeLinecap: string;
     noOfSections: number;
     containerHeight: number;
     width: number;
@@ -217,6 +218,7 @@ export declare const populationDefaults: {
     verticalLinesThickness: number;
     verticalLinesType: string;
     verticalLinesStrokeDashArray: number[];
+    verticalLinesStrokeLinecap: string;
     defaultFontSize: number;
     defaultFontColor: string;
     defaultFontStyle: FontStyle;

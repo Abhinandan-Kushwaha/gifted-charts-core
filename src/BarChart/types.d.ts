@@ -1,6 +1,6 @@
 import { type ColorValue, type GestureResponderEvent, type ViewStyle } from 'react-native';
 import { type yAxisSides } from '../utils/constants';
-import { XAxisConfig, type CurveType, type Pointer, type RuleType, type RulesConfig, type referenceConfigType, type secondaryYAxisType } from '../utils/types';
+import { XAxisConfig, type CurveType, type Pointer, type RuleType, type RulesConfig, type referenceConfigType, type secondaryYAxisType, type Linecap } from '../utils/types';
 import { type Component, type ReactNode } from 'react';
 import { type lineDataItem } from '../LineChart/types';
 export interface stackDataItem {
@@ -202,6 +202,7 @@ export interface BarChartPropsType {
     verticalLinesZIndex?: number;
     noOfVerticalLines?: number;
     verticalLinesSpacing?: number;
+    verticalLinesStrokeLinecap?: Linecap;
     showYAxisIndices?: boolean;
     showXAxisIndices?: boolean;
     yAxisIndicesHeight?: number;

@@ -8,6 +8,7 @@ export declare enum Framework {
 }
 export type RuleType = 'solid' | 'dashed' | 'dotted' | string;
 export type LabelsPosition = 'onBorder' | 'outward' | 'inward' | 'mid';
+export type Linecap = 'butt' | 'square' | 'round';
 export interface RuleTypes {
     SOLID: RuleType;
     DASHED: RuleType;

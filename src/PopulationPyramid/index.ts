@@ -1,9 +1,14 @@
 import { getStrokeDashArray } from '../utils'
 import { AxesAndRulesDefaults, populationDefaults } from '../utils/constants'
-import { Framework } from '../utils/types'
-import { type extendedPopulationPyramidPropsType, type RulesPropsType } from './types'
+import { Framework, type Linecap } from '../utils/types'
+import {
+  type extendedPopulationPyramidPropsType,
+  type RulesPropsType
+} from './types'
 
-export const usePopulationPyramid = (props: extendedPopulationPyramidPropsType) => {
+export const usePopulationPyramid = (
+  props: extendedPopulationPyramidPropsType
+) => {
   const {
     framework,
     height = populationDefaults.height,
@@ -37,6 +42,7 @@ export const usePopulationPyramid = (props: extendedPopulationPyramidPropsType) 
     verticalLinesThickness = populationDefaults.verticalLinesThickness,
     verticalLinesType = populationDefaults.verticalLinesType,
     verticalLinesStrokeDashArray = populationDefaults.verticalLinesStrokeDashArray,
+    verticalLinesStrokeLinecap = populationDefaults.verticalLinesStrokeLinecap,
 
     showYAxisIndices = AxesAndRulesDefaults.showYAxisIndices,
     yAxisIndicesWidth = AxesAndRulesDefaults.yAxisIndicesWidth,
@@ -218,7 +224,8 @@ export const usePopulationPyramid = (props: extendedPopulationPyramidPropsType) 
     y1: 0,
     y2: containerHeight,
     stroke: verticalLinesColor,
-    strokeWidth: verticalLinesThickness
+    strokeWidth: verticalLinesThickness,
+    strokeLinecap: verticalLinesStrokeLinecap as Linecap
   }
   verticalLinesCommonProps.strokeDasharray = getStrokeDashArray(
     verticalLinesStrokeDashArray

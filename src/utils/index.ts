@@ -733,6 +733,7 @@ export const getAxesAndRulesProps = (
     verticalLinesZIndex: props.verticalLinesZIndex,
     verticalLinesSpacing: props.verticalLinesSpacing,
     noOfVerticalLines: props.noOfVerticalLines,
+    verticalLinesStrokeLinecap: props.verticalLinesStrokeLinecap,
 
     // specific to Line charts-
     verticalLinesUptoDataPoint: props.verticalLinesUptoDataPoint,

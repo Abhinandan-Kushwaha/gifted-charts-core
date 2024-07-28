@@ -1,5 +1,5 @@
 import { type ColorValue } from 'react-native';
-import { type Framework, type RuleTypes } from '../utils/types';
+import { type Linecap, type Framework, type RuleTypes } from '../utils/types';
 import { type FontStyle, type FontWeight } from 'react-native-svg';
 export interface popnPyramidDataItem {
     left: number;
@@ -75,6 +75,7 @@ export interface RulesProps {
     stroke?: ColorValue;
     strokeWidth?: number;
     strokeDasharray?: number[] | string;
+    strokeLinecap?: Linecap;
 }
 export type RulesPropsReactJS = RulesProps & {
     stroke?: string;
@@ -117,6 +118,7 @@ export interface PopulationPyramidPropsType {
     verticalLinesThickness?: number;
     verticalLinesType?: RuleTypes;
     verticalLinesStrokeDashArray?: number[] | string;
+    verticalLinesStrokeLinecap?: Linecap;
     noOfSections?: number;
     barsMapToYAxisSections?: boolean;
     showYAxisIndices?: boolean;
