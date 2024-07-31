@@ -8,7 +8,7 @@ DST_DIR="./dist"
 mkdir -p "$DST_DIR"
 
 # Find and move all .js and .d.ts files while preserving the directory structure
-find "$SRC_DIR" -type f \( -name '*.js' -o -name '*.d.ts' \) | while read -r file; do
+find "$SRC_DIR" -type f \( -name '*.js' -o -name '*.d.ts' -o -name '*.js.map' \) | while read -r file; do
     # Get the relative path of the file
     rel_path="${file#$SRC_DIR/}"
     # Get the directory of the file
