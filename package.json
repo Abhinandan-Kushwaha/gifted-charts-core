@@ -1,13 +1,13 @@
 {
   "name": "gifted-charts-core",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "Mathematical and logical utilities used by react-gifted-charts and react-native-gifted-charts",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "files": [
-    "src"
+    "dist"
   ],
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc -p . && ./build.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.ts"
   },

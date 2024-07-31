@@ -39,7 +39,6 @@ import {
 import { type Animated } from 'react-native'
 
 export interface extendedLineChartPropsType extends LineChartPropsType {
-  animations?: Animated.Value[]
   // heightValue: Animated.Value
   // widthValue: Animated.Value
   // opacValue: Animated.Value
@@ -48,7 +47,6 @@ export interface extendedLineChartPropsType extends LineChartPropsType {
 
 export const useLineChart = (props: extendedLineChartPropsType) => {
   const {
-    animations,
     showDataPointsForMissingValues,
     interpolateMissingValues = true,
     onlyPositive,
@@ -470,53 +468,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     extendedContainerHeight - (value * containerHeight) / secondaryMaxValue
   const heightUptoXaxis = extendedContainerHeight - xAxisThickness
 
-  if (animateOnDataChange && animations) {
-    animations.forEach((item, index) => {
-      item.addListener((val) => {
-        if (typeof data[index] === 'undefined') {
-          return
-        }
-
-        const temp = data[index]?.value ?? 0
-        data[index].value = val?.value ?? 0
-        let pp = ''
-        let ppp = ''
-        if (!(dataSet?.[0].curved ?? props.curved)) {
-          for (let i = 0; i < (data0 ?? data).length; i++) {
-            pp +=
-              'L' + getX(i) + ' ' + getY((data0 ?? data)[i]?.value ?? 0) + ' '
-          }
-          if (dataSet?.[0]?.areaChart ?? areaChart) {
-            ppp = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
-            ppp += pp
-            ppp +=
-              'L' +
-              (initialSpacing + spacing * (data.length - 1)) +
-              ' ' +
-              heightUptoXaxis
-            ppp += 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
-          }
-          newPoints = pp
-          newFillPoints = ppp
-          setPointsOnChange()
-        }
-        counter++
-        data[index].value = temp
-      })
-    })
-  }
-
-  const setPointsOnChange = (): void => {
-    if (counter === data.length) {
-      if (!props.curved) {
-        setPoints(newPoints.replace('L', 'M'))
-        if (areaChart) {
-          setFillPoints(newFillPoints.replace('L', 'M'))
-        }
-      }
-    }
-  }
-
   const showValuesAsDataPointsText =
     props.showValuesAsDataPointsText ?? LineDefaults.showValuesAsDataPointsText
 
@@ -906,7 +857,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       let pp5 = ''
       if (!props.curved) {
         for (let i = 0; i < data.length; i++) {
-          if (i >= startIndex1 && i <= endIndex1 && !animateOnDataChange) {
+          if (i >= startIndex1 && i <= endIndex1) {
             if (stepChart ?? stepChart1) {
               pp += getStepPath(data, i)
             } else {
@@ -1097,11 +1048,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let ppp4 = ''
           let ppp5 = ''
 
-          if (
-            (areaChart ?? areaChart1) &&
-            data.length > 0 &&
-            !animateOnDataChange
-          ) {
+          if ((areaChart ?? areaChart1) && data.length > 0) {
             ppp = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             ppp += pp
             ppp +=
@@ -1436,8 +1383,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       for (let i = 0; i < secondaryData.length; i++) {
         if (
           i >= secondaryLineConfig.startIndex &&
-          i <= secondaryLineConfig.endIndex &&
-          !animateOnDataChange
+          i <= secondaryLineConfig.endIndex
         ) {
           pp +=
             'L' + getX(i) + ' ' + getSecondaryY(secondaryData[i].value) + ' '
@@ -1470,7 +1416,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       if (secondaryLineConfig.areaChart) {
         let ppp = ''
 
-        if (secondaryData.length > 0 && !animateOnDataChange) {
+        if (secondaryData.length > 0) {
           ppp = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
           ppp += pp
           ppp +=
@@ -2038,7 +1984,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     secondaryMaxValue,
     getSecondaryY,
     heightUptoXaxis,
-    setPointsOnChange,
     showValuesAsDataPointsText,
     thickness1,
     thickness2,

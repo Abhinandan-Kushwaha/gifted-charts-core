@@ -70,6 +70,7 @@ export { useAnimatedThreeDBar } from './components/AnimatedThreeDBar'
 export { getHorizSectionVals } from './components/BarAndLineChartsWrapper/getHorizSectionsVals'
 export { useBarAndLineChartsWrapper } from './components/BarAndLineChartsWrapper'
 export { getTopAndLeftForStripAndLabel } from './components/common/StripAndLabel'
+export { type StripAndLabelProps } from './components/common/types'
 
 /***********************************************************************************************************************
 /*********************************          common utils, constants and types           ********************************

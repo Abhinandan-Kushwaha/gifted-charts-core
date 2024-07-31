@@ -1,6 +1,5 @@
-import { type ColorValue, type PointerEvent } from 'react-native'
-import { type Pointer } from '../../utils/types'
-import { type barDataItem, type stackDataItem } from '../../BarChart/types'
+import { type ColorValue } from 'react-native'
+import { PointerEvents, type Pointer } from '../../utils/types'
 
 export interface StripAndLabelProps {
   autoAdjustPointerLabelPosition: boolean
@@ -16,17 +15,19 @@ export interface StripAndLabelProps {
   pointerStripUptoDataPoint: boolean
   pointerStripHeight: number
   shiftPointerLabelY: number
-  pointerItemLocal: barDataItem | stackDataItem
+  pointerItemLocal: any[]
   showPointerStrip: boolean
   pointerStripWidth: number
   containerHeight: number
   xAxisThickness: number
   pointerStripColor: ColorValue
-  pointerConfig: Pointer
-  pointerLabelComponent: Function
-  secondaryPointerItem: barDataItem | stackDataItem
+  pointerConfig?: Pointer
+  pointerLabelComponent: Function | null
+  secondaryPointerItem?: any[]
   scrollX: number
-  pointerEvents: PointerEvent
+  pointerEvents?: PointerEvents
   width: number
   screenWidth: number
+  isBarChart: boolean
+  pointerIndex: number
 }
