@@ -18,8 +18,8 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     autoCenterTooltip,
     horizontal
   } = props
-  const cotainsNegative = item.stacks.some((item) => item.value < 0)
-  const noAnimation = cotainsNegative || !isAnimated
+  const containsNegativeValue = item.stacks.some((item) => item.value < 0)
+  const noAnimation = containsNegativeValue || !isAnimated
 
   const localBarInnerComponent =
     item.barInnerComponent ?? props.barInnerComponent
@@ -137,7 +137,7 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
   }
 
   return {
-    cotainsNegative,
+    containsNegativeValue,
     noAnimation,
     localBarInnerComponent,
     borderRadius,
