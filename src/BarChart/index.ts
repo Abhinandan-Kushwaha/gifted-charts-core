@@ -36,7 +36,7 @@ export interface extendedBarChartPropsType extends BarChartPropsType {
   parentWidth: number
   heightValue?: Animated.Value
   widthValue?: Animated.Value
-  opacValue?: Animated.Value
+  opacityValue?: Animated.Value
   verticalLinesUptoDataPoint?: boolean
   secondaryYAxis?: secondaryYAxisType | boolean
 }
@@ -45,7 +45,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const {
     heightValue,
     widthValue,
-    opacValue,
+    opacityValue,
     yAxisOffset,
     adjustToWidth,
     parentWidth,
@@ -626,7 +626,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     inputRange: [0, 1],
     outputRange: ['0%', '100%']
   })
-  const appearingOpacity = opacValue?.interpolate({
+  const appearingOpacity = opacityValue?.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 1]
   })

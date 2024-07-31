@@ -16,7 +16,7 @@ export {
   type trianglePropTypes,
   type animatedBarPropTypes,
   type FocusedBarConfig,
-  type CommonPropsFor2Dand3DbarsType
+  type CommonPropsFor2dand3dBarsType
 } from './BarChart/types'
 
 /************************************************************************************************************************

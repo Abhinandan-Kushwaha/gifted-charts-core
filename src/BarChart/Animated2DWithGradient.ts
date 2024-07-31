@@ -3,7 +3,7 @@ import { getBarFrontColor, getBarWidth } from '../utils'
 import {
   type FocusedBarConfig,
   type BarChartPropsType,
-  type CommonPropsFor2Dand3DbarsType,
+  type CommonPropsFor2dand3dBarsType,
   type barDataItem,
   type stackDataItem
 } from './types'
@@ -27,7 +27,7 @@ interface Animated2dWithGradientPropsType extends BarChartPropsType {
 interface IgetPropsForAnimated2DWithGradientReturnType {
   commonStyleForBar: ViewStyle[]
   barStyleWithBackground: ViewStyle[]
-  commonPropsFor2Dand3Dbars: CommonPropsFor2Dand3DbarsType
+  commonPropsFor2dAnd3dBars: CommonPropsFor2dand3dBarsType
   isFocused?: boolean
   focusedBarConfig?: FocusedBarConfig
   localFrontColor: ColorValue
@@ -154,7 +154,7 @@ export const getPropsForAnimated2DWithGradient = (
     }
   ]
 
-  const commonPropsFor2Dand3Dbars: CommonPropsFor2Dand3DbarsType = {
+  const commonPropsFor2dAnd3dBars: CommonPropsFor2dand3dBarsType = {
     barBackgroundPattern: item.barBackgroundPattern ?? barBackgroundPattern,
     barInnerComponent: isFocused
       ? focusedBarConfig?.barInnerComponent ?? barInnerComponent
@@ -184,7 +184,7 @@ export const getPropsForAnimated2DWithGradient = (
   return {
     commonStyleForBar,
     barStyleWithBackground,
-    commonPropsFor2Dand3Dbars,
+    commonPropsFor2dAnd3dBars,
     isFocused,
     focusedBarConfig,
     localFrontColor

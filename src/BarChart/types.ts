@@ -646,7 +646,7 @@ export interface animatedBarPropTypes {
   focusedBarConfig?: FocusedBarConfig
 }
 
-export interface CommonPropsFor2Dand3DbarsType {
+export interface CommonPropsFor2dand3dBarsType {
   barBackgroundPattern?: () => ReactNode
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
   patternId?: string
