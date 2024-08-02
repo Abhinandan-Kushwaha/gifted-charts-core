@@ -1392,10 +1392,13 @@ export const getInterpolatedData = (
     const pre: lineDataItem[] = data.slice(0, index)
     const post: lineDataItem[] = data.slice(index + 1, n)
 
-    const preValidIndex = pre
+    const preCount = pre.length - 1
+    const tempPreValidIndex = pre
       .slice()
       .reverse()
       .findIndex((item: lineDataItem) => typeof item.value === 'number')
+    const preValidIndex = tempPreValidIndex >= 0 ? preCount - tempPreValidIndex : tempPreValidIndex
+
     const postValidInd = post.findIndex(
       (item) => typeof item.value === 'number'
     )
@@ -1415,10 +1418,12 @@ export const getInterpolatedData = (
       //    1. There's only 1 valid value in the pre -> this is already handled in preprocessing
       //    2. There are more than valid values in pre
       const secondPre: lineDataItem[] = data.slice(0, preValidIndex)
-      const secondPreIndex = secondPre
+      const secondPreCount = pre.length - 1
+      const tempSecondPreIndex = secondPre
         .slice()
         .reverse()
         .findIndex((item: lineDataItem) => typeof item.value === 'number')
+      const secondPreIndex = tempSecondPreIndex >= 0 ? secondPreCount - tempSecondPreIndex : tempSecondPreIndex
 
       count = preValidIndex - secondPreIndex
       step = (data[secondPreIndex].value - data[preValidIndex].value) / count
