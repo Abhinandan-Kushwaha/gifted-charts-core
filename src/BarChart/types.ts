@@ -23,6 +23,7 @@ export interface stackDataItem {
   onLongPress?: any
   onPressOut?: any
   label?: string
+  labelWidth?: number 
   labelsDistanceFromXaxis?: number
   barWidth?: number
   spacing?: number
@@ -90,6 +91,7 @@ export interface StackedBarChartPropsType {
   onPress?: Function
   onLongPress?: Function
   onPressOut?: Function
+  labelWidth?: number
 
   rotateLabel?: boolean
   showXAxisIndices: boolean
