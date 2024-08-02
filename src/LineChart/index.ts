@@ -211,6 +211,18 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const startIndex5 = props.startIndex5 ?? 0
   const endIndex5 = props.endIndex5 ?? data5.length - 1
 
+  const lengthOfLongestDataArray = Math.max(
+    data.length,
+    data2.length,
+    data3.length,
+    data4.length,
+    data5.length
+  )
+
+  const maxLengthOfDataOrSet = dataSet
+    ? Math.max(...dataSet.map((item) => item.data.length))
+    : lengthOfLongestDataArray
+
   const lineSegments = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data)
     : props.lineSegments
@@ -228,10 +240,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     : props.lineSegments5
 
   const highlightedRange = props.highlightedRange
-
-  let newPoints = ''
-  let newFillPoints = ''
-  let counter = 0
 
   const adjustToWidth = props.adjustToWidth ?? false
 
@@ -427,7 +435,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.textColor5 ?? props.textColor ?? LineDefaults.textColor
 
   const totalWidth =
-    initialSpacing + spacing * (data0 ?? data).length - 1 + endSpacing
+    initialSpacing + spacing * maxLengthOfDataOrSet - 1 + endSpacing
 
   const { maxItem, minItem } = computeMaxAndMinItems(
     data0 ?? data,
@@ -856,7 +864,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       let pp4 = ''
       let pp5 = ''
       if (!props.curved) {
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < lengthOfLongestDataArray; i++) {
           if (i >= startIndex1 && i <= endIndex1) {
             if (stepChart ?? stepChart1) {
               pp += getStepPath(data, i)
@@ -1115,7 +1123,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         const p3Array: number[][] = []
         const p4Array: number[][] = []
         const p5Array: number[][] = []
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < lengthOfLongestDataArray; i++) {
           if (i >= startIndex1 && i <= endIndex1) {
             p1Array.push([getX(i), getY(data[i].value)])
           }
