@@ -150,5 +150,6 @@ export {
   type XAxisConfig,
   type LineInBarChartPropsType,
   type DataPointProps,
-  type Linecap
+  type Linecap,
+  type IntersectionAreaConfig
 } from './utils/types'

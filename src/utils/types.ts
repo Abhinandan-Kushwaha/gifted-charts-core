@@ -400,7 +400,8 @@ export interface LineSvgProps {
   fill: string
   stroke: string | ColorValue
   strokeWidth: number
-  strokeDasharray?: number[]
+  strokeDasharray?: number[],
+  clipPath?: string
 }
 
 export interface LineProperties {
@@ -439,4 +440,8 @@ export interface DataSet {
   curveType?: CurveType
   lineSegments?: LineSegment[]
   isSecondary?: boolean
+}
+
+export interface IntersectionAreaConfig {
+  fillColor?: ColorValue
 }

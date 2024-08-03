@@ -14,7 +14,8 @@ import {
   type referenceConfigType,
   type secondaryLineConfigType,
   type secondaryYAxisType,
-  type Linecap
+  type Linecap,
+  type IntersectionAreaConfig
 } from '../utils/types'
 
 export interface LineChartPropsType {
@@ -340,6 +341,8 @@ export interface LineChartPropsType {
   onBackgroundPress?: (event: GestureResponderEvent) => void
 
   secondaryXAxis?: XAxisConfig
+
+  intersectionAreaConfig?: IntersectionAreaConfig
 }
 
 export interface lineDataItem {
