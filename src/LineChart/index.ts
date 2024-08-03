@@ -77,7 +77,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const [pointerYsForDataSet, setPointerYsForDataSet] = useState<number[]>([])
   const [pointerItem5, setPointerItem5] = useState<lineDataItem>()
   const [secondaryPointerY, setSecondaryPointerY] = useState(0)
-  const [secondaryPointerItem, setSecondaryPointerItem] = useState()
+  const [secondaryPointerItem, setSecondaryPointerItem] =
+    useState<lineDataItem>()
+  const [pointerItemsForSet, setPointerItemsForSet] = useState<lineDataItem[]>(
+    []
+  )
+  const [secondaryPointerItemsForSet, setSecondaryPointerItemsForSet] =
+    useState<lineDataItem[]>([])
 
   const [responderStartTime, setResponderStartTime] = useState(0)
   const [responderActive, setResponderActive] = useState(false)
@@ -1855,6 +1861,10 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     setSecondaryPointerY,
     secondaryPointerItem,
     setSecondaryPointerItem,
+    pointerItemsForSet,
+    setPointerItemsForSet,
+    secondaryPointerItemsForSet,
+    setSecondaryPointerItemsForSet,
     responderStartTime,
     setResponderStartTime,
     responderActive,

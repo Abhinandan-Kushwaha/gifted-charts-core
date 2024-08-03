@@ -23,7 +23,10 @@ export interface StripAndLabelProps {
   pointerStripColor: ColorValue
   pointerConfig?: Pointer
   pointerLabelComponent: Function | null
-  secondaryPointerItem?: any[]
+  secondaryPointerItem?: any
+  pointerItemsForSet?: any[]
+  secondaryPointerItemsForSet?: any[]
+  hasDataSet?: boolean
   scrollX: number
   pointerEvents?: PointerEvents
   width: number
