@@ -396,6 +396,7 @@ export interface lineDataItem {
   pointerShiftY?: number
   onPress?: Function
   showXAxisIndex?: boolean
+  hidePointer?: boolean
 }
 
 interface sectionType {

@@ -366,6 +366,7 @@ export interface Pointer {
   initialPointerIndex?: number
   initialPointerAppearDelay?: number
   persistPointer?: boolean
+  hidePointers?: boolean
   hidePointer1?: boolean
   hidePointer2?: boolean
   hidePointer3?: boolean
@@ -440,6 +441,7 @@ export interface DataSet {
   curveType?: CurveType
   lineSegments?: LineSegment[]
   isSecondary?: boolean
+  hidePointers?: boolean
 }
 
 export interface IntersectionAreaConfig {

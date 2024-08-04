@@ -266,6 +266,7 @@ export const defaultPointerConfig = {
   initialPointerIndex: -1,
   initialPointerAppearDelay: 0,
   persistPointer: false,
+  hidePointers: false,
   hidePointer1: false,
   hidePointer2: false,
   hidePointer3: false,
