@@ -1584,6 +1584,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       : defaultPointerConfig.initialPointerAppearDelay)
   const persistPointer =
     pointerConfig?.persistPointer ?? defaultPointerConfig.persistPointer
+  const hidePointers =
+    pointerConfig?.hidePointers ?? defaultPointerConfig.hidePointers
   const hidePointer1 =
     pointerConfig?.hidePointer1 ?? defaultPointerConfig.hidePointer1
   const hidePointer2 =
@@ -2020,6 +2022,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     strokeDashArray5,
     rotateLabel,
     isAnimated,
+    hidePointers,
     hideDataPoints1,
     hideDataPoints2,
     hideDataPoints3,
