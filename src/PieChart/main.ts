@@ -1,4 +1,8 @@
-import { emptyExternaLabelProperties, getTextSizeForPieLabels } from '../utils'
+import {
+  defaultLabelLineConfig,
+  emptyExternaLabelProperties,
+  getTextSizeForPieLabels
+} from '../utils'
 import { type PieChartMainProps, type pieDataItem } from './types'
 
 export const getPieChartMainProps = (props: PieChartMainProps) => {
@@ -52,13 +56,21 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
   const textColor = props.textColor ?? ''
   const textSize = getTextSizeForPieLabels(props.textSize ?? 0, radius)
   const labelLineConfig = {
-    length: props.labelLineConfig?.length ?? 10,
-    tailLength: props.labelLineConfig?.tailLength ?? 8,
-    color: props.labelLineConfig?.color ?? 'black',
-    thickness: props.labelLineConfig?.thickness ?? 1,
-    labelComponentWidth: props.labelLineConfig?.labelComponentWidth ?? 20,
-    labelComponentHeight: props.labelLineConfig?.labelComponentHeight ?? 10,
-    labelComponentMargin: props.labelLineConfig?.labelComponentMargin ?? 4
+    length: props.labelLineConfig?.length ?? defaultLabelLineConfig.length,
+    tailLength:
+      props.labelLineConfig?.tailLength ?? defaultLabelLineConfig.tailLength,
+    color: props.labelLineConfig?.color ?? defaultLabelLineConfig.color,
+    thickness:
+      props.labelLineConfig?.thickness ?? defaultLabelLineConfig.thickness,
+    labelComponentWidth:
+      props.labelLineConfig?.labelComponentWidth ??
+      defaultLabelLineConfig.labelComponentWidth,
+    labelComponentHeight:
+      props.labelLineConfig?.labelComponentHeight ??
+      defaultLabelLineConfig.labelComponentHeight,
+    labelComponentMargin:
+      props.labelLineConfig?.labelComponentMargin ??
+      defaultLabelLineConfig.labelComponentMargin
   }
 
   let tiltAngle = props.tiltAngle ?? '55deg'
