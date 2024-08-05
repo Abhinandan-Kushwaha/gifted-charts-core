@@ -1,6 +1,6 @@
 import { type ColorValue } from 'react-native'
 import { type FontStyle } from 'react-native-svg'
-import { LabelsPosition } from '../utils/types'
+import { LabelLineConfig, LabelsPosition } from '../utils/types'
 
 export interface PieChartPropsType {
   radius?: number
@@ -47,7 +47,7 @@ export interface PieChartPropsType {
   setSelectedIndex?: Function
   sectionAutoFocus?: boolean
   onLabelPress?: Function
-  extraRadiusForFocused?: number
+  extraRadius?: number
   inwardExtraLengthForFocused?: number
   pieInnerComponent?: (item?: pieDataItem, index?: number) => any
   pieInnerComponentHeight?: number
@@ -62,6 +62,9 @@ export interface PieChartPropsType {
   isAnimated?: boolean
   animationDuration?: number
   focusedPieIndex?: number
+  showExternalLabels?: boolean
+  labelLineConfig?: LabelLineConfig
+  externalLabelComponent?: (item?: pieDataItem, index?: number) => any
 }
 export interface pieDataItem {
   value: number
@@ -94,6 +97,8 @@ export interface pieDataItem {
   isEndEdgeCurved?: boolean
   startEdgeRadius?: number
   endEdgeRadius?: number
+  labelLineConfig?: LabelLineConfig
+  externalLabelComponent?: (item?: pieDataItem, index?: number) => any
 }
 
 export interface PieChartMainProps extends PieChartPropsType {
@@ -101,5 +106,5 @@ export interface PieChartMainProps extends PieChartPropsType {
   isBiggerPie?: boolean
   paddingHorizontal: number
   paddingVertical: number
-  extraRadiusForFocused: number
+  extraRadius: number
 }

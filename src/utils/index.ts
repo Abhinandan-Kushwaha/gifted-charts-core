@@ -1397,7 +1397,8 @@ export const getInterpolatedData = (
       .slice()
       .reverse()
       .findIndex((item: lineDataItem) => typeof item.value === 'number')
-    const preValidIndex = tempPreValidIndex >= 0 ? preCount - tempPreValidIndex : tempPreValidIndex
+    const preValidIndex =
+      tempPreValidIndex >= 0 ? preCount - tempPreValidIndex : tempPreValidIndex
 
     const postValidInd = post.findIndex(
       (item) => typeof item.value === 'number'
@@ -1423,7 +1424,10 @@ export const getInterpolatedData = (
         .slice()
         .reverse()
         .findIndex((item: lineDataItem) => typeof item.value === 'number')
-      const secondPreIndex = tempSecondPreIndex >= 0 ? secondPreCount - tempSecondPreIndex : tempSecondPreIndex
+      const secondPreIndex =
+        tempSecondPreIndex >= 0
+          ? secondPreCount - tempSecondPreIndex
+          : tempSecondPreIndex
 
       count = preValidIndex - secondPreIndex
       step = (data[secondPreIndex].value - data[preValidIndex].value) / count
@@ -1567,4 +1571,27 @@ export const getStrokeDashArray = (
   }
 
   return strokeDashArrayOrString
+}
+
+export const emptyExternaLabelProperties = {
+  labelLineColor: '',
+  labelLineThickness: 0,
+  labelComponentHeight: 0,
+  inX: 0,
+  inY: 0,
+  outX: 0,
+  outY: 0,
+  finalX: 0,
+  labelComponentX: 0,
+  localExternalLabelComponent: null
+}
+
+export const defaultLabelLineConfig = {
+  length: 10,
+  tailLength: 8,
+  color: 'black',
+  thickness: 1,
+  labelComponentWidth: 20,
+  labelComponentHeight: 10,
+  labelComponentMargin: 4
 }

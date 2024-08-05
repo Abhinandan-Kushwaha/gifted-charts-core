@@ -100,6 +100,7 @@ export interface LineChartPropsType {
   showReferenceLine3?: boolean
   referenceLine3Config?: referenceConfigType
   referenceLine3Position?: number
+  referenceLinesOverChartContent?: boolean
 
   showVerticalLines?: boolean
   verticalLinesUptoDataPoint?: boolean

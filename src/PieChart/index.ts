@@ -5,7 +5,7 @@ import { type ColorValue } from 'react-native'
 
 interface IusePieChart {
   radius: number
-  extraRadiusForFocused: number
+  extraRadius: number
   pi: number
   selectedIndex: number
   setSelectedIndex: (index: number) => void
@@ -40,9 +40,13 @@ interface IPieChartPropsType extends PieChartPropsType {
 
 export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
   const radius = props.radius ?? 120
-  const extraRadiusForFocused =
-    props.extraRadiusForFocused ??
-    (props.focusOnPress ?? props.sectionAutoFocus ? radius / 10 : 0)
+  const extraRadius =
+    props.extraRadius ??
+    (props.showExternalLabels
+      ? 40
+      : props.focusOnPress ?? props.sectionAutoFocus
+      ? radius / 10
+      : 0)
   const pi = props.semiCircle ? Math.PI / 2 : Math.PI
   const [selectedIndex, setSelectedIndex] = useState(
     props.focusedPieIndex ?? -1
@@ -149,7 +153,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
 
   return {
     radius,
-    extraRadiusForFocused,
+    extraRadius,
     pi,
     selectedIndex,
     setSelectedIndex,
