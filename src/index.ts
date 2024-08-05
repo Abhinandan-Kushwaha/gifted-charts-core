@@ -151,5 +151,6 @@ export {
   type LineInBarChartPropsType,
   type DataPointProps,
   type Linecap,
-  type IntersectionAreaConfig
+  type IntersectionAreaConfig,
+  type LabelLineConfig
 } from './utils/types'
