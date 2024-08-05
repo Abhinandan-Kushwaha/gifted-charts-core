@@ -401,7 +401,7 @@ export interface LineSvgProps {
   fill: string
   stroke: string | ColorValue
   strokeWidth: number
-  strokeDasharray?: number[],
+  strokeDasharray?: number[]
   clipPath?: string
 }
 
@@ -446,4 +446,14 @@ export interface DataSet {
 
 export interface IntersectionAreaConfig {
   fillColor?: ColorValue
+}
+
+export interface LabelLineConfig {
+  length?: number
+  tailLength?: number
+  color?: ColorValue
+  thickness?: number
+  labelComponentWidth?: number
+  labelComponentHeight?: number
+  labelComponentMargin?: number
 }

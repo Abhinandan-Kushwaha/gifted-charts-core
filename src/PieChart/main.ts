@@ -1,4 +1,4 @@
-import { getTextSizeForPieLabels } from '../utils'
+import { emptyExternaLabelProperties, getTextSizeForPieLabels } from '../utils'
 import { type PieChartMainProps, type pieDataItem } from './types'
 
 export const getPieChartMainProps = (props: PieChartMainProps) => {
@@ -7,7 +7,9 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     isBiggerPie,
     paddingHorizontal,
     paddingVertical,
-    extraRadiusForFocused
+    extraRadius,
+    showExternalLabels,
+    externalLabelComponent
   } = props
   const propData = props.data
   const data: pieDataItem[] = []
@@ -49,6 +51,16 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
   const showText = props.showText ?? false
   const textColor = props.textColor ?? ''
   const textSize = getTextSizeForPieLabels(props.textSize ?? 0, radius)
+  const labelLineConfig = {
+    length: props.labelLineConfig?.length ?? 10,
+    tailLength: props.labelLineConfig?.tailLength ?? 8,
+    color: props.labelLineConfig?.color ?? 'black',
+    thickness: props.labelLineConfig?.thickness ?? 1,
+    labelComponentWidth: props.labelLineConfig?.labelComponentWidth ?? 20,
+    labelComponentHeight: props.labelLineConfig?.labelComponentHeight ?? 10,
+    labelComponentMargin: props.labelLineConfig?.labelComponentMargin ?? 4
+  }
+
   let tiltAngle = props.tiltAngle ?? '55deg'
   if (
     tiltAngle &&
@@ -62,8 +74,8 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
   const labelsPosition = props.labelsPosition
     ? props.labelsPosition
     : donut || props.centerLabelComponent
-      ? 'outward'
-      : 'mid'
+    ? 'outward'
+    : 'mid'
 
   const showTextBackground = props.showTextBackground ?? false
   const textBackgroundColor = props.textBackgroundColor ?? 'white'
@@ -122,6 +134,72 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
   })
   pData = [0, ...pData]
 
+  const getExternaLabelProperties = (
+    item: pieDataItem,
+    mx: number,
+    my: number,
+    cx: number,
+    cy: number
+  ) => {
+    if (!showExternalLabels) return emptyExternaLabelProperties
+    const labelLineLength =
+      item.labelLineConfig?.length ?? labelLineConfig.length
+    const labelTailLength =
+      item.labelLineConfig?.tailLength ?? labelLineConfig.tailLength
+    const labelLineColor = item.labelLineConfig?.color ?? labelLineConfig.color
+    const labelLineThickness =
+      item.labelLineConfig?.thickness ?? labelLineConfig.thickness
+    const labelComponentWidth =
+      item.labelLineConfig?.labelComponentWidth ??
+      labelLineConfig.labelComponentWidth
+    const labelComponentHeight =
+      item.labelLineConfig?.labelComponentHeight ??
+      labelLineConfig.labelComponentHeight
+    const labelComponentMargin =
+      item.labelLineConfig?.labelComponentMargin ??
+      labelLineConfig.labelComponentMargin
+
+    const isRightHalf = mx > cx
+
+    const slope = (my - cy) / (mx - cx)
+    const xFactor = labelTailLength / Math.sqrt(1 + slope * slope)
+    const yFactor = (labelTailLength * slope) / Math.sqrt(1 + slope * slope)
+    const outX = mx + (isRightHalf ? xFactor : -xFactor)
+    const outY = my + (isRightHalf ? yFactor : -yFactor)
+    const inX = mx + (isRightHalf ? -xFactor : xFactor)
+    const inY = my + (isRightHalf ? -yFactor : yFactor)
+
+    let finalX = isRightHalf ? cx * 2 + labelLineLength : -labelLineLength
+
+    finalX = isRightHalf
+      ? finalX > outX
+        ? finalX
+        : outX
+      : finalX < outX
+      ? finalX
+      : outX
+
+    const labelComponentX = isRightHalf
+      ? finalX + labelComponentMargin
+      : finalX - labelComponentWidth - labelComponentMargin
+
+    const localExternalLabelComponent =
+      item.externalLabelComponent ?? props.externalLabelComponent
+
+    return {
+      labelLineColor,
+      labelLineThickness,
+      labelComponentHeight,
+      inX,
+      inY,
+      outX,
+      outY,
+      finalX,
+      labelComponentX,
+      localExternalLabelComponent
+    }
+  }
+
   return {
     isThreeD,
     isBiggerPie,
@@ -168,6 +246,10 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     acc,
     paddingHorizontal,
     paddingVertical,
-    extraRadiusForFocused
+    extraRadius,
+    showExternalLabels,
+    labelLineConfig,
+    externalLabelComponent,
+    getExternaLabelProperties
   }
 }
