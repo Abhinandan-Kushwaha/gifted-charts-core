@@ -6,6 +6,7 @@ import {
   type horizSectionPropTypes
 } from '../../utils/types'
 import { type NativeScrollEvent } from 'react-native'
+import { computeMaxAndMinItems } from '../../utils'
 
 export const useBarAndLineChartsWrapper = (
   props: BarAndLineChartsWrapperTypes
@@ -25,6 +26,7 @@ export const useBarAndLineChartsWrapper = (
     shiftY,
     initialSpacing,
     data,
+    dataSet,
     stackData,
     secondaryData,
     barWidth,
@@ -172,6 +174,54 @@ export const useBarAndLineChartsWrapper = (
     ? [...Array(noOfVerticalLines).keys()]
     : [...Array(stackData ? stackData.length : data.length).keys()]
 
+  const extendedContainerHeight = containerHeight + overflowTop + 10
+
+  const dataSetArray = [...(dataSet ?? [])]
+  const setWithMinValueInDataset = dataSetArray
+    .filter((set) => set.isSecondary)
+    .sort?.((a, b) => {
+      const minA = Math.min(...a.data.map((item) => item.value))
+      const minB = Math.min(...b.data.map((item) => item.value))
+      return minA - minB
+    })[0]
+  const secondaryDataArrayWithMinValue = secondaryData?.length
+    ? secondaryData
+    : setWithMinValueInDataset?.data
+  const { maxItem: secondaryMaxItem, minItem: secondaryMinItem } =
+    computeMaxAndMinItems(
+      secondaryDataArrayWithMinValue,
+      secondaryYAxis?.roundToDigits ?? roundToDigits,
+      secondaryYAxis?.showFractionalValues ?? showFractionalValues
+    )
+
+  const secondaryStepValue =
+    secondaryYAxis?.stepValue ??
+    (secondaryYAxis?.maxValue ?? 0) /
+      (secondaryYAxis?.noOfSections ?? noOfSections)
+
+  const secondaryNegativeStepValue =
+    secondaryYAxis?.negativeStepValue ?? secondaryStepValue
+
+  const secondaryNoOfSectionsBelowXAxis =
+    secondaryYAxis?.noOfSectionsBelowXAxis ??
+    (secondaryNegativeStepValue ? Math.ceil(
+      (secondaryYAxis?.mostNegativeValue ?? secondaryMinItem) /
+        -secondaryNegativeStepValue
+    ) : 0)
+    
+  const primaryYAxisHeightBelowOrigin =
+    noOfSectionsBelowXAxis * negativeStepHeight
+  const secondaryYAxisHeightBelowOrigin =
+    secondaryNoOfSectionsBelowXAxis *
+    (secondaryYAxis?.negativeStepHeight ?? secondaryYAxis?.stepHeight ?? stepHeight)
+  const biggerNegativeYAxisHeight = Math.max(
+    primaryYAxisHeightBelowOrigin,
+    secondaryYAxisHeightBelowOrigin
+  )
+
+  const containerHeightIncludingBelowXAxis =
+    extendedContainerHeight + biggerNegativeYAxisHeight
+
   const horizSectionProps: horizSectionPropTypes = {
     chartType,
     width,
@@ -236,10 +286,14 @@ export const useBarAndLineChartsWrapper = (
     negativeStepValue,
     roundToDigits,
 
-    secondaryData,
     secondaryYAxis,
     formatYLabel: axesAndRulesProps.formatYLabel,
-    secondaryXAxis
+    secondaryXAxis,
+    secondaryMaxItem,
+    secondaryMinItem,
+    secondaryStepValue,
+    secondaryNegativeStepValue,
+    secondaryNoOfSectionsBelowXAxis
   }
 
   const lineInBarChartProps: LineInBarChartPropsType = {
@@ -267,9 +321,7 @@ export const useBarAndLineChartsWrapper = (
     points: points2,
     data: lineData2 ?? []
   }
-  const extendedContainerHeight = containerHeight + overflowTop + 10
-  const containerHeightIncludingBelowXAxis =
-    extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight
+
   const verticalLinesProps = {
     verticalLinesAr,
     verticalLinesSpacing,

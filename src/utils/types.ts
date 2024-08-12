@@ -240,13 +240,16 @@ export interface horizSectionPropTypes {
   stepValue: number
   negativeStepValue: number
   roundToDigits: number | undefined
-
-  secondaryData: any[] | undefined
   secondaryYAxis: secondaryYAxisType | null
   formatYLabel?: (label: string) => string
   onlyReferenceLines?: boolean
   renderReferenceLines?: boolean
   secondaryXAxis?: XAxisConfig
+  secondaryMaxItem: number
+  secondaryMinItem: number
+  secondaryStepValue: number
+  secondaryNegativeStepValue: number
+  secondaryNoOfSectionsBelowXAxis: number
 }
 
 interface HorizSectionObject {
@@ -333,6 +336,7 @@ export interface BarAndLineChartsWrapperTypes {
   isRTL?: boolean
   extraWidthDueToDataPoint?: number
   nestedScrollEnabled?: boolean
+  dataSet?: DataSet[]
 }
 
 export interface Pointer {

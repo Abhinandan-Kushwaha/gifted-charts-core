@@ -1631,9 +1631,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const delayBeforeUnFocus =
     props.delayBeforeUnFocus ?? LineDefaults.delayBeforeUnFocus
 
-  const containerHeightIncludingBelowXAxis =
-    extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight
-
   const lineGradient = props.lineGradient ?? LineDefaults.lineGradient
   const lineGradientDirection = props.lineGradientDirection ?? 'vertical'
   const lineGradientStartColor =
@@ -2158,7 +2155,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     stripStrokeDashArray,
     unFocusOnPressOut,
     delayBeforeUnFocus,
-    containerHeightIncludingBelowXAxis,
     lineGradient,
     lineGradientDirection,
     lineGradientStartColor,

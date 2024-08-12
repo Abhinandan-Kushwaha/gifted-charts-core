@@ -1055,10 +1055,7 @@ export const maxAndMinUtil = (
     maxItem = parseFloat(maxItem.toFixed(roundToDigits ?? 1))
 
     if (minItem !== 0) {
-      minItem *= 10 * (roundToDigits ?? 1)
-      minItem = minItem - (10 + (minItem % 10))
-      minItem /= 10 * (roundToDigits ?? 1)
-      minItem = parseFloat(minItem.toFixed(roundToDigits ?? 1))
+      minItem += minItem / 10
     }
   } else {
     maxItem = maxItem + (10 - (maxItem % 10))
