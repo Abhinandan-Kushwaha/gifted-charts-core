@@ -4,7 +4,7 @@ import {
   type horizSectionPropTypes,
   type secondaryYAxisType
 } from '../../utils/types'
-import { computeMaxAndMinItems, getLabelTextUtil } from '../../utils'
+import { getLabelTextUtil } from '../../utils'
 
 export const getHorizSectionVals = (props: horizSectionPropTypes) => {
   const {
@@ -50,9 +50,12 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
 
     yAxisOffset,
     formatYLabel,
-
-    secondaryData,
-    secondaryYAxis
+    secondaryMaxItem,
+    secondaryMinItem,
+    secondaryYAxis,
+    secondaryStepValue,
+    secondaryNegativeStepValue,
+    secondaryNoOfSectionsBelowXAxis
   } = props
 
   const yAxisExtraHeightAtTop = trimYAxisAtTop ? 0 : yAxisExtraHeight
@@ -63,21 +66,20 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
    *                                                                                                                                  *
    ***********************************************************************************************************************************/
 
-  const secondaryYAxisConfig: secondaryYAxisType = {
+  const secondaryYAxisConfig: secondaryYAxisType & { stepValue: number } = {
     noOfSections: secondaryYAxis?.noOfSections ?? noOfSections,
     maxValue: secondaryYAxis?.maxValue,
     mostNegativeValue: secondaryYAxis?.mostNegativeValue,
-    stepValue: secondaryYAxis?.stepValue,
+    stepValue: secondaryStepValue,
     stepHeight: secondaryYAxis?.stepHeight,
 
-    negativeStepValue: secondaryYAxis?.stepValue,
-    negativeStepHeight: secondaryYAxis?.stepHeight,
+    negativeStepValue: secondaryNegativeStepValue,
+    negativeStepHeight: secondaryYAxis?.negativeStepHeight,
 
     showFractionalValues:
       secondaryYAxis?.showFractionalValues ?? showFractionalValues,
     roundToDigits: secondaryYAxis?.roundToDigits ?? roundToDigits,
-    noOfSectionsBelowXAxis:
-      secondaryYAxis?.noOfSectionsBelowXAxis ?? noOfSectionsBelowXAxis,
+    noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis,
 
     showYAxisIndices: secondaryYAxis?.showYAxisIndices ?? showYAxisIndices,
     yAxisIndicesHeight:
@@ -103,19 +105,11 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
     formatYLabel: secondaryYAxis?.formatYLabel
   }
 
-  const { maxItem, minItem } = computeMaxAndMinItems(
-    secondaryData,
-    secondaryYAxisConfig.roundToDigits,
-    secondaryYAxisConfig.showFractionalValues
-  )
   secondaryYAxisConfig.maxValue =
-    secondaryYAxisConfig.maxValue ?? (maxItem || maxValue)
+    secondaryYAxisConfig.maxValue ?? (secondaryMaxItem || maxValue)
   secondaryYAxisConfig.mostNegativeValue =
-    secondaryYAxisConfig.mostNegativeValue ?? minItem
-  secondaryYAxisConfig.stepValue =
-    secondaryYAxisConfig.stepValue ??
-    (secondaryYAxisConfig.maxValue ?? 0) /
-      (secondaryYAxisConfig.noOfSections ?? noOfSections)
+    secondaryYAxisConfig.mostNegativeValue ?? secondaryMinItem
+
   secondaryYAxisConfig.stepHeight =
     secondaryYAxisConfig.stepHeight ||
     containerHeight / (secondaryYAxisConfig.noOfSections ?? noOfSections)

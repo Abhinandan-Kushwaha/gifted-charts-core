@@ -73,6 +73,7 @@ export interface StackedBarChartPropsType {
   color?: ColorValue
   topLabelComponent?: Component
   topLabelContainerStyle?: any
+  topLabelTextStyle?: any
   opacity?: number
   label: string
   labelTextStyle?: any
