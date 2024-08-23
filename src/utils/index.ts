@@ -1592,3 +1592,130 @@ export const defaultLabelLineConfig = {
   labelComponentHeight: 10,
   labelComponentMargin: 4
 }
+
+const secondLastIndexOf = (text: string, seq: string) => {
+  // assuming seq is a single char
+  let strCopy = text
+  const lastIndex = strCopy.lastIndexOf(seq)
+
+  strCopy =
+    strCopy.substring(0, lastIndex) + 'x' + strCopy.substring(lastIndex + 1)
+
+  return strCopy.lastIndexOf(seq)
+}
+
+const thirdLastIndexOf = (text: string, seq: string) => {
+  // assuming seq is a single char
+  let strCopy = text
+  let lastIndex = strCopy.lastIndexOf(seq)
+
+  strCopy =
+    strCopy.substring(0, lastIndex) + 'x' + strCopy.substring(lastIndex + 1)
+
+  lastIndex = strCopy.lastIndexOf(seq)
+
+  strCopy =
+    strCopy.substring(0, lastIndex) + 'x' + strCopy.substring(lastIndex + 1)
+
+  return strCopy.lastIndexOf(seq)
+}
+
+export const pointsWithPaddedRepititions = (oldPoints: string, newPoints: string) => {
+  /*
+   **          Handles these cases-
+   **
+   **          1. Straight line chart
+   **          2. Curved Line chart
+   **          3. Straight Area chart -> we need to repeatedly add the 3rd last substring from the points array which represents the last point
+   **          4. Curved Area chart -> we need to repeatedly add the 3nd last substring (the 2 last substrings start with L while the 3rd last will start with C) from the points array which represents the last point
+   */
+  let oldPointsCopy = oldPoints.trim()
+  let newPointsCopy = newPoints.trim()
+  const char = oldPointsCopy.indexOf('C') === -1 ? 'L' : 'C'
+  const oldPointsCopyAr = oldPointsCopy.split(char)
+  const newPointsCopyAr = newPointsCopy.split(char)
+  const oldPointsCopyLen = oldPointsCopyAr.length - 1
+  const newPointsCopyLen = newPointsCopyAr.length - 1
+  const diff = Math.abs(oldPointsCopyLen - newPointsCopyLen)
+
+  const lastSequence =
+    oldPointsCopyLen < newPointsCopyLen
+      ? oldPointsCopyAr[oldPointsCopyLen].trim()
+      : newPointsCopyAr[newPointsCopyLen].trim()
+
+  const indexOfL = lastSequence.indexOf('L')
+
+  const isCurvedAreaChart = char === 'C' && indexOfL !== -1
+
+  const isStraightAreaChart =
+    !isCurvedAreaChart &&
+    oldPointsCopyAr[0].substring(1).trim() ===
+      oldPointsCopyAr[oldPointsCopyLen].trim()
+
+  let repeats = isCurvedAreaChart
+    ? lastSequence.substring(0, indexOfL)
+    : isStraightAreaChart
+    ? oldPointsCopyLen < newPointsCopyLen
+      ? oldPointsCopyAr[oldPointsCopyLen - 2]
+      : newPointsCopyAr[newPointsCopyLen - 2]
+    : lastSequence
+
+  repeats = char + repeats?.trim()
+
+  if (isCurvedAreaChart) {
+    if (oldPointsCopyLen < newPointsCopyLen) {
+      oldPointsCopy = oldPointsCopy
+        .substring(0, secondLastIndexOf(oldPointsCopy, 'L'))
+        .trim()
+    } else {
+      newPointsCopy = newPointsCopy
+        .substring(0, secondLastIndexOf(newPointsCopy, 'L'))
+        .trim()
+    }
+  }
+
+  if (isStraightAreaChart) {
+    if (oldPointsCopyLen < newPointsCopyLen) {
+      oldPointsCopy = oldPointsCopy
+        .substring(0, thirdLastIndexOf(oldPointsCopy, 'L'))
+        .trim()
+    } else {
+      newPointsCopy = newPointsCopy
+        .substring(0, thirdLastIndexOf(newPointsCopy, 'L'))
+        .trim()
+    }
+  }
+
+  for (let i = 0; i < diff; i++) {
+    if (oldPointsCopyLen < newPointsCopyLen) {
+      oldPointsCopy += ` ${repeats}`
+    } else {
+      newPointsCopy += ` ${repeats}`
+    }
+  }
+
+  oldPointsCopy = oldPointsCopy.trim()
+  newPointsCopy = newPointsCopy.trim()
+
+  if (isCurvedAreaChart) {
+    if (oldPointsCopyLen < newPointsCopyLen) {
+      oldPointsCopy +=
+        ' ' + oldPoints.substring(secondLastIndexOf(oldPoints, 'L'))
+    } else {
+      newPointsCopy +=
+        ' ' + newPoints.substring(secondLastIndexOf(newPoints, 'L'))
+    }
+  }
+
+  if (isStraightAreaChart) {
+    if (oldPointsCopyLen < newPointsCopyLen) {
+      oldPointsCopy +=
+        ' ' + oldPoints.substring(thirdLastIndexOf(oldPoints, 'L'))
+    } else {
+      newPointsCopy +=
+        ' ' + newPoints.substring(thirdLastIndexOf(newPoints, 'L'))
+    }
+  }
+
+  return [oldPointsCopy.trim(), newPointsCopy.trim()]
+}
