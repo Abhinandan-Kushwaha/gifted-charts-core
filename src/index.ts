@@ -101,7 +101,8 @@ export {
   getYForLineInBar,
   clone,
   getLineConfigForBarChart,
-  adjustToOffset
+  adjustToOffset,
+  pointsWithPaddedRepititions
 } from './utils'
 
 export {

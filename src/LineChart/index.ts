@@ -852,7 +852,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               (initialSpacing + spacing * (set.data.length - 1)) +
               ' ' +
               heightUptoXaxis
-            ppp += 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
+            ppp += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             fillPointsArray.push(ppp.replace('L', 'M'))
           }
         }
@@ -1070,7 +1070,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               (initialSpacing + spacing * (data.length - 1)) +
               ' ' +
               heightUptoXaxis
-            ppp += 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
+            ppp += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             setFillPoints(ppp.replace('L', 'M'))
           }
 
@@ -1082,7 +1082,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               (initialSpacing + spacing * (data.length - 1)) +
               ' ' +
               heightUptoXaxis
-            ppp2 += 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
+            ppp2 += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             setFillPoints2(ppp2.replace('L', 'M'))
           }
 
@@ -1094,7 +1094,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               (initialSpacing + spacing * (data.length - 1)) +
               ' ' +
               heightUptoXaxis
-            ppp3 += 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
+            ppp3 += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             setFillPoints3(ppp3.replace('L', 'M'))
           }
           if ((areaChart ?? areaChart4) && data4.length > 0) {
@@ -1105,7 +1105,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               (initialSpacing + spacing * (data.length - 1)) +
               ' ' +
               heightUptoXaxis
-            ppp4 += 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
+            ppp4 += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             setFillPoints4(ppp4.replace('L', 'M'))
           }
 
@@ -1117,7 +1117,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               (initialSpacing + spacing * (data.length - 1)) +
               ' ' +
               heightUptoXaxis
-            ppp5 += 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
+            ppp5 += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             setFillPoints5(ppp5.replace('L', 'M'))
           }
         }
@@ -1438,7 +1438,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             (initialSpacing + spacing * (secondaryData.length - 1)) +
             ' ' +
             heightUptoXaxis
-          ppp += 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
+          ppp += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
           setSecondaryFillPoints(ppp.replace('L', 'M'))
         }
       }
