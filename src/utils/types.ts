@@ -460,4 +460,5 @@ export interface LabelLineConfig {
   labelComponentWidth?: number
   labelComponentHeight?: number
   labelComponentMargin?: number
+  avoidOverlappingOfLabels?: boolean
 }

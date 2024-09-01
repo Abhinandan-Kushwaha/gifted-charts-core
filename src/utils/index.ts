@@ -98,21 +98,21 @@ export const svgQuadraticCurvePath = (points: number[][]): string => {
     const cpX1 = (xMid + points[i][0]) / 2
     const cpX2 = (xMid + points[i + 1][0]) / 2
     path +=
-      'Q ' +
+      ' Q ' +
       cpX1 +
-      ', ' +
+      ',' +
       points[i][1] +
       ', ' +
       xMid +
-      ', ' +
+      ',' +
       yMid +
-      (' Q ' +
+      (' Q' +
         cpX2 +
-        ', ' +
+        ',' +
         points[i + 1][1] +
         ', ' +
         points[i + 1][0] +
-        ', ' +
+        ',' +
         points[i + 1][1])
   }
 
@@ -203,15 +203,17 @@ export const getCurvePathWithSegments = (
   path: string,
   lineSegment: LineSegment[] | undefined,
   startDelimeter: string,
-  endDelimeter: string
+  endDelimeter: string,
+  curveType: CurveType
 ): string => {
   if (!lineSegment?.length) return path
+  const char = curveType === CurveType.QUADRATIC ? 'Q ' : 'C' // space after Q is intentional, it signifies the first Q as their are 2 Qs equivalent to 1 C, and to counter this, we placed space after the 1st Q
   let newPath = ''
-  const pathArray = path.split('C')
+  const pathArray = path.split(char)
   for (let i = 0; i < pathArray.length; i++) {
     const segment = lineSegment?.find((segment) => segment.startIndex === i)
     newPath +=
-      (pathArray[i].startsWith('M') ? '' : 'C') +
+      (pathArray[i].startsWith('M') ? '' : char) +
       pathArray[i] +
       (segment ? startDelimeter + JSON.stringify(segment) + endDelimeter : '')
   }
@@ -373,10 +375,12 @@ export const getRegionPathObjects = (
   isCurved: boolean,
   startDelimeter: string,
   stop: string,
-  endDelimeter: string
+  endDelimeter: string,
+  curveType: CurveType
 ): LineProperties[] => {
   const ar: [LineProperties] = [{ d: '', color: '', strokeWidth: 0 }]
   let tempStr = points
+  const char = curveType === CurveType.QUADRATIC ? 'Q' : 'C'
 
   if (!points.startsWith(startDelimeter)) {
     /** ********************            line upto first segment                 *****************/
@@ -437,7 +441,7 @@ export const getRegionPathObjects = (
 
     if (
       nextDelimiterIndex !== -1 &&
-      stringUptoNextSegment.includes(isCurved ? 'C' : 'L')
+      stringUptoNextSegment.includes(isCurved ? char : 'L')
     ) {
       const previousSegment = ar[ar.length - 1].d
       const moveToLastPointOfPreviousSegment = getPreviousSegmentsLastPoint(
@@ -487,10 +491,12 @@ export const getSegmentedPathObjects = (
   strokeDashArray: number[],
   isCurved: boolean,
   startDelimeter: string,
-  endDelimeter: string
+  endDelimeter: string,
+  curveType: CurveType
 ): LineProperties[] => {
   const ar: [LineProperties] = [{ d: '', color: '', strokeWidth: 0 }]
   let tempStr = points
+  const char = curveType === CurveType.QUADRATIC ? 'Q' : 'C'
 
   if (!points.startsWith(startDelimeter)) {
     /** ********************            line upto first segment                 *****************/
@@ -524,10 +530,18 @@ export const getSegmentedPathObjects = (
     let s = 0
     let i
     for (i = 0; i < segment.length; i++) {
-      if (segment[i] === (isCurved ? 'C' : 'L')) c++
-      if (c === segmentLength) {
+      if (segment[i] === (isCurved ? char : 'L')) {
+        if (curveType === CurveType.QUADRATIC) {
+          if (segment[i + 1] == ' ') c++
+        } else {
+          c++
+        }
+      }
+      if (c >= segmentLength) {
         if (segment[i] === ' ') s++
-        if (s === (isCurved ? 3 : 2)) break
+        if (s === (isCurved ? (char === 'Q' ? 5 : 3) : 2)) {
+          break
+        }
       }
     }
     segment = segment.substring(0, i)
@@ -560,7 +574,7 @@ export const getSegmentedPathObjects = (
 
     if (
       nextDelimiterIndex !== -1 &&
-      stringUptoNextSegment.includes(isCurved ? 'C' : 'L')
+      stringUptoNextSegment.includes(isCurved ? char : 'L')
     ) {
       const previousSegment = ar[ar.length - 1].d
       const moveToLastPointOfPreviousSegment = getPreviousSegmentsLastPoint(
@@ -1580,7 +1594,9 @@ export const emptyExternaLabelProperties = {
   outY: 0,
   finalX: 0,
   labelComponentX: 0,
-  localExternalLabelComponent: null
+  labelComponentY: 0,
+  localExternalLabelComponent: null,
+  isRightHalf: false
 }
 
 export const defaultLabelLineConfig = {
@@ -1590,7 +1606,8 @@ export const defaultLabelLineConfig = {
   thickness: 1,
   labelComponentWidth: 20,
   labelComponentHeight: 10,
-  labelComponentMargin: 4
+  labelComponentMargin: 4,
+  avoidOverlappingOfLabels: true
 }
 
 const secondLastIndexOf = (text: string, seq: string) => {
@@ -1620,7 +1637,10 @@ const thirdLastIndexOf = (text: string, seq: string) => {
   return strCopy.lastIndexOf(seq)
 }
 
-export const pointsWithPaddedRepititions = (oldPoints: string, newPoints: string) => {
+export const pointsWithPaddedRepititions = (
+  oldPoints: string,
+  newPoints: string
+) => {
   /*
    **          Handles these cases-
    **

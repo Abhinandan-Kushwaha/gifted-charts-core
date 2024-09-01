@@ -764,7 +764,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               xx,
               set.lineSegments,
               SEGMENT_START,
-              SEGMENT_END
+              SEGMENT_END,
+              curveType
             )
           )
 
@@ -1154,14 +1155,21 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         let xx5 = svgPath(p5Array, curveType, curvature)
 
         setPoints(
-          getCurvePathWithSegments(xx, lineSegments, SEGMENT_START, SEGMENT_END)
+          getCurvePathWithSegments(
+            xx,
+            lineSegments,
+            SEGMENT_START,
+            SEGMENT_END,
+            curveType
+          )
         )
         setPoints2(
           getCurvePathWithSegments(
             xx2,
             lineSegments2,
             SEGMENT_START,
-            SEGMENT_END
+            SEGMENT_END,
+            curveType
           )
         )
         setPoints3(
@@ -1169,7 +1177,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             xx3,
             lineSegments3,
             SEGMENT_START,
-            SEGMENT_END
+            SEGMENT_END,
+            curveType
           )
         )
         setPoints4(
@@ -1177,7 +1186,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             xx4,
             lineSegments4,
             SEGMENT_START,
-            SEGMENT_END
+            SEGMENT_END,
+            curveType
           )
         )
         setPoints5(
@@ -1185,7 +1195,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             xx5,
             lineSegments5,
             SEGMENT_START,
-            SEGMENT_END
+            SEGMENT_END,
+            curveType
           )
         )
 
@@ -1504,6 +1515,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.noOfSectionsBelowXAxis ??
     Math.round(Math.ceil(-mostNegativeValue / stepValue))
 
+  const containerHeightIncludingBelowXAxis =
+    extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight
+
   const showXAxisIndices =
     props.showXAxisIndices ?? AxesAndRulesDefaults.showXAxisIndices
   const xAxisIndicesHeight =
@@ -1525,7 +1539,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const horizontal = false
   const yAxisAtTop = false
 
-  defaultPointerConfig.pointerStripHeight = containerHeight
+  defaultPointerConfig.pointerStripHeight =
+    containerHeight + noOfSectionsBelowXAxis * stepHeight
 
   const pointerConfig = props.pointerConfig
   const getPointerProps = props.getPointerProps ?? null
@@ -2155,6 +2170,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     stripStrokeDashArray,
     unFocusOnPressOut,
     delayBeforeUnFocus,
+    containerHeightIncludingBelowXAxis,
     lineGradient,
     lineGradientDirection,
     lineGradientStartColor,
