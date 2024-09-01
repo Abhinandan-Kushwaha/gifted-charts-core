@@ -33,4 +33,5 @@ export interface StripAndLabelProps {
   screenWidth: number
   isBarChart: boolean
   pointerIndex: number
+  containsNegative: boolean
 }

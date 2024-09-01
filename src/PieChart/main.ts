@@ -70,7 +70,10 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
       defaultLabelLineConfig.labelComponentHeight,
     labelComponentMargin:
       props.labelLineConfig?.labelComponentMargin ??
-      defaultLabelLineConfig.labelComponentMargin
+      defaultLabelLineConfig.labelComponentMargin,
+    avoidOverlappingOfLabels:
+      props.labelLineConfig?.avoidOverlappingOfLabels ??
+      defaultLabelLineConfig.avoidOverlappingOfLabels
   }
 
   let tiltAngle = props.tiltAngle ?? '55deg'
@@ -151,7 +154,9 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     mx: number,
     my: number,
     cx: number,
-    cy: number
+    cy: number,
+    prevSide: string,
+    prevLabelComponentX: number
   ) => {
     if (!showExternalLabels) return emptyExternaLabelProperties
     const labelLineLength =
@@ -177,23 +182,44 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     const xFactor = labelTailLength / Math.sqrt(1 + slope * slope)
     const yFactor = (labelTailLength * slope) / Math.sqrt(1 + slope * slope)
     const outX = mx + (isRightHalf ? xFactor : -xFactor)
-    const outY = my + (isRightHalf ? yFactor : -yFactor)
+    let outY = my + (isRightHalf ? yFactor : -yFactor)
     const inX = mx + (isRightHalf ? -xFactor : xFactor)
     const inY = my + (isRightHalf ? -yFactor : yFactor)
+    let labelComponentY = outY
+    const side = isRightHalf ? 'right' : 'left'
+    const isOnPole =
+      labelLineConfig.avoidOverlappingOfLabels &&
+      Math.abs(inX - outX) < 4 &&
+      side === prevSide
 
     let finalX = isRightHalf ? cx * 2 + labelLineLength : -labelLineLength
 
-    finalX = isRightHalf
-      ? finalX > outX
+    if (isOnPole) {
+      finalX = outX
+      labelComponentY += outY > cy ? 10 : -10
+    } else {
+      finalX = isRightHalf
+        ? finalX > outX
+          ? finalX
+          : outX
+        : finalX < outX
         ? finalX
         : outX
-      : finalX < outX
-      ? finalX
-      : outX
+    }
 
-    const labelComponentX = isRightHalf
-      ? finalX + labelComponentMargin
-      : finalX - labelComponentWidth - labelComponentMargin
+    let labelComponentX = isRightHalf
+      ? finalX + (isOnPole ? -10 : labelComponentMargin)
+      : finalX - labelComponentWidth - (isOnPole ? -20 : labelComponentMargin)
+
+    // In case both previous & current labels are at pole, then their labels might again overlap, to counter this, we vertically shift the current label
+    if (
+      labelLineConfig.avoidOverlappingOfLabels &&
+      isOnPole &&
+      Math.abs(prevLabelComponentX - labelComponentX) < 30
+    ) {
+      labelComponentY += outY > cy ? 20 : -20
+      outY += outY > cy ? 20 : -20
+    }
 
     const localExternalLabelComponent =
       item.externalLabelComponent ?? props.externalLabelComponent
@@ -208,7 +234,9 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
       outY,
       finalX,
       labelComponentX,
-      localExternalLabelComponent
+      labelComponentY,
+      localExternalLabelComponent,
+      isRightHalf
     }
   }
 
