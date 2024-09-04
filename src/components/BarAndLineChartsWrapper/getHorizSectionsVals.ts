@@ -93,7 +93,7 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
     yAxisColor: secondaryYAxis?.yAxisColor ?? yAxisColor,
     yAxisLabelContainerStyle:
       secondaryYAxis?.yAxisLabelContainerStyle ?? yAxisLabelContainerStyle,
-    yAxisLabelTexts: secondaryYAxis?.yAxisLabelTexts ?? yAxisLabelTexts,
+    yAxisLabelTexts: secondaryYAxis?.yAxisLabelTexts,
     yAxisTextStyle: secondaryYAxis?.yAxisTextStyle ?? yAxisTextStyle,
     yAxisTextNumberOfLines:
       secondaryYAxis?.yAxisTextNumberOfLines ?? yAxisTextNumberOfLines,

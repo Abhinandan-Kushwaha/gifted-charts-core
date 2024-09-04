@@ -129,6 +129,7 @@ export interface LineInBarChartPropsType {
   initialSpacing: number
   spacing: number
   containerHeight: number
+  containerHeightIncludingBelowXAxis: number
   lineConfig: ExtendedLineConfigType
   maxValue: number
   animatedWidth: number

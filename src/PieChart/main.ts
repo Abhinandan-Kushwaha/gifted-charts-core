@@ -156,7 +156,9 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     cx: number,
     cy: number,
     prevSide: string,
-    prevLabelComponentX: number
+    prevLabelComponentX: number,
+    isLast?: boolean,
+    wasFirstItemOnPole?: boolean
   ) => {
     if (!showExternalLabels) return emptyExternaLabelProperties
     const labelLineLength =
@@ -215,7 +217,8 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     if (
       labelLineConfig.avoidOverlappingOfLabels &&
       isOnPole &&
-      Math.abs(prevLabelComponentX - labelComponentX) < 30
+      (Math.abs(prevLabelComponentX - labelComponentX) < 30 ||
+        (isLast && wasFirstItemOnPole))
     ) {
       labelComponentY += outY > cy ? 20 : -20
       outY += outY > cy ? 20 : -20
