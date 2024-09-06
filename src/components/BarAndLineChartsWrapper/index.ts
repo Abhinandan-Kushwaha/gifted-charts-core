@@ -196,7 +196,7 @@ export const useBarAndLineChartsWrapper = (
 
   const secondaryStepValue =
     secondaryYAxis?.stepValue ??
-    (secondaryYAxis?.maxValue ?? 0) /
+    (secondaryYAxis?.maxValue ?? maxValue) /
       (secondaryYAxis?.noOfSections ?? noOfSections)
 
   const secondaryNegativeStepValue =
@@ -204,16 +204,20 @@ export const useBarAndLineChartsWrapper = (
 
   const secondaryNoOfSectionsBelowXAxis =
     secondaryYAxis?.noOfSectionsBelowXAxis ??
-    (secondaryNegativeStepValue ? Math.ceil(
-      (secondaryYAxis?.mostNegativeValue ?? secondaryMinItem) /
-        -secondaryNegativeStepValue
-    ) : 0)
-    
+    (secondaryNegativeStepValue
+      ? Math.ceil(
+          (secondaryYAxis?.mostNegativeValue ?? secondaryMinItem) /
+            -secondaryNegativeStepValue
+        )
+      : 0)
+
   const primaryYAxisHeightBelowOrigin =
     noOfSectionsBelowXAxis * negativeStepHeight
   const secondaryYAxisHeightBelowOrigin =
     secondaryNoOfSectionsBelowXAxis *
-    (secondaryYAxis?.negativeStepHeight ?? secondaryYAxis?.stepHeight ?? stepHeight)
+    (secondaryYAxis?.negativeStepHeight ??
+      secondaryYAxis?.stepHeight ??
+      stepHeight)
   const biggerNegativeYAxisHeight = Math.max(
     primaryYAxisHeightBelowOrigin,
     secondaryYAxisHeightBelowOrigin
