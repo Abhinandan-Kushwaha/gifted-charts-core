@@ -148,7 +148,7 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
       })
     }
   }
-
+  
   const secondaryHorizSections: HorizSectionsType = []
   if (secondaryYAxis) {
     for (
@@ -171,7 +171,8 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
       secondaryHorizSections.push({
         value: secondaryYAxisConfig.yAxisLabelTexts?.length
           ? secondaryYAxisConfig.yAxisLabelTexts[
-              i - noOfSectionsBelowXAxis - 1
+              i + noOfSectionsBelowXAxis
+              // - noOfSectionsBelowXAxis - 1
             ] ?? value.toString()
           : value.toString()
       })
