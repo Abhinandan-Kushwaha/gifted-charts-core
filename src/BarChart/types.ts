@@ -53,6 +53,9 @@ export interface stackDataItem {
     gradientColor?: ColorValue
     barWidth?: number
     innerBarComponent?: Function
+    onContextMenu?: Function
+    onMouseEnter?: Function
+    onMouseLeave?: Function
   }>
   barBackgroundPattern?: () => ReactNode
   borderRadius?: number
@@ -64,6 +67,9 @@ export interface stackDataItem {
   patternId?: string
   leftShiftForTooltip?: number
   showXAxisIndex?: boolean
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
 }
 
 export interface StackedBarChartPropsType {
@@ -473,6 +479,9 @@ export interface barDataItem {
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
   showXAxisIndex?: boolean
   isSecondary?: boolean
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
 }
 
 export interface Animated2DWithGradientPropsType {
@@ -590,6 +599,9 @@ export interface RenderBarsPropsType {
   onPress?: Function
   onLongPress?: Function
   onPressOut?: Function
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
   xAxisTextNumberOfLines: number
   xAxisLabelsHeight?: number
   xAxisLabelsVerticalShift: number
@@ -668,4 +680,11 @@ export interface CommonPropsFor2dand3dBarsType {
   topLabelContainerStyle: any
   topLabelTextStyle: any
   yAxisOffset: number
+}
+
+
+export interface BarChartPropsTypeForWeb extends BarChartPropsType {
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
 }

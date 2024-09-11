@@ -335,6 +335,7 @@ export interface LineChartPropsType {
 
   showDataPointsForMissingValues?: boolean
   interpolateMissingValues?: boolean
+  extrapolateMissingValues?: boolean
   onlyPositive?: boolean
   parentWidth?: number
 
