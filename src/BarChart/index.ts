@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
   type lineConfigType,
-  type BarChartPropsType,
   type barDataItem,
-  type stackDataItem
+  type stackDataItem,
+  BarChartPropsTypeForWeb
 } from './types'
 import {
   getArrowPoints,
@@ -16,6 +16,7 @@ import {
   getSecondaryDataWithOffsetIncluded,
   getXForLineInBar,
   getYForLineInBar,
+  indexOfFirstNonZeroDigit,
   maxAndMinUtil,
   svgPath
 } from '../utils'
@@ -32,7 +33,7 @@ import {
 } from '../utils/types'
 import { type Animated } from 'react-native'
 
-export interface extendedBarChartPropsType extends BarChartPropsType {
+export interface extendedBarChartPropsType extends BarChartPropsTypeForWeb {
   parentWidth: number
   heightValue?: Animated.Value
   widthValue?: Animated.Value
@@ -101,8 +102,6 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     props.spacing ?? (adjustToWidth ? autoComputedSpacing : BarDefaults.spacing)
   const initialSpacing = props.initialSpacing ?? spacing
   const endSpacing = props.endSpacing ?? spacing
-  const showFractionalValues =
-    props.showFractionalValues ?? AxesAndRulesDefaults.showFractionalValues
 
   const horizontal = props.horizontal ?? BarDefaults.horizontal
   const rtl = props.rtl ?? BarDefaults.rtl
@@ -220,19 +219,24 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }
     })
   }
+  const valuesRange = maxItem - minItem
+  const showFractionalValues = props.showFractionalValues ?? valuesRange <= 1
+  const roundToDigits =
+    props.roundToDigits ??
+    (showFractionalValues ? indexOfFirstNonZeroDigit(valuesRange) + 1 : 0)
 
   const maxAndMin = maxAndMinUtil(
     maxItem,
     minItem,
-    props.roundToDigits,
-    props.showFractionalValues
+    roundToDigits,
+    showFractionalValues
   )
 
   const secondaryMaxAndMin = maxAndMinUtil(
     secondaryMaxItem,
     secondaryMinItem,
-    props.roundToDigits,
-    props.showFractionalValues
+    roundToDigits,
+    showFractionalValues
   )
 
   const maxValue = getMaxValue(
@@ -677,6 +681,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       onPress: props.onPress,
       onLongPress: props.onLongPress,
       onPressOut: props.onPressOut,
+      onContextMenu: props.onContextMenu,
+      onMouseEnter: props.onMouseEnter,
+      onMouseLeave: props.onMouseLeave,
       focusBarOnPress: props.focusBarOnPress,
       focusedBarConfig: props.focusedBarConfig,
       xAxisTextNumberOfLines,
@@ -769,6 +776,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     axesAndRulesProps: getAxesAndRulesProps(
       props,
       stepValue,
+      roundToDigits,
       negativeStepValue,
       secondaryMaxValue
     ),

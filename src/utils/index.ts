@@ -680,6 +680,7 @@ interface IgetAxesAndRulesProps extends BarChartPropsType {
 export const getAxesAndRulesProps = (
   props: extendedBarChartPropsType,
   stepValue: number,
+  roundToDigits: number,
   negativeStepValue?: number,
   maxValue?: number
 ): IgetAxesAndRulesProps => {
@@ -752,7 +753,7 @@ export const getAxesAndRulesProps = (
     // specific to Line charts-
     verticalLinesUptoDataPoint: props.verticalLinesUptoDataPoint,
 
-    roundToDigits: props.roundToDigits,
+    roundToDigits: roundToDigits,
     stepValue,
     negativeStepValue: negativeStepValue ?? stepValue,
 
@@ -1056,6 +1057,16 @@ interface MaxAndMin {
   minItem: number
 }
 
+export const indexOfFirstNonZeroDigit = (num: number) => {
+  const numString = num.toString()
+  let i = 0
+  let d = numString[i]
+  while (i < numString.length - 2 && (isNaN(Number(d)) || d === '0')) {
+    d = numString[++i]
+  }
+  return i
+}
+
 export const maxAndMinUtil = (
   maxItem: number,
   minItem: number,
@@ -1063,14 +1074,18 @@ export const maxAndMinUtil = (
   showFractionalValues?: boolean
 ): MaxAndMin => {
   if (showFractionalValues ?? roundToDigits) {
-    maxItem *= 10 * (roundToDigits ?? 1)
-    maxItem = maxItem + (10 - (maxItem % 10))
-    maxItem /= 10 * (roundToDigits ?? 1)
-    maxItem = parseFloat(maxItem.toFixed(roundToDigits ?? 1))
+    const range = maxItem - minItem
+    const stepValue = range / 10
+    maxItem += stepValue
+    minItem = minItem !== 0 ? minItem + stepValue : minItem
+    // maxItem *= 10 * (roundToDigits ?? 1)
+    // maxItem = maxItem + (10 - (maxItem % 10))
+    // maxItem /= 10 * (roundToDigits ?? 1)
+    // maxItem = parseFloat(maxItem.toFixed(roundToDigits ?? 1))
 
-    if (minItem !== 0) {
-      minItem += minItem / 10
-    }
+    // if (minItem !== 0) {
+    //   minItem += minItem / 10
+    // }
   } else {
     maxItem = maxItem + (10 - (maxItem % 10))
     if (minItem !== 0) {
@@ -1335,6 +1350,15 @@ export const getBarTopColor = (
   return itemTopColor ?? topColor
 }
 
+const myFindLastIndex = (arr: any[], func: (item: any) => boolean) => {
+  const tempLastIndex = arr.slice().reverse().findIndex(func)
+
+  const lastIndex =
+    tempLastIndex >= 0 ? arr.length - 1 - tempLastIndex : tempLastIndex
+
+  return lastIndex
+}
+
 export const getBarWidth = (
   isFocused?: boolean,
   focusedBarConfig?: FocusedBarConfig,
@@ -1403,13 +1427,10 @@ export const getInterpolatedData = (
     const pre: lineDataItem[] = data.slice(0, index)
     const post: lineDataItem[] = data.slice(index + 1, n)
 
-    const preCount = pre.length - 1
-    const tempPreValidIndex = pre
-      .slice()
-      .reverse()
-      .findIndex((item: lineDataItem) => typeof item.value === 'number')
-    const preValidIndex =
-      tempPreValidIndex >= 0 ? preCount - tempPreValidIndex : tempPreValidIndex
+    const preValidIndex = myFindLastIndex(
+      pre,
+      (item: lineDataItem) => typeof item.value === 'number'
+    )
 
     const postValidInd = post.findIndex(
       (item) => typeof item.value === 'number'
@@ -1428,20 +1449,17 @@ export const getInterpolatedData = (
       //    2. Only pre has valid value
       //  Now there are 2 possibilities-
       //    1. There's only 1 valid value in the pre -> this is already handled in preprocessing
-      //    2. There are more than valid values in pre
+      //    2. There are more than 1 valid values in pre
       const secondPre: lineDataItem[] = data.slice(0, preValidIndex)
-      const secondPreCount = pre.length - 1
-      const tempSecondPreIndex = secondPre
-        .slice()
-        .reverse()
-        .findIndex((item: lineDataItem) => typeof item.value === 'number')
-      const secondPreIndex =
-        tempSecondPreIndex >= 0
-          ? secondPreCount - tempSecondPreIndex
-          : tempSecondPreIndex
+
+      const secondPreIndex = myFindLastIndex(
+        secondPre,
+        (item: lineDataItem) => typeof item.value === 'number'
+      )
 
       count = preValidIndex - secondPreIndex
       step = (data[secondPreIndex].value - data[preValidIndex].value) / count
+      const val = data[preValidIndex].value - step * (index - preValidIndex)
       data[index].value =
         data[preValidIndex].value - step * (index - preValidIndex)
     } else if (preValidIndex === -1 && postValidInd !== -1) {
@@ -1470,6 +1488,36 @@ export const getInterpolatedData = (
   return onlyPositive
     ? data.map((item) => ({ ...item, value: Math.max(item.value, 0) }))
     : data
+}
+
+export const getLineSegmentsDueToNoExtrapolation = (data?: lineDataItem[]) => {
+  if (!data?.length) return undefined
+  const segments: LineSegment[] = []
+  const firstNumericIndex = data.findIndex(
+    (item) => typeof item.value === 'number'
+  )
+  if (firstNumericIndex !== 0) {
+    segments.push({
+      startIndex: 0,
+      endIndex: firstNumericIndex,
+      color: 'transparent'
+    })
+  }
+
+  const lastNumericIndex = myFindLastIndex(
+    data,
+    (item) => typeof item.value === 'number'
+  )
+
+  if (lastNumericIndex !== data.length) {
+    segments.push({
+      startIndex: lastNumericIndex,
+      endIndex: data.length,
+      color: 'transparent'
+    })
+  }
+
+  return segments
 }
 
 export const getLineSegmentsForMissingValues = (

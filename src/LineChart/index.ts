@@ -17,6 +17,7 @@ import {
   getCurvePathWithSegments,
   getExtendedContainerHeightWithPadding,
   getInterpolatedData,
+  getLineSegmentsDueToNoExtrapolation,
   getLineSegmentsForMissingValues,
   getMaxValue,
   getNoOfSections,
@@ -24,6 +25,7 @@ import {
   getSanitisedData,
   getSecondaryDataWithOffsetIncluded,
   getSegmentString,
+  indexOfFirstNonZeroDigit,
   svgPath
 } from '../utils'
 import {
@@ -49,10 +51,21 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const {
     showDataPointsForMissingValues,
     interpolateMissingValues = true,
-    onlyPositive,
+    extrapolateMissingValues = true,
     yAxisOffset,
     parentWidth
   } = props
+
+  const containsNegativeValue =
+    (props.mostNegativeValue ?? 0) < 0 ||
+    (props.dataSet?.[0]?.data ?? props.data)?.some((item) => item.value < 0)
+
+  const onlyPositive =
+    props.onlyPositive ??
+    (!extrapolateMissingValues ? (containsNegativeValue ? false : true) : false)
+  // the default value of onlyPositive is usually supposed to be false
+  // but we are setting it to true if extrapolateMissingValues is false and there are no negative values
+  // because in absence of extrapolation we don't want the chart to unnecessarily show the 4th quadrant
   const curvature = props.curvature ?? LineDefaults.curvature
   const curveType = props.curveType ?? LineDefaults.curveType
   const [scrollX, setScrollX] = useState(0)
@@ -231,6 +244,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const lineSegments = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data)
+    : !extrapolateMissingValues
+    ? getLineSegmentsDueToNoExtrapolation(props.data)
     : props.lineSegments
   const lineSegments2 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data2)
@@ -442,11 +457,19 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const totalWidth =
     initialSpacing + spacing * maxLengthOfDataOrSet - 1 + endSpacing
+  const valuesRange =
+    Math.max(...(data0 ?? data).map((i) => i.value)) -
+    Math.min(...(data0 ?? data).map((i) => i.value))
+
+  const showFractionalValues = props.showFractionalValues ?? valuesRange <= 1
+  const roundToDigits =
+    props.roundToDigits ??
+    (showFractionalValues ? indexOfFirstNonZeroDigit(valuesRange) + 1 : 0)
 
   const { maxItem, minItem } = computeMaxAndMinItems(
     data0 ?? data,
-    props.roundToDigits,
-    props.showFractionalValues
+    roundToDigits,
+    showFractionalValues
   )
 
   const maxValue = getMaxValue(
@@ -733,6 +756,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     return path
   }
 
+  // const [oldPoints, setOldPoints] = useState(points)
+
   useEffect(() => {
     if (dataSet) {
       const pointsArray: string[] = []
@@ -942,6 +967,10 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         setPoints3(pp3.replace('L', 'M'))
         setPoints4(pp4.replace('L', 'M'))
         setPoints5(pp5.replace('L', 'M'))
+
+        // if (animateOnDataChange) {
+        //   setOldPoints(points)
+        // }
 
         setPoints(pp.replace('L', 'M'))
 
@@ -1533,8 +1562,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.xAxisLabelsVerticalShift ??
     AxesAndRulesDefaults.xAxisLabelsVerticalShift
   const horizontalRulesStyle = props.horizontalRulesStyle
-  const showFractionalValues =
-    props.showFractionalValues ?? AxesAndRulesDefaults.showFractionalValues
 
   const horizontal = false
   const yAxisAtTop = false
@@ -1804,7 +1831,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     sectionColors: props.sectionColors,
     showFractionalValues,
 
-    axesAndRulesProps: getAxesAndRulesProps(props, stepValue, undefined),
+    axesAndRulesProps: getAxesAndRulesProps(
+      props,
+      stepValue,
+      roundToDigits,
+      undefined
+    ),
 
     yAxisLabelTexts: props.yAxisLabelTexts,
     yAxisOffset,
@@ -2121,6 +2153,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     xAxisLabelsVerticalShift,
     horizontalRulesStyle,
     showFractionalValues,
+    roundToDigits,
     horizontal,
     yAxisAtTop,
     pointerConfig,
@@ -2179,5 +2212,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     initialisePointers,
     barAndLineChartsWrapperProps,
     yAxisExtraHeightAtTop
+    // oldPoints
   }
 }
