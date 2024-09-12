@@ -28,6 +28,7 @@ export interface LineChartPropsType {
   mostNegativeValue?: number
   stepHeight?: number
   stepValue?: number
+  negativeStepValue?: number
   spacing?: number
   initialSpacing?: number
   endSpacing?: number

@@ -251,6 +251,10 @@ export interface horizSectionPropTypes {
   secondaryStepValue: number
   secondaryNegativeStepValue: number
   secondaryNoOfSectionsBelowXAxis: number
+  showSecondaryFractionalValues: boolean
+  secondaryRoundToDigits: number
+  secondaryStepHeight: number
+  secondaryNegativeStepHeight: number
 }
 
 interface HorizSectionObject {
@@ -277,7 +281,7 @@ export interface BarAndLineChartsWrapperTypes {
   initialSpacing: number
   data: any[]
   stackData: any[] | undefined
-  secondaryData: any[] | undefined
+  secondaryData?: any[]
   barWidth: number | undefined
   xAxisThickness: number
   totalWidth: number

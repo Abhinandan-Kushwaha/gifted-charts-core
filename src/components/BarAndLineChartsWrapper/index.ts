@@ -194,30 +194,20 @@ export const useBarAndLineChartsWrapper = (
       secondaryYAxis?.showFractionalValues ?? showFractionalValues
     )
 
-  const secondaryStepValue =
-    secondaryYAxis?.stepValue ??
-    (secondaryYAxis?.maxValue ?? maxValue) /
-      (secondaryYAxis?.noOfSections ?? noOfSections)
-
-  const secondaryNegativeStepValue =
-    secondaryYAxis?.negativeStepValue ?? secondaryStepValue
-
-  const secondaryNoOfSectionsBelowXAxis =
-    secondaryYAxis?.noOfSectionsBelowXAxis ??
-    (secondaryNegativeStepValue
-      ? Math.ceil(
-          (secondaryYAxis?.mostNegativeValue ?? secondaryMinItem) /
-            -secondaryNegativeStepValue
-        )
-      : 0)
+  const {
+    stepValue: secondaryStepValue,
+    negativeStepValue: secondaryNegativeStepValue,
+    noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis,
+    showFractionalValues: showSecondaryFractionalValues,
+    roundToDigits: secondaryRoundToDigits,
+    stepHeight: secondaryStepHeight,
+    negativeStepHeight: secondaryNegativeStepHeight
+  } = axesAndRulesProps.secondaryYAxisConfig
 
   const primaryYAxisHeightBelowOrigin =
     noOfSectionsBelowXAxis * negativeStepHeight
   const secondaryYAxisHeightBelowOrigin =
-    secondaryNoOfSectionsBelowXAxis *
-    (secondaryYAxis?.negativeStepHeight ??
-      secondaryYAxis?.stepHeight ??
-      stepHeight)
+    secondaryNoOfSectionsBelowXAxis * secondaryNegativeStepHeight
   const biggerNegativeYAxisHeight = Math.max(
     primaryYAxisHeightBelowOrigin,
     secondaryYAxisHeightBelowOrigin
@@ -297,7 +287,11 @@ export const useBarAndLineChartsWrapper = (
     secondaryMinItem,
     secondaryStepValue,
     secondaryNegativeStepValue,
-    secondaryNoOfSectionsBelowXAxis
+    secondaryNoOfSectionsBelowXAxis,
+    showSecondaryFractionalValues,
+    secondaryRoundToDigits,
+    secondaryStepHeight,
+    secondaryNegativeStepHeight
   }
 
   const lineInBarChartProps: LineInBarChartPropsType = {
