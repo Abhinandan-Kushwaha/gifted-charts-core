@@ -23,7 +23,7 @@ export interface stackDataItem {
   onLongPress?: any
   onPressOut?: any
   label?: string
-  labelWidth?: number 
+  labelWidth?: number
   labelsDistanceFromXaxis?: number
   barWidth?: number
   spacing?: number
@@ -70,6 +70,7 @@ export interface stackDataItem {
   onContextMenu?: Function
   onMouseEnter?: Function
   onMouseLeave?: Function
+  isSecondary?: boolean
 }
 
 export interface StackedBarChartPropsType {
@@ -145,6 +146,15 @@ export interface StackedBarChartPropsType {
   pointerConfig?: Pointer
   showValuesAsTopLabel?: boolean
   yAxisOffset: number
+  stepHeight: number
+  stepValue: number
+  negativeStepHeight: number
+  negativeStepValue: number
+  secondaryStepHeight: number
+  secondaryStepValue: number
+  secondaryNegativeStepHeight: number
+  secondaryNegativeStepValue: number
+  secondaryNoOfSectionsBelowXAxis: number
 }
 
 export interface BarChartPropsType {
@@ -322,7 +332,7 @@ export interface BarChartPropsType {
     index?: number
   ) => ReactNode
 
-  secondaryData?: barDataItem[]
+  // secondaryData?: barDataItem[]
   secondaryYAxis?: secondaryYAxisType | boolean
   pointerConfig?: Pointer
   getPointerProps?: Function
@@ -614,6 +624,7 @@ export interface RenderBarsPropsType {
   setSelectedIndex: Function
   barStyle?: object
   xAxisThickness?: number
+  secondaryXAxis?: XAxisConfig
   pointerConfig?: Pointer
   focusBarOnPress?: boolean
   focusedBarIndex?: number
@@ -623,7 +634,11 @@ export interface RenderBarsPropsType {
   stepValue: number
   negativeStepHeight: number
   negativeStepValue: number
-  secondaryXAxis?: XAxisConfig
+  secondaryStepHeight: number
+  secondaryStepValue: number
+  secondaryNegativeStepHeight: number
+  secondaryNegativeStepValue: number
+  secondaryNoOfSectionsBelowXAxis: number
 }
 
 export interface trianglePropTypes {
@@ -681,7 +696,6 @@ export interface CommonPropsFor2dand3dBarsType {
   topLabelTextStyle: any
   yAxisOffset: number
 }
-
 
 export interface BarChartPropsTypeForWeb extends BarChartPropsType {
   onContextMenu?: Function

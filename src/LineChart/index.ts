@@ -53,7 +53,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     interpolateMissingValues = true,
     extrapolateMissingValues = true,
     yAxisOffset,
-    parentWidth
+    parentWidth,
+    negativeStepValue
   } = props
 
   const containsNegativeValue =
@@ -457,9 +458,28 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const totalWidth =
     initialSpacing + spacing * maxLengthOfDataOrSet - 1 + endSpacing
+
+  let mergedPrimaryDataArrays: lineDataItem[] = []
+  let mergedSecondaryDataArrays: lineDataItem[] = []
+  if (dataSet?.length) {
+    dataSet.forEach((set) => {
+      if (set.isSecondary) {
+        mergedSecondaryDataArrays.push(...set.data)
+      } else {
+        mergedPrimaryDataArrays.push(...set.data)
+      }
+    })
+  } else {
+    mergedPrimaryDataArrays = data
+    mergedSecondaryDataArrays = secondaryData
+  }
+  if (!mergedPrimaryDataArrays.length) {
+    mergedPrimaryDataArrays = [...mergedSecondaryDataArrays]
+  }
+
   const valuesRange =
-    Math.max(...(data0 ?? data).map((i) => i.value)) -
-    Math.min(...(data0 ?? data).map((i) => i.value))
+    Math.max(...mergedPrimaryDataArrays.map((i) => Math.max(i.value, 0))) - // find the largest +ve number
+    Math.min(...mergedPrimaryDataArrays.map((i) => Math.max(i.value, 0))) // find the smallest +ve number
 
   const showFractionalValues = props.showFractionalValues ?? valuesRange <= 1
   const roundToDigits =
@@ -467,7 +487,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     (showFractionalValues ? indexOfFirstNonZeroDigit(valuesRange) + 1 : 0)
 
   const { maxItem, minItem } = computeMaxAndMinItems(
-    data0 ?? data,
+    mergedPrimaryDataArrays,
     roundToDigits,
     showFractionalValues
   )
@@ -494,11 +514,25 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const getY = (value: number): number =>
     extendedContainerHeight - (value * containerHeight) / maxValue
 
-  const { maxItem: secondaryMaxItem } = computeMaxAndMinItems(
-    secondaryData,
-    props.secondaryYAxis?.roundToDigits,
-    props.secondaryYAxis?.showFractionalValues
-  )
+  const secondaryValuesRange =
+    Math.max(...mergedSecondaryDataArrays.map((i) => Math.max(i.value, 0))) - // find the largest +ve number
+    Math.min(...mergedSecondaryDataArrays.map((i) => Math.max(i.value, 0))) // find the smallest +ve number
+
+  const showSecondaryFractionalValues =
+    props.secondaryYAxis?.showFractionalValues ?? secondaryValuesRange <= 1
+  const secondaryRoundToDigits =
+    props.secondaryYAxis?.roundToDigits ??
+    (showSecondaryFractionalValues
+      ? indexOfFirstNonZeroDigit(secondaryValuesRange) + 1
+      : 0)
+
+  const { maxItem: secondaryMaxItem, minItem: secondaryMinItem } =
+    computeMaxAndMinItems(
+      mergedSecondaryDataArrays,
+      secondaryRoundToDigits,
+      showSecondaryFractionalValues
+    )
+
   const secondaryMaxValue =
     props.secondaryYAxis?.maxValue ?? (secondaryMaxItem || maxValue)
   const getSecondaryY = (value: number): number =>
@@ -1544,8 +1578,27 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.noOfSectionsBelowXAxis ??
     Math.round(Math.ceil(-mostNegativeValue / stepValue))
 
+  const axesAndRulesProps = getAxesAndRulesProps(
+    props,
+    containerHeight,
+    stepHeight,
+    stepValue,
+    noOfSections,
+    roundToDigits,
+    negativeStepValue ?? stepValue,
+    secondaryMaxValue,
+    secondaryMinItem,
+    showSecondaryFractionalValues,
+    secondaryRoundToDigits
+  )
+
+  const { noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis } =
+    axesAndRulesProps.secondaryYAxisConfig
+
   const containerHeightIncludingBelowXAxis =
-    extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight
+    extendedContainerHeight +
+    Math.max(noOfSectionsBelowXAxis, secondaryNoOfSectionsBelowXAxis) *
+      stepHeight
 
   const showXAxisIndices =
     props.showXAxisIndices ?? AxesAndRulesDefaults.showXAxisIndices
@@ -1831,12 +1884,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     sectionColors: props.sectionColors,
     showFractionalValues,
 
-    axesAndRulesProps: getAxesAndRulesProps(
-      props,
-      stepValue,
-      roundToDigits,
-      undefined
-    ),
+    axesAndRulesProps,
 
     yAxisLabelTexts: props.yAxisLabelTexts,
     yAxisOffset,

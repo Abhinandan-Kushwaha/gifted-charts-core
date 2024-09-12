@@ -13,7 +13,6 @@ import {
   getMaxValue,
   getMostNegativeValue,
   getNoOfSections,
-  getSecondaryDataWithOffsetIncluded,
   getXForLineInBar,
   getYForLineInBar,
   indexOfFirstNonZeroDigit,
@@ -115,10 +114,10 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const animationDuration =
     props.animationDuration ?? BarDefaults.animationDuration
 
-  const secondaryData = getSecondaryDataWithOffsetIncluded(
-    props.secondaryData,
-    props.secondaryYAxis
-  )
+  // const secondaryData = getSecondaryDataWithOffsetIncluded(
+  //   props.secondaryData,
+  //   props.secondaryYAxis
+  // )
 
   const lineData = useMemo(() => {
     if (!props.lineData) {
@@ -167,45 +166,6 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const labelsExtraHeight =
     props.labelsExtraHeight ?? AxesAndRulesDefaults.labelsExtraHeight
 
-  let totalWidth = initialSpacing + endSpacing
-  let maxItem = 0
-  let minItem = 0
-  if (props.stackData) {
-    props.stackData.forEach((stackItem, index) => {
-      const stackSumMax = stackItem.stacks.reduce(
-        (acc, stack) => acc + (stack.value >= 0 ? stack.value : 0),
-        0
-      )
-      const stackSumMin = stackItem.stacks.reduce(
-        (acc, stack) => acc + (stack.value < 0 ? stack.value : 0),
-        0
-      )
-
-      if (stackSumMax > maxItem) {
-        maxItem = stackSumMax
-      }
-
-      if (stackSumMin < minItem) {
-        minItem = stackSumMin
-      }
-      totalWidth +=
-        (stackItem.stacks[0].barWidth ?? props.barWidth ?? defaultBarWidth) +
-        (index === data.length - 1 ? 0 : stackItem.spacing ?? spacing)
-    })
-  } else {
-    data.forEach((item: barDataItem, index) => {
-      if (item.value > maxItem) {
-        maxItem = item.value
-      }
-      if (item.value < minItem) {
-        minItem = item.value
-      }
-      totalWidth +=
-        (item.barWidth ?? props.barWidth ?? defaultBarWidth) +
-        (index === data.length - 1 ? spacing : item.spacing ?? spacing)
-    })
-  }
-
   let secondaryMaxItem = 0
   let secondaryMinItem = 0
 
@@ -219,7 +179,74 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }
     })
   }
-  const valuesRange = maxItem - minItem
+
+  let totalWidth = initialSpacing + endSpacing
+  let maxItem = 0
+  let minItem = 0
+  let minPositiveItem = 0
+  let secondaryMinPositiveItem = 0
+  if (props.stackData) {
+    props.stackData.forEach((stackItem, index) => {
+      const stackSumMax = stackItem.stacks.reduce(
+        (acc, stack) => acc + (stack.value >= 0 ? stack.value : 0),
+        0
+      )
+      const stackSumMin = stackItem.stacks.reduce(
+        (acc, stack) => acc + (stack.value < 0 ? stack.value : 0),
+        0
+      )
+
+      if (stackItem.isSecondary) {
+        if (stackSumMax > secondaryMaxItem) {
+          secondaryMaxItem = stackSumMax
+        }
+
+        if (stackSumMin < secondaryMinItem) {
+          secondaryMinItem = stackSumMin
+          secondaryMinPositiveItem =
+            secondaryMinItem > 0 ? secondaryMinItem : secondaryMinPositiveItem
+        }
+      } else {
+        if (stackSumMax > maxItem) {
+          maxItem = stackSumMax
+        }
+
+        if (stackSumMin < minItem) {
+          minItem = stackSumMin
+          minPositiveItem = minItem > 0 ? minItem : minPositiveItem
+        }
+      }
+      totalWidth +=
+        (stackItem.stacks[0].barWidth ?? props.barWidth ?? defaultBarWidth) +
+        (index === data.length - 1 ? 0 : stackItem.spacing ?? spacing)
+    })
+  } else {
+    data.forEach((item: barDataItem, index) => {
+      if (item.isSecondary) {
+        if (item.value > secondaryMaxItem) {
+          secondaryMaxItem = item.value
+        }
+        if (item.value < secondaryMinItem) {
+          secondaryMinItem = item.value
+          secondaryMinPositiveItem =
+            secondaryMinItem > 0 ? secondaryMinItem : secondaryMinPositiveItem
+        }
+      } else {
+        if (item.value > maxItem) {
+          maxItem = item.value
+        }
+        if (item.value < minItem) {
+          minItem = item.value
+          minPositiveItem = minItem > 0 ? minItem : minPositiveItem
+        }
+      }
+      totalWidth +=
+        (item.barWidth ?? props.barWidth ?? defaultBarWidth) +
+        (index === data.length - 1 ? spacing : item.spacing ?? spacing)
+    })
+  }
+
+  const valuesRange = maxItem - minPositiveItem // Diff bw largest & smallest +ve values
   const showFractionalValues = props.showFractionalValues ?? valuesRange <= 1
   const roundToDigits =
     props.roundToDigits ??
@@ -232,25 +259,41 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     showFractionalValues
   )
 
-  const secondaryMaxAndMin = maxAndMinUtil(
-    secondaryMaxItem,
-    secondaryMinItem,
-    roundToDigits,
-    showFractionalValues
-  )
-
   const maxValue = getMaxValue(
     props.maxValue,
     props.stepValue,
     noOfSections,
     maxAndMin.maxItem
   )
-  const secondaryMaxValue = lineConfig.isSecondary
-    ? typeof props.secondaryYAxis !== 'boolean'
-      ? (props.secondaryYAxis as secondaryYAxisType).maxValue ??
-        secondaryMaxAndMin.maxItem
-      : secondaryMaxAndMin.maxItem
-    : maxValue
+
+  const secondaryRange = secondaryMaxItem - secondaryMinPositiveItem // Diff bw largest & smallest +ve values
+  const showSecondaryFractionalValues =
+    (props.secondaryYAxis as secondaryYAxisType)?.showFractionalValues ??
+    secondaryRange <= 1
+  const secondaryRoundToDigits =
+    (props.secondaryYAxis as secondaryYAxisType)?.roundToDigits ??
+    (showSecondaryFractionalValues
+      ? indexOfFirstNonZeroDigit(secondaryRange) + 1
+      : 0)
+
+  const secondaryMaxAndMin = maxAndMinUtil(
+    secondaryMaxItem,
+    secondaryMinItem,
+    secondaryRoundToDigits,
+    showSecondaryFractionalValues
+  )
+
+  // const secondaryMaxValue = lineConfig.isSecondary
+  //   ? typeof props.secondaryYAxis !== 'boolean'
+  //     ? (props.secondaryYAxis as secondaryYAxisType).maxValue ??
+  //       secondaryMaxAndMin.maxItem
+  //     : secondaryMaxAndMin.maxItem
+  //   : maxValue
+
+  const secondaryMaxValue =
+    (props.secondaryYAxis as secondaryYAxisType)?.maxValue ??
+    secondaryMaxAndMin.maxItem
+
   const mostNegativeValue = getMostNegativeValue(
     props.mostNegativeValue,
     props.negativeStepValue,
@@ -296,8 +339,36 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     0
   )
 
+  const axesAndRulesProps = getAxesAndRulesProps(
+    props,
+    containerHeight,
+    stepHeight,
+    stepValue,
+    noOfSections,
+    roundToDigits,
+    negativeStepValue ?? stepValue,
+    secondaryMaxValue,
+    secondaryMinItem,
+    showSecondaryFractionalValues,
+    secondaryRoundToDigits
+  )
+
+  const {
+    stepHeight: secondaryStepHeight,
+    stepValue: secondaryStepValue,
+    negativeStepHeight: secondaryNegativeStepHeight,
+    negativeStepValue: secondaryNegativeStepValue,
+    noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis
+  } = axesAndRulesProps.secondaryYAxisConfig
+
+  const primary4thQuadrantHeight =
+    noOfSectionsBelowXAxis * (props.negativeStepHeight ?? stepHeight)
+  const secondary4thQuadrantHeight =
+    secondaryNoOfSectionsBelowXAxis * secondaryNegativeStepHeight
+
   const containerHeightIncludingBelowXAxis =
-    extendedContainerHeight + noOfSectionsBelowXAxis * stepHeight
+    extendedContainerHeight +
+    Math.max(primary4thQuadrantHeight, secondary4thQuadrantHeight)
 
   const [pointerIndex, setPointerIndex] = useState(-1)
   const [pointerX, setPointerX] = useState(0)
@@ -718,7 +789,13 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       stepValue,
       negativeStepHeight: props.negativeStepHeight ?? stepHeight,
       negativeStepValue: props.negativeStepValue ?? stepValue,
-      secondaryXAxis: props.secondaryXAxis
+      secondaryXAxis: props.secondaryXAxis,
+      secondaryYAxis: props.secondaryYAxis,
+      secondaryStepHeight,
+      secondaryStepValue,
+      secondaryNegativeStepHeight,
+      secondaryNegativeStepValue,
+      secondaryNoOfSectionsBelowXAxis
     }
   }
 
@@ -738,7 +815,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     initialSpacing,
     data,
     stackData: props.stackData,
-    secondaryData,
+    // secondaryData,
     barWidth: props.barWidth ?? defaultBarWidth,
     xAxisThickness,
     totalWidth,
@@ -773,13 +850,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     sectionColors: props.sectionColors,
     showFractionalValues,
 
-    axesAndRulesProps: getAxesAndRulesProps(
-      props,
-      stepValue,
-      roundToDigits,
-      negativeStepValue,
-      secondaryMaxValue
-    ),
+    axesAndRulesProps,
 
     yAxisLabelTexts: props.yAxisLabelTexts,
     yAxisOffset: yAxisOffset,
@@ -882,7 +953,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     appearingOpacity,
     autoShiftLabels,
     yAxisAtTop,
-    secondaryData,
+    // secondaryData,
     disableScroll,
     showScrollIndicator,
     scrollToEnd,

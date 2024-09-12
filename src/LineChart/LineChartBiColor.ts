@@ -500,7 +500,19 @@ export const useLineChartBiColor = (
     noOfSections,
     showFractionalValues,
 
-    axesAndRulesProps: getAxesAndRulesProps(props, stepValue, props.roundToDigits ?? 0, undefined),
+    axesAndRulesProps: getAxesAndRulesProps(
+      props,
+      containerHeight,
+      stepHeight,
+      stepValue,
+      noOfSections,
+      props.roundToDigits ?? 0,
+      0,
+      0,
+      0,
+      false,
+      0
+    ),
 
     yAxisLabelTexts: props.yAxisLabelTexts,
     yAxisOffset: props.yAxisOffset,

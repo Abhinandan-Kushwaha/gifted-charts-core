@@ -20,7 +20,8 @@ import {
   type LineProperties,
   type LineSegment,
   Framework,
-  referenceConfigType
+  referenceConfigType,
+  secondaryYAxisType
 } from './types'
 import {
   type lineConfigType,
@@ -675,19 +676,30 @@ interface ReferenceLinesConfig {
 interface IgetAxesAndRulesProps extends BarChartPropsType {
   verticalLinesUptoDataPoint?: boolean
   referenceLinesConfig: ReferenceLinesConfig
+  secondaryYAxisConfig: secondaryYAxisType & {
+    stepHeight: number
+    stepValue: number
+    negativeStepHeight: number
+    negativeStepValue: number
+    noOfSectionsBelowXAxis: number
+  }
 }
 
 export const getAxesAndRulesProps = (
   props: extendedBarChartPropsType,
+  containerHeight: number,
+  stepHeight: number,
   stepValue: number,
+  noOfSections: number,
   roundToDigits: number,
-  negativeStepValue?: number,
-  maxValue?: number
+  negativeStepValue: number,
+  secondaryMaxValue: number,
+  secondaryMinItem: number,
+  showSecondaryFractionalValues: boolean,
+  secondaryRoundToDigits: number
 ): IgetAxesAndRulesProps => {
   const secondaryYAxis =
-    !props.secondaryYAxis || props.secondaryYAxis === true
-      ? {}
-      : props.secondaryYAxis
+    typeof props.secondaryYAxis === 'boolean' ? {} : props.secondaryYAxis
   const axesAndRulesProps: IgetAxesAndRulesProps = {
     yAxisSide: props.yAxisSide,
     yAxisLabelContainerStyle: props.yAxisLabelContainerStyle,
@@ -755,19 +767,62 @@ export const getAxesAndRulesProps = (
 
     roundToDigits: roundToDigits,
     stepValue,
-    negativeStepValue: negativeStepValue ?? stepValue,
+    negativeStepValue,
 
     secondaryYAxis: props.secondaryYAxis,
     formatYLabel: props.formatYLabel,
-    secondaryXAxis: props.secondaryXAxis
+    secondaryXAxis: props.secondaryXAxis,
+    secondaryYAxisConfig: {
+      stepHeight: 0,
+      stepValue: 0,
+      negativeStepHeight: 0,
+      negativeStepValue: 0,
+      noOfSectionsBelowXAxis: 0
+    }
   }
   if (
     (props.secondaryYAxis ?? props.lineConfig?.isSecondary) &&
-    maxValue !== undefined &&
+    secondaryMaxValue !== undefined &&
     secondaryYAxis &&
     secondaryYAxis.maxValue === undefined
   ) {
-    axesAndRulesProps.secondaryYAxis = { ...secondaryYAxis, maxValue }
+    axesAndRulesProps.secondaryYAxis = {
+      ...secondaryYAxis,
+      maxValue: secondaryMaxValue
+    }
+  }
+
+  const secondaryNoOfSections = secondaryYAxis?.noOfSections ?? noOfSections
+
+  const secondaryStepValue =
+    secondaryYAxis?.stepValue ??
+    (secondaryYAxis?.maxValue ?? secondaryMaxValue) / secondaryNoOfSections
+
+  const secondaryStepHeight =
+    secondaryYAxis?.stepHeight ?? containerHeight / secondaryNoOfSections
+
+  const secondaryNegativeStepValue =
+    secondaryYAxis?.negativeStepValue ?? secondaryStepValue
+
+  const secondaryNoOfSectionsBelowXAxis =
+    secondaryYAxis?.noOfSectionsBelowXAxis ??
+    (secondaryNegativeStepValue
+      ? Math.ceil(
+          (secondaryYAxis?.mostNegativeValue ?? secondaryMinItem) /
+            -secondaryNegativeStepValue
+        )
+      : 0)
+
+  axesAndRulesProps.secondaryYAxisConfig = {
+    ...secondaryYAxis,
+    stepHeight: secondaryStepHeight,
+    stepValue: secondaryStepValue,
+    negativeStepHeight:
+      secondaryYAxis?.negativeStepHeight ?? secondaryStepHeight,
+    negativeStepValue: secondaryNegativeStepValue,
+    noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis,
+    showFractionalValues: showSecondaryFractionalValues,
+    roundToDigits: secondaryRoundToDigits
   }
 
   return axesAndRulesProps
@@ -1077,7 +1132,8 @@ export const maxAndMinUtil = (
     const range = maxItem - minItem
     const stepValue = range / 10
     maxItem += stepValue
-    minItem = minItem !== 0 ? minItem + stepValue : minItem
+    minItem =
+      minItem !== 0 ? minItem + (minItem < 0 ? -stepValue : stepValue) : minItem
     // maxItem *= 10 * (roundToDigits ?? 1)
     // maxItem = maxItem + (10 - (maxItem % 10))
     // maxItem /= 10 * (roundToDigits ?? 1)

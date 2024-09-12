@@ -16,7 +16,15 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     leftShiftForTooltip,
     leftShiftForLastIndexTooltip,
     autoCenterTooltip,
-    horizontal
+    horizontal,
+    stepHeight,
+    stepValue,
+    negativeStepHeight,
+    negativeStepValue,
+    secondaryStepHeight,
+    secondaryStepValue,
+    secondaryNegativeStepHeight,
+    secondaryNegativeStepValue
   } = props
   const containsNegativeValue = item.stacks.some((item) => item.value < 0)
   const noAnimation = containsNegativeValue || !isAnimated
@@ -40,10 +48,19 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
   }
   const disablePress = props.disablePress ?? false
 
+  const heightFactor = item.isSecondary
+    ? secondaryStepHeight / secondaryStepValue
+    : stepHeight / stepValue
+
+  const negativeHeightFactor = item.isSecondary
+    ? secondaryNegativeStepHeight / secondaryNegativeStepValue
+    : negativeStepHeight / negativeStepValue
+
   const totalHeight = props.item.stacks.reduce(
     (acc, stack) =>
       acc +
-      (Math.abs(stack.value) * (containerHeight ?? 200)) / (maxValue || 200),
+      Math.abs(stack.value) *
+        (stack.value < 0 ? negativeHeightFactor : heightFactor),
     0
   )
 
@@ -51,7 +68,7 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
 
   const getBarHeight = (value: number, marginBottom?: number): number => {
     return (
-      (Math.abs(value) * (containerHeight ?? 200)) / (maxValue || 200) -
+      Math.abs(value) * (value < 0 ? negativeHeightFactor : heightFactor) -
       (marginBottom ?? 0)
     )
   }

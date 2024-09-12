@@ -55,7 +55,11 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
     secondaryYAxis,
     secondaryStepValue,
     secondaryNegativeStepValue,
-    secondaryNoOfSectionsBelowXAxis
+    secondaryNoOfSectionsBelowXAxis,
+    showSecondaryFractionalValues,
+    secondaryRoundToDigits,
+    secondaryStepHeight,
+    secondaryNegativeStepHeight
   } = props
 
   const yAxisExtraHeightAtTop = trimYAxisAtTop ? 0 : yAxisExtraHeight
@@ -71,14 +75,13 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
     maxValue: secondaryYAxis?.maxValue,
     mostNegativeValue: secondaryYAxis?.mostNegativeValue,
     stepValue: secondaryStepValue,
-    stepHeight: secondaryYAxis?.stepHeight,
+    stepHeight: secondaryStepHeight,
 
     negativeStepValue: secondaryNegativeStepValue,
-    negativeStepHeight: secondaryYAxis?.negativeStepHeight,
+    negativeStepHeight: secondaryNegativeStepHeight,
 
-    showFractionalValues:
-      secondaryYAxis?.showFractionalValues ?? showFractionalValues,
-    roundToDigits: secondaryYAxis?.roundToDigits ?? roundToDigits,
+    showFractionalValues: showSecondaryFractionalValues,
+    roundToDigits: secondaryRoundToDigits,
     noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis,
 
     showYAxisIndices: secondaryYAxis?.showYAxisIndices ?? showYAxisIndices,
@@ -148,7 +151,7 @@ export const getHorizSectionVals = (props: horizSectionPropTypes) => {
       })
     }
   }
-  
+
   const secondaryHorizSections: HorizSectionsType = []
   if (secondaryYAxis) {
     for (
