@@ -143,6 +143,7 @@ export interface LineInBarChartPropsType {
   scrollEventThrottle: number
   xAxisLabelsVerticalShift: number
   selectedIndex: number
+  yAxisOffset: number
 }
 
 export interface DataPointProps {
@@ -155,6 +156,7 @@ export interface DataPointProps {
   yAxisLabelWidth: number
   spacing: number
   selectedIndex: number
+  yAxisOffset: number
 }
 
 export interface referenceConfigType {

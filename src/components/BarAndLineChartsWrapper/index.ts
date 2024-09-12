@@ -312,13 +312,19 @@ export const useBarAndLineChartsWrapper = (
     labelsExtraHeight,
     scrollEventThrottle,
     xAxisLabelsVerticalShift,
-    selectedIndex
+    selectedIndex,
+    yAxisOffset: lineConfig.isSecondary
+      ? secondaryYAxis?.yAxisOffset ?? 0
+      : yAxisOffset ?? 0
   }
   const lineInBarChartProps2: LineInBarChartPropsType = {
     ...lineInBarChartProps,
     lineConfig: lineConfig2,
     points: points2,
-    data: lineData2 ?? []
+    data: lineData2 ?? [],
+    yAxisOffset: lineConfig2.isSecondary
+      ? secondaryYAxis?.yAxisOffset ?? 0
+      : yAxisOffset ?? 0
   }
 
   const verticalLinesProps = {

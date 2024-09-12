@@ -454,6 +454,13 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
   const barInnerComponent = props.barInnerComponent
 
+  const localYAxisOffset1 = lineConfig.isSecondary
+    ? (props.secondaryYAxis as secondaryYAxisType)?.yAxisOffset ?? 0
+    : yAxisOffset ?? 0
+  const localYAxisOffset2 = lineConfig2.isSecondary
+    ? (props.secondaryYAxis as secondaryYAxisType)?.yAxisOffset ?? 0
+    : yAxisOffset ?? 0
+
   useEffect(() => {
     if (showLine) {
       let pp = ''
@@ -493,7 +500,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
               currentValue,
               lineConfig.shiftY,
               containerHeight,
-              lineConfig.isSecondary ? secondaryMaxValue : maxValue
+              lineConfig.isSecondary ? secondaryMaxValue : maxValue,
+              localYAxisOffset1
             ) +
             ' '
         }
@@ -551,7 +559,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
               currentValue,
               lineConfig.shiftY,
               containerHeight,
-              lineConfig.isSecondary ? secondaryMaxValue : maxValue
+              lineConfig.isSecondary ? secondaryMaxValue : maxValue,
+              localYAxisOffset1
             )
           ])
           const xx = svgPath(
@@ -589,7 +598,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
                 currentValue,
                 lineConfig2.shiftY,
                 containerHeight,
-                lineConfig2.isSecondary ? secondaryMaxValue : maxValue
+                lineConfig2.isSecondary ? secondaryMaxValue : maxValue,
+                localYAxisOffset2
               ) +
               ' '
           }
@@ -619,7 +629,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
                 currentValue,
                 lineConfig2.shiftY,
                 containerHeight,
-                lineConfig2.isSecondary ? secondaryMaxValue : maxValue
+                lineConfig2.isSecondary ? secondaryMaxValue : maxValue,
+                localYAxisOffset2
               )
             ])
             const xx = svgPath(
