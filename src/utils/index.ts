@@ -1234,9 +1234,12 @@ export const getYForLineInBar = (
   value: number | undefined,
   shiftY: number | undefined,
   containerHeight: number,
-  maxValue: number
+  maxValue: number,
+  yAxisOffset: number
 ): number =>
-  containerHeight - (shiftY ?? 0) - ((value ?? 0) * containerHeight) / maxValue
+  containerHeight -
+  (shiftY ?? 0) -
+  (((value ?? 0) - yAxisOffset) * containerHeight) / maxValue
 
 export const clone = (obj: any): any => {
   if (obj === null || typeof obj !== 'object' || 'isActiveClone' in obj) {
