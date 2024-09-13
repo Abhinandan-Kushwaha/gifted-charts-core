@@ -313,7 +313,7 @@ export const useBarAndLineChartsWrapper = (
     scrollEventThrottle,
     xAxisLabelsVerticalShift,
     selectedIndex,
-    yAxisOffset: lineConfig.isSecondary
+    yAxisOffset: lineConfig?.isSecondary
       ? secondaryYAxis?.yAxisOffset ?? 0
       : yAxisOffset ?? 0
   }
@@ -322,7 +322,7 @@ export const useBarAndLineChartsWrapper = (
     lineConfig: lineConfig2,
     points: points2,
     data: lineData2 ?? [],
-    yAxisOffset: lineConfig2.isSecondary
+    yAxisOffset: lineConfig2?.isSecondary
       ? secondaryYAxis?.yAxisOffset ?? 0
       : yAxisOffset ?? 0
   }
