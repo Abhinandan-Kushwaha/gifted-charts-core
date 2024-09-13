@@ -507,7 +507,7 @@ export const useLineChartBiColor = (
       stepValue,
       noOfSections,
       props.roundToDigits ?? 0,
-      0,
+      stepValue,
       0,
       0,
       false,
