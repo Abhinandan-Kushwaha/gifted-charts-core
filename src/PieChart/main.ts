@@ -243,6 +243,45 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     }
   }
 
+  const coordinates: any[] = [];
+
+  data.forEach((item, index) => {
+    let nextItem;
+    if (index === pData.length - 1) nextItem = pData[0];
+    else nextItem = pData[index + 1];
+    let sx =
+      cx * (1 + Math.sin(2 * pi * pData[index] + initialAngle)) +
+      (item.shiftX || 0);
+    let sy =
+      cy * (1 - Math.cos(2 * pi * pData[index] + initialAngle)) +
+      (item.shiftY || 0);
+    let ax =
+      cx * (1 + Math.sin(2 * pi * nextItem + initialAngle)) +
+      (item.shiftX || 0);
+    let ay =
+      cy * (1 - Math.cos(2 * pi * nextItem + initialAngle)) +
+      (item.shiftY || 0);
+
+    coordinates[index] = {sx, sy, ax, ay};
+  });
+
+  const onPressed = (item: pieDataItem, index: number) => {
+    if (item.onPress) {
+      item.onPress();
+    } else if (props.onPress) {
+      props.onPress(item, index);
+    }
+    if (props.focusOnPress) {
+      if (props.selectedIndex === index || props.isBiggerPie) {
+        if (toggleFocusOnPress) {
+          props.setSelectedIndex(-1);
+        }
+      } else {
+        props.setSelectedIndex(index);
+      }
+    }
+  };
+
   return {
     isThreeD,
     isBiggerPie,
@@ -293,6 +332,8 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     showExternalLabels,
     labelLineConfig,
     externalLabelComponent,
-    getExternaLabelProperties
+    getExternaLabelProperties,
+    coordinates,
+    onPressed
   }
 }
