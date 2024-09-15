@@ -481,7 +481,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     Math.max(...mergedPrimaryDataArrays.map((i) => Math.max(i.value, 0))) - // find the largest +ve number
     Math.min(...mergedPrimaryDataArrays.map((i) => Math.max(i.value, 0))) // find the smallest +ve number
 
-  const showFractionalValues = props.showFractionalValues ?? valuesRange <= 1
+  const showFractionalValues =
+    props.showFractionalValues ?? (isFinite(valuesRange) && valuesRange <= 1)
   const roundToDigits =
     props.roundToDigits ??
     (showFractionalValues ? indexOfFirstNonZeroDigit(valuesRange) + 1 : 0)
@@ -492,12 +493,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     showFractionalValues
   )
 
-  const maxValue = getMaxValue(
-    props.maxValue,
-    props.stepValue,
-    noOfSections,
-    maxItem
-  )
+  const maxValue =
+    getMaxValue(props.maxValue, props.stepValue, noOfSections, maxItem) || 10
 
   const mostNegativeValue = props.mostNegativeValue ?? minItem
 
