@@ -365,6 +365,8 @@ export interface Pointer {
   pointerStripColor?: ColorValue
   pointerStripUptoDataPoint?: boolean
   pointerLabelComponent?: Function
+  dynamicLegendComponent?: Function
+  dynamicLegendContainerStyle?: any
   stripOverPointer?: boolean
   autoAdjustPointerLabelPosition?: boolean
   shiftPointerLabelX?: number
