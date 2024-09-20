@@ -264,7 +264,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     props.stepValue,
     noOfSections,
     maxAndMin.maxItem
-  )
+  ) || 10
 
   const secondaryRange = secondaryMaxItem - secondaryMinPositiveItem // Diff bw largest & smallest +ve values
   const showSecondaryFractionalValues =
