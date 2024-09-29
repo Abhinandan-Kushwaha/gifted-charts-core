@@ -216,6 +216,8 @@ export interface PopulationPyramidPropsType {
   rightSurplusBorderColor?: ColorValue
   leftSurplusBorderWidth?: number
   rightSurplusBorderWidth?: number
+  onLeftPress?: (item: popnPyramidDataItem, index: number) => void
+  onRightPress?: (item: popnPyramidDataItem, index: number) => void
 }
 
 export type PopulationPyramidPropsTypeReactJS = PopulationPyramidPropsType & {
