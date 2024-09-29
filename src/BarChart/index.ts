@@ -302,9 +302,14 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   )
 
   const stepValue = props.stepValue ?? maxValue / noOfSections
+
+  const effectiveNegativeStepValue = negativeStepValue ?? stepValue
+
   const noOfSectionsBelowXAxis =
     props.noOfSectionsBelowXAxis ??
-    Math.round(Math.ceil(-mostNegativeValue / (negativeStepValue ?? stepValue)))
+    (effectiveNegativeStepValue
+      ? Math.round(Math.ceil(-mostNegativeValue / effectiveNegativeStepValue))
+      : 0)
   const showScrollIndicator =
     props.showScrollIndicator ?? BarDefaults.showScrollIndicator
   const side = props.side ?? BarDefaults.side

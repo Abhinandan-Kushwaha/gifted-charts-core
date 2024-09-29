@@ -204,9 +204,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const onDataChangeAnimationDuration =
     props.onDataChangeAnimationDuration ?? 400
   const animateTogether = props.animateTogether ?? LineDefaults.animateTogether
-  const animateOnDataChange = yAxisOffset
-    ? false
-    : props.animateOnDataChange ?? false
+  const animateOnDataChange = props.animateOnDataChange ?? false
 
   const startIndex1 = props.startIndex1 ?? props.startIndex ?? 0
 
