@@ -34,6 +34,18 @@ export interface PieChartPropsType {
   textBackgroundRadius?: number
   showValuesAsLabels?: boolean
 
+  showTooltip?: boolean
+  tooltipWidth?: number
+  tooltipComponent?: Function
+  persistTooltip?: boolean
+  tooltipDuration?: number
+  tooltipVerticalShift?: number
+  tooltipHorizontalShift?: number
+  showValuesAsTooltipText?: boolean
+  tooltipTextNoOfLines?: number
+  tooltipBackgroundColor?: ColorValue
+  tooltipBorderRadius?: number
+
   centerLabelComponent?: Function
   tiltAngle?: string
   initialAngle?: number
@@ -72,6 +84,8 @@ export interface pieDataItem {
   shiftY?: number
   color?: string
   gradientCenterColor?: string
+  tooltipText?: string
+  tooltipComponent?: Function
   text?: string
   textColor?: string
   textSize?: number
