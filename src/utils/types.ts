@@ -116,6 +116,7 @@ export interface secondaryLineConfigType {
   showArrow?: boolean
   arrowConfig?: arrowConfigType
   isSecondary?: boolean
+  spacing?: number
 }
 
 export interface ExtendedLineConfigType extends lineConfigType {
@@ -455,6 +456,7 @@ export interface DataSet {
   lineSegments?: LineSegment[]
   isSecondary?: boolean
   hidePointers?: boolean
+  spacing?: number
 }
 
 export interface IntersectionAreaConfig {

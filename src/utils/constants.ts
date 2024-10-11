@@ -239,7 +239,7 @@ export const defaultLineConfig: defaultLineConfigType = {
   isSecondary: false,
   focusEnabled: false,
   focusedDataPointColor: LineDefaults.focusedDataPointColor,
-  focusedDataPointRadius: LineDefaults.dataPointsRadius,
+  focusedDataPointRadius: LineDefaults.dataPointsRadius
 }
 
 export const defaultPointerConfig = {
@@ -347,4 +347,14 @@ export const populationDefaults = {
   rightSurplusBorderWidth: 0,
   prefix: '',
   suffix: ''
+}
+
+export const PieTooltipDefaults = {
+  tooltipDuration: 1000,
+  tooltipVerticalShift: 30,
+  tooltipHorizontalShift: 20,
+  showValuesAsTooltipText: true,
+  tooltipTextNoOfLines: 3,
+  tooltipBackgroundColor: 'rgba(20,20,20,0.8)',
+  tooltipBorderRadius: 4
 }

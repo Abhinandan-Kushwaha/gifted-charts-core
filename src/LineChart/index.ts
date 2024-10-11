@@ -454,26 +454,114 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const textColor5 =
     props.textColor5 ?? props.textColor ?? LineDefaults.textColor
 
-  const totalWidth =
-    initialSpacing + spacing * maxLengthOfDataOrSet - 1 + endSpacing
-
   let mergedPrimaryDataArrays: lineDataItem[] = []
   let mergedSecondaryDataArrays: lineDataItem[] = []
+  let maxSpacingSum = 0 // max of spacingSum among all the lines
+  let cumulativeSpacing1: number[] = [],
+    cumulativeSpacing2: number[] = [],
+    cumulativeSpacing3: number[] = [],
+    cumulativeSpacing4: number[] = [],
+    cumulativeSpacing5: number[] = [],
+    cumulativeSpacingSecondary: number[] = []
+  let cumulativeSpacingForSet = Array(dataSet?.length ?? 0).fill([])
+
   if (dataSet?.length) {
-    dataSet.forEach((set) => {
+    dataSet.forEach((set, index) => {
       if (set.isSecondary) {
         mergedSecondaryDataArrays.push(...set.data)
       } else {
         mergedPrimaryDataArrays.push(...set.data)
       }
+      let space = set.spacing ?? spacing
+      let spacingSum = 0
+      set.data.forEach((item) => {
+        spacingSum += item.spacing ?? space
+        cumulativeSpacingForSet[index].push(spacingSum)
+      })
+      if (maxSpacingSum < spacingSum) {
+        maxSpacingSum = spacingSum
+      }
     })
   } else {
+    let spacingSum = 0
+    let space = props.spacing1 ?? spacing
+    data.forEach((item) => {
+      spacingSum += item.spacing ?? space
+      cumulativeSpacing1.push(spacingSum)
+    })
+    if (maxSpacingSum < spacingSum) {
+      maxSpacingSum = spacingSum
+    }
+
+    if (data2?.length) {
+      spacingSum = 0
+      space = props.spacing2 ?? spacing
+      data2.forEach((item) => {
+        spacingSum += item.spacing ?? space
+        cumulativeSpacing2.push(spacingSum)
+      })
+      if (maxSpacingSum < spacingSum) {
+        maxSpacingSum = spacingSum
+      }
+    }
+
+    if (data3?.length) {
+      spacingSum = 0
+      space = props.spacing3 ?? spacing
+      data3.forEach((item) => {
+        spacingSum += item.spacing ?? space
+        cumulativeSpacing3.push(spacingSum)
+      })
+      if (maxSpacingSum < spacingSum) {
+        maxSpacingSum = spacingSum
+      }
+    }
+
+    if (data4?.length) {
+      spacingSum = 0
+      space = props.spacing4 ?? spacing
+      data4.forEach((item) => {
+        spacingSum += item.spacing ?? space
+        cumulativeSpacing4.push(spacingSum)
+      })
+      if (maxSpacingSum < spacingSum) {
+        maxSpacingSum = spacingSum
+      }
+    }
+
+    if (data5?.length) {
+      spacingSum = 0
+      space = props.spacing5 ?? spacing
+      data5.forEach((item) => {
+        spacingSum += item.spacing ?? space
+        cumulativeSpacing5.push(spacingSum)
+      })
+      if (maxSpacingSum < spacingSum) {
+        maxSpacingSum = spacingSum
+      }
+    }
+
+    if (secondaryData?.length) {
+      spacingSum = 0
+      space = props.secondaryLineConfig?.spacing ?? spacing
+      secondaryData.forEach((item) => {
+        spacingSum += item.spacing ?? space
+        cumulativeSpacingSecondary.push(spacingSum)
+      })
+      if (maxSpacingSum < spacingSum) {
+        maxSpacingSum = spacingSum
+      }
+    }
+
     mergedPrimaryDataArrays = data
     mergedSecondaryDataArrays = secondaryData
   }
+
   if (!mergedPrimaryDataArrays.length) {
     mergedPrimaryDataArrays = [...mergedSecondaryDataArrays]
   }
+
+  const totalWidth = initialSpacing + maxSpacingSum + endSpacing
 
   const valuesRange =
     Math.max(...mergedPrimaryDataArrays.map((i) => Math.max(i.value, 0))) - // find the largest +ve number
@@ -505,7 +593,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     containerHeight,
     overflowTop
   )
-  const getX = (index: number): number => initialSpacing + spacing * index - 1
+  const getX = (spacingArray: number[], index: number): number =>
+    initialSpacing + (index ? spacingArray[index - 1] : 0)
+
   const getY = (value: number): number =>
     extendedContainerHeight - (value * containerHeight) / maxValue
 
@@ -730,28 +820,33 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     data: lineDataItem[],
     index: number,
     around: boolean,
-    before: boolean
+    before: boolean,
+    spacingArray: number[]
   ): string => {
     const isLast = index === data.length - 1
     return isLast && !(around || before)
       ? ' '
       : ' L' +
-          (getX(index) +
+          (getX(spacingArray, index) +
             (around ? (isLast ? 0 : spacing / 2) : before ? 0 : spacing)) +
           ' ' +
           getY(data[index].value) +
           ' '
   }
-  const getStepPath = (data: lineDataItem[], i: number): string => {
+  const getStepPath = (
+    data: lineDataItem[],
+    i: number,
+    spacingArray: number[]
+  ): string => {
     const around = edgePosition === EdgePosition.AROUND_DATA_POINT
     const before = edgePosition === EdgePosition.BEFORE_DATA_POINT
     return (
       'L' +
-      (getX(i) -
+      (getX(spacingArray, i) -
         (around && i > 0 ? spacing / 2 : before && i > 0 ? spacing : 0)) +
       ' ' +
       getY(data[i].value) +
-      getNextPoint(data, i, around, before)
+      getNextPoint(data, i, around, before, spacingArray)
     )
   }
 
@@ -761,11 +856,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     lineSegment: LineSegment[] | undefined,
     startIndex: number,
     endIndex: number,
+    spacingArray: number[],
     isSecondary?: boolean
   ): string => {
     let path =
       'L' +
-      getX(i) +
+      getX(spacingArray, i) +
       ' ' +
       (isSecondary ? getSecondaryY(data[i].value) : getY(data[i].value)) +
       ' ' +
@@ -778,6 +874,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         highlightedRange,
         startIndex,
         endIndex,
+        spacingArray,
         getX,
         getY
       )
@@ -801,7 +898,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               i <= (set.endIndex ?? set.data.length - 1)
             ) {
               pArray.push([
-                getX(i),
+                getX(cumulativeSpacingForSet[index], i),
                 set.isSecondary
                   ? getSecondaryY(set.data[i].value)
                   : getY(set.data[i].value)
@@ -860,7 +957,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
               i <= (set.endIndex ?? set.data.length - 1)
             ) {
               if (set.stepChart ?? stepChart) {
-                pp += getStepPath(set.data, i)
+                pp += getStepPath(set.data, i, cumulativeSpacingForSet[index])
               } else {
                 pp += getSegmentPath(
                   set.data,
@@ -868,6 +965,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
                   set.lineSegments,
                   set.startIndex ?? 0,
                   set.endIndex ?? set.data.length - 1,
+                  cumulativeSpacingForSet[index],
                   set.isSecondary
                 )
               }
@@ -928,66 +1026,71 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         for (let i = 0; i < lengthOfLongestDataArray; i++) {
           if (i >= startIndex1 && i <= endIndex1) {
             if (stepChart ?? stepChart1) {
-              pp += getStepPath(data, i)
+              pp += getStepPath(data, i, cumulativeSpacing1)
             } else {
               pp += getSegmentPath(
                 data,
                 i,
                 lineSegments,
                 startIndex1,
-                endIndex1
+                endIndex1,
+                cumulativeSpacing1
               )
             }
           }
           if (data2.length > 0 && i >= startIndex2 && i <= endIndex2) {
             if (stepChart ?? stepChart2) {
-              pp2 += getStepPath(data2, i)
+              pp2 += getStepPath(data2, i, cumulativeSpacing2)
             } else {
               pp2 += getSegmentPath(
                 data2,
                 i,
                 lineSegments2,
                 startIndex2,
-                endIndex2
+                endIndex2,
+                cumulativeSpacing2
               )
             }
           }
           if (data3.length > 0 && i >= startIndex3 && i <= endIndex3) {
             if (stepChart ?? stepChart3) {
-              pp3 += getStepPath(data3, i)
+              pp3 += getStepPath(data3, i, cumulativeSpacing3)
             } else {
               pp3 += getSegmentPath(
                 data3,
                 i,
                 lineSegments3,
                 startIndex3,
-                endIndex3
+                endIndex3,
+                cumulativeSpacing3
               )
             }
           }
           if (data4.length > 0 && i >= startIndex4 && i <= endIndex4) {
             if (stepChart ?? stepChart4) {
-              pp4 += getStepPath(data4, i)
+              pp4 += getStepPath(data4, i, cumulativeSpacing4)
             } else {
               pp4 += getSegmentPath(
                 data4,
                 i,
                 lineSegments4,
                 startIndex4,
-                endIndex4
+                endIndex4,
+                cumulativeSpacing4
               )
             }
           }
           if (data5.length > 0 && i >= startIndex5 && i <= endIndex5) {
             if (stepChart ?? stepChart5) {
-              pp5 += getStepPath(data5, i)
+              pp5 += getStepPath(data5, i, cumulativeSpacing5)
             } else {
               pp5 += getSegmentPath(
                 data5,
                 i,
                 lineSegments5,
                 startIndex5,
-                endIndex5
+                endIndex5,
+                cumulativeSpacing5
               )
             }
           }
@@ -1190,19 +1293,19 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         const p5Array: number[][] = []
         for (let i = 0; i < lengthOfLongestDataArray; i++) {
           if (i >= startIndex1 && i <= endIndex1) {
-            p1Array.push([getX(i), getY(data[i].value)])
+            p1Array.push([getX(cumulativeSpacing1, i), getY(data[i].value)])
           }
           if (data2.length > 0 && i >= startIndex2 && i <= endIndex2) {
-            p2Array.push([getX(i), getY(data2[i].value)])
+            p2Array.push([getX(cumulativeSpacing2, i), getY(data2[i].value)])
           }
           if (data3.length > 0 && i >= startIndex3 && i <= endIndex3) {
-            p3Array.push([getX(i), getY(data3[i].value)])
+            p3Array.push([getX(cumulativeSpacing3, i), getY(data3[i].value)])
           }
           if (data4.length > 0 && i >= startIndex4 && i <= endIndex4) {
-            p4Array.push([getX(i), getY(data4[i].value)])
+            p4Array.push([getX(cumulativeSpacing4, i), getY(data4[i].value)])
           }
           if (data5.length > 0 && i >= startIndex5 && i <= endIndex5) {
-            p5Array.push([getX(i), getY(data5[i].value)])
+            p5Array.push([getX(cumulativeSpacing5, i), getY(data5[i].value)])
           }
         }
 
@@ -1469,7 +1572,11 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           i <= secondaryLineConfig.endIndex
         ) {
           pp +=
-            'L' + getX(i) + ' ' + getSecondaryY(secondaryData[i].value) + ' '
+            'L' +
+            getX(cumulativeSpacingSecondary, i) +
+            ' ' +
+            getSecondaryY(secondaryData[i].value) +
+            ' '
         }
       }
 
@@ -1504,7 +1611,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           ppp += pp
           ppp +=
             'L' +
-            (initialSpacing + spacing * (secondaryData.length - 1)) +
+            getX(cumulativeSpacingSecondary, secondaryData.length - 1) +
             ' ' +
             heightUptoXaxis
           ppp += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
@@ -1519,7 +1626,10 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           i >= secondaryLineConfig.startIndex &&
           i <= secondaryLineConfig.endIndex
         ) {
-          p1Array.push([getX(i), getSecondaryY(secondaryData[i].value)])
+          p1Array.push([
+            getX(cumulativeSpacingSecondary, i),
+            getSecondaryY(secondaryData[i].value)
+          ])
         }
       }
 
@@ -2254,7 +2364,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     getPointerY,
     initialisePointers,
     barAndLineChartsWrapperProps,
-    yAxisExtraHeightAtTop
+    yAxisExtraHeightAtTop,
+    cumulativeSpacing1,
+    cumulativeSpacing2,
+    cumulativeSpacing3,
+    cumulativeSpacing4,
+    cumulativeSpacing5,
+    cumulativeSpacingSecondary,
+    cumulativeSpacingForSet
     // oldPoints
   }
 }

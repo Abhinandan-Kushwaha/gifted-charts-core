@@ -242,7 +242,8 @@ export const getPathWithHighlight = (
   highlightedRange: HighlightedRange,
   startIndex: number,
   endIndex: number,
-  getX: (i: number) => number,
+  spacingArray: number[],
+  getX: (spacingArray: number[], i: number) => number,
   getY: (value: number) => number
 ): string => {
   let path = ''
@@ -261,9 +262,9 @@ export const getPathWithHighlight = (
       currentPointRegion !== nextPointRegion ||
       (i === startIndex && currentPointRegion === loc.IN)
     ) {
-      const x1 = getX(i)
+      const x1 = getX(spacingArray, i)
       const y1 = getY(data[i].value)
-      const x2 = getX(i + 1)
+      const x2 = getX(spacingArray, i + 1)
       const y2 = getY(data[i + 1].value)
 
       let m = (y2 - y1) / (x2 - x1)

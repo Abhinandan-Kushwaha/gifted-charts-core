@@ -1,9 +1,11 @@
+import { useRef, useState } from 'react'
 import {
   defaultLabelLineConfig,
   emptyExternaLabelProperties,
   getTextSizeForPieLabels
 } from '../utils'
 import { type PieChartMainProps, type pieDataItem } from './types'
+import { PieTooltipDefaults } from '../utils/constants'
 
 export const getPieChartMainProps = (props: PieChartMainProps) => {
   const {
@@ -13,10 +15,25 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     paddingVertical,
     extraRadius,
     showExternalLabels,
-    externalLabelComponent
+    externalLabelComponent,
+    showTooltip,
+    tooltipWidth,
+    persistTooltip,
+    tooltipComponent,
+    tooltipDuration = PieTooltipDefaults.tooltipDuration,
+    tooltipVerticalShift = PieTooltipDefaults.tooltipVerticalShift,
+    tooltipHorizontalShift = PieTooltipDefaults.tooltipHorizontalShift,
+    showValuesAsTooltipText = PieTooltipDefaults.showValuesAsTooltipText,
+    tooltipTextNoOfLines = PieTooltipDefaults.tooltipTextNoOfLines,
+    tooltipBackgroundColor = PieTooltipDefaults.tooltipBackgroundColor,
+    tooltipBorderRadius = PieTooltipDefaults.tooltipBorderRadius,
+    font,
+    fontWeight,
+    fontStyle
   } = props
   const propData = props.data
   const data: pieDataItem[] = []
+  const [tooltipSelectedIndex, setTooltipSelectedIndex] = useState(-1)
   let itemHasInnerComponent = false
   if (propData) {
     for (let i = 0; i < propData.length; i++) {
@@ -243,44 +260,66 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     }
   }
 
-  const coordinates: any[] = [];
+  const coordinates: any[] = []
 
   data.forEach((item, index) => {
-    let nextItem;
-    if (index === pData.length - 1) nextItem = pData[0];
-    else nextItem = pData[index + 1];
+    let nextItem
+    if (index === pData.length - 1) nextItem = pData[0]
+    else nextItem = pData[index + 1]
     let sx =
       cx * (1 + Math.sin(2 * pi * pData[index] + initialAngle)) +
-      (item.shiftX || 0);
+      (item.shiftX || 0)
     let sy =
       cy * (1 - Math.cos(2 * pi * pData[index] + initialAngle)) +
-      (item.shiftY || 0);
+      (item.shiftY || 0)
     let ax =
-      cx * (1 + Math.sin(2 * pi * nextItem + initialAngle)) +
-      (item.shiftX || 0);
+      cx * (1 + Math.sin(2 * pi * nextItem + initialAngle)) + (item.shiftX || 0)
     let ay =
-      cy * (1 - Math.cos(2 * pi * nextItem + initialAngle)) +
-      (item.shiftY || 0);
+      cy * (1 - Math.cos(2 * pi * nextItem + initialAngle)) + (item.shiftY || 0)
 
-    coordinates[index] = {sx, sy, ax, ay};
-  });
+    coordinates[index] = { sx, sy, ax, ay }
+  })
+
+  const timer = useRef(setTimeout(() => {})) // timer for tooltip
 
   const onPressed = (item: pieDataItem, index: number) => {
     if (item.onPress) {
-      item.onPress();
+      item.onPress()
     } else if (props.onPress) {
-      props.onPress(item, index);
+      props.onPress(item, index)
     }
     if (props.focusOnPress) {
       if (props.selectedIndex === index || props.isBiggerPie) {
         if (toggleFocusOnPress) {
-          props.setSelectedIndex(-1);
+          props.setSelectedIndex(-1)
         }
       } else {
-        props.setSelectedIndex(index);
+        props.setSelectedIndex(index)
       }
     }
-  };
+    if (showTooltip) {
+      if (tooltipSelectedIndex === index) {
+        setTooltipSelectedIndex(-1)
+      } else {
+        setTooltipSelectedIndex(index)
+        if (!persistTooltip) {
+          clearTimeout(timer.current)
+          timer.current = setTimeout(() => {
+            setTooltipSelectedIndex(-1)
+          }, tooltipDuration)
+        }
+      }
+    }
+  }
+
+  const getTooltipText = (index: number): string => {
+    const item = data[index]
+    const tooltipText =
+      item.tooltipText ??
+      item.text ??
+      (showValuesAsTooltipText ? item.value.toString() : '')
+    return tooltipText
+  }
 
   return {
     isThreeD,
@@ -303,6 +342,20 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     strokeWidth,
     strokeColor,
     innerRadius,
+    showTooltip,
+    tooltipWidth,
+    persistTooltip,
+    tooltipDuration,
+    tooltipComponent,
+    tooltipVerticalShift,
+    tooltipHorizontalShift,
+    showValuesAsTooltipText,
+    tooltipTextNoOfLines,
+    tooltipBackgroundColor,
+    tooltipBorderRadius,
+    tooltipSelectedIndex,
+    setTooltipSelectedIndex,
+    getTooltipText,
     showText,
     textColor,
     textSize,
@@ -334,6 +387,9 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     externalLabelComponent,
     getExternaLabelProperties,
     coordinates,
-    onPressed
+    onPressed,
+    font,
+    fontWeight,
+    fontStyle
   }
 }

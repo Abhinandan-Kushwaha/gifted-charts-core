@@ -72,11 +72,41 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     if (yAxisOffset) {
       return props.data.map((item) => ({
         ...item,
-        value: (item.value ?? 0) - (yAxisOffset ?? 0)
+        value: (item.value ?? 0) - yAxisOffset
       }))
     }
     return props.data
   }, [yAxisOffset, props.data])
+
+  const stackData = useMemo(() => {
+    if (!props.stackData) {
+      return undefined
+    }
+    if (yAxisOffset) {
+      return props.stackData.map((item) => {
+        let cumulativeSum = 0
+        return {
+          ...item,
+          stacks: item.stacks.map((stackItem) => {
+            const stack = {
+              ...stackItem,
+              value: Math.max(
+                // yAxisOffset is reduced from stackItems as long as their cumulative sum is less than yAxisOffset
+                (stackItem.value ?? 0) -
+                  (cumulativeSum < yAxisOffset
+                    ? yAxisOffset - cumulativeSum
+                    : 0),
+                0
+              )
+            }
+            cumulativeSum += stackItem.value
+            return stack
+          })
+        }
+      })
+    }
+    return props.stackData
+  }, [yAxisOffset, props.stackData])
 
   const yAxisLabelWidth =
     props.yAxisLabelWidth ??
@@ -121,7 +151,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
   const lineData = useMemo(() => {
     if (!props.lineData) {
-      return props.stackData ?? data
+      return stackData ?? data
     }
     if (yAxisOffset) {
       return props.lineData.map((item) => ({
@@ -130,7 +160,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }))
     }
     return props.lineData
-  }, [yAxisOffset, props.lineData, data, props.stackData])
+  }, [yAxisOffset, props.lineData, data, stackData])
 
   const lineData2 = props.lineData2
 
@@ -185,8 +215,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   let minItem = 0
   let minPositiveItem = 0
   let secondaryMinPositiveItem = 0
-  if (props.stackData) {
-    props.stackData.forEach((stackItem, index) => {
+  if (stackData) {
+    stackData.forEach((stackItem, index) => {
       const stackSumMax = stackItem.stacks.reduce(
         (acc, stack) => acc + (stack.value >= 0 ? stack.value : 0),
         0
@@ -259,12 +289,13 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     showFractionalValues
   )
 
-  const maxValue = getMaxValue(
-    props.maxValue,
-    props.stepValue,
-    noOfSections,
-    maxAndMin.maxItem
-  ) || 10
+  const maxValue =
+    getMaxValue(
+      props.maxValue,
+      props.stepValue,
+      noOfSections,
+      maxAndMin.maxItem
+    ) || 10
 
   const secondaryRange = secondaryMaxItem - secondaryMinPositiveItem // Diff bw largest & smallest +ve values
   const showSecondaryFractionalValues =
@@ -471,7 +502,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       let pp = ''
       let pp2 = ''
       const firstBarWidth =
-        (props.stackData ?? data)?.[0].barWidth ?? props.barWidth ?? 30
+        (stackData ?? data)?.[0].barWidth ?? props.barWidth ?? 30
       if (!lineConfig.curved) {
         for (let i = 0; i < lineData.length; i++) {
           if (
@@ -484,11 +515,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
             data?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
           const currentValue = props.lineData
             ? props.lineData[i].value
-            : props.stackData
-            ? props.stackData[i].stacks.reduce(
-                (total, item) => total + item.value,
-                0
-              )
+            : stackData
+            ? stackData[i].stacks.reduce((total, item) => total + item.value, 0)
             : data[i].value
           pp +=
             'L' +
@@ -545,11 +573,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
             data?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
           const currentValue = props.lineData
             ? props.lineData[i].value
-            : props.stackData
-            ? props.stackData[i].stacks.reduce(
-                (total, item) => total + item.value,
-                0
-              )
+            : stackData
+            ? stackData[i].stacks.reduce((total, item) => total + item.value, 0)
             : data[i].value
           p1Array.push([
             getXForLineInBar(
@@ -674,8 +699,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   ])
   useEffect(() => {
     if (initialPointerIndex !== -1) {
-      const item = (props.stackData ?? data)?.[initialPointerIndex]
-      const stackItem = props.stackData?.[initialPointerIndex]
+      const item = (stackData ?? data)?.[initialPointerIndex]
+      const stackItem = stackData?.[initialPointerIndex]
       const stackSum = stackItem?.stacks?.reduce(
         (acc, stack) => acc + (stack.value ?? 0),
         0
@@ -830,7 +855,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     yAxisAtTop,
     initialSpacing,
     data,
-    stackData: props.stackData,
+    stackData: stackData,
     // secondaryData,
     barWidth: props.barWidth ?? defaultBarWidth,
     xAxisThickness,

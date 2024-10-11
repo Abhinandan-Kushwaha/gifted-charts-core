@@ -37,6 +37,11 @@ export interface LineChartPropsType {
   data3?: lineDataItem[]
   data4?: lineDataItem[]
   data5?: lineDataItem[]
+  spacing1?: number
+  spacing2?: number
+  spacing3?: number
+  spacing4?: number
+  spacing5?: number
   dataSet?: DataSet[]
   zIndex1?: number
   zIndex2?: number
@@ -361,6 +366,8 @@ export interface lineDataItem {
   textShiftY?: number
   textColor?: string
   textFontSize?: number
+
+  spacing?: number
 
   hideDataPoint?: boolean
   dataPointHeight?: number
