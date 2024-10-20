@@ -34,18 +34,18 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
   const propData = props.data
   const data: pieDataItem[] = []
   const [tooltipSelectedIndex, setTooltipSelectedIndex] = useState(-1)
+  const minisculeDataItem =
+    props.data.map((item) => item.value).reduce((v, a) => v + a) / 160000
   let itemHasInnerComponent = false
   if (propData) {
     for (let i = 0; i < propData.length; i++) {
       if (propData[i].pieInnerComponent) itemHasInnerComponent = true
-      if (propData[i].value !== 0) {
+      if (propData[i].value > minisculeDataItem) {
         data.push(propData[i])
       } else {
         data.push({
           ...propData[i],
-          value:
-            props.data.map((item) => item.value).reduce((v, a) => v + a) /
-            160000
+          value: minisculeDataItem
         })
       }
     }
