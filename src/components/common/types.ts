@@ -1,5 +1,9 @@
 import { type ColorValue } from 'react-native'
-import { PointerEvents, type Pointer } from '../../utils/types'
+import {
+  PointerEvents,
+  type Pointer,
+  HorizontalStripConfig
+} from '../../utils/types'
 
 export interface StripAndLabelProps {
   autoAdjustPointerLabelPosition: boolean
@@ -34,4 +38,5 @@ export interface StripAndLabelProps {
   isBarChart: boolean
   pointerIndex: number
   containsNegative: boolean
+  horizontalStripConfig?: HorizontalStripConfig
 }

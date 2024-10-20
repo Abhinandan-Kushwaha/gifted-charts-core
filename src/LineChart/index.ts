@@ -237,10 +237,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     data5.length
   )
 
-  const maxLengthOfDataOrSet = dataSet
-    ? Math.max(...dataSet.map((item) => item.data.length))
-    : lengthOfLongestDataArray
-
   const lineSegments = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data)
     : !extrapolateMissingValues

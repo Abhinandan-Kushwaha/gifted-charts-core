@@ -1569,7 +1569,7 @@ export const getLineSegmentsDueToNoExtrapolation = (data?: lineDataItem[]) => {
     (item) => typeof item.value === 'number'
   )
 
-  if (lastNumericIndex !== data.length) {
+  if (lastNumericIndex !== data.length - 1) {
     segments.push({
       startIndex: lastNumericIndex,
       endIndex: data.length,

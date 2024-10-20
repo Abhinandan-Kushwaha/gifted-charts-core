@@ -347,6 +347,17 @@ export interface BarAndLineChartsWrapperTypes {
   dataSet?: DataSet[]
 }
 
+export interface HorizontalStripConfig {
+  thickness?: number
+  length?: number
+  color?: ColorValue
+  strokeDashArray?: number[]
+  horizontalStripUptoDataPoint?: boolean
+  labelComponent?: Function
+  labelComponentHeight?: number
+  labelComponentWidth?: number
+}
+
 export interface Pointer {
   height?: number
   width?: number
@@ -365,6 +376,9 @@ export interface Pointer {
   pointerStripHeight?: number
   pointerStripColor?: ColorValue
   pointerStripUptoDataPoint?: boolean
+
+  horizontalStripConfig?: HorizontalStripConfig
+
   pointerLabelComponent?: Function
   dynamicLegendComponent?: Function
   dynamicLegendContainerStyle?: any
