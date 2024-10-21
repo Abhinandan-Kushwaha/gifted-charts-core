@@ -2367,7 +2367,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     cumulativeSpacing4,
     cumulativeSpacing5,
     cumulativeSpacingSecondary,
-    cumulativeSpacingForSet
+    cumulativeSpacingForSet,
+    stripOverDataPoints: props.stripOverDataPoints
     // oldPoints
   }
 }
