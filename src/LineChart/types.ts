@@ -79,6 +79,7 @@ export interface LineChartPropsType {
   onFocus?: Function
   showDataPointOnFocus?: boolean
   showStripOnFocus?: boolean
+  stripOverDataPoints?: boolean
   showTextOnFocus?: boolean
   showDataPointLabelOnFocus?: boolean
   stripHeight?: number
