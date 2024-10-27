@@ -461,8 +461,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     cumulativeSpacingSecondary: number[] = []
   let cumulativeSpacingForSet = Array(dataSet?.length ?? 0).fill([])
 
+  const strips: any = {}
   if (dataSet?.length) {
-    dataSet.forEach((set, index) => {
+    dataSet.forEach((set, key) => {
       if (set.isSecondary) {
         mergedSecondaryDataArrays.push(...set.data)
       } else {
@@ -470,9 +471,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       }
       let space = set.spacing ?? spacing
       let spacingSum = 0
-      set.data.forEach((item) => {
+      set.data.forEach((item, index) => {
         spacingSum += item.spacing ?? space
-        cumulativeSpacingForSet[index].push(spacingSum)
+        cumulativeSpacingForSet[key].push(spacingSum)
+        if (item.showStrip) {
+          strips[key] = strips[key] ?? {}
+          strips[key][index] = { item, index, key }
+        }
       })
       if (maxSpacingSum < spacingSum) {
         maxSpacingSum = spacingSum
@@ -481,9 +486,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   } else {
     let spacingSum = 0
     let space = props.spacing1 ?? spacing
-    data.forEach((item) => {
+    data.forEach((item, index) => {
       spacingSum += item.spacing ?? space
       cumulativeSpacing1.push(spacingSum)
+      if (item.showStrip) {
+        strips[0] = strips[0] ?? {}
+        strips[0][index] = { item, index, key: 0 }
+      }
     })
     if (maxSpacingSum < spacingSum) {
       maxSpacingSum = spacingSum
@@ -492,9 +501,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     if (data2?.length) {
       spacingSum = 0
       space = props.spacing2 ?? spacing
-      data2.forEach((item) => {
+      data2.forEach((item, index) => {
         spacingSum += item.spacing ?? space
         cumulativeSpacing2.push(spacingSum)
+        if (item.showStrip) {
+          strips[1] = strips[1] ?? {}
+          strips[1][index] = { item, index, key: 1 }
+        }
       })
       if (maxSpacingSum < spacingSum) {
         maxSpacingSum = spacingSum
@@ -504,9 +517,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     if (data3?.length) {
       spacingSum = 0
       space = props.spacing3 ?? spacing
-      data3.forEach((item) => {
+      data3.forEach((item, index) => {
         spacingSum += item.spacing ?? space
         cumulativeSpacing3.push(spacingSum)
+        if (item.showStrip) {
+          strips[2] = strips[2] ?? {}
+          strips[2][index] = { item, index, key: 2 }
+        }
       })
       if (maxSpacingSum < spacingSum) {
         maxSpacingSum = spacingSum
@@ -516,9 +533,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     if (data4?.length) {
       spacingSum = 0
       space = props.spacing4 ?? spacing
-      data4.forEach((item) => {
+      data4.forEach((item, index) => {
         spacingSum += item.spacing ?? space
         cumulativeSpacing4.push(spacingSum)
+        if (item.showStrip) {
+          strips[3] = strips[3] ?? {}
+          strips[3][index] = { item, index, key: 3 }
+        }
       })
       if (maxSpacingSum < spacingSum) {
         maxSpacingSum = spacingSum
@@ -528,9 +549,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     if (data5?.length) {
       spacingSum = 0
       space = props.spacing5 ?? spacing
-      data5.forEach((item) => {
+      data5.forEach((item, index) => {
         spacingSum += item.spacing ?? space
         cumulativeSpacing5.push(spacingSum)
+        if (item.showStrip) {
+          strips[4] = strips[4] ?? {}
+          strips[4][index] = { item, index, key: 4 }
+        }
       })
       if (maxSpacingSum < spacingSum) {
         maxSpacingSum = spacingSum
@@ -1798,6 +1823,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const resetPointerOnDataChange =
     pointerConfig?.resetPointerOnDataChange ??
     defaultPointerConfig.resetPointerOnDataChange
+  const hidePointerDataPointForMissingValues =
+    pointerConfig?.hidePointerDataPointForMissingValues ??
+    (pointerConfig?.hidePointerForMissingValues ? true : false)
   const pointerEvents = pointerConfig?.pointerEvents
   const disableScroll =
     props.disableScroll ??
@@ -2337,6 +2365,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     hidePointer5,
     hideSecondaryPointer,
     resetPointerOnDataChange,
+    hidePointerDataPointForMissingValues,
     pointerEvents,
     disableScroll,
     showScrollIndicator,
@@ -2368,7 +2397,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     cumulativeSpacing5,
     cumulativeSpacingSecondary,
     cumulativeSpacingForSet,
-    stripOverDataPoints: props.stripOverDataPoints
+    stripOverDataPoints: props.stripOverDataPoints,
+    strips
     // oldPoints
   }
 }
