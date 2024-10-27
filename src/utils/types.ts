@@ -376,6 +376,8 @@ export interface Pointer {
   pointerStripHeight?: number
   pointerStripColor?: ColorValue
   pointerStripUptoDataPoint?: boolean
+  hidePointerForMissingValues?: boolean
+  hidePointerDataPointForMissingValues?: boolean
 
   horizontalStripConfig?: HorizontalStripConfig
 
