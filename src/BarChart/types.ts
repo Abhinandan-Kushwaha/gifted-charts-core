@@ -155,6 +155,7 @@ export interface StackedBarChartPropsType {
   secondaryNegativeStepHeight: number
   secondaryNegativeStepValue: number
   secondaryNoOfSectionsBelowXAxis: number
+  containerHeightIncludingBelowXAxis?: number
 }
 
 export interface BarChartPropsType {
