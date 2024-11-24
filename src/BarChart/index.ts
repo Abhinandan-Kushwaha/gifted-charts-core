@@ -502,7 +502,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       let pp = ''
       let pp2 = ''
       const firstBarWidth =
-        (stackData ?? data)?.[0].barWidth ?? props.barWidth ?? 30
+        (stackData ?? data)?.[0].barWidth ?? props.barWidth ?? defaultBarWidth
       if (!lineConfig.curved) {
         for (let i = 0; i < lineData.length; i++) {
           if (
@@ -512,7 +512,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
             continue
           }
           const currentBarWidth =
-            data?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
+            (stackData ?? data)?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
           const currentValue = props.lineData
             ? props.lineData[i].value
             : stackData

@@ -399,6 +399,7 @@ export interface lineDataItem {
   showStrip?: boolean
 
   showVerticalLine?: boolean
+  verticalLineHeight?: number
   verticalLineUptoDataPoint?: boolean
   verticalLineColor?: string
   verticalLineThickness?: number
