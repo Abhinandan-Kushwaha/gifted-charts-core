@@ -12,7 +12,8 @@ import {
   type RulesConfig,
   type referenceConfigType,
   type secondaryYAxisType,
-  type Linecap
+  type Linecap,
+  CustomBackground
 } from '../utils/types'
 import { type Component, type ReactNode } from 'react'
 import { type lineDataItem } from '../LineChart/types'
@@ -119,6 +120,7 @@ export interface StackedBarChartPropsType {
     item?: barDataItem | stackDataItem,
     index?: number
   ) => ReactNode
+  barMarginBottom: number
   stackBorderRadius?: number
   stackBorderTopLeftRadius?: number
   stackBorderTopRightRadius?: number
@@ -260,6 +262,7 @@ export interface BarChartPropsType {
   showFractionalValues?: boolean
   roundToDigits?: number
   backgroundColor?: ColorValue
+  customBackground?: CustomBackground
 
   disableScroll?: boolean
   showScrollIndicator?: boolean
@@ -378,6 +381,7 @@ export interface lineConfigType {
   delay?: number
   thickness?: number
   color?: ColorValue | string | any
+  strokeDashArray?: number[]
   hideDataPoints?: boolean
   dataPointsShape?: string
   dataPointsWidth?: number

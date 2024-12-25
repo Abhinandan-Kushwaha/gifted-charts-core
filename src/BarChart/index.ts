@@ -836,7 +836,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       secondaryStepValue,
       secondaryNegativeStepHeight,
       secondaryNegativeStepValue,
-      secondaryNoOfSectionsBelowXAxis
+      secondaryNoOfSectionsBelowXAxis,
+      barMarginBottom: item.barMarginBottom ?? props.barMarginBottom ?? 0
     }
   }
 
@@ -913,7 +914,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     onEndReached: props.onEndReached,
     onStartReached: props.onStartReached,
     endReachedOffset: props.endReachedOffset ?? BarDefaults.endReachedOffset,
-    onMomentumScrollEnd: props.onMomentumScrollEnd
+    onMomentumScrollEnd: props.onMomentumScrollEnd,
+    customBackground: props.customBackground
   }
 
   return {

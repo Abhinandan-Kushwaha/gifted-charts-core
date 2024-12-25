@@ -1279,6 +1279,7 @@ export const getLineConfigForBarChart = (
       lineConfig.animationDuration ?? defaultLineConfig.animationDuration,
     thickness: lineConfig.thickness ?? defaultLineConfig.thickness,
     color: lineConfig.color ?? defaultLineConfig.color,
+    strokeDashArray: lineConfig.strokeDashArray ?? [0,0],
     hideDataPoints:
       lineConfig.hideDataPoints ?? defaultLineConfig.hideDataPoints,
     dataPointsShape:
