@@ -57,6 +57,19 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     negativeStepValue
   } = props
 
+  let lastLineNumber = 1
+
+  if (props.secondaryData) {
+    lastLineNumber = 666
+  }
+  if (props.data2) lastLineNumber = 2
+  if (props.data3) lastLineNumber = 3
+  if (props.data4) lastLineNumber = 4
+  if (props.data5) lastLineNumber = 5
+
+  if ((props.dataSet?.length ?? 0) > lastLineNumber)
+    lastLineNumber = props.dataSet?.length ?? 0
+
   const containsNegativeValue =
     (props.mostNegativeValue ?? 0) < 0 ||
     (props.dataSet?.[0]?.data ?? props.data)?.some((item) => item.value < 0)
@@ -176,15 +189,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   if (dataSet?.length) {
     dataSet = useMemo(() => {
       return dataSet?.map((dataSetItem) => {
-        const nullishHandledDataItem = getInterpolatedData(
+        const sanitisedData = getSanitisedData(
           dataSetItem.data,
-          showDataPointsForMissingValues,
-          interpolateMissingValues,
-          onlyPositive
+          dataSanitisationProps
         )
         return {
           ...dataSetItem,
-          data: adjustToOffset(nullishHandledDataItem, yAxisOffset)
+          data: sanitisedData
         }
       })
     }, [yAxisOffset, dataSet])
@@ -244,15 +255,23 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     : props.lineSegments
   const lineSegments2 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data2)
+    : !extrapolateMissingValues
+    ? getLineSegmentsDueToNoExtrapolation(props.data2)
     : props.lineSegments2
   const lineSegments3 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data3)
+    : !extrapolateMissingValues
+    ? getLineSegmentsDueToNoExtrapolation(props.data3)
     : props.lineSegments3
   const lineSegments4 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data4)
+    : !extrapolateMissingValues
+    ? getLineSegmentsDueToNoExtrapolation(props.data4)
     : props.lineSegments4
   const lineSegments5 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data5)
+    : !extrapolateMissingValues
+    ? getLineSegmentsDueToNoExtrapolation(props.data5)
     : props.lineSegments5
 
   const highlightedRange = props.highlightedRange
@@ -385,20 +404,20 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.dataPointsShape ??
     LineDefaults.dataPointsShape
 
-  const areaChart = props.areaChart ?? false
-  const areaChart1 = props.areaChart1 ?? false
-  const areaChart2 = props.areaChart2 ?? false
-  const areaChart3 = props.areaChart3 ?? false
-  const areaChart4 = props.areaChart4 ?? false
-  const areaChart5 = props.areaChart5 ?? false
+  const areaChart = props.areaChart
+  const areaChart1 = props.areaChart1
+  const areaChart2 = props.areaChart2
+  const areaChart3 = props.areaChart3
+  const areaChart4 = props.areaChart4
+  const areaChart5 = props.areaChart5
 
   const atLeastOneAreaChart =
-    dataSet?.some((set) => set.areaChart) ??
-    areaChart ??
-    areaChart1 ??
-    areaChart2 ??
-    areaChart3 ??
-    areaChart4 ??
+    dataSet?.some((set) => set.areaChart) ||
+    areaChart ||
+    areaChart1 ||
+    areaChart2 ||
+    areaChart3 ||
+    areaChart4 ||
     areaChart5
 
   const getIsNthAreaChart = (n: number): boolean => {
@@ -406,15 +425,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     if (!dataSet?.length) {
       switch (n) {
         case 0:
-          return areaChart1
+          return areaChart1 ?? false
         case 1:
-          return areaChart2
+          return areaChart2 ?? false
         case 2:
-          return areaChart3
+          return areaChart3 ?? false
         case 3:
-          return areaChart4
+          return areaChart4 ?? false
         case 4:
-          return areaChart5
+          return areaChart5 ?? false
       }
     }
     return false
@@ -911,6 +930,11 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       const arrowPointsArray: string[] = []
       const fillPointsArray: string[] = []
       dataSet.map((set, index) => {
+        const setSegments = !interpolateMissingValues
+          ? getLineSegmentsForMissingValues(props.dataSet?.[index].data)
+          : !extrapolateMissingValues
+          ? getLineSegmentsDueToNoExtrapolation(props.dataSet?.[index].data)
+          : set.lineSegments
         if (set.curved ?? props.curved) {
           const pArray: number[][] = []
           for (let i = 0; i < set.data.length; i++) {
@@ -934,7 +958,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           pointsArray.push(
             getCurvePathWithSegments(
               xx,
-              set.lineSegments,
+              setSegments, //set.lineSegments,
               SEGMENT_START,
               SEGMENT_END,
               curveType
@@ -983,7 +1007,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
                 pp += getSegmentPath(
                   set.data,
                   i,
-                  set.lineSegments,
+                  setSegments, //set.lineSegments,
                   set.startIndex ?? 0,
                   set.endIndex ?? set.data.length - 1,
                   cumulativeSpacingForSet[index],
@@ -1245,7 +1269,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           let ppp4 = ''
           let ppp5 = ''
 
-          if ((areaChart ?? areaChart1) && data.length > 0) {
+          if ((areaChart1 ?? areaChart) && data.length > 0) {
             ppp = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             ppp += pp
             ppp +=
@@ -1257,7 +1281,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             setFillPoints(ppp.replace('L', 'M'))
           }
 
-          if ((areaChart ?? areaChart2) && data2.length > 0) {
+          if ((areaChart2 ?? areaChart) && data2.length > 0) {
             ppp2 = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             ppp2 += pp2
             ppp2 +=
@@ -1269,7 +1293,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             setFillPoints2(ppp2.replace('L', 'M'))
           }
 
-          if ((areaChart ?? areaChart3) && data3.length > 0) {
+          if ((areaChart3 ?? areaChart) && data3.length > 0) {
             ppp3 = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             ppp3 += pp3
             ppp3 +=
@@ -1280,7 +1304,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             ppp3 += ' L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             setFillPoints3(ppp3.replace('L', 'M'))
           }
-          if ((areaChart ?? areaChart4) && data4.length > 0) {
+          if ((areaChart4 ?? areaChart) && data4.length > 0) {
             ppp4 = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             ppp4 += pp4
             ppp4 +=
@@ -1292,7 +1316,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             setFillPoints4(ppp4.replace('L', 'M'))
           }
 
-          if ((areaChart ?? areaChart5) && data5.length > 0) {
+          if ((areaChart5 ?? areaChart) && data5.length > 0) {
             ppp5 = 'L' + initialSpacing + ' ' + heightUptoXaxis + ' '
             ppp5 += pp5
             ppp5 +=
@@ -1480,7 +1504,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         /** *************************          For Area Charts          *************************/
 
         if (atLeastOneAreaChart) {
-          if ((areaChart ?? areaChart1) && data.length > 0) {
+          if ((areaChart1 ?? areaChart) && data.length > 0) {
             xx = addLeadingAndTrailingPathForAreaFill(
               xx,
               data[0].value,
@@ -1489,7 +1513,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             setFillPoints(xx)
           }
 
-          if ((areaChart ?? areaChart2) && data2.length > 0) {
+          if ((areaChart2 ?? areaChart) && data2.length > 0) {
             xx2 = addLeadingAndTrailingPathForAreaFill(
               xx2,
               data2[0].value,
@@ -1498,7 +1522,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             setFillPoints2(xx2)
           }
 
-          if ((areaChart ?? areaChart3) && data3.length > 0) {
+          if ((areaChart3 ?? areaChart) && data3.length > 0) {
             xx3 = addLeadingAndTrailingPathForAreaFill(
               xx3,
               data3[0].value,
@@ -1507,7 +1531,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             setFillPoints3(xx3)
           }
 
-          if ((areaChart ?? areaChart4) && data4.length > 0) {
+          if ((areaChart4 ?? areaChart) && data4.length > 0) {
             xx4 = addLeadingAndTrailingPathForAreaFill(
               xx4,
               data4[0].value,
@@ -1516,7 +1540,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
             setFillPoints4(xx4)
           }
 
-          if ((areaChart ?? areaChart5) && data5.length > 0) {
+          if ((areaChart5 ?? areaChart) && data5.length > 0) {
             xx5 = addLeadingAndTrailingPathForAreaFill(
               xx5,
               data5[0].value,
@@ -1792,6 +1816,10 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const activatePointersOnLongPress =
     pointerConfig?.activatePointersOnLongPress ??
     defaultPointerConfig.activatePointersOnLongPress
+  const activatePointersInstantlyOnTouch =
+    pointerConfig?.activatePointersInstantlyOnTouch ??
+    defaultPointerConfig.activatePointersInstantlyOnTouch
+  
   const activatePointersDelay =
     pointerConfig?.activatePointersDelay ??
     defaultPointerConfig.activatePointersDelay
@@ -1805,6 +1833,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       : defaultPointerConfig.initialPointerAppearDelay)
   const persistPointer =
     pointerConfig?.persistPointer ?? defaultPointerConfig.persistPointer
+  const resetPointerIndexOnRelease =
+    pointerConfig?.resetPointerIndexOnRelease ??
+    defaultPointerConfig.resetPointerIndexOnRelease
   const hidePointers =
     pointerConfig?.hidePointers ?? defaultPointerConfig.hidePointers
   const hidePointer1 =
@@ -2034,7 +2065,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     onStartReached: props.onStartReached,
     endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset,
     onMomentumScrollEnd: props.onMomentumScrollEnd,
-    extraWidthDueToDataPoint
+    extraWidthDueToDataPoint,
+    customBackground: props.customBackground
   }
 
   return {
@@ -2354,10 +2386,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     autoAdjustPointerLabelPosition,
     pointerVanishDelay,
     activatePointersOnLongPress,
+    activatePointersInstantlyOnTouch,
     activatePointersDelay,
     initialPointerIndex,
     initialPointerAppearDelay,
     persistPointer,
+    resetPointerIndexOnRelease,
     hidePointer1,
     hidePointer2,
     hidePointer3,
@@ -2398,7 +2432,10 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     cumulativeSpacingSecondary,
     cumulativeSpacingForSet,
     stripOverDataPoints: props.stripOverDataPoints,
-    strips
+    strips,
+    lastLineNumber,
+    focusTogether: props.focusTogether ?? true,
+    focusProximity: props.focusProximity ?? Infinity
     // oldPoints
   }
 }

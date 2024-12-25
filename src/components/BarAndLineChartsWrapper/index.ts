@@ -291,7 +291,8 @@ export const useBarAndLineChartsWrapper = (
     showSecondaryFractionalValues,
     secondaryRoundToDigits,
     secondaryStepHeight,
-    secondaryNegativeStepHeight
+    secondaryNegativeStepHeight,
+    customBackground: props.customBackground
   }
 
   const lineInBarChartProps: LineInBarChartPropsType = {
@@ -315,7 +316,8 @@ export const useBarAndLineChartsWrapper = (
     selectedIndex,
     yAxisOffset: lineConfig?.isSecondary
       ? secondaryYAxis?.yAxisOffset ?? 0
-      : yAxisOffset ?? 0
+      : yAxisOffset ?? 0,
+    strokeDashArray: lineConfig?.strokeDashArray ?? [0,0]
   }
   const lineInBarChartProps2: LineInBarChartPropsType = {
     ...lineInBarChartProps,

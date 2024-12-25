@@ -15,7 +15,8 @@ import {
   type secondaryLineConfigType,
   type secondaryYAxisType,
   type Linecap,
-  type IntersectionAreaConfig
+  type IntersectionAreaConfig,
+  CustomBackground
 } from '../utils/types'
 
 export interface LineChartPropsType {
@@ -188,10 +189,13 @@ export interface LineChartPropsType {
   hideYAxisText?: boolean
 
   backgroundColor?: ColorValue
+  customBackground?: CustomBackground
   curved?: boolean
   curvature?: number
   curveType?: CurveType
   horizSections?: sectionType[]
+  focusTogether?: boolean
+  focusProximity?: number
 
   // Data points
 

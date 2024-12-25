@@ -73,13 +73,13 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     )
   }
 
-  const getPosition = (index: number) => {
+  const getPosition = (index: number, height: number) => {
     /* Returns bottom position for stack item
            negative values are below origin (-> negative position) */
-    const height = getBarHeight(
-      item.stacks[index].value,
-      item.stacks[index].marginBottom
-    )
+    // const height = getBarHeight(
+    //   item.stacks[index].value,
+    //   item.stacks[index].marginBottom
+    // )
 
     const itemValue = item.stacks[index].value
     const isNegative = itemValue <= 0
@@ -101,7 +101,9 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
   const getLowestPosition = (): number => {
     return (
       item.stacks
-        .map((_, index) => getPosition(index))
+        .map((_, index) =>
+          getPosition(index, getBarHeight(index, _.marginBottom))
+        )
         .sort((a, b) => a - b)?.[0] || 0
     )
   }

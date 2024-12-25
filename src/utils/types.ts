@@ -18,6 +18,16 @@ export type LabelsPosition = 'onBorder' | 'outward' | 'inward' | 'mid'
 
 export type Linecap = 'butt' | 'square' | 'round'
 
+export interface CustomBackground {
+  color?: ColorValue
+  component?: Function
+  horizontalShift?: number
+  verticalShift?: number
+  height?: number
+  width?: number
+  widthAdjustment?: number
+}
+
 export interface RuleTypes {
   SOLID: RuleType
   DASHED: RuleType
@@ -145,6 +155,7 @@ export interface LineInBarChartPropsType {
   xAxisLabelsVerticalShift: number
   selectedIndex: number
   yAxisOffset: number
+  strokeDashArray: number[]
 }
 
 export interface DataPointProps {
@@ -258,6 +269,7 @@ export interface horizSectionPropTypes {
   secondaryRoundToDigits: number
   secondaryStepHeight: number
   secondaryNegativeStepHeight: number
+  customBackground?: CustomBackground
 }
 
 interface HorizSectionObject {
@@ -345,6 +357,7 @@ export interface BarAndLineChartsWrapperTypes {
   extraWidthDueToDataPoint?: number
   nestedScrollEnabled?: boolean
   dataSet?: DataSet[]
+  customBackground?: CustomBackground
 }
 
 export interface HorizontalStripConfig {
@@ -392,10 +405,12 @@ export interface Pointer {
   pointerLabelHeight?: number
   pointerVanishDelay?: number
   activatePointersOnLongPress?: boolean
+  activatePointersInstantlyOnTouch?: boolean
   activatePointersDelay?: number
   initialPointerIndex?: number
   initialPointerAppearDelay?: number
   persistPointer?: boolean
+  resetPointerIndexOnRelease?: boolean;
   hidePointers?: boolean
   hidePointer1?: boolean
   hidePointer2?: boolean
