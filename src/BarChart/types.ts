@@ -451,7 +451,7 @@ interface sectionType {
 }
 
 export interface barDataItem {
-  value: number
+  value?: number
   onPress?: any
   onLongPress?: any
   onPressOut?: any
@@ -499,8 +499,12 @@ export interface barDataItem {
   onMouseLeave?: Function
 }
 
+export interface barDataItemNullSafe extends barDataItem {
+  value: number
+}
+
 export interface Animated2DWithGradientPropsType {
-  item: barDataItem
+  item: barDataItemNullSafe
   index: number
   height: number
   minHeight: number
@@ -560,7 +564,7 @@ export interface RenderBarsPropsType {
   labelTextStyle?: any
   secondaryLabelTextStyle?: any
 
-  item: barDataItem
+  item: barDataItemNullSafe
   index: number
   label: string
   secondaryLabel: string
@@ -687,7 +691,7 @@ export interface CommonPropsFor2dand3dBarsType {
   patternId?: string
   barWidth: number
   barStyle?: object
-  item: barDataItem
+  item: barDataItemNullSafe
   index: number
 
   frontColor: ColorValue

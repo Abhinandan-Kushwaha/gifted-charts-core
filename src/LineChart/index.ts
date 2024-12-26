@@ -29,6 +29,7 @@ import {
   svgPath
 } from '../utils'
 import {
+  lineDataItemNullSafe,
   type IDataSanitisationProps,
   type LineChartPropsType,
   type lineDataItem
@@ -36,7 +37,8 @@ import {
 import {
   type BarAndLineChartsWrapperTypes,
   EdgePosition,
-  type LineSegment
+  type LineSegment,
+  DataSetNullSafe
 } from '../utils/types'
 import { type Animated } from 'react-native'
 
@@ -60,7 +62,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   let lastLineNumber = 1
 
   if (props.secondaryData) {
-    lastLineNumber = 666
+    lastLineNumber = 6667 // lastLineNumber is 6667 for a secondary line, so the index or key of the secondary line is 6666
   }
   if (props.data2) lastLineNumber = 2
   if (props.data3) lastLineNumber = 3
@@ -72,7 +74,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const containsNegativeValue =
     (props.mostNegativeValue ?? 0) < 0 ||
-    (props.dataSet?.[0]?.data ?? props.data)?.some((item) => item.value < 0)
+    (props.dataSet?.[0]?.data ?? props.data)?.some(
+      (item) => (item.value ?? 0) < 0
+    )
 
   const onlyPositive =
     props.onlyPositive ??
@@ -185,10 +189,10 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       onlyPositive
     ) ?? []
 
-  let dataSet = props.dataSet
-  if (dataSet?.length) {
+  let dataSet: DataSetNullSafe[] | undefined = undefined
+  if (props.dataSet?.length) {
     dataSet = useMemo(() => {
-      return dataSet?.map((dataSetItem) => {
+      return props.dataSet?.map((dataSetItem) => {
         const sanitisedData = getSanitisedData(
           dataSetItem.data,
           dataSanitisationProps
@@ -198,7 +202,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           data: sanitisedData
         }
       })
-    }, [yAxisOffset, dataSet])
+    }, [yAxisOffset, props.dataSet])
   }
 
   const data0 = dataSet?.[0]?.data
@@ -215,6 +219,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const onDataChangeAnimationDuration =
     props.onDataChangeAnimationDuration ?? 400
   const animateTogether = props.animateTogether ?? LineDefaults.animateTogether
+  const renderDataPointsAfterAnimationEnds =
+    props.renderDataPointsAfterAnimationEnds ??
+    LineDefaults.renderDataPointsAfterAnimationEnds
   const animateOnDataChange = props.animateOnDataChange ?? false
 
   const startIndex1 = props.startIndex1 ?? props.startIndex ?? 0
@@ -469,8 +476,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const textColor5 =
     props.textColor5 ?? props.textColor ?? LineDefaults.textColor
 
-  let mergedPrimaryDataArrays: lineDataItem[] = []
-  let mergedSecondaryDataArrays: lineDataItem[] = []
+  let mergedPrimaryDataArrays: lineDataItemNullSafe[] = []
+  let mergedSecondaryDataArrays: lineDataItemNullSafe[] = []
   let maxSpacingSum = 0 // max of spacingSum among all the lines
   let cumulativeSpacing1: number[] = [],
     cumulativeSpacing2: number[] = [],
@@ -857,7 +864,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   }
 
   const getNextPoint = (
-    data: lineDataItem[],
+    data: lineDataItemNullSafe[],
     index: number,
     around: boolean,
     before: boolean,
@@ -874,7 +881,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           ' '
   }
   const getStepPath = (
-    data: lineDataItem[],
+    data: lineDataItemNullSafe[],
     i: number,
     spacingArray: number[]
   ): string => {
@@ -891,7 +898,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   }
 
   const getSegmentPath = (
-    data: lineDataItem[],
+    data: lineDataItemNullSafe[],
     i: number,
     lineSegment: LineSegment[] | undefined,
     startIndex: number,
@@ -1819,7 +1826,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const activatePointersInstantlyOnTouch =
     pointerConfig?.activatePointersInstantlyOnTouch ??
     defaultPointerConfig.activatePointersInstantlyOnTouch
-  
+
   const activatePointersDelay =
     pointerConfig?.activatePointersDelay ??
     defaultPointerConfig.activatePointersDelay
@@ -2173,6 +2180,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     animationDuration,
     onDataChangeAnimationDuration,
     animateTogether,
+    renderDataPointsAfterAnimationEnds,
     animateOnDataChange,
     startIndex1,
     startIndex2,

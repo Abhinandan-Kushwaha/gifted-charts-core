@@ -1,5 +1,6 @@
 import { type ColorValue } from 'react-native'
 import {
+  lineDataItemNullSafe,
   type IDataSanitisationProps,
   type lineDataItem
 } from '../LineChart/types'
@@ -27,7 +28,8 @@ import {
   type lineConfigType,
   type BarChartPropsType,
   type FocusedBarConfig,
-  type barDataItem
+  type barDataItem,
+  barDataItemNullSafe
 } from '../BarChart/types'
 import { type extendedLineChartPropsType } from '../LineChart'
 import { type extendedBarChartPropsType } from '../BarChart'
@@ -237,7 +239,7 @@ export const getPreviousSegmentsLastPoint = (
 }
 
 export const getPathWithHighlight = (
-  data: lineDataItem[],
+  data: lineDataItemNullSafe[],
   i: number,
   highlightedRange: HighlightedRange,
   startIndex: number,
@@ -840,7 +842,7 @@ export const getSecondaryDataWithOffsetIncluded = (
   showDataPointsForMissingValues?: boolean,
   interpolateMissingValues?: boolean,
   onlyPositive?: boolean
-): barDataItem[] | lineDataItem[] | undefined => {
+): barDataItemNullSafe[] | lineDataItemNullSafe[] | undefined => {
   if (!secondaryData) return secondaryData
   const nullishHandledData = getInterpolatedData(
     secondaryData,
@@ -1279,7 +1281,7 @@ export const getLineConfigForBarChart = (
       lineConfig.animationDuration ?? defaultLineConfig.animationDuration,
     thickness: lineConfig.thickness ?? defaultLineConfig.thickness,
     color: lineConfig.color ?? defaultLineConfig.color,
-    strokeDashArray: lineConfig.strokeDashArray ?? [0,0],
+    strokeDashArray: lineConfig.strokeDashArray ?? [0, 0],
     hideDataPoints:
       lineConfig.hideDataPoints ?? defaultLineConfig.hideDataPoints,
     dataPointsShape:
@@ -1438,18 +1440,18 @@ export const getInterpolatedData = (
   showDataPointsForMissingValues?: boolean,
   interpolateMissingValues?: boolean,
   onlyPositive?: boolean
-): lineDataItem[] => {
+): lineDataItemNullSafe[] => {
   if (!interpolateMissingValues) {
     return dataParam.map((item) => {
       if (typeof item.value !== 'number') {
         if (showDataPointsForMissingValues) return { ...item, value: 0 }
         return { ...item, value: 0, hideDataPoint: true }
       }
-      return item
+      return { ...item, value: item.value ?? 0 }
     })
   }
-  if (!interpolateMissingValues) return dataParam
-  const data: lineDataItem[] = clone(dataParam)
+  // if (!interpolateMissingValues) return dataParam
+  const data: lineDataItemNullSafe[] = clone(dataParam)
   const n = data.length
 
   /** ************         PRE-PROCESSING           **************/
@@ -1457,7 +1459,7 @@ export const getInterpolatedData = (
   const numericValuesLength = data.filter((item) => {
     const isNum = typeof item.value === 'number'
     if (isNum) {
-      numericValue = item.value
+      numericValue = item.value ?? 0
       return true
     }
     return false
@@ -1623,15 +1625,15 @@ export const getTextSizeForPieLabels = (
 ): number => (textSize ? Math.min(textSize, radius / 5) : 16)
 
 export const adjustToOffset = (
-  data: lineDataItem[],
+  data: lineDataItemNullSafe[],
   yAxisOffset?: number
-): lineDataItem[] =>
+): lineDataItemNullSafe[] =>
   data.map((item) => ({ ...item, value: item.value - (yAxisOffset ?? 0) }))
 
 export const getSanitisedData = (
   data: lineDataItem[] | undefined,
   dataSanitisationProps: IDataSanitisationProps
-): lineDataItem[] => {
+): lineDataItemNullSafe[] => {
   if (!data) {
     return []
   }

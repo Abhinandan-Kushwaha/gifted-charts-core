@@ -11,6 +11,7 @@ export {
   type BarChartPropsType,
   type defaultLineConfigType,
   type barDataItem,
+  type barDataItemNullSafe,
   type Animated2DWithGradientPropsType,
   type RenderBarsPropsType,
   type trianglePropTypes,
@@ -28,6 +29,7 @@ export { useLineChartBiColor } from './LineChart/LineChartBiColor'
 export {
   type LineChartPropsType,
   type lineDataItem,
+  type lineDataItemNullSafe,
   type bicolorLineDataItem,
   type LineChartBicolorPropsType
 } from './LineChart/types'
@@ -147,6 +149,7 @@ export {
   type LineSvgProps,
   type LineProperties,
   type DataSet,
+  type DataSetNullSafe,
   Framework,
   type XAxisConfig,
   type LineInBarChartPropsType,

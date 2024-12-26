@@ -1,6 +1,6 @@
 import { type ColorValue } from 'react-native'
 import { type chartTypes, type yAxisSides } from './constants'
-import { type lineDataItem } from '../LineChart/types'
+import { lineDataItemNullSafe, type lineDataItem } from '../LineChart/types'
 import {
   lineConfigType,
   type barDataItem,
@@ -356,7 +356,7 @@ export interface BarAndLineChartsWrapperTypes {
   isRTL?: boolean
   extraWidthDueToDataPoint?: number
   nestedScrollEnabled?: boolean
-  dataSet?: DataSet[]
+  dataSet?: DataSetNullSafe[]
   customBackground?: CustomBackground
 }
 
@@ -410,7 +410,7 @@ export interface Pointer {
   initialPointerIndex?: number
   initialPointerAppearDelay?: number
   persistPointer?: boolean
-  resetPointerIndexOnRelease?: boolean;
+  resetPointerIndexOnRelease?: boolean
   hidePointers?: boolean
   hidePointer1?: boolean
   hidePointer2?: boolean
@@ -488,6 +488,9 @@ export interface DataSet {
   isSecondary?: boolean
   hidePointers?: boolean
   spacing?: number
+}
+export interface DataSetNullSafe extends DataSet {
+  data: lineDataItemNullSafe[]
 }
 
 export interface IntersectionAreaConfig {

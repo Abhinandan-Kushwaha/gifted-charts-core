@@ -5,12 +5,13 @@ import {
   type BarChartPropsType,
   type CommonPropsFor2dand3dBarsType,
   type barDataItem,
-  type stackDataItem
+  type stackDataItem,
+  barDataItemNullSafe
 } from './types'
 import { type ReactNode } from 'react'
 
 interface Animated2dWithGradientPropsType extends BarChartPropsType {
-  item: barDataItem
+  item: barDataItemNullSafe
   index: number
   barHeight: number
   selectedIndex: number
