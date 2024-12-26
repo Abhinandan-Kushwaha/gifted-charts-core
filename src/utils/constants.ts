@@ -171,6 +171,7 @@ export const LineDefaults = {
   endSpacing: 20,
   animationDuration: defaultAnimationDuration,
   animateTogether: false,
+  renderDataPointsAfterAnimationEnds: false,
   disableScroll: false,
   scrollToEnd: false,
   scrollAnimation: true,

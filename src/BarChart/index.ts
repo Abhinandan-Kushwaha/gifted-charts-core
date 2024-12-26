@@ -3,7 +3,8 @@ import {
   type lineConfigType,
   type barDataItem,
   type stackDataItem,
-  BarChartPropsTypeForWeb
+  BarChartPropsTypeForWeb,
+  barDataItemNullSafe
 } from './types'
 import {
   getArrowPoints,
@@ -65,7 +66,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     setSelectedIndex(focusedBarIndex ?? -1)
   }, [focusedBarIndex])
 
-  const data = useMemo(() => {
+  const data: barDataItemNullSafe[] = useMemo(() => {
     if (!props.data) {
       return []
     }
@@ -75,7 +76,10 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         value: (item.value ?? 0) - yAxisOffset
       }))
     }
-    return props.data
+    return props.data.map((item) => ({
+      ...item,
+      value: item.value ?? 0
+    }))
   }, [yAxisOffset, props.data])
 
   const stackData = useMemo(() => {
@@ -251,7 +255,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
         (index === data.length - 1 ? 0 : stackItem.spacing ?? spacing)
     })
   } else {
-    data.forEach((item: barDataItem, index) => {
+    data.forEach((item, index) => {
       if (item.isSecondary) {
         if (item.value > secondaryMaxItem) {
           secondaryMaxItem = item.value
@@ -512,7 +516,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
             continue
           }
           const currentBarWidth =
-            (stackData ?? data)?.[i]?.barWidth ?? props.barWidth ?? defaultBarWidth
+            (stackData ?? data)?.[i]?.barWidth ??
+            props.barWidth ??
+            defaultBarWidth
           const currentValue = props.lineData
             ? props.lineData[i].value
             : stackData

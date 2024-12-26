@@ -68,6 +68,7 @@ export interface LineChartPropsType {
   onDataChangeAnimationDuration?: number
   animationEasing?: any
   animateTogether?: boolean
+  renderDataPointsAfterAnimationEnds?: boolean
   xAxisLength?: number
   xAxisThickness?: number
   xAxisColor?: ColorValue
@@ -359,7 +360,7 @@ export interface LineChartPropsType {
 }
 
 export interface lineDataItem {
-  value: number
+  value?: number
   label?: string
   labelComponent?: Function
   labelTextStyle?: any
@@ -413,6 +414,10 @@ export interface lineDataItem {
   onPress?: Function
   showXAxisIndex?: boolean
   hidePointer?: boolean
+}
+
+export interface lineDataItemNullSafe extends lineDataItem {
+  value: number
 }
 
 interface sectionType {
