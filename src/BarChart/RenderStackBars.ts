@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { type StackedBarChartPropsType, type stackDataItem } from './types'
+import { TooltipProps } from '../utils/types'
 
 export const useRenderStackBars = (props: StackedBarChartPropsType) => {
   const {
     item,
     index,
-    containerHeight,
+    containerHeight = 200,
+    containerHeightIncludingBelowXAxis,
     maxValue,
     propSpacing,
     initialSpacing,
@@ -27,6 +29,9 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     secondaryNegativeStepValue
   } = props
   const containsNegativeValue = item.stacks.some((item) => item.value < 0)
+  const anyStackContainsNegativeValue = stackData.some((item) =>
+    item.stacks.some((stack) => stack.value < 0)
+  )
   const noAnimation = containsNegativeValue || !isAnimated
 
   const localBarInnerComponent =
@@ -76,10 +81,6 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
   const getPosition = (index: number, height: number) => {
     /* Returns bottom position for stack item
            negative values are below origin (-> negative position) */
-    // const height = getBarHeight(
-    //   item.stacks[index].value,
-    //   item.stacks[index].marginBottom
-    // )
 
     const itemValue = item.stacks[index].value
     const isNegative = itemValue <= 0
@@ -102,10 +103,19 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     return (
       item.stacks
         .map((_, index) =>
-          getPosition(index, getBarHeight(index, _.marginBottom))
+          getPosition(index, getBarHeight(_.value, _.marginBottom))
         )
         .sort((a, b) => a - b)?.[0] || 0
     )
+  }
+  const getPositiveBoxesHeightSum = (): number => {
+    let sum = 0
+    item.stacks.forEach((_, ind) => {
+      const value = _.value
+      sum += value > 0 ? getBarHeight(value, _.marginBottom) : 0
+      console.log(ind, sum)
+    })
+    return sum
   }
 
   const lowestBarPosition = getLowestPosition()
@@ -141,8 +151,24 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     return borderRadii
   }
 
-  const tooltipProps = {
-    barHeight: totalHeight,
+  const chartHeightBelowXAxis =
+    containerHeightIncludingBelowXAxis - containerHeight
+  const barHeight = totalHeight
+
+  const getBotomForTooltip = () => {
+    if (anyStackContainsNegativeValue) {
+      // If any of the stacks has a negative value
+      if (item.stacks.some((stack: any) => stack.value > 0)) {
+        // if a box in the current stack has a +ve value
+        return chartHeightBelowXAxis + (getPositiveBoxesHeightSum() ?? 0) - 8
+      } else return chartHeightBelowXAxis - barHeight - 34
+    } else {
+      return barHeight + 2
+    }
+  }
+
+  const tooltipProps: TooltipProps = {
+    barHeight,
     barWidth: item.barWidth || props.barWidth || 30,
     item,
     index,
@@ -152,7 +178,8 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     leftShiftForTooltip: item.leftShiftForTooltip ?? leftShiftForTooltip ?? 0,
     renderTooltip,
     autoCenterTooltip,
-    horizontal
+    horizontal,
+    bottom: getBotomForTooltip()
   }
 
   return {

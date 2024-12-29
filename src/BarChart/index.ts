@@ -763,6 +763,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       item,
       index,
       containerHeight,
+      containerHeightIncludingBelowXAxis,
       maxValue,
       spacing: item.spacing ?? spacing,
       propSpacing: spacing,

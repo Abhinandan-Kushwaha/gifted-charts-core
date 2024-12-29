@@ -91,7 +91,7 @@ export interface StackedBarChartPropsType {
 
   item: stackDataItem
   index: number
-  containerHeight?: number
+  containerHeight: number
   maxValue: number
   spacing: number
   propSpacing?: number
@@ -157,7 +157,7 @@ export interface StackedBarChartPropsType {
   secondaryNegativeStepHeight: number
   secondaryNegativeStepValue: number
   secondaryNoOfSectionsBelowXAxis: number
-  containerHeightIncludingBelowXAxis?: number
+  containerHeightIncludingBelowXAxis: number
 }
 
 export interface BarChartPropsType {
@@ -568,7 +568,8 @@ export interface RenderBarsPropsType {
   index: number
   label: string
   secondaryLabel: string
-  containerHeight?: number
+  containerHeight: number
+  containerHeightIncludingBelowXAxis: number
   maxValue: number
   spacing: number
   propSpacing?: number
