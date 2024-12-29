@@ -98,6 +98,21 @@ export interface secondaryYAxisType {
   formatYLabel?: (label: string) => string
 }
 
+export interface TooltipProps {
+  barHeight: number
+  barWidth: number
+  item: any
+  index: number
+  isLast: boolean
+  leftSpacing: number
+  leftShiftForLastIndexTooltip: number
+  leftShiftForTooltip: number
+  renderTooltip?: Function
+  autoCenterTooltip?: boolean
+  horizontal?: boolean
+  bottom: number
+}
+
 export interface secondaryLineConfigType {
   zIndex?: number
   curved?: boolean

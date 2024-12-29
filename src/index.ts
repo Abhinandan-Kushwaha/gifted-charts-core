@@ -5,6 +5,7 @@
 export { useBarChart } from './BarChart'
 export { getPropsForAnimated2DWithGradient } from './BarChart/Animated2DWithGradient'
 export { useRenderStackBars } from './BarChart/RenderStackBars'
+export { useRenderBars } from './BarChart/RenderBars'
 export {
   type stackDataItem,
   type StackedBarChartPropsType,
@@ -156,5 +157,6 @@ export {
   type DataPointProps,
   type Linecap,
   type IntersectionAreaConfig,
-  type LabelLineConfig
+  type LabelLineConfig,
+  type TooltipProps
 } from './utils/types'
