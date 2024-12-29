@@ -113,7 +113,6 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     item.stacks.forEach((_, ind) => {
       const value = _.value
       sum += value > 0 ? getBarHeight(value, _.marginBottom) : 0
-      console.log(ind, sum)
     })
     return sum
   }
