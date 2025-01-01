@@ -361,3 +361,45 @@ export const PieTooltipDefaults = {
   tooltipBackgroundColor: 'rgba(20,20,20,0.8)',
   tooltipBorderRadius: 4
 }
+
+export const radarChartDefaults = {
+  data: [],
+  noOfSections: 4,
+  chartSize: 300,
+  hideAsterLines: false,
+  hideGrid: false,
+  labelsPositionOffset: 5,
+  dataLabelsPositionOffset: 5,
+
+  gridSection: {
+    stroke: 'lightgray',
+    strokeWidth: 1,
+    fill: '#bbb',
+    gradientColor: 'white',
+    showGradient: true,
+    strokeDashArray: [0, 0],
+    opacity: 1,
+    gradientOpacity: 1
+  },
+
+  labelConfig: { 
+    fontSize: 12,
+    stroke: 'black',
+    textAnchor: 'middle',
+    alignmentBaseline: 'middle',
+    fontWeight: 'normal',
+    fontFamily: 'Arial'
+  },
+
+  polygonConfig: {
+    stroke: '#027bff',
+    strokeWidth: 2,
+    strokeDashArray: [0, 0],
+    fill: 'skyblue',
+    gradientColor: 'lightgray',
+    showGradient: false,
+    opacity: 0.7,
+  },
+
+  asterLineStrokeDashArray: [4,4]
+}
