@@ -15,6 +15,7 @@ export interface RadarChartProps {
   circular?: boolean
   gridConfig?: GridConfig
   data?: number[]
+  dataSet?: number[][]
   maxValue?: number
   noOfSections?: number
   chartSize?: number
@@ -22,15 +23,17 @@ export interface RadarChartProps {
   labelConfigArray?: LabelConfig[]
   labels?: string[]
   dataLabels?: string[]
+  dataLabelsArray?: string[][]
   dataLabelConfig?: LabelConfig
-  dataLabelConfigArray?: LabelConfig[]
-  showdataValuesAsLabels?: boolean
+  dataLabelsConfigArray?: LabelConfig[]
   polygonConfig?: PolygonConfig
+  polygonConfigArray?: PolygonConfig[]
   asterLinesConfig?: AsterLinesConfig
   hideAsterLines?: boolean
   hideGrid?: boolean
   hideLabels?: boolean
   dataLabelsConfig?: LabelConfig
+  dataLabelsConfigSet?: LabelConfig[][]
   labelsPositionOffset?: number
   dataLabelsPositionOffset?: number
 }
@@ -49,7 +52,9 @@ export interface StrokeFillAndGradient extends StrokeConfig {
   gradientOpacity?: number
 }
 
-export interface PolygonConfig extends StrokeFillAndGradient {}
+export interface PolygonConfig extends StrokeFillAndGradient {
+  showDataValuesAsLabels?: boolean
+}
 
 export interface GridSectionConfig extends StrokeFillAndGradient {}
 

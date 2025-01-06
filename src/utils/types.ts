@@ -285,6 +285,7 @@ export interface horizSectionPropTypes {
   secondaryStepHeight: number
   secondaryNegativeStepHeight: number
   customBackground?: CustomBackground
+  onlyPositive?: boolean
 }
 
 interface HorizSectionObject {
@@ -373,6 +374,7 @@ export interface BarAndLineChartsWrapperTypes {
   nestedScrollEnabled?: boolean
   dataSet?: DataSetNullSafe[]
   customBackground?: CustomBackground
+  onlyPositive?: boolean
 }
 
 export interface HorizontalStripConfig {
