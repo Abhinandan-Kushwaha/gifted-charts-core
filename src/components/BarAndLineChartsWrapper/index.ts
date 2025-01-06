@@ -191,6 +191,7 @@ export const useBarAndLineChartsWrapper = (
   const { maxItem: secondaryMaxItem, minItem: secondaryMinItem } =
     computeMaxAndMinItems(
       secondaryDataArrayWithMinValue,
+      true,
       secondaryYAxis?.roundToDigits ?? roundToDigits,
       secondaryYAxis?.showFractionalValues ?? showFractionalValues
     )

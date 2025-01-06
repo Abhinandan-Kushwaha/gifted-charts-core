@@ -1166,6 +1166,7 @@ export const maxAndMinUtil = (
 
 export const computeMaxAndMinItems = (
   data: any[] | undefined,
+  extrapolateMissingValues: boolean,
   roundToDigits?: number,
   showFractionalValues?: boolean,
   propsData?: any[]
@@ -1180,7 +1181,10 @@ export const computeMaxAndMinItems = (
     if (item.value > maxItem) {
       maxItem = item.value
     }
-    if (item.value < minItem && !propsData?.[index].value) {
+    if (
+      item.value < minItem &&
+      (extrapolateMissingValues || propsData?.[index].value)
+    ) {
       minItem = item.value
     }
   })

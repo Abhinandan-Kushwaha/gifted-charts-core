@@ -627,6 +627,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const { maxItem, minItem } = computeMaxAndMinItems(
     mergedPrimaryDataArrays,
+    extrapolateMissingValues,
     roundToDigits,
     showFractionalValues,
     mergedPrimaryDataArraysOriginals
@@ -667,6 +668,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const { maxItem: secondaryMaxItem, minItem: secondaryMinItem } =
     computeMaxAndMinItems(
       mergedSecondaryDataArrays,
+      extrapolateMissingValues,
       secondaryRoundToDigits,
       showSecondaryFractionalValues
     )
