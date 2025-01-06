@@ -6,7 +6,8 @@ export const useRadarChart = (props: RadarChartProps) => {
     circular = false,
     gridConfig = {},
     polygonConfig = {},
-    data = radarChartDefaults.data,
+    data = [],
+    dataSet,
     noOfSections = radarChartDefaults.noOfSections,
     chartSize = radarChartDefaults.chartSize,
     labelConfig = {},
@@ -14,21 +15,32 @@ export const useRadarChart = (props: RadarChartProps) => {
     asterLinesConfig = {},
     hideGrid = radarChartDefaults.hideGrid,
     hideAsterLines = props.hideGrid ?? radarChartDefaults.hideAsterLines,
-    showdataValuesAsLabels,
     dataLabelsConfig = {},
-    dataLabelConfigArray,
     labelsPositionOffset = radarChartDefaults.labelsPositionOffset,
     dataLabelsPositionOffset = radarChartDefaults.dataLabelsPositionOffset
   } = props
 
   const labels =
-    props.labels ?? data?.map((_, index) => `Label${index + 1}`) ?? []
+    props.labels ??
+    (dataSet?.[0] ?? data)?.map((_, index) => `Label${index + 1}`) ??
+    []
 
-  const maxValue = props.maxValue ?? Math.max(...data)
+  const getMax = (dataSet: number[][]) => {
+    return dataSet.reduce((acc, set) => {
+      const max = Math.max(...set)
+      return max > acc ? max : acc
+    }, 0)
+  }
+
+  const maxValue =
+    props.maxValue ??
+    (dataSet ? Math.max(getMax(dataSet ?? [])) : Math.max(...(data ?? [])))
 
   const dataLabels =
     props.dataLabels ??
-    (showdataValuesAsLabels ? data.map((d) => d.toString()) : null)
+    (polygonConfig.showDataValuesAsLabels
+      ? data.map((d) => d.toString())
+      : null)
 
   const polarToCartesian = (angle: number, value: number) => {
     const radians = (Math.PI / 180) * angle
@@ -40,7 +52,6 @@ export const useRadarChart = (props: RadarChartProps) => {
 
   const center = chartSize / 2
   const radius = center * 0.8
-
 
   const {
     stroke: gridStroke = radarChartDefaults.gridSection.stroke,
@@ -77,6 +88,7 @@ export const useRadarChart = (props: RadarChartProps) => {
     fontWeight: dataLabelsFontWeight = fontWeight, // defaults to labelConfig (from above)
     fontFamily: dataLabelsFontFamily = fontFamily // defaults to labelConfig (from above)
   } = dataLabelsConfig
+
   const {
     stroke: polygonStroke = radarChartDefaults.polygonConfig.stroke,
     strokeWidth: polygonStrokeWidth = radarChartDefaults.polygonConfig
@@ -89,8 +101,74 @@ export const useRadarChart = (props: RadarChartProps) => {
     showGradient: polygonShowGradient = radarChartDefaults.polygonConfig
       .showGradient,
     opacity: polygonOpacity = radarChartDefaults.polygonConfig.opacity,
-    gradientOpacity: polygonGradientOpacity = polygonOpacity
+    gradientOpacity: polygonGradientOpacity = polygonOpacity,
+    showDataValuesAsLabels
   } = polygonConfig
+
+  const polygonConfigArray =
+    props.polygonConfigArray?.map((set) => ({
+      stroke: set.stroke ?? polygonStroke,
+      strokeWidth: set.strokeWidth ?? polygonStrokeWidth,
+      strokeDashArray: set.strokeDashArray ?? polygonStrokeDashArray,
+      fill: set.fill ?? polygonFill,
+      gradientColor: set.gradientColor ?? polygonGradientColor,
+      showGradient: set.showGradient ?? polygonShowGradient,
+      opacity: set.opacity ?? polygonOpacity,
+      gradientOpacity: set.gradientOpacity ?? polygonGradientOpacity,
+      showDataValuesAsLabels:
+        set.showDataValuesAsLabels ?? showDataValuesAsLabels
+    })) ??
+    (dataSet
+      ? Array(dataSet.length).fill({
+          stroke: polygonStroke,
+          strokeWidth: polygonStrokeWidth,
+          strokeDashArray: polygonStrokeDashArray,
+          fill: polygonFill,
+          gradientColor: polygonGradientColor,
+          showGradient: polygonShowGradient,
+          opacity: polygonOpacity,
+          gradientOpacity: polygonGradientOpacity,
+          showDataValuesAsLabels
+        })
+      : null)
+
+  const dataLabelsArray =
+    props.dataLabelsArray ??
+    polygonConfigArray?.map((polygonItem, index) =>
+      polygonItem.showDataValuesAsLabels ? data.map((d) => d.toString()) : null
+    )
+
+  const dataLabelsConfigArray =
+    props.dataLabelsConfigArray?.map((dataLabelsConfigItem) => ({
+      fontSize: dataLabelsConfigItem.fontSize ?? dataLabelsFontSize,
+      stroke: dataLabelsConfigItem.stroke ?? dataLabelsColor,
+      textAnchor: dataLabelsConfigItem.textAnchor ?? dataLabelsTextAnchor,
+      alignmentBaseline:
+        dataLabelsConfigItem.alignmentBaseline ?? dataLabelsAlignmentBaseline,
+      fontWeight: dataLabelsConfigItem.fontWeight ?? dataLabelsFontWeight,
+      fontFamily: dataLabelsConfigItem.fontFamily ?? dataLabelsFontFamily
+    })) ??
+    Array(data.length).fill({
+      fontSize: dataLabelsFontSize,
+      stroke: dataLabelsColor,
+      textAnchor: dataLabelsTextAnchor,
+      alignmentBaseline: dataLabelsAlignmentBaseline,
+      fontWeight: dataLabelsFontWeight,
+      fontFamily: dataLabelsFontFamily
+    })
+
+  const dataLabelsConfigSet =
+    props.dataLabelsConfigSet?.map((dataLabelConfigSetItem) =>
+      dataLabelConfigSetItem.map((dataLabelConfigItem) => ({
+        fontSize: dataLabelConfigItem.fontSize ?? dataLabelsFontSize,
+        stroke: dataLabelConfigItem.stroke ?? dataLabelsColor,
+        textAnchor: dataLabelConfigItem.textAnchor ?? dataLabelsTextAnchor,
+        alignmentBaseline:
+          dataLabelConfigItem.alignmentBaseline ?? dataLabelsAlignmentBaseline,
+        fontWeight: dataLabelConfigItem.fontWeight ?? dataLabelsFontWeight,
+        fontFamily: dataLabelConfigItem.fontFamily ?? dataLabelsFontFamily
+      }))
+    ) ?? (dataSet ? Array(dataSet.length).fill(dataLabelsConfigArray) : null)
 
   const {
     stroke: asterLinesStroke = gridStroke,
@@ -108,20 +186,33 @@ export const useRadarChart = (props: RadarChartProps) => {
     return polarToCartesian(angle, value)
   })
 
+  const pointsArray =
+    dataSet?.map((set) => {
+      return set.map((value, index) => {
+        const angle = index * angleStep
+        return polarToCartesian(angle, value)
+      })
+    }) ?? []
+
   // Generate the polygon points for the radar chart (in SVG "x,y" format)
   const polygonPoints = points.map((point) => `${point.x},${point.y}`).join(' ')
+  const polygonPointsArray = pointsArray.map((set) =>
+    set.map((point) => `${point.x},${point.y}`).join(' ')
+  )
 
   const getGridLevelProps = (gridItem: GridConfig, ind: number) => {
     const level = noOfSections - ind
     const gridGradientColorLocal = gridItem.gradientColor || gridGradientColor
     const gridFillColorLocal = gridItem.fill || gridFill
     const gridOpacityLocal = gridItem.opacity || gridOpacity
-    const gridGradientOpacityLocal = gridItem.gradientOpacity || gridGradientOpacity
+    const gridGradientOpacityLocal =
+      gridItem.gradientOpacity || gridGradientOpacity
 
     const gridStrokeLocal = gridItem.stroke || gridStroke
     const gridStrokeWidthLocal = gridItem.strokeWidth || gridStrokeWidth
     const gridShowGradientLocal = gridItem.showGradient || gridShowGradient
-    const gridStrokeDashArrayLocal = gridItem.strokeDashArray || gridStrokeDashArray
+    const gridStrokeDashArrayLocal =
+      gridItem.strokeDashArray || gridStrokeDashArray
 
     const levelPoints = labels.map((_, index) => {
       const angle = index * angleStep
@@ -151,6 +242,7 @@ export const useRadarChart = (props: RadarChartProps) => {
 
   return {
     data,
+    dataSet,
     center,
     radius,
     chartSize,
@@ -159,9 +251,11 @@ export const useRadarChart = (props: RadarChartProps) => {
     labels,
     labelConfigArray,
     labelsPositionOffset,
-    dataLabelConfigArray,
+    dataLabelsConfigArray,
     maxValue,
     dataLabels,
+    dataLabelsArray,
+    dataLabelsConfigSet,
     gridSections,
     gridStroke,
     gridStrokeWidth,
@@ -192,11 +286,13 @@ export const useRadarChart = (props: RadarChartProps) => {
     polygonShowGradient,
     polygonOpacity,
     polygonGradientOpacity,
+    polygonConfigArray,
     asterLinesStroke,
     asterLinesStrokeWidth,
     asterLinesStrokeDashArray,
     points,
     polygonPoints,
+    polygonPointsArray,
     angleStep,
     circular,
     hideGrid,

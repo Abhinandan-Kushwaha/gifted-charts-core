@@ -196,10 +196,17 @@ export const getSegmentString = (
   lineSegment: LineSegment[] | undefined,
   index: number,
   startDelimeter: string,
-  endDelimeter: string
+  endDelimeter: string,
+  stepChart?: boolean
 ): string => {
-  const segment = lineSegment?.find((segment) => segment.startIndex === index)
-  return segment ? startDelimeter + JSON.stringify(segment) + endDelimeter : ''
+  let segment = lineSegment?.find((segment) => segment.startIndex === index)
+  if (segment) {
+    if (stepChart) {
+      segment = { ...segment, endIndex: (segment?.endIndex ?? 0) * 2 }
+    }
+    return startDelimeter + JSON.stringify(segment) + endDelimeter
+  }
+  return ''
 }
 
 export const getCurvePathWithSegments = (
@@ -1160,7 +1167,8 @@ export const maxAndMinUtil = (
 export const computeMaxAndMinItems = (
   data: any[] | undefined,
   roundToDigits?: number,
-  showFractionalValues?: boolean
+  showFractionalValues?: boolean,
+  propsData?: any[]
 ): MaxAndMin => {
   if (!data?.length) {
     return { maxItem: 0, minItem: 0 }
@@ -1168,11 +1176,11 @@ export const computeMaxAndMinItems = (
   let maxItem = 0
   let minItem = 0
 
-  data.forEach((item: any) => {
+  data.forEach((item: any, index: number) => {
     if (item.value > maxItem) {
       maxItem = item.value
     }
-    if (item.value < minItem) {
+    if (item.value < minItem && !propsData?.[index].value) {
       minItem = item.value
     }
   })
