@@ -36,6 +36,9 @@ export interface RadarChartProps {
   dataLabelsConfigSet?: LabelConfig[][]
   labelsPositionOffset?: number
   dataLabelsPositionOffset?: number
+  isAnimated?: boolean
+  animationDuration?: number
+  animateTogether?: boolean
 }
 
 export interface StrokeConfig {
@@ -54,6 +57,8 @@ export interface StrokeFillAndGradient extends StrokeConfig {
 
 export interface PolygonConfig extends StrokeFillAndGradient {
   showDataValuesAsLabels?: boolean
+  isAnimated?: boolean
+  animationDuration?: number
 }
 
 export interface GridSectionConfig extends StrokeFillAndGradient {}
