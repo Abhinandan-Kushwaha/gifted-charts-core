@@ -17,7 +17,10 @@ export const useRadarChart = (props: RadarChartProps) => {
     hideAsterLines = props.hideGrid ?? radarChartDefaults.hideAsterLines,
     dataLabelsConfig = {},
     labelsPositionOffset = radarChartDefaults.labelsPositionOffset,
-    dataLabelsPositionOffset = radarChartDefaults.dataLabelsPositionOffset
+    dataLabelsPositionOffset = radarChartDefaults.dataLabelsPositionOffset,
+    isAnimated = radarChartDefaults.isAnimated,
+    animationDuration = radarChartDefaults.animationDuration,
+    animateTogether = radarChartDefaults.animateTogether
   } = props
 
   const labels =
@@ -102,7 +105,9 @@ export const useRadarChart = (props: RadarChartProps) => {
       .showGradient,
     opacity: polygonOpacity = radarChartDefaults.polygonConfig.opacity,
     gradientOpacity: polygonGradientOpacity = polygonOpacity,
-    showDataValuesAsLabels
+    showDataValuesAsLabels,
+    isAnimated: polygonIsAnimated = isAnimated,
+    animationDuration: polygonAnimationDuration = animationDuration
   } = polygonConfig
 
   const polygonConfigArray =
@@ -116,7 +121,9 @@ export const useRadarChart = (props: RadarChartProps) => {
       opacity: set.opacity ?? polygonOpacity,
       gradientOpacity: set.gradientOpacity ?? polygonGradientOpacity,
       showDataValuesAsLabels:
-        set.showDataValuesAsLabels ?? showDataValuesAsLabels
+        set.showDataValuesAsLabels ?? showDataValuesAsLabels,
+      isAnimated: set.isAnimated ?? polygonIsAnimated,
+      animationDuration: set.animationDuration ?? polygonAnimationDuration
     })) ??
     (dataSet
       ? Array(dataSet.length).fill({
@@ -128,7 +135,9 @@ export const useRadarChart = (props: RadarChartProps) => {
           showGradient: polygonShowGradient,
           opacity: polygonOpacity,
           gradientOpacity: polygonGradientOpacity,
-          showDataValuesAsLabels
+          showDataValuesAsLabels,
+          isAnimated: polygonIsAnimated,
+          animationDuration: polygonAnimationDuration
         })
       : null)
 
@@ -186,6 +195,11 @@ export const useRadarChart = (props: RadarChartProps) => {
     return polarToCartesian(angle, value)
   })
 
+  const initialPoints = data.map((value, index) => {
+    const angle = index * angleStep
+    return polarToCartesian(angle, 0)
+  })
+
   const pointsArray =
     dataSet?.map((set) => {
       return set.map((value, index) => {
@@ -194,9 +208,23 @@ export const useRadarChart = (props: RadarChartProps) => {
       })
     }) ?? []
 
+  const initialPointsArray =
+    dataSet?.map((set) => {
+      return set.map((value, index) => {
+        const angle = index * angleStep
+        return polarToCartesian(angle, 0)
+      })
+    }) ?? []
+
   // Generate the polygon points for the radar chart (in SVG "x,y" format)
   const polygonPoints = points.map((point) => `${point.x},${point.y}`).join(' ')
+  const initialPolygonPoints = initialPoints
+    .map((point) => `${point.x},${point.y}`)
+    .join(' ')
   const polygonPointsArray = pointsArray.map((set) =>
+    set.map((point) => `${point.x},${point.y}`).join(' ')
+  )
+  const initialPolygonPointsArray = initialPointsArray.map((set) =>
     set.map((point) => `${point.x},${point.y}`).join(' ')
   )
 
@@ -287,16 +315,22 @@ export const useRadarChart = (props: RadarChartProps) => {
     polygonOpacity,
     polygonGradientOpacity,
     polygonConfigArray,
+    polygonIsAnimated,
+    polygonAnimationDuration,
     asterLinesStroke,
     asterLinesStrokeWidth,
     asterLinesStrokeDashArray,
     points,
+    initialPoints,
     polygonPoints,
+    initialPolygonPoints,
     polygonPointsArray,
+    initialPolygonPointsArray,
     angleStep,
     circular,
     hideGrid,
     hideAsterLines,
-    getGridLevelProps
+    getGridLevelProps,
+    animateTogether
   }
 }

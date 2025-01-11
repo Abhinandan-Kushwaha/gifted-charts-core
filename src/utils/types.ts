@@ -123,6 +123,7 @@ export interface secondaryLineConfigType {
   thickness?: number
   zIndex1?: number
   strokeDashArray?: number[]
+  strokeLinecap?: Linecap
   startIndex?: number
   endIndex?: number
   hideDataPoints?: boolean
@@ -465,6 +466,7 @@ export interface LineSvgProps {
   strokeWidth: number
   strokeDasharray?: number[]
   clipPath?: string
+  strokeLinecap: Linecap
 }
 
 export interface LineProperties {
@@ -479,6 +481,7 @@ export interface DataSet {
   zIndex?: number
   thickness?: number
   strokeDashArray?: number[]
+  strokeLinecap?: Linecap
   areaChart?: boolean
   stepChart?: boolean
   startIndex?: number

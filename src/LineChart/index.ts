@@ -705,6 +705,17 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const strokeDashArray4 = props.strokeDashArray4 ?? props.strokeDashArray
   const strokeDashArray5 = props.strokeDashArray5 ?? props.strokeDashArray
 
+  const strokeLinecap1 =
+    props.strokeLinecap1 ?? props.strokeLinecap ?? LineDefaults.strokeLinecap
+  const strokeLinecap2 =
+    props.strokeLinecap2 ?? props.strokeLinecap ?? LineDefaults.strokeLinecap
+  const strokeLinecap3 =
+    props.strokeLinecap3 ?? props.strokeLinecap ?? LineDefaults.strokeLinecap
+  const strokeLinecap4 =
+    props.strokeLinecap4 ?? props.strokeLinecap ?? LineDefaults.strokeLinecap
+  const strokeLinecap5 =
+    props.strokeLinecap5 ?? props.strokeLinecap ?? LineDefaults.strokeLinecap
+
   const rotateLabel = props.rotateLabel ?? false
   const isAnimated = props.isAnimated ?? false
   const hideDataPoints1 = props.hideDataPoints ?? props.hideDataPoints1 ?? false
@@ -808,6 +819,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     zIndex1: props.secondaryLineConfig?.zIndex1 ?? zIndex1,
     strokeDashArray:
       props.secondaryLineConfig?.strokeDashArray ?? strokeDashArray1,
+    strokeLinecap: props.secondaryLineConfig?.strokeLinecap ?? strokeLinecap1,
     startIndex: props.secondaryLineConfig?.startIndex ?? startIndex1,
     endIndex: props.secondaryLineConfig?.endIndex ?? endIndex1,
     hideDataPoints:
@@ -2385,6 +2397,11 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     strokeDashArray3,
     strokeDashArray4,
     strokeDashArray5,
+    strokeLinecap1,
+    strokeLinecap2,
+    strokeLinecap3,
+    strokeLinecap4,
+    strokeLinecap5,
     rotateLabel,
     isAnimated,
     hidePointers,

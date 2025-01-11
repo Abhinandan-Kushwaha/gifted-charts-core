@@ -61,6 +61,12 @@ export interface LineChartPropsType {
   strokeDashArray3?: number[]
   strokeDashArray4?: number[]
   strokeDashArray5?: number[]
+  strokeLinecap?: Linecap
+  strokeLinecap1?: Linecap
+  strokeLinecap2?: Linecap
+  strokeLinecap3?: Linecap
+  strokeLinecap4?: Linecap
+  strokeLinecap5?: Linecap
   rotateLabel?: boolean
   isAnimated?: boolean
   animateOnDataChange?: boolean

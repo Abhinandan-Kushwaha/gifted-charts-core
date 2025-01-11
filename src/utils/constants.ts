@@ -208,7 +208,8 @@ export const LineDefaults = {
   unFocusOnPressOut: true,
   delayBeforeUnFocus: 300,
   edgePosition: EdgePosition.AFTER_DATA_POINT,
-  endReachedOffset: defaultEndReachedOffset
+  endReachedOffset: defaultEndReachedOffset,
+  strokeLinecap: 'butt' as Linecap
 }
 
 export const defaultLineConfig: defaultLineConfigType = {
@@ -382,7 +383,7 @@ export const radarChartDefaults = {
     gradientOpacity: 1
   },
 
-  labelConfig: { 
+  labelConfig: {
     fontSize: 12,
     stroke: 'black',
     textAnchor: 'middle',
@@ -398,8 +399,11 @@ export const radarChartDefaults = {
     fill: 'skyblue',
     gradientColor: 'lightgray',
     showGradient: false,
-    opacity: 0.7,
+    opacity: 0.7
   },
 
-  asterLineStrokeDashArray: [4,4]
+  asterLineStrokeDashArray: [4, 4],
+  isAnimated: false,
+  animationDuration: 800,
+  animateTogether: false
 }
