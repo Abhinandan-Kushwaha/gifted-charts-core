@@ -809,6 +809,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       xAxisLabelsHeight: props.xAxisLabelsHeight,
       xAxisLabelsVerticalShift,
       renderTooltip: props.renderTooltip,
+      renderTooltipConditions: props.renderTooltipConditions ?? BarDefaults.renderTooltipConditions,
       leftShiftForTooltip: props.leftShiftForTooltip ?? 0,
       autoCenterTooltip,
       initialSpacing,

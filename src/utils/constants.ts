@@ -154,7 +154,8 @@ export const BarDefaults = {
   focusedBarFrontColor: 'lightgreen',
   focusedThreeDBarFrontColor: '#B0B929',
   focusedBarSideColor: '#776913',
-  focusedBarTopColor: '#C8D565'
+  focusedBarTopColor: '#C8D565',
+  renderTooltipConditions:  ['onClick','onHover']
 }
 
 // Line chart specific
@@ -369,6 +370,7 @@ export const radarChartDefaults = {
   chartSize: 300,
   hideAsterLines: false,
   hideGrid: false,
+  hideLabels: false,
   labelsPositionOffset: 5,
   dataLabelsPositionOffset: 5,
 

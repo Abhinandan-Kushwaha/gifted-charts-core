@@ -160,6 +160,14 @@ export interface StackedBarChartPropsType {
   containerHeightIncludingBelowXAxis: number
 }
 
+export interface StackedBarChartPropsTypeForWeb
+  extends StackedBarChartPropsType {
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
+  renderTooltipConditions?: string[]
+}
+
 export interface BarChartPropsType {
   width?: number
   height?: number
@@ -651,6 +659,10 @@ export interface RenderBarsPropsType {
   secondaryNoOfSectionsBelowXAxis: number
 }
 
+export interface RenderBarsPropsTypeForWeb extends RenderBarsPropsType {
+  renderTooltipConditions: string[]
+}
+
 export interface trianglePropTypes {
   style: any
   width: number
@@ -711,4 +723,5 @@ export interface BarChartPropsTypeForWeb extends BarChartPropsType {
   onContextMenu?: Function
   onMouseEnter?: Function
   onMouseLeave?: Function
+  renderTooltipConditions?: string[]
 }

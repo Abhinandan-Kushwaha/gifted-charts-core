@@ -56,7 +56,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     extrapolateMissingValues = true,
     yAxisOffset,
     parentWidth,
-    negativeStepValue
+    negativeStepValue,
+    renderTooltip,
+    renderTooltip1 = props.renderTooltip,
+    renderTooltip2 = props.renderTooltip,
+    renderTooltip3 = props.renderTooltip,
+    renderTooltip4 = props.renderTooltip,
+    renderTooltip5 = props.renderTooltip,
+    renderTooltipSecondary = props.renderTooltip
   } = props
 
   let lastLineNumber = 1
@@ -2568,7 +2575,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     focusTogether,
     focusProximity,
     handleFocus,
-    handleUnFocus
+    handleUnFocus,
+    renderTooltip,
+    renderTooltip1,
+    renderTooltip2,
+    renderTooltip3,
+    renderTooltip4,
+    renderTooltip5,
+    renderTooltipSecondary
     // oldPoints
   }
 }
