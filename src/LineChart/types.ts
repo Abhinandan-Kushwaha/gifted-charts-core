@@ -363,6 +363,13 @@ export interface LineChartPropsType {
   secondaryXAxis?: XAxisConfig
 
   intersectionAreaConfig?: IntersectionAreaConfig
+  renderTooltip?: Function
+  renderTooltip1?: Function
+  renderTooltip2?: Function
+  renderTooltip3?: Function
+  renderTooltip4?: Function
+  renderTooltip5?: Function
+  renderTooltipSecondary?: Function
 }
 
 export interface lineDataItem {
@@ -418,6 +425,9 @@ export interface lineDataItem {
   pointerShiftX?: number
   pointerShiftY?: number
   onPress?: Function
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
   showXAxisIndex?: boolean
   hidePointer?: boolean
 }
@@ -475,6 +485,9 @@ export interface bicolorLineDataItem {
   pointerShiftX?: number
   pointerShiftY?: number
   onPress?: Function
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
 }
 
 export interface LineChartBicolorPropsType {
@@ -637,6 +650,19 @@ export interface LineChartBicolorPropsType {
   onScroll?: Function
   endReachedOffset?: number
   parentWidth?: number
+}
+
+export interface LineChartPropsTypeForWeb extends LineChartPropsType {
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
+}
+
+export interface LineChartBicolorPropsTypeForWeb
+  extends LineChartBicolorPropsType {
+  onContextMenu?: Function
+  onMouseEnter?: Function
+  onMouseLeave?: Function
 }
 
 export interface IDataSanitisationProps {

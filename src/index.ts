@@ -9,6 +9,7 @@ export { useRenderBars } from './BarChart/RenderBars'
 export {
   type stackDataItem,
   type StackedBarChartPropsType,
+  type StackedBarChartPropsTypeForWeb,
   type BarChartPropsType,
   type defaultLineConfigType,
   type barDataItem,
@@ -29,10 +30,12 @@ export { useLineChart } from './LineChart'
 export { useLineChartBiColor } from './LineChart/LineChartBiColor'
 export {
   type LineChartPropsType,
+  type LineChartPropsTypeForWeb,
   type lineDataItem,
   type lineDataItemNullSafe,
   type bicolorLineDataItem,
-  type LineChartBicolorPropsType
+  type LineChartBicolorPropsType,
+  type LineChartBicolorPropsTypeForWeb
 } from './LineChart/types'
 
 /***********************************************************************************************************************

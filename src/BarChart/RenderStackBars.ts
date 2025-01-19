@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { type StackedBarChartPropsType, type stackDataItem } from './types'
 import { TooltipProps } from '../utils/types'
+import { BarDefaults } from '../utils/constants'
 
-export const useRenderStackBars = (props: StackedBarChartPropsType) => {
+interface IStackedBarChartPropsType extends StackedBarChartPropsType {
+  renderTooltipConditions?: string[]
+}
+export const useRenderStackBars = (props: IStackedBarChartPropsType) => {
   const {
     item,
     index,
@@ -200,6 +204,8 @@ export const useRenderStackBars = (props: StackedBarChartPropsType) => {
     getLowestPosition,
     lowestBarPosition,
     getStackBorderRadii,
-    tooltipProps
+    tooltipProps,
+    renderTooltipConditions:
+      props.renderTooltipConditions ?? BarDefaults.renderTooltipConditions
   }
 }

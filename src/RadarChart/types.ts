@@ -24,7 +24,6 @@ export interface RadarChartProps {
   labels?: string[]
   dataLabels?: string[]
   dataLabelsArray?: string[][]
-  dataLabelConfig?: LabelConfig
   dataLabelsConfigArray?: LabelConfig[]
   polygonConfig?: PolygonConfig
   polygonConfigArray?: PolygonConfig[]

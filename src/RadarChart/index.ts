@@ -14,6 +14,7 @@ export const useRadarChart = (props: RadarChartProps) => {
     labelConfigArray,
     asterLinesConfig = {},
     hideGrid = radarChartDefaults.hideGrid,
+    hideLabels = radarChartDefaults.hideLabels,
     hideAsterLines = props.hideGrid ?? radarChartDefaults.hideAsterLines,
     dataLabelsConfig = {},
     labelsPositionOffset = radarChartDefaults.labelsPositionOffset,
@@ -329,6 +330,7 @@ export const useRadarChart = (props: RadarChartProps) => {
     angleStep,
     circular,
     hideGrid,
+    hideLabels,
     hideAsterLines,
     getGridLevelProps,
     animateTogether

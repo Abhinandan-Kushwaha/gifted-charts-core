@@ -441,6 +441,13 @@ export interface Pointer {
   pointerEvents?: PointerEvents
   stripBehindBars?: boolean
   resetPointerOnDataChange?: boolean
+  onTouchStart?: Function
+  onTouchEnd?: Function
+  onResponderGrant?: Function
+  onResponderMove?: Function
+  onResponderEnd?: Function
+  onPointerEnter?: Function
+  onPointerLeave?: Function
 }
 
 export interface HighlightedRange {
@@ -508,6 +515,7 @@ export interface DataSet {
   isSecondary?: boolean
   hidePointers?: boolean
   spacing?: number
+  renderTooltip?: Function
 }
 export interface DataSetNullSafe extends DataSet {
   data: lineDataItemNullSafe[]
