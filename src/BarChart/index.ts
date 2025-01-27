@@ -60,11 +60,25 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const [points2, setPoints2] = useState('')
   const [arrowPoints, setArrowPoints] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(focusedBarIndex ?? -1)
+  const [selectedStackIndex, setSelectedStackIndex] = useState(
+    props.highlightedStackIndex ?? -1
+  )
   const showLine = props.showLine ?? BarDefaults.showLine
 
   useEffect(() => {
     setSelectedIndex(focusedBarIndex ?? -1)
   }, [focusedBarIndex])
+
+  useEffect(() => {
+    setSelectedStackIndex(props.highlightedStackIndex ?? -1)
+  }, [props.highlightedStackIndex])
+
+  const highlightEnabled =
+    props.highlightEnabled ?? BarDefaults.highlightEnabled
+  const highlightedBarIndex = props.highlightedBarIndex ?? selectedIndex
+  const lowlightOpacity = props.lowlightOpacity ?? BarDefaults.lowlightOpacity
+  const stackHighlightEnabled =
+    props.stackHighlightEnabled ?? BarDefaults.stackHighlightEnabled
 
   const data: barDataItemNullSafe[] = useMemo(() => {
     if (!props.data) {
@@ -809,7 +823,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       xAxisLabelsHeight: props.xAxisLabelsHeight,
       xAxisLabelsVerticalShift,
       renderTooltip: props.renderTooltip,
-      renderTooltipConditions: props.renderTooltipConditions ?? BarDefaults.renderTooltipConditions,
+      renderTooltipConditions:
+        props.renderTooltipConditions ?? BarDefaults.renderTooltipConditions,
       leftShiftForTooltip: props.leftShiftForTooltip ?? 0,
       autoCenterTooltip,
       initialSpacing,
@@ -845,7 +860,11 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       secondaryNegativeStepHeight,
       secondaryNegativeStepValue,
       secondaryNoOfSectionsBelowXAxis,
-      barMarginBottom: item.barMarginBottom ?? props.barMarginBottom ?? 0
+      barMarginBottom: item.barMarginBottom ?? props.barMarginBottom ?? 0,
+      highlightEnabled,
+      highlightedBarIndex,
+      lowlightOpacity,
+      stackHighlightEnabled
     }
   }
 
@@ -923,7 +942,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     onStartReached: props.onStartReached,
     endReachedOffset: props.endReachedOffset ?? BarDefaults.endReachedOffset,
     onMomentumScrollEnd: props.onMomentumScrollEnd,
-    customBackground: props.customBackground
+    customBackground: props.customBackground,
+    highlightEnabled,
+    lowlightOpacity
   }
 
   return {
@@ -1034,6 +1055,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     pointerIndex,
     getPropsCommonForBarAndStack,
     barAndLineChartsWrapperProps,
-    yAxisExtraHeightAtTop
+    yAxisExtraHeightAtTop,
+    selectedStackIndex,
+    setSelectedStackIndex
   }
 }

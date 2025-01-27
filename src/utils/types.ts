@@ -172,6 +172,8 @@ export interface LineInBarChartPropsType {
   selectedIndex: number
   yAxisOffset: number
   strokeDashArray: number[]
+  highlightEnabled: boolean
+  lowlightOpacity: number
 }
 
 export interface DataPointProps {
@@ -185,6 +187,7 @@ export interface DataPointProps {
   spacing: number
   selectedIndex: number
   yAxisOffset: number
+  opacity: number
 }
 
 export interface referenceConfigType {
@@ -376,6 +379,8 @@ export interface BarAndLineChartsWrapperTypes {
   dataSet?: DataSetNullSafe[]
   customBackground?: CustomBackground
   onlyPositive?: boolean
+  highlightEnabled: boolean
+  lowlightOpacity: number
 }
 
 export interface HorizontalStripConfig {

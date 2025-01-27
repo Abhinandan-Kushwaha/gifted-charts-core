@@ -66,7 +66,9 @@ export const useBarAndLineChartsWrapper = (
     endReachedOffset,
     isRTL,
     selectedIndex,
-    onlyPositive
+    onlyPositive,
+    highlightEnabled,
+    lowlightOpacity
   } = props
 
   const yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop
@@ -320,7 +322,9 @@ export const useBarAndLineChartsWrapper = (
     yAxisOffset: lineConfig?.isSecondary
       ? secondaryYAxis?.yAxisOffset ?? 0
       : yAxisOffset ?? 0,
-    strokeDashArray: lineConfig?.strokeDashArray ?? [0, 0]
+    strokeDashArray: lineConfig?.strokeDashArray ?? [0, 0],
+    highlightEnabled,
+    lowlightOpacity
   }
   const lineInBarChartProps2: LineInBarChartPropsType = {
     ...lineInBarChartProps,

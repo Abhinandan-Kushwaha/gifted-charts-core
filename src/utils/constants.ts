@@ -155,7 +155,10 @@ export const BarDefaults = {
   focusedThreeDBarFrontColor: '#B0B929',
   focusedBarSideColor: '#776913',
   focusedBarTopColor: '#C8D565',
-  renderTooltipConditions:  ['onClick','onHover']
+  renderTooltipConditions: ['onClick', 'onHover'],
+  highlightEnabled: false,
+  lowlightOpacity: 0.3,
+  stackHighlightEnabled: false
 }
 
 // Line chart specific
@@ -210,7 +213,9 @@ export const LineDefaults = {
   delayBeforeUnFocus: 300,
   edgePosition: EdgePosition.AFTER_DATA_POINT,
   endReachedOffset: defaultEndReachedOffset,
-  strokeLinecap: 'butt' as Linecap
+  strokeLinecap: 'butt' as Linecap,
+  highlightEnabled: false,
+  lowlightOpacity: 0.3
 }
 
 export const defaultLineConfig: defaultLineConfigType = {

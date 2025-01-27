@@ -493,7 +493,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     cumulativeSpacing4: number[] = [],
     cumulativeSpacing5: number[] = [],
     cumulativeSpacingSecondary: number[] = []
-  let cumulativeSpacingForSet = Array(dataSet?.length ?? 0).fill([])
+  let cumulativeSpacingForSet: number[][] = [[]] // Array(dataSet?.length ?? 0).fill([])
 
   const strips: any = {}
   if (dataSet?.length) {
@@ -508,14 +508,16 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       }
       let space = set.spacing ?? spacing
       let spacingSum = 0
+      const localCumulativeSum: number[] = []
       set.data.forEach((item, index) => {
         spacingSum += item.spacing ?? space
-        cumulativeSpacingForSet[key].push(spacingSum)
+        localCumulativeSum.push(spacingSum)
         if (item.showStrip) {
           strips[key] = strips[key] ?? {}
           strips[key][index] = { item, index, key }
         }
       })
+      cumulativeSpacingForSet[key] = localCumulativeSum
       if (maxSpacingSum < spacingSum) {
         maxSpacingSum = spacingSum
       }
@@ -2206,7 +2208,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     onMomentumScrollEnd: props.onMomentumScrollEnd,
     extraWidthDueToDataPoint,
     customBackground: props.customBackground,
-    onlyPositive
+    onlyPositive,
+    highlightEnabled: LineDefaults.highlightEnabled,
+    lowlightOpacity: LineDefaults.lowlightOpacity
   }
 
   return {
