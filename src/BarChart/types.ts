@@ -158,6 +158,12 @@ export interface StackedBarChartPropsType {
   secondaryNegativeStepValue: number
   secondaryNoOfSectionsBelowXAxis: number
   containerHeightIncludingBelowXAxis: number
+  highlightEnabled: boolean
+  highlightedBarIndex: number
+  lowlightOpacity: number
+  stackHighlightEnabled?: boolean
+  selectedStackIndex: number
+  setSelectedStackIndex: Function
 }
 
 export interface StackedBarChartPropsTypeForWeb
@@ -359,6 +365,15 @@ export interface BarChartPropsType {
   focusBarOnPress?: boolean
   focusedBarConfig?: FocusedBarConfig
   focusedBarIndex?: number
+
+
+  highlightEnabled?: boolean // highlights Bar on press in react-native and on on hover in react-js
+  highlightedBarIndex?: number
+  lowlightOpacity?: number
+
+  stackHighlightEnabled?: boolean
+  highlightedStackIndex?: number
+  // highlightedStackIndex?: number
 
   adjustToWidth?: boolean
   parentWidth?: number
@@ -657,6 +672,9 @@ export interface RenderBarsPropsType {
   secondaryNegativeStepHeight: number
   secondaryNegativeStepValue: number
   secondaryNoOfSectionsBelowXAxis: number
+  highlightEnabled: boolean
+  highlightedBarIndex: number
+  lowlightOpacity: number
 }
 
 export interface RenderBarsPropsTypeForWeb extends RenderBarsPropsType {

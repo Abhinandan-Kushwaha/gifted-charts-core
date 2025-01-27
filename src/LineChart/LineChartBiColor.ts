@@ -531,7 +531,10 @@ export const useLineChartBiColor = (
     pointerX: 0,
     pointerY: 0,
     endReachedOffset: props.endReachedOffset ?? LineDefaults.endReachedOffset,
-    extraWidthDueToDataPoint
+    extraWidthDueToDataPoint,
+
+    highlightEnabled: LineDefaults.highlightEnabled,
+    lowlightOpacity: LineDefaults.lowlightOpacity
   }
 
   return {
