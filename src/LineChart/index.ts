@@ -2038,6 +2038,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     onStripPress: Function
   ) => {
     let lineNumber = 0
+    let closestItem = item
     if (dataSet) {
       let minDistance = Infinity
       dataSet.forEach((setItem, setIndex) => {
@@ -2045,6 +2046,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         if (distance < minDistance) {
           minDistance = distance
           lineNumber = setIndex + 1
+          closestItem = setItem.data[index]
         }
       })
     } else {
@@ -2053,7 +2055,10 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       if (typeof data[index]?.value === 'number') {
         distance1 = Math.abs(getY(data[index]?.value) - locationY)
         minDistance = distance1
-        if (distance1 < focusProximity) lineNumber = 1
+        if (distance1 < focusProximity) {
+          lineNumber = 1
+          closestItem = data[index]
+        }
       }
 
       if (typeof data2[index]?.value === 'number') {
@@ -2061,6 +2066,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         if (minDistance > distance2 && distance2 < focusProximity) {
           minDistance = distance2
           lineNumber = 2
+          closestItem = data2[index]
         }
       }
 
@@ -2069,6 +2075,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         if (minDistance > distance3 && distance3 < focusProximity) {
           minDistance = distance3
           lineNumber = 3
+          closestItem = data3[index]
         }
       }
 
@@ -2077,6 +2084,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         if (minDistance > distance4 && distance4 < focusProximity) {
           minDistance = distance4
           lineNumber = 4
+          closestItem = data4[index]
         }
       }
 
@@ -2085,6 +2093,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         if (minDistance > distance5 && distance5 < focusProximity) {
           minDistance = distance5
           lineNumber = 5
+          closestItem = data5[index]
         }
       }
 
@@ -2093,6 +2102,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         if (minDistance > distance6 && distance6 < focusProximity) {
           minDistance = distance6
           lineNumber = 6666
+          closestItem = secondaryData[index]
         }
       }
     }
@@ -2100,7 +2110,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     setSelectedLineNumber(lineNumber - 1)
 
     if (lineNumber) {
-      onStripPress(item, index)
+      onStripPress(closestItem, index)
     }
   }
 
