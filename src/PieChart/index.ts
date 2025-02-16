@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { type pieDataItem, type PieChartPropsType } from './types'
 import { getTextSizeForPieLabels } from '../utils'
 import { type ColorValue } from 'react-native'
+import { PieTooltipDefaults } from '../utils/constants'
 
 interface IusePieChart {
   radius: number
@@ -32,6 +33,23 @@ interface IusePieChart {
   isDataShifted: boolean
   paddingHorizontal: number
   paddingVertical: number
+  showTooltip?: boolean
+  tooltipHorizontalShift: number
+  tooltipVerticalShift: any
+  tooltipComponent: any
+  getTooltipText: any
+  tooltipBackgroundColor: any
+  tooltipBorderRadius: any
+  tooltipWidth: any
+  tooltipTextNoOfLines: any
+  textColor: any
+  textSize: any
+  font: any
+  fontWeight: any
+  fontStyle: any
+
+  tooltipSelectedIndex: number
+  setTooltipSelectedIndex: any
 }
 
 interface IPieChartPropsType extends PieChartPropsType {
@@ -39,6 +57,27 @@ interface IPieChartPropsType extends PieChartPropsType {
 }
 
 export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
+  const {
+    showTooltip,
+    tooltipWidth,
+
+    tooltipComponent,
+    tooltipVerticalShift = PieTooltipDefaults.tooltipVerticalShift,
+    tooltipHorizontalShift = PieTooltipDefaults.tooltipHorizontalShift,
+    showValuesAsTooltipText = PieTooltipDefaults.showValuesAsTooltipText,
+    tooltipTextNoOfLines = PieTooltipDefaults.tooltipTextNoOfLines,
+    tooltipBackgroundColor = PieTooltipDefaults.tooltipBackgroundColor,
+    tooltipBorderRadius = PieTooltipDefaults.tooltipBorderRadius,
+
+    textColor,
+    // textSize,
+    font,
+    fontWeight,
+    fontStyle
+  } = props
+
+  const [tooltipSelectedIndex, setTooltipSelectedIndex] = useState(-1)
+
   const radius = props.radius ?? 120
   const extraRadius =
     props.extraRadius ??
@@ -151,6 +190,15 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
       ? (props.textBackgroundRadius ?? textSize) * 2 + 6
       : 0
 
+  const getTooltipText = (index: number): string => {
+    const item = data[index]
+    const tooltipText =
+      item.tooltipText ??
+      item.text ??
+      (showValuesAsTooltipText ? item.value.toString() : '')
+    return tooltipText
+  }
+
   return {
     radius,
     extraRadius,
@@ -179,6 +227,22 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     tiltAngle,
     isDataShifted,
     paddingHorizontal,
-    paddingVertical
+    paddingVertical,
+    showTooltip,
+    tooltipHorizontalShift,
+    tooltipVerticalShift,
+    tooltipComponent,
+    getTooltipText,
+    tooltipBackgroundColor,
+    tooltipBorderRadius,
+    tooltipWidth,
+    tooltipTextNoOfLines,
+    textColor,
+    textSize,
+    font,
+    fontWeight,
+    fontStyle,
+    tooltipSelectedIndex,
+    setTooltipSelectedIndex
   }
 }

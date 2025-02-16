@@ -29,11 +29,13 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     tooltipBorderRadius = PieTooltipDefaults.tooltipBorderRadius,
     font,
     fontWeight,
-    fontStyle
+    fontStyle,
+    edgesPressable,
+    tooltipSelectedIndex,
+    setTooltipSelectedIndex
   } = props
   const propData = props.data
   const data: pieDataItem[] = []
-  const [tooltipSelectedIndex, setTooltipSelectedIndex] = useState(-1)
   const minisculeDataItem =
     props.data.map((item) => item.value).reduce((v, a) => v + a) / 160000
   let itemHasInnerComponent = false
@@ -312,14 +314,6 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     }
   }
 
-  const getTooltipText = (index: number): string => {
-    const item = data[index]
-    const tooltipText =
-      item.tooltipText ??
-      item.text ??
-      (showValuesAsTooltipText ? item.value.toString() : '')
-    return tooltipText
-  }
 
   return {
     isThreeD,
@@ -355,7 +349,7 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     tooltipBorderRadius,
     tooltipSelectedIndex,
     setTooltipSelectedIndex,
-    getTooltipText,
+    // getTooltipText,
     showText,
     textColor,
     textSize,
@@ -390,6 +384,7 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
     onPressed,
     font,
     fontWeight,
-    fontStyle
+    fontStyle,
+    edgesPressable
   }
 }

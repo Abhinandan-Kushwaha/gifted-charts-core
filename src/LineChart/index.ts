@@ -1946,7 +1946,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const [selectedLineNumber, setSelectedLineNumber] = useState(-1)
 
   const getPointerY = (value: number): number =>
-    value
+    value || value === 0
       ? containerHeight -
         (value * containerHeight) / maxValue -
         (pointerRadius || pointerHeight / 2) +
@@ -2211,6 +2211,36 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     onlyPositive,
     highlightEnabled: LineDefaults.highlightEnabled,
     lowlightOpacity: LineDefaults.lowlightOpacity
+  }
+  let pointerItemLocal: any[] = []
+  if (pointerConfig) {
+    pointerItemLocal = [
+      { ...pointerItem, value: props.data?.[pointerIndex]?.value }
+    ]
+    if (pointerY2 !== 0) {
+      pointerItemLocal.push({
+        ...pointerItem,
+        value: props.data2?.[pointerIndex]?.value
+      })
+    }
+    if (pointerY3 !== 0) {
+      pointerItemLocal.push({
+        ...pointerItem,
+        value: props.data3?.[pointerIndex]?.value
+      })
+    }
+    if (pointerY4 !== 0) {
+      pointerItemLocal.push({
+        ...pointerItem,
+        value: props.data4?.[pointerIndex]?.value
+      })
+    }
+    if (pointerY5 !== 0) {
+      pointerItemLocal.push({
+        ...pointerItem,
+        value: props.data5?.[pointerIndex]?.value
+      })
+    }
   }
 
   return {
@@ -2596,7 +2626,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     renderTooltip3,
     renderTooltip4,
     renderTooltip5,
-    renderTooltipSecondary
+    renderTooltipSecondary,
+    pointerItemLocal
     // oldPoints
   }
 }
