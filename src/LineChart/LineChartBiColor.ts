@@ -534,7 +534,8 @@ export const useLineChartBiColor = (
     extraWidthDueToDataPoint,
 
     highlightEnabled: LineDefaults.highlightEnabled,
-    lowlightOpacity: LineDefaults.lowlightOpacity
+    lowlightOpacity: LineDefaults.lowlightOpacity,
+    xAxisLabelsAtBottom: false
   }
 
   return {

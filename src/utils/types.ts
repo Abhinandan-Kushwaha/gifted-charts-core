@@ -381,6 +381,7 @@ export interface BarAndLineChartsWrapperTypes {
   onlyPositive?: boolean
   highlightEnabled: boolean
   lowlightOpacity: number
+  xAxisLabelsAtBottom: boolean
 }
 
 export interface HorizontalStripConfig {

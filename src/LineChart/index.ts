@@ -1792,11 +1792,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const { noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis } =
     axesAndRulesProps.secondaryYAxisConfig
+  const fourthQuadrantHeight =
+    Math.max(noOfSectionsBelowXAxis, secondaryNoOfSectionsBelowXAxis) *
+    stepHeight
 
   const containerHeightIncludingBelowXAxis =
-    extendedContainerHeight +
-    Math.max(noOfSectionsBelowXAxis, secondaryNoOfSectionsBelowXAxis) *
-      stepHeight
+    extendedContainerHeight + fourthQuadrantHeight
 
   const showXAxisIndices =
     props.showXAxisIndices ?? AxesAndRulesDefaults.showXAxisIndices
@@ -1807,11 +1808,15 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const xAxisIndicesColor =
     props.xAxisIndicesColor ?? AxesAndRulesDefaults.xAxisIndicesColor
 
+  const xAxisLabelsAtBottom = props.xAxisLabelsAtBottom ?? false
+
   const xAxisTextNumberOfLines =
     props.xAxisTextNumberOfLines ?? AxesAndRulesDefaults.xAxisTextNumberOfLines
   const xAxisLabelsVerticalShift =
     props.xAxisLabelsVerticalShift ??
-    AxesAndRulesDefaults.xAxisLabelsVerticalShift
+    (xAxisLabelsAtBottom
+      ? fourthQuadrantHeight
+      : AxesAndRulesDefaults.xAxisLabelsVerticalShift)
   const horizontalRulesStyle = props.horizontalRulesStyle
 
   const horizontal = false
@@ -2210,7 +2215,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     customBackground: props.customBackground,
     onlyPositive,
     highlightEnabled: LineDefaults.highlightEnabled,
-    lowlightOpacity: LineDefaults.lowlightOpacity
+    lowlightOpacity: LineDefaults.lowlightOpacity,
+    xAxisLabelsAtBottom
   }
   let pointerItemLocal: any[] = []
   if (pointerConfig) {
@@ -2540,6 +2546,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     xAxisIndicesColor,
     xAxisTextNumberOfLines,
     xAxisLabelsVerticalShift,
+    xAxisLabelsAtBottom,
     horizontalRulesStyle,
     showFractionalValues,
     roundToDigits,

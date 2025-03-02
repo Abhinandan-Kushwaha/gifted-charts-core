@@ -87,6 +87,7 @@ export interface StackedBarChartPropsType {
   labelTextStyle?: any
   autoShiftLabelsForNegativeStacks?: boolean
   labelsDistanceFromXaxis?: number
+  xAxisLabelsAtBottom?: boolean
   disablePress?: boolean
 
   item: stackDataItem
@@ -213,6 +214,7 @@ export interface BarChartPropsType {
   xAxisTextNumberOfLines?: number
   xAxisLabelsHeight?: number
   xAxisLabelsVerticalShift?: number
+  xAxisLabelsAtBottom?: boolean
   yAxisLabelWidth?: number
   hideYAxisText?: boolean
   rotateYAxisTexts?: number
@@ -365,7 +367,6 @@ export interface BarChartPropsType {
   focusBarOnPress?: boolean
   focusedBarConfig?: FocusedBarConfig
   focusedBarIndex?: number
-
 
   highlightEnabled?: boolean // highlights Bar on press in react-native and on on hover in react-js
   highlightedBarIndex?: number

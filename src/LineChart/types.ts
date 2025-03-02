@@ -303,6 +303,7 @@ export interface LineChartPropsType {
   xAxisLabelTextStyle?: any
   xAxisLabelsHeight?: number
   xAxisLabelsVerticalShift?: number
+  xAxisLabelsAtBottom?: boolean
   width?: number
   yAxisLabelPrefix?: string
   yAxisLabelSuffix?: string
@@ -370,6 +371,9 @@ export interface LineChartPropsType {
   renderTooltip4?: Function
   renderTooltip5?: Function
   renderTooltipSecondary?: Function
+
+  dataPointLabelComponent?: Function
+  focusedDataPointLabelComponent?: Function
 }
 
 export interface lineDataItem {
