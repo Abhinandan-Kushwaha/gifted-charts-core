@@ -383,6 +383,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const xAxisLabelsVerticalShift =
     props.xAxisLabelsVerticalShift ??
     AxesAndRulesDefaults.xAxisLabelsVerticalShift
+  const xAxisLabelsAtBottom = props.xAxisLabelsAtBottom ?? false
   const horizontalRulesStyle = props.horizontalRulesStyle
 
   const autoShiftLabels = props.autoShiftLabels ?? false
@@ -419,10 +420,13 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     noOfSectionsBelowXAxis * (props.negativeStepHeight ?? stepHeight)
   const secondary4thQuadrantHeight =
     secondaryNoOfSectionsBelowXAxis * secondaryNegativeStepHeight
+  const fourthQuadrantHeight = Math.max(
+    primary4thQuadrantHeight,
+    secondary4thQuadrantHeight
+  )
 
   const containerHeightIncludingBelowXAxis =
-    extendedContainerHeight +
-    Math.max(primary4thQuadrantHeight, secondary4thQuadrantHeight)
+    extendedContainerHeight + fourthQuadrantHeight
 
   const [pointerIndex, setPointerIndex] = useState(-1)
   const [pointerX, setPointerX] = useState(0)
@@ -791,7 +795,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       xAxisIndicesWidth,
       xAxisIndicesColor,
       labelsDistanceFromXaxis:
-        item.labelsDistanceFromXaxis ?? labelsDistanceFromXaxis,
+        item.labelsDistanceFromXaxis ??
+        labelsDistanceFromXaxis ??
+        (xAxisLabelsAtBottom ? fourthQuadrantHeight : 0),
       horizontal,
       rtl,
       intactTopLabel,
@@ -822,6 +828,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       xAxisTextNumberOfLines,
       xAxisLabelsHeight: props.xAxisLabelsHeight,
       xAxisLabelsVerticalShift,
+      xAxisLabelsAtBottom,
       renderTooltip: props.renderTooltip,
       renderTooltipConditions:
         props.renderTooltipConditions ?? BarDefaults.renderTooltipConditions,
@@ -944,7 +951,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     onMomentumScrollEnd: props.onMomentumScrollEnd,
     customBackground: props.customBackground,
     highlightEnabled,
-    lowlightOpacity
+    lowlightOpacity,
+    xAxisLabelsAtBottom
   }
 
   return {
@@ -998,6 +1006,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     noOfSectionsBelowXAxis,
     stepHeight,
     xAxisLabelsVerticalShift,
+    xAxisLabelsAtBottom,
     labelsExtraHeight,
     stripOverPointer,
     pointerLabelComponent,

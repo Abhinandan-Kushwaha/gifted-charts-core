@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import { AxesAndRulesDefaults, BarDefaults } from '../../utils/constants'
+import {
+  AxesAndRulesDefaults,
+  BarDefaults,
+  chartTypes
+} from '../../utils/constants'
 import {
   LineInBarChartPropsType,
   type BarAndLineChartsWrapperTypes,
@@ -68,8 +72,28 @@ export const useBarAndLineChartsWrapper = (
     selectedIndex,
     onlyPositive,
     highlightEnabled,
-    lowlightOpacity
+    lowlightOpacity,
+    xAxisLabelsAtBottom
   } = props
+
+  const {
+    stepValue: secondaryStepValue,
+    negativeStepValue: secondaryNegativeStepValue,
+    noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis,
+    showFractionalValues: showSecondaryFractionalValues,
+    roundToDigits: secondaryRoundToDigits,
+    stepHeight: secondaryStepHeight,
+    negativeStepHeight: secondaryNegativeStepHeight
+  } = axesAndRulesProps.secondaryYAxisConfig
+
+  const primaryYAxisHeightBelowOrigin =
+    noOfSectionsBelowXAxis * negativeStepHeight
+  const secondaryYAxisHeightBelowOrigin =
+    secondaryNoOfSectionsBelowXAxis * secondaryNegativeStepHeight
+  const biggerNegativeYAxisHeight = Math.max(
+    primaryYAxisHeightBelowOrigin,
+    secondaryYAxisHeightBelowOrigin
+  )
 
   const yAxisAtTop = rtl ? !props.yAxisAtTop : props.yAxisAtTop
 
@@ -95,7 +119,9 @@ export const useBarAndLineChartsWrapper = (
     axesAndRulesProps.xAxisType ?? AxesAndRulesDefaults.xAxisType
   const xAxisLabelsVerticalShift =
     axesAndRulesProps.xAxisLabelsVerticalShift ??
-    AxesAndRulesDefaults.xAxisLabelsVerticalShift
+    (chartType === chartTypes.LINE && xAxisLabelsAtBottom
+      ? biggerNegativeYAxisHeight
+      : AxesAndRulesDefaults.xAxisLabelsVerticalShift)
   const xAxisLabelsHeight = axesAndRulesProps.xAxisLabelsHeight
   const xAxisTextNumberOfLines = axesAndRulesProps.xAxisTextNumberOfLines
   const dashWidth =
@@ -197,25 +223,6 @@ export const useBarAndLineChartsWrapper = (
       secondaryYAxis?.roundToDigits ?? roundToDigits,
       secondaryYAxis?.showFractionalValues ?? showFractionalValues
     )
-
-  const {
-    stepValue: secondaryStepValue,
-    negativeStepValue: secondaryNegativeStepValue,
-    noOfSectionsBelowXAxis: secondaryNoOfSectionsBelowXAxis,
-    showFractionalValues: showSecondaryFractionalValues,
-    roundToDigits: secondaryRoundToDigits,
-    stepHeight: secondaryStepHeight,
-    negativeStepHeight: secondaryNegativeStepHeight
-  } = axesAndRulesProps.secondaryYAxisConfig
-
-  const primaryYAxisHeightBelowOrigin =
-    noOfSectionsBelowXAxis * negativeStepHeight
-  const secondaryYAxisHeightBelowOrigin =
-    secondaryNoOfSectionsBelowXAxis * secondaryNegativeStepHeight
-  const biggerNegativeYAxisHeight = Math.max(
-    primaryYAxisHeightBelowOrigin,
-    secondaryYAxisHeightBelowOrigin
-  )
 
   const containerHeightIncludingBelowXAxis =
     extendedContainerHeight + biggerNegativeYAxisHeight
