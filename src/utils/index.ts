@@ -1768,13 +1768,24 @@ export const pointsWithPaddedRepititions = (
    **          Handles these cases-
    **
    **          1. Straight line chart
-   **          2. Curved Line chart
-   **          3. Straight Area chart -> we need to repeatedly add the 3rd last substring from the points array which represents the last point
-   **          4. Curved Area chart -> we need to repeatedly add the 3nd last substring (the 2 last substrings start with L while the 3rd last will start with C) from the points array which represents the last point
+   **          2. Curved Line chart with Cubic curve
+   **          3. Curved Line Chart with Quadratic curve
+   **          4. Straight Area chart -> we need to repeatedly add the 3rd last substring from the points array which represents the last point
+   **          5. Curved Area chart with Cubic curve -> we need to repeatedly add the 3nd last substring (the 2 last substrings start with L while the 3rd last will start with C) from the points array which represents the last point
+   **          6. Curved Area chart with Quadratic curve -> we need to repeatedly add the 3nd last substring (the 2 last substrings start with L while the 3rd last will start with Q) from the points array which represents the last point
    */
   let oldPointsCopy = oldPoints.trim()
   let newPointsCopy = newPoints.trim()
-  const char = oldPointsCopy.indexOf('C') === -1 ? 'L' : 'C'
+
+  let char
+  if (oldPointsCopy.includes('C')) {
+    char = 'C'
+  } else if (oldPointsCopy.includes('Q ')) {
+    char = 'Q '
+  } else {
+    char = 'L'
+  }
+
   const oldPointsCopyAr = oldPointsCopy.split(char)
   const newPointsCopyAr = newPointsCopy.split(char)
   const oldPointsCopyLen = oldPointsCopyAr.length - 1
@@ -1788,7 +1799,7 @@ export const pointsWithPaddedRepititions = (
 
   const indexOfL = lastSequence.indexOf('L')
 
-  const isCurvedAreaChart = char === 'C' && indexOfL !== -1
+  const isCurvedAreaChart = (char === 'C' || char === 'Q ') && indexOfL !== -1
 
   const isStraightAreaChart =
     !isCurvedAreaChart &&
@@ -1803,7 +1814,29 @@ export const pointsWithPaddedRepititions = (
       : newPointsCopyAr[newPointsCopyLen - 2]
     : lastSequence
 
-  repeats = char + repeats?.trim()
+  if (!isCurvedAreaChart && char === 'Q ') {
+    // redrawing the last curve segment is a bit complicated in case of quadratic curves as evident below-
+
+    const repeatsAr = repeats.split('Q')
+    const r1 = repeatsAr[0]
+    const r2 = repeatsAr[1]
+
+    const r1LastPoint = r1.split(' ')[1]
+    const r2LastPoint = r2.split(' ')[1]
+    const r2FirstPoint = r2.split(' ')[0]
+
+    repeats =
+      'Q ' +
+      r2FirstPoint +
+      ' ' +
+      r1LastPoint +
+      ' Q' +
+      r2FirstPoint +
+      ' ' +
+      r2LastPoint
+  } else {
+    repeats = char + repeats?.trim()
+  }
 
   if (isCurvedAreaChart) {
     if (oldPointsCopyLen < newPointsCopyLen) {

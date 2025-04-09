@@ -165,6 +165,7 @@ export interface StackedBarChartPropsType {
   stackHighlightEnabled?: boolean
   selectedStackIndex: number
   setSelectedStackIndex: Function
+  onBackgroundPress?: Function
 }
 
 export interface StackedBarChartPropsTypeForWeb
@@ -379,6 +380,7 @@ export interface BarChartPropsType {
   adjustToWidth?: boolean
   parentWidth?: number
   secondaryXAxis?: XAxisConfig
+  onBackgroundPress?: Function
 }
 
 export interface FocusedBarConfig {
