@@ -952,7 +952,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     customBackground: props.customBackground,
     highlightEnabled,
     lowlightOpacity,
-    xAxisLabelsAtBottom
+    xAxisLabelsAtBottom,
+    onScrollEndDrag: props.onScrollEndDrag
   }
 
   return {

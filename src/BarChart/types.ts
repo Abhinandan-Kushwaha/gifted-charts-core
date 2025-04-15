@@ -168,7 +168,7 @@ export interface StackedBarChartPropsType {
   onBackgroundPress?: Function
   bounces?: boolean
   overScrollMode?: 'auto' | 'always' | 'never'
-  onScrollEndDrag?: Function
+  onScrollEndDrag?: (event: any, direction: any) => void
 }
 
 export interface StackedBarChartPropsTypeForWeb
@@ -369,7 +369,7 @@ export interface BarChartPropsType {
   onMomentumScrollEnd?: Function
   bounces?: boolean
   overScrollMode?: 'auto' | 'always' | 'never'
-  onScrollEndDrag?: Function
+  onScrollEndDrag?: (event: any, direction: any) => void
 
   focusBarOnPress?: boolean
   focusedBarConfig?: FocusedBarConfig
