@@ -166,6 +166,9 @@ export interface StackedBarChartPropsType {
   selectedStackIndex: number
   setSelectedStackIndex: Function
   onBackgroundPress?: Function
+  bounces?: boolean
+  overScrollMode?: 'auto' | 'always' | 'never'
+  onScrollEndDrag?: Function
 }
 
 export interface StackedBarChartPropsTypeForWeb
@@ -364,6 +367,9 @@ export interface BarChartPropsType {
   endReachedOffset?: number
   onScroll?: Function
   onMomentumScrollEnd?: Function
+  bounces?: boolean
+  overScrollMode?: 'auto' | 'always' | 'never'
+  onScrollEndDrag?: Function
 
   focusBarOnPress?: boolean
   focusedBarConfig?: FocusedBarConfig

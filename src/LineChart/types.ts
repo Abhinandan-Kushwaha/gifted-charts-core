@@ -351,6 +351,9 @@ export interface LineChartPropsType {
   endReachedOffset?: number
   onScroll?: Function
   onMomentumScrollEnd?: Function
+  bounces?: boolean
+  overScrollMode?: 'auto' | 'always' | 'never'
+  onScrollEndDrag?: Function
 
   showDataPointsForMissingValues?: boolean
   interpolateMissingValues?: boolean
@@ -653,6 +656,9 @@ export interface LineChartBicolorPropsType {
   formatYLabel?: (label: string) => string
   onScroll?: Function
   endReachedOffset?: number
+  bounces?: boolean
+  overScrollMode?: 'auto' | 'always' | 'never'
+  onScrollEndDrag?: Function
   parentWidth?: number
 }
 
