@@ -2216,7 +2216,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     onlyPositive,
     highlightEnabled: LineDefaults.highlightEnabled,
     lowlightOpacity: LineDefaults.lowlightOpacity,
-    xAxisLabelsAtBottom
+    xAxisLabelsAtBottom,
+    onScrollEndDrag: props.onScrollEndDrag
   }
   let pointerItemLocal: any[] = []
   if (pointerConfig) {

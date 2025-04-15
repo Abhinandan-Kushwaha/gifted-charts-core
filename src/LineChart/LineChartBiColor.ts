@@ -535,7 +535,8 @@ export const useLineChartBiColor = (
 
     highlightEnabled: LineDefaults.highlightEnabled,
     lowlightOpacity: LineDefaults.lowlightOpacity,
-    xAxisLabelsAtBottom: false
+    xAxisLabelsAtBottom: false,
+    onScrollEndDrag: props.onScrollEndDrag
   }
 
   return {
