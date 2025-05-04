@@ -6,7 +6,7 @@ import { getBarSideColor, getBarTopColor } from '../../utils'
 export const useAnimatedThreeDBar = (props: animatedBarPropTypes) => {
   const { focusBarOnPress, index, selectedIndex, focusedBarConfig, item } =
     props
-  const isFocused = focusBarOnPress && index === selectedIndex
+  const isFocused = focusBarOnPress && selectedIndex.includes(index)
   const localFrontColor = props.frontColor || BarDefaults.threeDBarFrontColor
   const localGradientColor =
     props.gradientColor || BarDefaults.threeDBarGradientColor
