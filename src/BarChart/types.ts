@@ -138,7 +138,7 @@ export interface StackedBarChartPropsType {
   leftShiftForLastIndexTooltip: number
   autoCenterTooltip?: boolean
   initialSpacing: number
-  selectedIndex: number[]
+  selectedIndex: number
   setSelectedIndex: Function
   activeOpacity: number
   showGradient?: boolean

@@ -1,6 +1,6 @@
 {
   "name": "gifted-charts-core",
-  "version": "0.1.62",
+  "version": "0.1.63",
   "description": "Mathematical and logical utilities used by react-gifted-charts and react-native-gifted-charts",
   "main": "./dist/index.js",
   "files": [
@@ -25,12 +25,12 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
-    "react-native-svg": "^15.11.2",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-svg": "*"
   },
   "eslintConfig": {
     "extends": [
