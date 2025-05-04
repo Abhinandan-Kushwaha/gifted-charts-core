@@ -169,7 +169,7 @@ export interface LineInBarChartPropsType {
   labelsExtraHeight: number
   scrollEventThrottle: number
   xAxisLabelsVerticalShift: number
-  selectedIndex: number
+  selectedIndex: number[]
   yAxisOffset: number
   strokeDashArray: number[]
   highlightEnabled: boolean
@@ -326,7 +326,7 @@ export interface BarAndLineChartsWrapperTypes {
   scrollToIndex: number | undefined
   scrollAnimation: boolean
   indicatorColor: 'black' | 'default' | 'white' | undefined
-  selectedIndex: number
+  selectedIndex: number[]
   setSelectedIndex: any
   spacing: number
   showLine: boolean

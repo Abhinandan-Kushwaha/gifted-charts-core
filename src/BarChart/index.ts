@@ -59,14 +59,22 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const [points, setPoints] = useState('')
   const [points2, setPoints2] = useState('')
   const [arrowPoints, setArrowPoints] = useState('')
-  const [selectedIndex, setSelectedIndex] = useState(focusedBarIndex ?? -1)
+  const [selectedIndex, setSelectedIndex] = useState(() => {
+    if(Array.isArray(focusedBarIndex)) {
+      return focusedBarIndex
+    }
+    return [focusedBarIndex ?? -1]
+  })
   const [selectedStackIndex, setSelectedStackIndex] = useState(
     props.highlightedStackIndex ?? -1
   )
   const showLine = props.showLine ?? BarDefaults.showLine
 
   useEffect(() => {
-    setSelectedIndex(focusedBarIndex ?? -1)
+    const newIndex = Array.isArray(focusedBarIndex)
+      ? focusedBarIndex
+      : [focusedBarIndex?? -1]
+    setSelectedIndex(newIndex)
   }, [focusedBarIndex])
 
   useEffect(() => {

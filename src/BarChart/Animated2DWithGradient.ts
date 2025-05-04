@@ -14,7 +14,7 @@ interface Animated2dWithGradientPropsType extends BarChartPropsType {
   item: barDataItemNullSafe
   index: number
   barHeight: number
-  selectedIndex: number
+  selectedIndex: number[]
   barBackgroundPattern?: () => ReactNode
   barInnerComponent?: (
     item?: stackDataItem | barDataItem,
@@ -73,7 +73,7 @@ export const getPropsForAnimated2DWithGradient = (
     yAxisOffset
   } = props
 
-  const isFocused = (focusBarOnPress ?? false) && selectedIndex === index
+  const isFocused = (focusBarOnPress ?? false) && selectedIndex.includes(index)
   const itemOrPropsBarBorderRadius =
     item.barBorderRadius ?? barBorderRadius ?? 0
   const localBarBorderRadius =

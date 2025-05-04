@@ -477,7 +477,7 @@ export const useLineChartBiColor = (
     scrollAnimation,
     scrollEventThrottle,
     indicatorColor: props.indicatorColor,
-    selectedIndex,
+    selectedIndex: [selectedIndex],
     setSelectedIndex,
     spacing,
     showLine: false,

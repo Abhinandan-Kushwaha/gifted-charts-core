@@ -2167,7 +2167,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     scrollAnimation,
     scrollEventThrottle,
     indicatorColor: props.indicatorColor,
-    selectedIndex,
+    selectedIndex: [selectedIndex],
     setSelectedIndex,
     spacing,
     showLine: false,
