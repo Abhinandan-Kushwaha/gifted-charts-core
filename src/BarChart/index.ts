@@ -134,6 +134,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     return props.stackData
   }, [yAxisOffset, props.stackData])
 
+  // adjustToWidth should work for data or stacked data
+  const dataLength = props.data?.length ?? props.stackData?.length ?? 0;
+
   const yAxisLabelWidth =
     props.yAxisLabelWidth ??
     (props.hideYAxisText
@@ -142,8 +145,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
   const autoComputedSectionWidth =
     props.initialSpacing !== undefined
-      ? (parentWidth - yAxisLabelWidth) / data.length - props.initialSpacing
-      : (parentWidth - yAxisLabelWidth) / (data.length + 0.5)
+      ? (parentWidth - yAxisLabelWidth) / dataLength - props.initialSpacing
+      : (parentWidth - yAxisLabelWidth) / (dataLength + 0.5)
 
   const autoComputedBarWidth = autoComputedSectionWidth * 0.6
   const defaultBarWidth = adjustToWidth
@@ -274,7 +277,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }
       totalWidth +=
         (stackItem.stacks[0].barWidth ?? props.barWidth ?? defaultBarWidth) +
-        (index === data.length - 1 ? 0 : stackItem.spacing ?? spacing)
+        (index === dataLength - 1 ? 0 : stackItem.spacing ?? spacing)
     })
   } else {
     data.forEach((item, index) => {
@@ -298,7 +301,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }
       totalWidth +=
         (item.barWidth ?? props.barWidth ?? defaultBarWidth) +
-        (index === data.length - 1 ? spacing : item.spacing ?? spacing)
+        (index === dataLength - 1 ? spacing : item.spacing ?? spacing)
     })
   }
 
