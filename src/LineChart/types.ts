@@ -564,6 +564,10 @@ export interface LineChartBicolorPropsType {
   verticalLinesSpacing?: number
   hideAxesAndRules?: boolean
   areaChart?: boolean
+  
+  spreadAreaData?: { lower: number; upper: number }[];
+  spreadAreaColor?: string;
+  spreadAreaOpacity?: number;
 
   disableScroll?: boolean
   showScrollIndicator?: boolean
