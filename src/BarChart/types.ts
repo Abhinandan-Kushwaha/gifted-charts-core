@@ -120,7 +120,7 @@ export interface StackedBarChartPropsType {
   barBorderBottomLeftRadius?: number
   barBorderBottomRightRadius?: number
   barInnerComponent?: (
-    item?: barDataItem|stackDataItem,
+    item?: barDataItem | stackDataItem,
     index?: number
   ) => ReactNode
   barMarginBottom: number
@@ -135,7 +135,7 @@ export interface StackedBarChartPropsType {
   xAxisTextNumberOfLines: number
   xAxisLabelsHeight?: number
   xAxisLabelsVerticalShift: number
-  renderTooltip: Function|undefined
+  renderTooltip: Function | undefined
   leftShiftForTooltip?: number
   leftShiftForLastIndexTooltip: number
   autoCenterTooltip?: boolean
@@ -162,14 +162,14 @@ export interface StackedBarChartPropsType {
   secondaryNoOfSectionsBelowXAxis: number
   containerHeightIncludingBelowXAxis: number
   highlightEnabled: boolean
-  highlightedBarIndex: number|number[]
+  highlightedBarIndex: number | number[]
   lowlightOpacity: number
   stackHighlightEnabled?: boolean
   selectedStackIndex: number
   setSelectedStackIndex: Function
   onBackgroundPress?: Function
   bounces?: boolean
-  overScrollMode?: 'auto'|'always'|'never'
+  overScrollMode?: 'auto' | 'always' | 'never'
   onScrollEndDrag?: (event: any, direction: any) => void
 }
 
@@ -231,8 +231,8 @@ export interface BarChartPropsType {
   barWidth?: number
   sideWidth?: number
   showLine?: boolean
-  lineData?: Array<lineDataItem|barDataItem|stackDataItem>
-  lineData2?: Array<lineDataItem|barDataItem|stackDataItem>
+  lineData?: Array<lineDataItem | barDataItem | stackDataItem>
+  lineData2?: Array<lineDataItem | barDataItem | stackDataItem>
   lineConfig?: lineConfigType
   lineConfig2?: lineConfigType
   lineBehindBars?: boolean
@@ -288,7 +288,7 @@ export interface BarChartPropsType {
 
   disableScroll?: boolean
   showScrollIndicator?: boolean
-  indicatorColor?: 'black'|'default'|'white'
+  indicatorColor?: 'black' | 'default' | 'white'
   nestedScrollEnabled?: boolean
   roundedTop?: boolean
   roundedBottom?: boolean
@@ -354,12 +354,12 @@ export interface BarChartPropsType {
   leftShiftForLastIndexTooltip?: number
   barStyle?: object
   barInnerComponent?: (
-    item?: stackDataItem|barDataItem,
+    item?: stackDataItem | barDataItem,
     index?: number
   ) => ReactNode
 
   // secondaryData?: barDataItem[]
-  secondaryYAxis?: secondaryYAxisType|boolean
+  secondaryYAxis?: secondaryYAxisType | boolean
   pointerConfig?: Pointer
   getPointerProps?: Function
   formatYLabel?: (label: string) => string
@@ -370,15 +370,15 @@ export interface BarChartPropsType {
   onScroll?: Function
   onMomentumScrollEnd?: Function
   bounces?: boolean
-  overScrollMode?: 'auto'|'always'|'never'
+  overScrollMode?: 'auto' | 'always' | 'never'
   onScrollEndDrag?: (event: any, direction: any) => void
 
   focusBarOnPress?: boolean
   focusedBarConfig?: FocusedBarConfig
-  focusedBarIndex?: number|number[]
+  focusedBarIndex?: number | number[]
 
   highlightEnabled?: boolean // highlights Bar on press in react-native and on on hover in react-js
-  highlightedBarIndex?: number|number[]
+  highlightedBarIndex?: number | number[]
   lowlightOpacity?: number
 
   stackHighlightEnabled?: boolean
@@ -414,15 +414,15 @@ export interface lineConfigType {
   animationDuration?: number
   delay?: number
   thickness?: number
-  color?: ColorValue|string|any
+  color?: ColorValue | string | any
   strokeDashArray?: number[]
   hideDataPoints?: boolean
   dataPointsShape?: string
   dataPointsWidth?: number
   dataPointsHeight?: number
-  dataPointsColor?: ColorValue|string|any
+  dataPointsColor?: ColorValue | string | any
   dataPointsRadius?: number
-  textColor?: ColorValue|string|any
+  textColor?: ColorValue | string | any
   textFontSize?: number
   textShiftX?: number
   textShiftY?: number
@@ -448,14 +448,14 @@ export interface defaultLineConfigType {
   animationDuration: number
   delay: number
   thickness: number
-  color: ColorValue|string|any
+  color: ColorValue | string | any
   hideDataPoints: boolean
   dataPointsShape: string
   dataPointsWidth: number
   dataPointsHeight: number
-  dataPointsColor: ColorValue|string|any
+  dataPointsColor: ColorValue | string | any
   dataPointsRadius: number
-  textColor: ColorValue|string|any
+  textColor: ColorValue | string | any
   textFontSize: number
   textShiftX: number
   textShiftY: number
@@ -643,7 +643,7 @@ export interface RenderBarsPropsType {
   barBorderBottomLeftRadius?: number
   barBorderBottomRightRadius?: number
   barInnerComponent?: (
-    item?: barDataItem|stackDataItem,
+    item?: barDataItem | stackDataItem,
     index?: number
   ) => ReactNode
   autoShiftLabels?: boolean
@@ -659,7 +659,7 @@ export interface RenderBarsPropsType {
   xAxisTextNumberOfLines: number
   xAxisLabelsHeight?: number
   xAxisLabelsVerticalShift: number
-  renderTooltip: Function|undefined
+  renderTooltip: Function | undefined
   leftShiftForTooltip?: number
   autoCenterTooltip?: boolean
   leftShiftForLastIndexTooltip: number
@@ -671,7 +671,7 @@ export interface RenderBarsPropsType {
   secondaryXAxis?: XAxisConfig
   pointerConfig?: Pointer
   focusBarOnPress?: boolean
-  focusedBarIndex?: number|number[]
+  focusedBarIndex?: number | number[]
   noOfSectionsBelowXAxis?: number
   yAxisOffset: number
   stepHeight: number
@@ -684,7 +684,7 @@ export interface RenderBarsPropsType {
   secondaryNegativeStepValue: number
   secondaryNoOfSectionsBelowXAxis: number
   highlightEnabled: boolean
-  highlightedBarIndex: number|number[]
+  highlightedBarIndex: number | number[]
   lowlightOpacity: number
 }
 
