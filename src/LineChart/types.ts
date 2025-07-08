@@ -16,7 +16,8 @@ import {
   type secondaryYAxisType,
   type Linecap,
   type IntersectionAreaConfig,
-  CustomBackground
+  CustomBackground,
+  SpreadData
 } from '../utils/types'
 
 export interface LineChartPropsType {
@@ -377,6 +378,9 @@ export interface LineChartPropsType {
 
   dataPointLabelComponent?: Function
   focusedDataPointLabelComponent?: Function
+  spreadAreaData?: SpreadData[]
+  spreadAreaColor?: ColorValue
+  spreadAreaOpacity?: number
 }
 
 export interface lineDataItem {

@@ -34,6 +34,11 @@ export interface RuleTypes {
   DOTTED: RuleType
 }
 
+export interface SpreadData {
+  lower: number
+  upper: number
+}
+
 export enum CurveType {
   CUBIC,
   QUADRATIC
