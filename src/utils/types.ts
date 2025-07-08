@@ -34,7 +34,7 @@ export interface RuleTypes {
   DOTTED: RuleType
 }
 
-export interface ISpreadData {
+export interface SpreadData {
   lower: number
   upper: number
 }

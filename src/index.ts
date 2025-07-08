@@ -174,5 +174,6 @@ export {
   type Linecap,
   type IntersectionAreaConfig,
   type LabelLineConfig,
-  type TooltipProps
+  type TooltipProps,
+  type SpreadData
 } from './utils/types'

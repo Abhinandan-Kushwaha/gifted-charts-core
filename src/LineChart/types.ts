@@ -17,7 +17,7 @@ import {
   type Linecap,
   type IntersectionAreaConfig,
   CustomBackground,
-  ISpreadData
+  SpreadData
 } from '../utils/types'
 
 export interface LineChartPropsType {
@@ -378,7 +378,7 @@ export interface LineChartPropsType {
 
   dataPointLabelComponent?: Function
   focusedDataPointLabelComponent?: Function
-  spreadAreaData?: ISpreadData[]
+  spreadAreaData?: SpreadData[]
   spreadAreaColor?: ColorValue
   spreadAreaOpacity?: number
 }
