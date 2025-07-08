@@ -376,8 +376,8 @@ export const radarChartDefaults = {
   hideAsterLines: false,
   hideGrid: false,
   hideLabels: false,
-  labelsPositionOffset: 5,
-  dataLabelsPositionOffset: 5,
+  labelsPositionOffset: 0,
+  dataLabelsPositionOffset: 0,
 
   gridSection: {
     stroke: 'lightgray',
