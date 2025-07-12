@@ -1,7 +1,9 @@
 import {
+  StyleProp,
+  TextStyle,
   type ColorValue,
   type GestureResponderEvent,
-  type ViewStyle
+  type ViewStyle,
 } from 'react-native'
 import { type yAxisSides } from '../utils/constants'
 import {
@@ -13,7 +15,7 @@ import {
   type referenceConfigType,
   type secondaryYAxisType,
   type Linecap,
-  CustomBackground
+  CustomBackground,
 } from '../utils/types'
 import { type Component, type ReactNode } from 'react'
 import { type lineDataItem } from '../LineChart/types'
@@ -28,10 +30,10 @@ export interface stackDataItem {
   labelsDistanceFromXaxis?: number
   barWidth?: number
   spacing?: number
-  labelTextStyle?: any
+  labelTextStyle?: StyleProp<TextStyle>
   topLabelComponent?: Function
-  topLabelContainerStyle?: any
-  topLabelTextStyle?: any
+  topLabelContainerStyle?: StyleProp<ViewStyle>
+  topLabelTextStyle?: StyleProp<TextStyle>
   disablePress?: any
   color?: ColorValue
   showGradient?: boolean
@@ -80,11 +82,11 @@ export interface StackedBarChartPropsType {
   height?: number
   color?: ColorValue
   topLabelComponent?: Component
-  topLabelContainerStyle?: any
-  topLabelTextStyle?: any
+  topLabelContainerStyle?: StyleProp<ViewStyle>
+  topLabelTextStyle?: StyleProp<TextStyle>
   opacity?: number
   label: string
-  labelTextStyle?: any
+  labelTextStyle?: StyleProp<TextStyle>
   autoShiftLabelsForNegativeStacks?: boolean
   labelsDistanceFromXaxis?: number
   xAxisLabelsAtBottom?: boolean
@@ -200,7 +202,7 @@ export interface BarChartPropsType {
   rotateLabel?: boolean
   isAnimated?: boolean
   animationDuration?: number
-  // animationEasing?: any;
+  // animationEasing?: any
   opacity?: number
   isThreeD?: boolean
   xAxisLength?: number
@@ -211,9 +213,9 @@ export interface BarChartPropsType {
   yAxisExtraHeight?: number
   trimYAxisAtTop?: boolean
   xAxisType?: RuleType
-  yAxisLabelContainerStyle?: any
+  yAxisLabelContainerStyle?: StyleProp<ViewStyle>
   horizontalRulesStyle?: any
-  yAxisTextStyle?: any
+  yAxisTextStyle?: StyleProp<TextStyle>
   yAxisTextNumberOfLines?: number
   xAxisTextNumberOfLines?: number
   xAxisLabelsHeight?: number
@@ -308,8 +310,8 @@ export interface BarChartPropsType {
 
   intactTopLabel?: boolean
   showValuesAsTopLabel?: boolean
-  topLabelContainerStyle?: any
-  topLabelTextStyle?: any
+  topLabelContainerStyle?: StyleProp<ViewStyle>
+  topLabelTextStyle?: StyleProp<TextStyle>
 
   horizSections?: sectionType[]
   barBorderWidth?: number
@@ -328,7 +330,7 @@ export interface BarChartPropsType {
   labelWidth?: number
   yAxisLabelTexts?: string[]
   xAxisLabelTexts?: string[]
-  xAxisLabelTextStyle?: any
+  xAxisLabelTextStyle?: StyleProp<TextStyle>
   yAxisLabelPrefix?: string
   yAxisLabelSuffix?: string
   autoShiftLabels?: boolean
@@ -498,9 +500,9 @@ export interface barDataItem {
   sideWidth?: number
   barBorderWidth?: number
   barBorderColor?: ColorValue
-  labelTextStyle?: any
+  labelTextStyle?: StyleProp<TextStyle>
   topLabelComponent?: Function
-  topLabelContainerStyle?: any
+  topLabelContainerStyle?: StyleProp<ViewStyle>
   disablePress?: any
   capThickness?: number
   capColor?: ColorValue
@@ -516,7 +518,7 @@ export interface barDataItem {
   labelWidth?: number
   secondaryLabel?: string
   secondaryLabelComponent?: Function
-  secondaryLabelTextStyle?: any
+  secondaryLabelTextStyle?: StyleProp<TextStyle>
   barBackgroundPattern?: () => ReactNode
   patternId?: string
   barMarginBottom?: number
@@ -556,8 +558,8 @@ export interface Animated2DWithGradientPropsType {
   horizontal: boolean
   intactTopLabel: boolean
   showValuesAsTopLabel: boolean
-  topLabelContainerStyle?: any
-  topLabelTextStyle?: any
+  topLabelContainerStyle?: StyleProp<ViewStyle>
+  topLabelTextStyle?: StyleProp<TextStyle>
   barBorderWidth?: number
   barBorderColor: ColorValue
   barBorderRadius?: number
@@ -578,7 +580,7 @@ export interface Animated2DWithGradientPropsType {
 }
 
 export interface RenderBarsPropsType {
-  style?: any
+  style?: StyleProp<ViewStyle>
   width?: number
   height?: number
   minHeight: number
@@ -589,12 +591,12 @@ export interface RenderBarsPropsType {
   sideColor?: ColorValue
   topColor?: ColorValue
   topLabelComponent?: Component
-  topLabelContainerStyle?: any
-  topLabelTextStyle?: any
+  topLabelContainerStyle?: StyleProp<ViewStyle>
+  topLabelTextStyle?: StyleProp<TextStyle>
   opacity?: number
   side?: string
-  labelTextStyle?: any
-  secondaryLabelTextStyle?: any
+  labelTextStyle?: StyleProp<TextStyle>
+  secondaryLabelTextStyle?: StyleProp<TextStyle>
 
   item: barDataItemNullSafe
   index: number
@@ -712,8 +714,8 @@ export interface animatedBarPropTypes {
   horizontal: boolean
   intactTopLabel: boolean
   showValuesAsTopLabel: boolean
-  topLabelContainerStyle?: any
-  topLabelTextStyle?: any
+  topLabelContainerStyle?: StyleProp<ViewStyle>
+  topLabelTextStyle?: StyleProp<TextStyle>
   barBackgroundPattern?: () => ReactNode
   barInnerComponent?: (item?: barDataItem, index?: number) => ReactNode
   patternId?: string
@@ -741,8 +743,8 @@ export interface CommonPropsFor2dand3dBarsType {
   height: number
   intactTopLabel: boolean
   showValuesAsTopLabel: boolean
-  topLabelContainerStyle: any
-  topLabelTextStyle: any
+  topLabelContainerStyle: StyleProp<ViewStyle>
+  topLabelTextStyle: StyleProp<TextStyle>
   yAxisOffset: number
 }
 
