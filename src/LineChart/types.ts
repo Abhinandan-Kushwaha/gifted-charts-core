@@ -1,4 +1,4 @@
-import { GestureResponderEvent, type ColorValue } from 'react-native'
+import { GestureResponderEvent, StyleProp, TextStyle, ViewStyle, type ColorValue } from 'react-native'
 import { type yAxisSides } from '../utils/constants'
 import {
   XAxisConfig,
@@ -186,9 +186,9 @@ export interface LineChartPropsType {
   yAxisColor?: ColorValue
   yAxisExtraHeight?: number
   trimYAxisAtTop?: boolean
-  yAxisLabelContainerStyle?: any
+  yAxisLabelContainerStyle?: StyleProp<ViewStyle>
   horizontalRulesStyle?: any
-  yAxisTextStyle?: any
+  yAxisTextStyle?: StyleProp<TextStyle>
   yAxisTextNumberOfLines?: number
   xAxisTextNumberOfLines?: number
   showFractionalValues?: boolean
@@ -301,7 +301,7 @@ export interface LineChartPropsType {
   textShiftY?: number
   yAxisLabelTexts?: string[]
   xAxisLabelTexts?: string[]
-  xAxisLabelTextStyle?: any
+  xAxisLabelTextStyle?: StyleProp<TextStyle>
   xAxisLabelsHeight?: number
   xAxisLabelsVerticalShift?: number
   xAxisLabelsAtBottom?: boolean
@@ -387,10 +387,10 @@ export interface lineDataItem {
   value?: number
   label?: string
   labelComponent?: Function
-  labelTextStyle?: any
+  labelTextStyle?: StyleProp<TextStyle>
   secondaryLabel?: string
   secondaryLabelComponent?: Function
-  secondaryLabelTextStyle?: any
+  secondaryLabelTextStyle?: StyleProp<TextStyle>
   dataPointText?: string
   textShiftX?: number
   textShiftY?: number
@@ -455,7 +455,7 @@ export interface bicolorLineDataItem {
   value: number
   label?: string
   labelComponent?: Function
-  labelTextStyle?: any
+  labelTextStyle?: StyleProp<TextStyle>
   dataPointText?: string
   textShiftX?: number
   textShiftY?: number
@@ -594,9 +594,9 @@ export interface LineChartBicolorPropsType {
   colorNegative?: string
   yAxisThickness?: number
   yAxisColor?: ColorValue
-  yAxisLabelContainerStyle?: any
+  yAxisLabelContainerStyle?: StyleProp<ViewStyle>
   horizontalRulesStyle?: any
-  yAxisTextStyle?: any
+  yAxisTextStyle?: StyleProp<TextStyle>
   yAxisTextNumberOfLines?: number
   xAxisTextNumberOfLines?: number
   showFractionalValues?: boolean
@@ -645,7 +645,7 @@ export interface LineChartBicolorPropsType {
   textShiftY?: number
   yAxisLabelTexts?: string[]
   xAxisLabelTexts?: string[]
-  xAxisLabelTextStyle?: any
+  xAxisLabelTextStyle?: StyleProp<TextStyle>
   width?: number
   yAxisLabelPrefix?: string
   yAxisLabelSuffix?: string
