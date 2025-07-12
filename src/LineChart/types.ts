@@ -664,6 +664,8 @@ export interface LineChartBicolorPropsType {
   overScrollMode?: 'auto' | 'always' | 'never'
   onScrollEndDrag?: (event: any, direction: any) => void
   parentWidth?: number
+  yAxisExtraHeight?: number
+  trimYAxisAtTop?: boolean
 }
 
 export interface LineChartPropsTypeForWeb extends LineChartPropsType {

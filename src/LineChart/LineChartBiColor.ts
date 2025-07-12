@@ -407,6 +407,10 @@ export const useLineChartBiColor = (
       ? AxesAndRulesDefaults.yAxisEmptyLabelWidth
       : AxesAndRulesDefaults.yAxisLabelWidth)
 
+  const yAxisExtraHeightAtTop = props.trimYAxisAtTop
+    ? 0
+    : props.yAxisExtraHeight ?? containerHeight / 20
+
   const horizontal = false
   const yAxisAtTop = false
 
@@ -625,6 +629,7 @@ export const useLineChartBiColor = (
     unFocusOnPressOut,
     delayBeforeUnFocus,
     horizSections,
-    barAndLineChartsWrapperProps
+    barAndLineChartsWrapperProps,
+    yAxisExtraHeightAtTop
   }
 }
