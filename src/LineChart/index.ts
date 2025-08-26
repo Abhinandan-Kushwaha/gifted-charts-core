@@ -56,7 +56,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     extrapolateMissingValues = true,
     yAxisOffset,
     parentWidth,
-    negativeStepValue,
     renderTooltip,
     renderTooltip1 = props.renderTooltip,
     renderTooltip2 = props.renderTooltip,
@@ -656,11 +655,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     containerHeight,
     overflowTop
   )
-  const getX = (spacingArray: number[], index: number): number =>
-    initialSpacing + (index ? spacingArray[index - 1] : 0)
-
-  const getY = (value: number): number =>
-    extendedContainerHeight - (value * containerHeight) / maxValue
 
   const secondaryValuesRange =
     Math.max(...mergedSecondaryDataArrays.map((i) => Math.max(i.value, 0))) - // find the largest +ve number
@@ -1776,6 +1770,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.noOfSectionsBelowXAxis ??
     Math.round(Math.ceil(-mostNegativeValue / stepValue))
 
+  let negativeStepValue = props.negativeStepValue ?? stepValue
+
   const axesAndRulesProps = getAxesAndRulesProps(
     props,
     containerHeight,
@@ -1783,7 +1779,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     stepValue,
     noOfSections,
     roundToDigits,
-    negativeStepValue ?? stepValue,
+    negativeStepValue,
     secondaryMaxValue,
     secondaryMinItem,
     showSecondaryFractionalValues,
@@ -1798,6 +1794,21 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const containerHeightIncludingBelowXAxis =
     extendedContainerHeight + fourthQuadrantHeight
+
+  const mostNegativeValueOnYAxis = negativeStepValue * noOfSectionsBelowXAxis
+
+  const getX = (spacingArray: number[], index: number): number =>
+    initialSpacing + (index ? spacingArray[index - 1] : 0)
+
+  const getY = (value: number): number => {
+    if (containsNegativeValue && value < 0 && stepValue !== negativeStepValue) {
+      return (
+        extendedContainerHeight +
+        (value * fourthQuadrantHeight) / -mostNegativeValueOnYAxis
+      )
+    }
+    return extendedContainerHeight - (value * containerHeight) / maxValue
+  }
 
   const showXAxisIndices =
     props.showXAxisIndices ?? AxesAndRulesDefaults.showXAxisIndices
