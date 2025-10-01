@@ -10,6 +10,7 @@ import {
 } from '../utils/constants'
 import {
   adjustToOffset,
+  colorsToLowerCase,
   computeMaxAndMinItems,
   getAllArrowProperties,
   getArrowPoints,
@@ -266,27 +267,27 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     ? getLineSegmentsForMissingValues(props.data)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data)
-    : props.lineSegments
+    : colorsToLowerCase(props.lineSegments)
   const lineSegments2 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data2)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data2)
-    : props.lineSegments2
+    : colorsToLowerCase(props.lineSegments2)
   const lineSegments3 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data3)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data3)
-    : props.lineSegments3
+    : colorsToLowerCase(props.lineSegments3)
   const lineSegments4 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data4)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data4)
-    : props.lineSegments4
+    : colorsToLowerCase(props.lineSegments4)
   const lineSegments5 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data5)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data5)
-    : props.lineSegments5
+    : colorsToLowerCase(props.lineSegments5)
 
   const highlightedRange = props.highlightedRange
 
