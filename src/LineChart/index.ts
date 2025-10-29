@@ -195,21 +195,19 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       onlyPositive
     ) ?? []
 
-  let dataSet: DataSetNullSafe[] | undefined = undefined
-  if (props.dataSet?.length) {
-    dataSet = useMemo(() => {
-      return props.dataSet?.map((dataSetItem) => {
-        const sanitisedData = getSanitisedData(
-          dataSetItem.data,
-          dataSanitisationProps
-        )
-        return {
-          ...dataSetItem,
-          data: sanitisedData
-        }
-      })
-    }, [yAxisOffset, props.dataSet])
-  }
+  const dataSet: DataSetNullSafe[] | undefined = useMemo(() => {
+    if(!props.dataSet?.length) return undefined
+    return props.dataSet?.map((dataSetItem) => {
+      const sanitisedData = getSanitisedData(
+        dataSetItem.data,
+        dataSanitisationProps
+      )
+      return {
+        ...dataSetItem,
+        data: sanitisedData
+      }
+    })
+  }, [yAxisOffset, props.dataSet])
 
   const data0 = dataSet?.[0]?.data
 
