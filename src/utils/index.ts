@@ -1631,6 +1631,15 @@ export const getLineSegmentsForMissingValues = (
   return segments
 }
 
+export const colorsToLowerCase = (lineSegments?: LineSegment[]) => {
+  return lineSegments?.map((segment) => {
+    if (segment.color && segment.color.toString().startsWith('#')) {
+      segment.color = segment.color.toString().toLowerCase()
+    }
+    return segment
+  })
+}
+
 export const getTextSizeForPieLabels = (
   textSize: number,
   radius: number
