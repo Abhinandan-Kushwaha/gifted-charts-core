@@ -54,13 +54,16 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     autoShiftLabelsForNegativeStacks,
     focusedBarIndex,
     negativeStepValue,
-    autoCenterTooltip
+    autoCenterTooltip,
+    floatingYAxisLabels
   } = props
+  const allowFontScaling =
+    props.allowFontScaling ?? AxesAndRulesDefaults.allowFontScaling
   const [points, setPoints] = useState('')
   const [points2, setPoints2] = useState('')
   const [arrowPoints, setArrowPoints] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(() => {
-    if(Array.isArray(focusedBarIndex)) {
+    if (Array.isArray(focusedBarIndex)) {
       return focusedBarIndex
     }
     return [focusedBarIndex ?? -1]
@@ -73,7 +76,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   useEffect(() => {
     const newIndex = Array.isArray(focusedBarIndex)
       ? focusedBarIndex
-      : [focusedBarIndex?? -1]
+      : [focusedBarIndex ?? -1]
     setSelectedIndex(newIndex)
   }, [focusedBarIndex])
 
@@ -135,7 +138,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   }, [yAxisOffset, props.stackData])
 
   // adjustToWidth should work for data or stacked data
-  const dataLength = props.data?.length ?? props.stackData?.length ?? 0;
+  const dataLength = props.data?.length ?? props.stackData?.length ?? 0
 
   const yAxisLabelWidth =
     props.yAxisLabelWidth ??
@@ -964,7 +967,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     highlightEnabled,
     lowlightOpacity,
     xAxisLabelsAtBottom,
-    onScrollEndDrag: props.onScrollEndDrag
+    onScrollEndDrag: props.onScrollEndDrag,
+    floatingYAxisLabels,
+    allowFontScaling
   }
 
   return {
@@ -1078,6 +1083,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     barAndLineChartsWrapperProps,
     yAxisExtraHeightAtTop,
     selectedStackIndex,
-    setSelectedStackIndex
+    setSelectedStackIndex,
+    allowFontScaling
   }
 }

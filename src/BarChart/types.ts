@@ -222,6 +222,8 @@ export interface BarChartPropsType {
   xAxisLabelsVerticalShift?: number
   xAxisLabelsAtBottom?: boolean
   yAxisLabelWidth?: number
+  floatingYAxisLabels?: boolean
+  allowFontScaling?: boolean
   hideYAxisText?: boolean
   rotateYAxisTexts?: number
   yAxisSide?: yAxisSides
@@ -725,6 +727,7 @@ export interface animatedBarPropTypes {
   selectedIndex: number[]
   focusBarOnPress?: boolean
   focusedBarConfig?: FocusedBarConfig
+  containerHeight: number
 }
 
 export interface CommonPropsFor2dand3dBarsType {
