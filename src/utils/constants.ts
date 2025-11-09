@@ -102,7 +102,8 @@ export const AxesAndRulesDefaults = {
 
   showFractionalValues: false,
   roundToDigits: 1,
-  referenceLinesOverChartContent: true
+  referenceLinesOverChartContent: true,
+  allowFontScaling: true
 }
 
 export const defaultArrowConfig = {

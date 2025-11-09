@@ -282,6 +282,7 @@ export interface horizSectionPropTypes {
   secondaryYAxis: secondaryYAxisType | null
   formatYLabel?: (label: string) => string
   onlyReferenceLines?: boolean
+  onlyLabels?: boolean
   renderReferenceLines?: boolean
   secondaryXAxis?: XAxisConfig
   secondaryMaxItem: number
@@ -295,6 +296,8 @@ export interface horizSectionPropTypes {
   secondaryNegativeStepHeight: number
   customBackground?: CustomBackground
   onlyPositive?: boolean
+  floatingYAxisLabels?: boolean
+  allowFontScaling: boolean
 }
 
 interface HorizSectionObject {
@@ -312,6 +315,8 @@ export interface BarAndLineChartsWrapperTypes {
   negativeStepHeight: number
   labelsExtraHeight: number
   yAxisLabelWidth: number
+  floatingYAxisLabels?: boolean
+  allowFontScaling: boolean
   horizontal: boolean
   rtl: boolean
   shiftX: number

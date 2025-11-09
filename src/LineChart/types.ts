@@ -195,7 +195,8 @@ export interface LineChartPropsType {
   roundToDigits?: number
   yAxisLabelWidth?: number
   hideYAxisText?: boolean
-
+  floatingYAxisLabels?: boolean
+  allowFontScaling?: boolean
   backgroundColor?: ColorValue
   customBackground?: CustomBackground
   curved?: boolean
@@ -670,6 +671,8 @@ export interface LineChartBicolorPropsType {
   parentWidth?: number
   yAxisExtraHeight?: number
   trimYAxisAtTop?: boolean
+  floatingYAxisLabels?: boolean
+  allowFontScaling?: boolean
 }
 
 export interface LineChartPropsTypeForWeb extends LineChartPropsType {

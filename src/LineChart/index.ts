@@ -146,6 +146,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.focusedDataPointIndex ?? -1
   )
 
+  const allowFontScaling =
+    props.allowFontScaling ?? AxesAndRulesDefaults.allowFontScaling
+
   useEffect(() => {
     setSelectedIndex(props.focusedDataPointIndex ?? -1)
   }, [props.focusedDataPointIndex])
@@ -892,7 +895,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     index: number,
     around: boolean,
     before: boolean,
-    spacingArray: number[]
+    spacingArray: number[],
+    isSecondary?: boolean
   ): string => {
     const isLast = index === data.length - 1
     return isLast && !(around || before)
@@ -901,14 +905,17 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           (getX(spacingArray, index) +
             (around ? (isLast ? 0 : spacing / 2) : before ? 0 : spacing)) +
           ' ' +
-          getY(data[index].value) +
+          (isSecondary
+            ? getSecondaryY(data[index].value)
+            : getY(data[index].value)) +
           ' '
   }
   const getStepPath = (
     data: lineDataItemNullSafe[],
     i: number,
     spacingArray: number[],
-    lineSegment: LineSegment[] | undefined
+    lineSegment: LineSegment[] | undefined,
+    isSecondary?: boolean
   ): string => {
     const around = edgePosition === EdgePosition.AROUND_DATA_POINT
     const before = edgePosition === EdgePosition.BEFORE_DATA_POINT
@@ -920,11 +927,11 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       (getX(spacingArray, i) -
         (around && i > 0 ? spacing / 2 : before && i > 0 ? spacing : 0)) +
       ' ' +
-      getY(data[i].value) +
+      (isSecondary ? getSecondaryY(data[i].value) : getY(data[i].value)) + // handle isSecondary for dataSet
       (isSegment
         ? getSegmentString(lineSegment, i, SEGMENT_START, SEGMENT_END, true)
         : '') +
-      getNextPoint(data, i, around, before, spacingArray)
+      getNextPoint(data, i, around, before, spacingArray, isSecondary)
     )
   }
 
@@ -1044,7 +1051,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
                   set.data,
                   i,
                   cumulativeSpacingForSet[index],
-                  setSegments
+                  setSegments,
+                  set.isSecondary
                 )
               } else {
                 pp += getSegmentPath(
@@ -2229,7 +2237,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     highlightEnabled: LineDefaults.highlightEnabled,
     lowlightOpacity: LineDefaults.lowlightOpacity,
     xAxisLabelsAtBottom,
-    onScrollEndDrag: props.onScrollEndDrag
+    onScrollEndDrag: props.onScrollEndDrag,
+    allowFontScaling
   }
   let pointerItemLocal: any[] = []
   if (pointerConfig) {
@@ -2647,7 +2656,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     renderTooltip4,
     renderTooltip5,
     renderTooltipSecondary,
-    pointerItemLocal
+    pointerItemLocal,
+    allowFontScaling
     // oldPoints
   }
 }

@@ -73,7 +73,9 @@ export const useBarAndLineChartsWrapper = (
     onlyPositive,
     highlightEnabled,
     lowlightOpacity,
-    xAxisLabelsAtBottom
+    xAxisLabelsAtBottom,
+    floatingYAxisLabels,
+    allowFontScaling
   } = props
 
   const {
@@ -304,7 +306,9 @@ export const useBarAndLineChartsWrapper = (
     secondaryStepHeight,
     secondaryNegativeStepHeight,
     customBackground: props.customBackground,
-    onlyPositive
+    onlyPositive,
+    floatingYAxisLabels,
+    allowFontScaling
   }
 
   const lineInBarChartProps: LineInBarChartPropsType = {
