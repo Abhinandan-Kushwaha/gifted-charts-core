@@ -318,7 +318,9 @@ export const useBarAndLineChartsWrapper = (
     containerHeight,
     containerHeightIncludingBelowXAxis,
     lineConfig,
-    maxValue: secondaryYAxis?.maxValue ?? maxValue,
+    maxValue: lineConfig?.isSecondary
+      ? secondaryYAxis?.maxValue ?? maxValue
+      : maxValue,
     animatedWidth,
     lineBehindBars,
     points,

@@ -21,7 +21,9 @@ export const useRadarChart = (props: RadarChartProps) => {
     dataLabelsPositionOffset = radarChartDefaults.dataLabelsPositionOffset,
     isAnimated = radarChartDefaults.isAnimated,
     animationDuration = radarChartDefaults.animationDuration,
-    animateTogether = radarChartDefaults.animateTogether
+    animateTogether = radarChartDefaults.animateTogether,
+    startAngle = radarChartDefaults.startAngle,
+    isClockWise = radarChartDefaults.isClockWise
   } = props
 
   const labels =
@@ -188,23 +190,23 @@ export const useRadarChart = (props: RadarChartProps) => {
   } = asterLinesConfig
 
   // Calculate angles for each category
-  const angleStep = 360 / labels.length
+  const angleStep = (360 / labels.length) * (isClockWise ? -1 : 1)
 
   // Generate coordinates for the data points
   const points = data.map((value, index) => {
-    const angle = index * angleStep
+    const angle = index * angleStep + startAngle
     return polarToCartesian(angle, value)
   })
 
   const initialPoints = data.map((value, index) => {
-    const angle = index * angleStep
+    const angle = index * angleStep + startAngle
     return polarToCartesian(angle, 0)
   })
 
   const pointsArray =
     dataSet?.map((set) => {
       return set.map((value, index) => {
-        const angle = index * angleStep
+        const angle = index * angleStep + startAngle
         return polarToCartesian(angle, value)
       })
     }) ?? []
@@ -212,7 +214,7 @@ export const useRadarChart = (props: RadarChartProps) => {
   const initialPointsArray =
     dataSet?.map((set) => {
       return set.map((value, index) => {
-        const angle = index * angleStep
+        const angle = index * angleStep + startAngle
         return polarToCartesian(angle, 0)
       })
     }) ?? []
@@ -244,7 +246,7 @@ export const useRadarChart = (props: RadarChartProps) => {
       gridItem.strokeDashArray || gridStrokeDashArray
 
     const levelPoints = labels.map((_, index) => {
-      const angle = index * angleStep
+      const angle = index * angleStep + startAngle
       return polarToCartesian(angle, (level / noOfSections) * maxValue)
     })
     const levelPolygonPoints = levelPoints
@@ -333,6 +335,7 @@ export const useRadarChart = (props: RadarChartProps) => {
     hideLabels,
     hideAsterLines,
     getGridLevelProps,
-    animateTogether
+    animateTogether,
+    startAngle
   }
 }
