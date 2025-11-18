@@ -413,5 +413,7 @@ export const radarChartDefaults = {
   asterLineStrokeDashArray: [4, 4],
   isAnimated: false,
   animationDuration: 800,
-  animateTogether: false
+  animateTogether: false,
+  startAngle: 0,
+  isClockWise: false
 }

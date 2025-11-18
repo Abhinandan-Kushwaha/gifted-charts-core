@@ -38,6 +38,8 @@ export interface RadarChartProps {
   isAnimated?: boolean
   animationDuration?: number
   animateTogether?: boolean
+  startAngle?: number // number in degrees
+  isClockWise?: boolean
 }
 
 export interface StrokeConfig {
