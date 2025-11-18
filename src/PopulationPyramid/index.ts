@@ -166,7 +166,8 @@ export const usePopulationPyramid = (
   const stepHeight = props.stepHeight ?? containerHeight / noOfSections
 
   const xAxisLabelsHeight = 30
-  const containerHeightWithXaxisLabels = containerHeight + xAxisLabelsHeight
+  const containerHeightWithXaxisLabels =
+    containerHeight + xAxisLabelsHeight + Math.max(0, xAxisLabelShiftY)
 
   const mid = (width + yAxisLabelWidth) / 2
 
