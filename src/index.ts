@@ -175,5 +175,6 @@ export {
   type IntersectionAreaConfig,
   type LabelLineConfig,
   type TooltipProps,
-  type SpreadData
+  type SpreadData,
+  type ColorFromToY
 } from './utils/types'

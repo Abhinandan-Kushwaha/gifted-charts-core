@@ -17,7 +17,8 @@ import {
   type Linecap,
   type IntersectionAreaConfig,
   CustomBackground,
-  SpreadData
+  SpreadData,
+  ColorFromToY
 } from '../utils/types'
 
 export interface LineChartPropsType {
@@ -182,6 +183,7 @@ export interface LineChartPropsType {
   color3?: string
   color4?: string
   color5?: string
+  colors?: ColorFromToY[]
   yAxisThickness?: number
   yAxisColor?: ColorValue
   yAxisExtraHeight?: number
