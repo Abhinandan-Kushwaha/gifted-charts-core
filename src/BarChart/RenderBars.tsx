@@ -15,7 +15,7 @@ export const useRenderBars = (props: RenderBarsPropsType) => {
     secondaryNegativeStepValue,
     secondaryStepValue,
     negativeStepHeight,
-    negativeStepValue,
+    negativeStepValue: nsv,
     stepHeight,
     stepValue,
     minHeight,
@@ -28,6 +28,8 @@ export const useRenderBars = (props: RenderBarsPropsType) => {
     containerHeight,
     containerHeightIncludingBelowXAxis
   } = props
+
+  const negativeStepValue = Math.abs(nsv)
 
   const heightFactor = item.isSecondary
     ? item.value < 0

@@ -53,10 +53,11 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     labelsDistanceFromXaxis,
     autoShiftLabelsForNegativeStacks,
     focusedBarIndex,
-    negativeStepValue,
+    negativeStepValue: nsv,
     autoCenterTooltip,
     floatingYAxisLabels
   } = props
+  const negativeStepValue = nsv ? Math.abs(nsv) : undefined
   const allowFontScaling =
     props.allowFontScaling ?? AxesAndRulesDefaults.allowFontScaling
   const [points, setPoints] = useState('')
