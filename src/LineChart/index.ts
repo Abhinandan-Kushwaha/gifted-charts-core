@@ -63,7 +63,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     renderTooltip3 = props.renderTooltip,
     renderTooltip4 = props.renderTooltip,
     renderTooltip5 = props.renderTooltip,
-    renderTooltipSecondary = props.renderTooltip
+    renderTooltipSecondary = props.renderTooltip,
+    colors
   } = props
 
   let lastLineNumber = 1
@@ -200,7 +201,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     ) ?? []
 
   const dataSet: DataSetNullSafe[] | undefined = useMemo(() => {
-    if(!props.dataSet?.length) return undefined
+    if (!props.dataSet?.length) return undefined
     return props.dataSet?.map((dataSetItem) => {
       const sanitisedData = getSanitisedData(
         dataSetItem.data,
@@ -226,7 +227,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.animationDuration ?? LineDefaults.animationDuration
   const onDataChangeAnimationDuration =
     props.onDataChangeAnimationDuration ?? 400
-  const animateTogether = props.animateTogether ?? LineDefaults.animateTogether
+  const animateTogether = colors
+    ? true
+    : props.animateTogether ?? LineDefaults.animateTogether
   const renderDataPointsAfterAnimationEnds =
     props.renderDataPointsAfterAnimationEnds ??
     LineDefaults.renderDataPointsAfterAnimationEnds
@@ -1811,7 +1814,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     if (containsNegativeValue && value < 0 && stepValue !== negativeStepValue) {
       return (
         extendedContainerHeight +
-        (value * fourthQuadrantHeight) / -mostNegativeValueOnYAxis
+        (value * fourthQuadrantHeight) / mostNegativeValueOnYAxis
       )
     }
     return extendedContainerHeight - (value * containerHeight) / maxValue
@@ -2492,6 +2495,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     color3,
     color4,
     color5,
+    colors,
     startFillColor1,
     endFillColor1,
     startOpacity,

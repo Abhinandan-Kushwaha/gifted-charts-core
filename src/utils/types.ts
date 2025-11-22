@@ -552,3 +552,9 @@ export interface LabelLineConfig {
   labelComponentMargin?: number
   avoidOverlappingOfLabels?: boolean
 }
+
+export interface ColorFromToY {
+  from: number
+  to: number
+  color: ColorValue
+}
