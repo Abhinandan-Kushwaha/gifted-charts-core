@@ -203,7 +203,30 @@ export const useBarAndLineChartsWrapper = (
 
   const verticalLinesAr = noOfVerticalLines
     ? [...Array(noOfVerticalLines).keys()]
-    : [...Array(stackData ? stackData.length : data.length).keys()]
+    : (stackData ?? data).map((item) => {
+        const {
+          showVerticalLine,
+          verticalLineThickness,
+          verticalLineHeight,
+          verticalLineColor,
+          verticalLineStrokeDashArray,
+          verticalLineShift,
+          verticalLineZIndex,
+          verticalLineSpacing,
+          verticalLineStrokeLinecap
+        } = item
+        return {
+          showVerticalLine,
+          verticalLineThickness,
+          verticalLineHeight,
+          verticalLineColor,
+          verticalLineStrokeDashArray,
+          verticalLineShift,
+          verticalLineZIndex,
+          verticalLineSpacing,
+          verticalLineStrokeLinecap
+        }
+      })
 
   const extendedContainerHeight = containerHeight + overflowTop + 10
 
@@ -350,6 +373,7 @@ export const useBarAndLineChartsWrapper = (
   }
 
   const verticalLinesProps = {
+    showVerticalLines: props.showVerticalLines,
     verticalLinesAr,
     verticalLinesSpacing,
     spacing: lineConfig?.spacing ?? spacing,

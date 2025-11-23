@@ -433,9 +433,13 @@ export interface lineDataItem {
   showVerticalLine?: boolean
   verticalLineHeight?: number
   verticalLineUptoDataPoint?: boolean
-  verticalLineColor?: string
+  verticalLineColor?: ColorValue
   verticalLineThickness?: number
   verticalLineStrokeDashArray?: number[]
+  verticalLineShift?: number
+  verticalLineZIndex?: number
+  verticalLineSpacing?: number
+  verticalLineStrokeLinecap?: Linecap
   pointerShiftX?: number
   pointerShiftY?: number
   onPress?: Function
@@ -494,7 +498,7 @@ export interface bicolorLineDataItem {
 
   showVerticalLine?: boolean
   verticalLineUptoDataPoint?: boolean
-  verticalLineColor?: string
+  verticalLineColor?: ColorValue
   verticalLineThickness?: number
   pointerShiftX?: number
   pointerShiftY?: number

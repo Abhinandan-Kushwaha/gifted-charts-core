@@ -74,6 +74,15 @@ export interface stackDataItem {
   onMouseEnter?: Function
   onMouseLeave?: Function
   isSecondary?: boolean
+  showVerticalLine?: boolean
+  verticalLineThickness?: number
+  verticalLineHeight?: number
+  verticalLineColor?: ColorValue
+  verticalLineStrokeDashArray?: number[]
+  verticalLineShift?: number
+  verticalLineZIndex?: number
+  verticalLineSpacing?: number
+  verticalLineStrokeLinecap?: Linecap
 }
 
 export interface StackedBarChartPropsType {
@@ -533,6 +542,15 @@ export interface barDataItem {
   onContextMenu?: Function
   onMouseEnter?: Function
   onMouseLeave?: Function
+  showVerticalLine?: boolean
+  verticalLineThickness?: number
+  verticalLineHeight?: number
+  verticalLineColor?: ColorValue
+  verticalLineStrokeDashArray?: number[]
+  verticalLineShift?: number
+  verticalLineZIndex?: number
+  verticalLineSpacing?: number
+  verticalLineStrokeLinecap?: Linecap
 }
 
 export interface barDataItemNullSafe extends barDataItem {

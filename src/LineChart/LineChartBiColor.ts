@@ -545,7 +545,8 @@ export const useLineChartBiColor = (
     xAxisLabelsAtBottom: false,
     onScrollEndDrag: props.onScrollEndDrag,
     floatingYAxisLabels: props.floatingYAxisLabels,
-    allowFontScaling
+    allowFontScaling,
+    showVerticalLines: props.showVerticalLines
   }
 
   return {

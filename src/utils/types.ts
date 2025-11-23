@@ -393,6 +393,7 @@ export interface BarAndLineChartsWrapperTypes {
   lowlightOpacity: number
   xAxisLabelsAtBottom: boolean
   onScrollEndDrag?: (event: any, direction: any) => void
+  showVerticalLines?: boolean
 }
 
 export interface HorizontalStripConfig {
