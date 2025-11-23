@@ -970,7 +970,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     xAxisLabelsAtBottom,
     onScrollEndDrag: props.onScrollEndDrag,
     floatingYAxisLabels,
-    allowFontScaling
+    allowFontScaling,
+    showVerticalLines: props.showVerticalLines
   }
 
   return {

@@ -761,7 +761,9 @@ export const getAxesAndRulesProps = (
       referenceLinesOverChartContent: props.referenceLinesOverChartContent
     },
 
-    showVerticalLines: props.showVerticalLines,
+    showVerticalLines:
+      props.showVerticalLines ??
+      (props.stackData ?? props.data)?.some((item) => item.showVerticalLine),
     verticalLinesThickness: props.verticalLinesThickness,
     verticalLinesHeight: props.verticalLinesHeight,
     verticalLinesColor: props.verticalLinesColor,

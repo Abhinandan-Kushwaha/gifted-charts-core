@@ -2239,7 +2239,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     lowlightOpacity: LineDefaults.lowlightOpacity,
     xAxisLabelsAtBottom,
     onScrollEndDrag: props.onScrollEndDrag,
-    allowFontScaling
+    allowFontScaling,
+    showVerticalLines: props.showVerticalLines
   }
   let pointerItemLocal: any[] = []
   if (pointerConfig) {
