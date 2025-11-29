@@ -102,7 +102,8 @@ export const AxesAndRulesDefaults = {
 
   showFractionalValues: false,
   roundToDigits: 1,
-  referenceLinesOverChartContent: true
+  referenceLinesOverChartContent: true,
+  allowFontScaling: true
 }
 
 export const defaultArrowConfig = {
@@ -247,7 +248,8 @@ export const defaultLineConfig: defaultLineConfigType = {
   isSecondary: false,
   focusEnabled: false,
   focusedDataPointColor: LineDefaults.focusedDataPointColor,
-  focusedDataPointRadius: LineDefaults.dataPointsRadius
+  focusedDataPointRadius: LineDefaults.dataPointsRadius,
+  showDataPointLabelOnFocus: LineDefaults.showDataPointLabelOnFocus
 }
 
 export const defaultPointerConfig = {
@@ -412,5 +414,7 @@ export const radarChartDefaults = {
   asterLineStrokeDashArray: [4, 4],
   isAnimated: false,
   animationDuration: 800,
-  animateTogether: false
+  animateTogether: false,
+  startAngle: 0,
+  isClockWise: false
 }

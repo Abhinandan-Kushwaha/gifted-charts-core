@@ -10,6 +10,7 @@ import {
 } from '../utils/constants'
 import {
   adjustToOffset,
+  colorsToLowerCase,
   computeMaxAndMinItems,
   getAllArrowProperties,
   getArrowPoints,
@@ -40,7 +41,6 @@ import {
   type LineSegment,
   DataSetNullSafe
 } from '../utils/types'
-import { type Animated } from 'react-native'
 
 export interface extendedLineChartPropsType extends LineChartPropsType {
   // heightValue: Animated.Value
@@ -56,14 +56,14 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     extrapolateMissingValues = true,
     yAxisOffset,
     parentWidth,
-    negativeStepValue,
     renderTooltip,
     renderTooltip1 = props.renderTooltip,
     renderTooltip2 = props.renderTooltip,
     renderTooltip3 = props.renderTooltip,
     renderTooltip4 = props.renderTooltip,
     renderTooltip5 = props.renderTooltip,
-    renderTooltipSecondary = props.renderTooltip
+    renderTooltipSecondary = props.renderTooltip,
+    colors
   } = props
 
   let lastLineNumber = 1
@@ -146,6 +146,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.focusedDataPointIndex ?? -1
   )
 
+  const allowFontScaling =
+    props.allowFontScaling ?? AxesAndRulesDefaults.allowFontScaling
+
   useEffect(() => {
     setSelectedIndex(props.focusedDataPointIndex ?? -1)
   }, [props.focusedDataPointIndex])
@@ -196,21 +199,19 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       onlyPositive
     ) ?? []
 
-  let dataSet: DataSetNullSafe[] | undefined = undefined
-  if (props.dataSet?.length) {
-    dataSet = useMemo(() => {
-      return props.dataSet?.map((dataSetItem) => {
-        const sanitisedData = getSanitisedData(
-          dataSetItem.data,
-          dataSanitisationProps
-        )
-        return {
-          ...dataSetItem,
-          data: sanitisedData
-        }
-      })
-    }, [yAxisOffset, props.dataSet])
-  }
+  const dataSet: DataSetNullSafe[] | undefined = useMemo(() => {
+    if (!props.dataSet?.length) return undefined
+    return props.dataSet?.map((dataSetItem) => {
+      const sanitisedData = getSanitisedData(
+        dataSetItem.data,
+        dataSanitisationProps
+      )
+      return {
+        ...dataSetItem,
+        data: sanitisedData
+      }
+    })
+  }, [yAxisOffset, props.dataSet])
 
   const data0 = dataSet?.[0]?.data
 
@@ -225,7 +226,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.animationDuration ?? LineDefaults.animationDuration
   const onDataChangeAnimationDuration =
     props.onDataChangeAnimationDuration ?? 400
-  const animateTogether = props.animateTogether ?? LineDefaults.animateTogether
+  const animateTogether = colors
+    ? true
+    : props.animateTogether ?? LineDefaults.animateTogether
   const renderDataPointsAfterAnimationEnds =
     props.renderDataPointsAfterAnimationEnds ??
     LineDefaults.renderDataPointsAfterAnimationEnds
@@ -266,27 +269,27 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     ? getLineSegmentsForMissingValues(props.data)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data)
-    : props.lineSegments
+    : colorsToLowerCase(props.lineSegments)
   const lineSegments2 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data2)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data2)
-    : props.lineSegments2
+    : colorsToLowerCase(props.lineSegments2)
   const lineSegments3 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data3)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data3)
-    : props.lineSegments3
+    : colorsToLowerCase(props.lineSegments3)
   const lineSegments4 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data4)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data4)
-    : props.lineSegments4
+    : colorsToLowerCase(props.lineSegments4)
   const lineSegments5 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data5)
     : !extrapolateMissingValues
     ? getLineSegmentsDueToNoExtrapolation(props.data5)
-    : props.lineSegments5
+    : colorsToLowerCase(props.lineSegments5)
 
   const highlightedRange = props.highlightedRange
 
@@ -656,11 +659,6 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     containerHeight,
     overflowTop
   )
-  const getX = (spacingArray: number[], index: number): number =>
-    initialSpacing + (index ? spacingArray[index - 1] : 0)
-
-  const getY = (value: number): number =>
-    extendedContainerHeight - (value * containerHeight) / maxValue
 
   const secondaryValuesRange =
     Math.max(...mergedSecondaryDataArrays.map((i) => Math.max(i.value, 0))) - // find the largest +ve number
@@ -897,7 +895,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     index: number,
     around: boolean,
     before: boolean,
-    spacingArray: number[]
+    spacingArray: number[],
+    isSecondary?: boolean
   ): string => {
     const isLast = index === data.length - 1
     return isLast && !(around || before)
@@ -906,14 +905,17 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           (getX(spacingArray, index) +
             (around ? (isLast ? 0 : spacing / 2) : before ? 0 : spacing)) +
           ' ' +
-          getY(data[index].value) +
+          (isSecondary
+            ? getSecondaryY(data[index].value)
+            : getY(data[index].value)) +
           ' '
   }
   const getStepPath = (
     data: lineDataItemNullSafe[],
     i: number,
     spacingArray: number[],
-    lineSegment: LineSegment[] | undefined
+    lineSegment: LineSegment[] | undefined,
+    isSecondary?: boolean
   ): string => {
     const around = edgePosition === EdgePosition.AROUND_DATA_POINT
     const before = edgePosition === EdgePosition.BEFORE_DATA_POINT
@@ -925,11 +927,11 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       (getX(spacingArray, i) -
         (around && i > 0 ? spacing / 2 : before && i > 0 ? spacing : 0)) +
       ' ' +
-      getY(data[i].value) +
+      (isSecondary ? getSecondaryY(data[i].value) : getY(data[i].value)) + // handle isSecondary for dataSet
       (isSegment
         ? getSegmentString(lineSegment, i, SEGMENT_START, SEGMENT_END, true)
         : '') +
-      getNextPoint(data, i, around, before, spacingArray)
+      getNextPoint(data, i, around, before, spacingArray, isSecondary)
     )
   }
 
@@ -1049,7 +1051,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
                   set.data,
                   i,
                   cumulativeSpacingForSet[index],
-                  setSegments
+                  setSegments,
+                  set.isSecondary
                 )
               } else {
                 pp += getSegmentPath(
@@ -1776,6 +1779,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.noOfSectionsBelowXAxis ??
     Math.round(Math.ceil(-mostNegativeValue / stepValue))
 
+  let negativeStepValue = props.negativeStepValue ?? stepValue
+
   const axesAndRulesProps = getAxesAndRulesProps(
     props,
     containerHeight,
@@ -1783,7 +1788,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     stepValue,
     noOfSections,
     roundToDigits,
-    negativeStepValue ?? stepValue,
+    negativeStepValue,
     secondaryMaxValue,
     secondaryMinItem,
     showSecondaryFractionalValues,
@@ -1798,6 +1803,21 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const containerHeightIncludingBelowXAxis =
     extendedContainerHeight + fourthQuadrantHeight
+
+  const mostNegativeValueOnYAxis = negativeStepValue * noOfSectionsBelowXAxis
+
+  const getX = (spacingArray: number[], index: number): number =>
+    initialSpacing + (index ? spacingArray[index - 1] : 0)
+
+  const getY = (value: number): number => {
+    if (containsNegativeValue && value < 0 && stepValue !== negativeStepValue) {
+      return (
+        extendedContainerHeight +
+        (value * fourthQuadrantHeight) / mostNegativeValueOnYAxis
+      )
+    }
+    return extendedContainerHeight - (value * containerHeight) / maxValue
+  }
 
   const showXAxisIndices =
     props.showXAxisIndices ?? AxesAndRulesDefaults.showXAxisIndices
@@ -2217,36 +2237,44 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     highlightEnabled: LineDefaults.highlightEnabled,
     lowlightOpacity: LineDefaults.lowlightOpacity,
     xAxisLabelsAtBottom,
-    onScrollEndDrag: props.onScrollEndDrag
+    onScrollEndDrag: props.onScrollEndDrag,
+    allowFontScaling,
+    showVerticalLines: props.showVerticalLines
   }
   let pointerItemLocal: any[] = []
   if (pointerConfig) {
-    pointerItemLocal = [
-      { ...pointerItem, value: props.data?.[pointerIndex]?.value }
-    ]
-    if (pointerY2 !== 0) {
-      pointerItemLocal.push({
-        ...pointerItem,
-        value: props.data2?.[pointerIndex]?.value
-      })
-    }
-    if (pointerY3 !== 0) {
-      pointerItemLocal.push({
-        ...pointerItem,
-        value: props.data3?.[pointerIndex]?.value
-      })
-    }
-    if (pointerY4 !== 0) {
-      pointerItemLocal.push({
-        ...pointerItem,
-        value: props.data4?.[pointerIndex]?.value
-      })
-    }
-    if (pointerY5 !== 0) {
-      pointerItemLocal.push({
-        ...pointerItem,
-        value: props.data5?.[pointerIndex]?.value
-      })
+    if (dataSet) {
+      pointerItemLocal = dataSet.map((dataItem) => ({
+        value: dataItem?.data?.[pointerIndex]?.value ?? 0
+      }))
+    } else {
+      pointerItemLocal = [
+        { ...pointerItem, value: props.data?.[pointerIndex]?.value }
+      ]
+      if (pointerY2 !== 0) {
+        pointerItemLocal.push({
+          ...pointerItem,
+          value: props.data2?.[pointerIndex]?.value
+        })
+      }
+      if (pointerY3 !== 0) {
+        pointerItemLocal.push({
+          ...pointerItem,
+          value: props.data3?.[pointerIndex]?.value
+        })
+      }
+      if (pointerY4 !== 0) {
+        pointerItemLocal.push({
+          ...pointerItem,
+          value: props.data4?.[pointerIndex]?.value
+        })
+      }
+      if (pointerY5 !== 0) {
+        pointerItemLocal.push({
+          ...pointerItem,
+          value: props.data5?.[pointerIndex]?.value
+        })
+      }
     }
   }
 
@@ -2473,6 +2501,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     color3,
     color4,
     color5,
+    colors,
     startFillColor1,
     endFillColor1,
     startOpacity,
@@ -2635,7 +2664,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     renderTooltip4,
     renderTooltip5,
     renderTooltipSecondary,
-    pointerItemLocal
+    pointerItemLocal,
+    allowFontScaling
     // oldPoints
   }
 }

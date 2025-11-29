@@ -17,7 +17,8 @@ import {
   type Linecap,
   type IntersectionAreaConfig,
   CustomBackground,
-  SpreadData
+  SpreadData,
+  ColorFromToY
 } from '../utils/types'
 
 export interface LineChartPropsType {
@@ -182,6 +183,7 @@ export interface LineChartPropsType {
   color3?: string
   color4?: string
   color5?: string
+  colors?: ColorFromToY[]
   yAxisThickness?: number
   yAxisColor?: ColorValue
   yAxisExtraHeight?: number
@@ -195,7 +197,8 @@ export interface LineChartPropsType {
   roundToDigits?: number
   yAxisLabelWidth?: number
   hideYAxisText?: boolean
-
+  floatingYAxisLabels?: boolean
+  allowFontScaling?: boolean
   backgroundColor?: ColorValue
   customBackground?: CustomBackground
   curved?: boolean
@@ -430,9 +433,13 @@ export interface lineDataItem {
   showVerticalLine?: boolean
   verticalLineHeight?: number
   verticalLineUptoDataPoint?: boolean
-  verticalLineColor?: string
+  verticalLineColor?: ColorValue
   verticalLineThickness?: number
   verticalLineStrokeDashArray?: number[]
+  verticalLineShift?: number
+  verticalLineZIndex?: number
+  verticalLineSpacing?: number
+  verticalLineStrokeLinecap?: Linecap
   pointerShiftX?: number
   pointerShiftY?: number
   onPress?: Function
@@ -491,7 +498,7 @@ export interface bicolorLineDataItem {
 
   showVerticalLine?: boolean
   verticalLineUptoDataPoint?: boolean
-  verticalLineColor?: string
+  verticalLineColor?: ColorValue
   verticalLineThickness?: number
   pointerShiftX?: number
   pointerShiftY?: number
@@ -569,8 +576,8 @@ export interface LineChartBicolorPropsType {
   hideAxesAndRules?: boolean
   areaChart?: boolean
   
-  spreadAreaData?: { lower: number; upper: number }[];
-  spreadAreaColor?: string;
+  spreadAreaData?: SpreadData[];
+  spreadAreaColor?: ColorValue;
   spreadAreaOpacity?: number;
 
   disableScroll?: boolean
@@ -670,6 +677,8 @@ export interface LineChartBicolorPropsType {
   parentWidth?: number
   yAxisExtraHeight?: number
   trimYAxisAtTop?: boolean
+  floatingYAxisLabels?: boolean
+  allowFontScaling?: boolean
 }
 
 export interface LineChartPropsTypeForWeb extends LineChartPropsType {

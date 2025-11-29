@@ -26,12 +26,13 @@ export const useRenderStackBars = (props: IStackedBarChartPropsType) => {
     stepHeight,
     stepValue,
     negativeStepHeight,
-    negativeStepValue,
+    negativeStepValue: nsv,
     secondaryStepHeight,
     secondaryStepValue,
     secondaryNegativeStepHeight,
     secondaryNegativeStepValue
   } = props
+  const negativeStepValue = Math.abs(nsv)
   const containsNegativeValue = item.stacks.some((item) => item.value < 0)
   const anyStackContainsNegativeValue = stackData.some((item) =>
     item.stacks.some((stack) => stack.value < 0)

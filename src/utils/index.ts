@@ -761,7 +761,9 @@ export const getAxesAndRulesProps = (
       referenceLinesOverChartContent: props.referenceLinesOverChartContent
     },
 
-    showVerticalLines: props.showVerticalLines,
+    showVerticalLines:
+      props.showVerticalLines ??
+      (props.stackData ?? props.data)?.some((item) => item.showVerticalLine),
     verticalLinesThickness: props.verticalLinesThickness,
     verticalLinesHeight: props.verticalLinesHeight,
     verticalLinesColor: props.verticalLinesColor,
@@ -1306,6 +1308,7 @@ export const getLineConfigForBarChart = (
       lineConfig.dataPointsColor ?? defaultLineConfig.dataPointsColor,
     dataPointsRadius:
       lineConfig.dataPointsRadius ?? defaultLineConfig.dataPointsRadius,
+    dataPointLabelComponent: lineConfig.dataPointLabelComponent,
     textColor: lineConfig.textColor ?? defaultLineConfig.textColor,
     textFontSize: lineConfig.textFontSize ?? defaultLineConfig.textFontSize,
     textShiftX: lineConfig.textShiftX ?? defaultLineConfig.textShiftX,
@@ -1351,7 +1354,10 @@ export const getLineConfigForBarChart = (
     focusedDataPointRadius:
       lineConfig.focusedDataPointRadius ??
       defaultLineConfig.focusedDataPointRadius,
-    focusedDataPointIndex: lineConfig.focusedDataPointIndex
+    focusedDataPointIndex: lineConfig.focusedDataPointIndex,
+    showDataPointLabelOnFocus:
+      lineConfig.showDataPointLabelOnFocus ??
+      defaultLineConfig.showDataPointLabelOnFocus
   }
 }
 
@@ -1629,6 +1635,15 @@ export const getLineSegmentsForMissingValues = (
     }
   }
   return segments
+}
+
+export const colorsToLowerCase = (lineSegments?: LineSegment[]) => {
+  return lineSegments?.map((segment) => {
+    if (segment.color && segment.color.toString().startsWith('#')) {
+      segment.color = segment.color.toString().toLowerCase()
+    }
+    return segment
+  })
 }
 
 export const getTextSizeForPieLabels = (

@@ -37,7 +37,7 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
   const propData = props.data
   const data: pieDataItem[] = []
   const minisculeDataItem =
-    props.data.map((item) => item.value).reduce((v, a) => v + a) / 160000
+    props.data.map((item) => item.value).reduce((v, a) => v + a, 0) / 160000
   let itemHasInnerComponent = false
   if (propData) {
     for (let i = 0; i < propData.length; i++) {
@@ -153,7 +153,7 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
 
   total =
     data && data.length > 0
-      ? data.map((item) => item.value).reduce((v, a) => v + a)
+      ? data.map((item) => item.value).reduce((v, a) => v + a, 0)
       : 0
   let acc = 0
   let pData = data.map((item) => {
@@ -313,7 +313,6 @@ export const getPieChartMainProps = (props: PieChartMainProps) => {
       }
     }
   }
-
 
   return {
     isThreeD,

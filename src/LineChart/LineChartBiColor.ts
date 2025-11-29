@@ -48,6 +48,9 @@ export const useLineChartBiColor = (
     return props.data
   }, [props.yAxisOffset, props.data])
 
+  const allowFontScaling =
+    props.allowFontScaling ?? AxesAndRulesDefaults.allowFontScaling
+
   const scrollToEnd = props.scrollToEnd ?? LineDefaults.scrollToEnd
   const scrollAnimation = props.scrollAnimation ?? LineDefaults.scrollAnimation
   const scrollEventThrottle =
@@ -540,7 +543,10 @@ export const useLineChartBiColor = (
     highlightEnabled: LineDefaults.highlightEnabled,
     lowlightOpacity: LineDefaults.lowlightOpacity,
     xAxisLabelsAtBottom: false,
-    onScrollEndDrag: props.onScrollEndDrag
+    onScrollEndDrag: props.onScrollEndDrag,
+    floatingYAxisLabels: props.floatingYAxisLabels,
+    allowFontScaling,
+    showVerticalLines: props.showVerticalLines
   }
 
   return {
@@ -630,6 +636,7 @@ export const useLineChartBiColor = (
     delayBeforeUnFocus,
     horizSections,
     barAndLineChartsWrapperProps,
-    yAxisExtraHeightAtTop
+    yAxisExtraHeightAtTop,
+    allowFontScaling
   }
 }

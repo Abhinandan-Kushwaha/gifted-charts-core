@@ -73,7 +73,9 @@ export const useBarAndLineChartsWrapper = (
     onlyPositive,
     highlightEnabled,
     lowlightOpacity,
-    xAxisLabelsAtBottom
+    xAxisLabelsAtBottom,
+    floatingYAxisLabels,
+    allowFontScaling
   } = props
 
   const {
@@ -201,7 +203,30 @@ export const useBarAndLineChartsWrapper = (
 
   const verticalLinesAr = noOfVerticalLines
     ? [...Array(noOfVerticalLines).keys()]
-    : [...Array(stackData ? stackData.length : data.length).keys()]
+    : (stackData ?? data).map((item) => {
+        const {
+          showVerticalLine,
+          verticalLineThickness,
+          verticalLineHeight,
+          verticalLineColor,
+          verticalLineStrokeDashArray,
+          verticalLineShift,
+          verticalLineZIndex,
+          verticalLineSpacing,
+          verticalLineStrokeLinecap
+        } = item
+        return {
+          showVerticalLine,
+          verticalLineThickness,
+          verticalLineHeight,
+          verticalLineColor,
+          verticalLineStrokeDashArray,
+          verticalLineShift,
+          verticalLineZIndex,
+          verticalLineSpacing,
+          verticalLineStrokeLinecap
+        }
+      })
 
   const extendedContainerHeight = containerHeight + overflowTop + 10
 
@@ -304,7 +329,9 @@ export const useBarAndLineChartsWrapper = (
     secondaryStepHeight,
     secondaryNegativeStepHeight,
     customBackground: props.customBackground,
-    onlyPositive
+    onlyPositive,
+    floatingYAxisLabels,
+    allowFontScaling
   }
 
   const lineInBarChartProps: LineInBarChartPropsType = {
@@ -314,7 +341,9 @@ export const useBarAndLineChartsWrapper = (
     containerHeight,
     containerHeightIncludingBelowXAxis,
     lineConfig,
-    maxValue: secondaryYAxis?.maxValue ?? maxValue,
+    maxValue: lineConfig?.isSecondary
+      ? secondaryYAxis?.maxValue ?? maxValue
+      : maxValue,
     animatedWidth,
     lineBehindBars,
     points,
@@ -344,6 +373,7 @@ export const useBarAndLineChartsWrapper = (
   }
 
   const verticalLinesProps = {
+    showVerticalLines: props.showVerticalLines,
     verticalLinesAr,
     verticalLinesSpacing,
     spacing: lineConfig?.spacing ?? spacing,
