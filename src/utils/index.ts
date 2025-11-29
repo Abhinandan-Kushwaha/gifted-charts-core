@@ -1308,6 +1308,7 @@ export const getLineConfigForBarChart = (
       lineConfig.dataPointsColor ?? defaultLineConfig.dataPointsColor,
     dataPointsRadius:
       lineConfig.dataPointsRadius ?? defaultLineConfig.dataPointsRadius,
+    dataPointLabelComponent: lineConfig.dataPointLabelComponent,
     textColor: lineConfig.textColor ?? defaultLineConfig.textColor,
     textFontSize: lineConfig.textFontSize ?? defaultLineConfig.textFontSize,
     textShiftX: lineConfig.textShiftX ?? defaultLineConfig.textShiftX,
@@ -1353,7 +1354,10 @@ export const getLineConfigForBarChart = (
     focusedDataPointRadius:
       lineConfig.focusedDataPointRadius ??
       defaultLineConfig.focusedDataPointRadius,
-    focusedDataPointIndex: lineConfig.focusedDataPointIndex
+    focusedDataPointIndex: lineConfig.focusedDataPointIndex,
+    showDataPointLabelOnFocus:
+      lineConfig.showDataPointLabelOnFocus ??
+      defaultLineConfig.showDataPointLabelOnFocus
   }
 }
 

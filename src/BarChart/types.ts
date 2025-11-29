@@ -3,7 +3,7 @@ import {
   TextStyle,
   type ColorValue,
   type GestureResponderEvent,
-  type ViewStyle,
+  type ViewStyle
 } from 'react-native'
 import { type yAxisSides } from '../utils/constants'
 import {
@@ -15,7 +15,7 @@ import {
   type referenceConfigType,
   type secondaryYAxisType,
   type Linecap,
-  CustomBackground,
+  CustomBackground
 } from '../utils/types'
 import { type Component, type ReactNode } from 'react'
 import { type lineDataItem } from '../LineChart/types'
@@ -171,7 +171,7 @@ export interface StackedBarChartPropsType {
   secondaryNoOfSectionsBelowXAxis: number
   containerHeightIncludingBelowXAxis: number
   highlightEnabled: boolean
-  highlightedBarIndex: number|number[]
+  highlightedBarIndex: number | number[]
   lowlightOpacity: number
   stackHighlightEnabled?: boolean
   selectedStackIndex: number
@@ -386,10 +386,10 @@ export interface BarChartPropsType {
 
   focusBarOnPress?: boolean
   focusedBarConfig?: FocusedBarConfig
-  focusedBarIndex?: number|number[]
+  focusedBarIndex?: number | number[]
 
   highlightEnabled?: boolean // highlights Bar on press in react-native and on on hover in react-js
-  highlightedBarIndex?: number|number[]
+  highlightedBarIndex?: number | number[]
   lowlightOpacity?: number
 
   stackHighlightEnabled?: boolean
@@ -433,6 +433,7 @@ export interface lineConfigType {
   dataPointsHeight?: number
   dataPointsColor?: ColorValue | string | any
   dataPointsRadius?: number
+  dataPointLabelComponent?: (item: lineDataItem, index: number) => ReactNode
   textColor?: ColorValue | string | any
   textFontSize?: number
   textShiftX?: number
@@ -449,6 +450,7 @@ export interface lineConfigType {
   focusedDataPointColor?: ColorValue
   focusedDataPointRadius?: number
   focusedDataPointIndex?: number
+  showDataPointLabelOnFocus?: boolean
 }
 export interface defaultLineConfigType {
   initialSpacing: number
@@ -466,6 +468,7 @@ export interface defaultLineConfigType {
   dataPointsHeight: number
   dataPointsColor: ColorValue | string | any
   dataPointsRadius: number
+  dataPointLabelComponent?: (item: lineDataItem, index: number) => ReactNode
   textColor: ColorValue | string | any
   textFontSize: number
   textShiftX: number
@@ -481,6 +484,7 @@ export interface defaultLineConfigType {
   focusEnabled: boolean
   focusedDataPointColor: ColorValue
   focusedDataPointRadius: number
+  showDataPointLabelOnFocus: boolean
 }
 interface arrowType {
   length?: number
@@ -691,7 +695,7 @@ export interface RenderBarsPropsType {
   secondaryXAxis?: XAxisConfig
   pointerConfig?: Pointer
   focusBarOnPress?: boolean
-  focusedBarIndex?: number|number[]
+  focusedBarIndex?: number | number[]
   noOfSectionsBelowXAxis?: number
   yAxisOffset: number
   stepHeight: number
@@ -704,7 +708,7 @@ export interface RenderBarsPropsType {
   secondaryNegativeStepValue: number
   secondaryNoOfSectionsBelowXAxis: number
   highlightEnabled: boolean
-  highlightedBarIndex: number|number[]
+  highlightedBarIndex: number | number[]
   lowlightOpacity: number
 }
 
