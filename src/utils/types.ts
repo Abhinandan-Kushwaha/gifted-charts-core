@@ -193,6 +193,8 @@ export interface DataPointProps {
   selectedIndex: number
   yAxisOffset: number
   opacity: number
+  svgHeight: number
+  totalWidth: number
 }
 
 export interface referenceConfigType {

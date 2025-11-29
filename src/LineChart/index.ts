@@ -41,7 +41,6 @@ import {
   type LineSegment,
   DataSetNullSafe
 } from '../utils/types'
-import { type Animated } from 'react-native'
 
 export interface extendedLineChartPropsType extends LineChartPropsType {
   // heightValue: Animated.Value
@@ -2244,32 +2243,38 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   }
   let pointerItemLocal: any[] = []
   if (pointerConfig) {
-    pointerItemLocal = [
-      { ...pointerItem, value: props.data?.[pointerIndex]?.value }
-    ]
-    if (pointerY2 !== 0) {
-      pointerItemLocal.push({
-        ...pointerItem,
-        value: props.data2?.[pointerIndex]?.value
-      })
-    }
-    if (pointerY3 !== 0) {
-      pointerItemLocal.push({
-        ...pointerItem,
-        value: props.data3?.[pointerIndex]?.value
-      })
-    }
-    if (pointerY4 !== 0) {
-      pointerItemLocal.push({
-        ...pointerItem,
-        value: props.data4?.[pointerIndex]?.value
-      })
-    }
-    if (pointerY5 !== 0) {
-      pointerItemLocal.push({
-        ...pointerItem,
-        value: props.data5?.[pointerIndex]?.value
-      })
+    if (dataSet) {
+      pointerItemLocal = dataSet.map((dataItem) => ({
+        value: dataItem?.data?.[pointerIndex]?.value ?? 0
+      }))
+    } else {
+      pointerItemLocal = [
+        { ...pointerItem, value: props.data?.[pointerIndex]?.value }
+      ]
+      if (pointerY2 !== 0) {
+        pointerItemLocal.push({
+          ...pointerItem,
+          value: props.data2?.[pointerIndex]?.value
+        })
+      }
+      if (pointerY3 !== 0) {
+        pointerItemLocal.push({
+          ...pointerItem,
+          value: props.data3?.[pointerIndex]?.value
+        })
+      }
+      if (pointerY4 !== 0) {
+        pointerItemLocal.push({
+          ...pointerItem,
+          value: props.data4?.[pointerIndex]?.value
+        })
+      }
+      if (pointerY5 !== 0) {
+        pointerItemLocal.push({
+          ...pointerItem,
+          value: props.data5?.[pointerIndex]?.value
+        })
+      }
     }
   }
 

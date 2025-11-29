@@ -248,7 +248,8 @@ export const defaultLineConfig: defaultLineConfigType = {
   isSecondary: false,
   focusEnabled: false,
   focusedDataPointColor: LineDefaults.focusedDataPointColor,
-  focusedDataPointRadius: LineDefaults.dataPointsRadius
+  focusedDataPointRadius: LineDefaults.dataPointsRadius,
+  showDataPointLabelOnFocus: LineDefaults.showDataPointLabelOnFocus
 }
 
 export const defaultPointerConfig = {
