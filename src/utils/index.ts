@@ -29,7 +29,8 @@ import {
   type BarChartPropsType,
   type FocusedBarConfig,
   type barDataItem,
-  barDataItemNullSafe
+  barDataItemNullSafe,
+  lineConfigWithSetFocusedDataPointIndexType
 } from '../BarChart/types'
 import { type extendedLineChartPropsType } from '../LineChart'
 import { type extendedBarChartPropsType } from '../BarChart'
@@ -1279,8 +1280,10 @@ export const clone = (obj: any): any => {
 
 export const getLineConfigForBarChart = (
   lineConfig: lineConfigType,
-  barInitialSpacing: number
-): lineConfigType => {
+  barInitialSpacing: number,
+  focusedDataPointIndex: number,
+  setFocusedDataPointIndex: (i: number) => void
+): lineConfigWithSetFocusedDataPointIndexType => {
   return {
     initialSpacing:
       lineConfig.initialSpacing ??
@@ -1354,7 +1357,8 @@ export const getLineConfigForBarChart = (
     focusedDataPointRadius:
       lineConfig.focusedDataPointRadius ??
       defaultLineConfig.focusedDataPointRadius,
-    focusedDataPointIndex: lineConfig.focusedDataPointIndex,
+    focusedDataPointIndex,
+    setFocusedDataPointIndex,
     showDataPointLabelOnFocus:
       lineConfig.showDataPointLabelOnFocus ??
       defaultLineConfig.showDataPointLabelOnFocus

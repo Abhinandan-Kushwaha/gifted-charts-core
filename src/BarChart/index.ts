@@ -4,7 +4,8 @@ import {
   type barDataItem,
   type stackDataItem,
   BarChartPropsTypeForWeb,
-  barDataItemNullSafe
+  barDataItemNullSafe,
+  lineConfigWithSetFocusedDataPointIndexType
 } from './types'
 import {
   getArrowPoints,
@@ -203,16 +204,40 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   defaultLineConfig.endIndex = lineData.length - 1
   defaultLineConfig.animationDuration = animationDuration
 
-  const lineConfig: lineConfigType = props.lineConfig
-    ? getLineConfigForBarChart(props.lineConfig, initialSpacing)
-    : defaultLineConfig
-  const lineConfig2: lineConfigType = props.lineConfig2
-    ? getLineConfigForBarChart(props.lineConfig2, initialSpacing)
-    : defaultLineConfig
+  const [focusedDataPointIndex, setFocusedDataPointIndex] = useState(
+    props.lineConfig?.focusedDataPointIndex ?? -1
+  )
+  const [focusedDataPointIndex2, setFocusedDataPointIndex2] = useState(
+    props.lineConfig2?.focusedDataPointIndex ?? -1
+  )
+
+  const lineConfig: lineConfigWithSetFocusedDataPointIndexType =
+    props.lineConfig
+      ? getLineConfigForBarChart(
+          props.lineConfig,
+          initialSpacing,
+          focusedDataPointIndex,
+          setFocusedDataPointIndex
+        )
+      : defaultLineConfig
+  const lineConfig2: lineConfigWithSetFocusedDataPointIndexType =
+    props.lineConfig2
+      ? getLineConfigForBarChart(
+          props.lineConfig2,
+          initialSpacing,
+          focusedDataPointIndex2,
+          setFocusedDataPointIndex2
+        )
+      : defaultLineConfig
   const noOfSections = getNoOfSections(
     props.noOfSections,
     props.maxValue,
     props.stepValue
+  )
+  const secondaryNoOfSections = getNoOfSections(
+    (props.secondaryYAxis as secondaryYAxisType)?.noOfSections ?? noOfSections,
+    (props.secondaryYAxis as secondaryYAxisType)?.maxValue,
+    (props.secondaryYAxis as secondaryYAxisType)?.stepValue
   )
   const containerHeight =
     heightFromProps ??
@@ -354,9 +379,12 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   //     : secondaryMaxAndMin.maxItem
   //   : maxValue
 
-  const secondaryMaxValue =
-    (props.secondaryYAxis as secondaryYAxisType)?.maxValue ??
+  const secondaryMaxValue = getMaxValue(
+    (props.secondaryYAxis as secondaryYAxisType)?.maxValue,
+    (props.secondaryYAxis as secondaryYAxisType)?.stepValue,
+    secondaryNoOfSections,
     secondaryMaxAndMin.maxItem
+  )
 
   const mostNegativeValue = getMostNegativeValue(
     props.mostNegativeValue,

@@ -41,10 +41,10 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
     innerRadius = donut ? radius / 2.5 : 0,
     strokeWidth = props.ring ? 10 : 0,
     edgesRadius = 0,
-    startAngle = 0,
+    initialAngle = 0,
     ring
   } = props
-  let endAngle = props.endAngle ?? startAngle + Math.PI * (semiCircle ? 1 : 2)
+  let endAngle = props.endAngle ?? initialAngle + Math.PI * (semiCircle ? 1 : 2)
   const total = data.reduce((acc, item) => acc + item?.value, 0)
   const animationDuration = props.animationDuration ?? defaultAnimationDuration
 
@@ -87,7 +87,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
   ) => {
     const addedValue =
       addValues(index - 1) + (addInOnlyEnd ? 0 : additionalValue ?? 0)
-    let angle = (addedValue / (totalParam ?? total)) * endAngle + startAngle
+    let angle = (addedValue / (totalParam ?? total)) * endAngle + initialAngle
     const startInnerX = radius + Math.cos(angle) * innerRadius
     const startInnerY = radius - Math.sin(angle) * innerRadius
     const startOuterX = radius + Math.cos(angle) * radius
@@ -97,7 +97,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
       addValues(index - 1) +
       data[index]?.value +
       (addInOnlyStart ? 0 : additionalValue ?? 0)
-    angle = (value / (totalParam ?? total)) * endAngle + startAngle
+    angle = (value / (totalParam ?? total)) * endAngle + initialAngle
 
     const endOuterX = radius + Math.cos(angle) * radius
     const endOuterY = radius - Math.sin(angle) * radius
@@ -119,7 +119,7 @@ export const usePiePro = (props: PieChartPropsType): IusePiePro => {
 
   const getTextCoordinates = (index: number, labelPos?: LabelsPosition) => {
     const value = addValues(index - 1) + data[index]?.value / 2
-    const angle = (value / total) * endAngle + startAngle
+    const angle = (value / total) * endAngle + initialAngle
 
     const labelPosition: LabelsPosition = labelPos || labelsPosition
 

@@ -66,7 +66,6 @@ export interface PieChartPropsType {
   pieInnerComponentWidth?: number
   paddingHorizontal?: number
   paddingVertical?: number
-  startAngle?: number
   endAngle?: number
   curvedStartEdges?: boolean
   curvedEndEdges?: boolean
@@ -81,6 +80,7 @@ export interface PieChartPropsType {
    * @description If true, the edges of the pie will be pressable, but you may need to press twice for focus- once for unfocusing the already focused pie and then for focusing the new pie
    */
   edgesPressable?: boolean
+  rotatable?: boolean
 }
 export interface pieDataItem {
   value: number
@@ -124,9 +124,9 @@ export interface PieChartMainProps extends PieChartPropsType {
   isBiggerPie?: boolean
   paddingHorizontal: number
   paddingVertical: number
-  extraRadius: number,
-  setTouchX: Function,
-  setTouchY: Function,
+  extraRadius: number
+  setTouchX: Function
+  setTouchY: Function
 
   tooltipSelectedIndex: number
   setTooltipSelectedIndex: any
