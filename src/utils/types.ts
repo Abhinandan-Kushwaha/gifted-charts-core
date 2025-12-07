@@ -154,6 +154,7 @@ export interface ExtendedLineConfigType extends lineConfigType {
   startIndex: number
   endIndex: number
   dataPointsHeight: number
+  setFocusedDataPointIndex: (i: number) => void
 }
 
 export interface LineInBarChartPropsType {

@@ -50,6 +50,7 @@ interface IusePieChart {
 
   tooltipSelectedIndex: number
   setTooltipSelectedIndex: any
+  rotatable: boolean
 }
 
 interface IPieChartPropsType extends PieChartPropsType {
@@ -73,7 +74,9 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     // textSize,
     font,
     fontWeight,
-    fontStyle
+    fontStyle,
+    initialAngle,
+    rotatable = false
   } = props
 
   const [tooltipSelectedIndex, setTooltipSelectedIndex] = useState(-1)
@@ -92,7 +95,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
   ) // at the start, nothing is selected
   // because we're going to use a useEffect, we need startAngle and total to be state variables
   const [startAngle, setStartAngle] = useState(
-    props.initialAngle ?? (props.semiCircle ? -pi : 0)
+    initialAngle ?? (props.semiCircle ? -pi : 0)
   )
   const [total, setTotal] = useState(0)
 
@@ -103,8 +106,9 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
   useEffect(() => {
     // Update the total, this could be use to replace the forEach : const newTotal = props.data.reduce((acc, item) => acc + item.value, 0);
     let newTotal = 0
-    props.data.forEach((item) => {
+    props.data.forEach((item, index) => {
       newTotal += item.value
+      if (index === props.focusedPieIndex) item.focused = true
     })
     setTotal(newTotal)
 
@@ -115,7 +119,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     setSelectedIndex(newSelectedIndex)
 
     // Calculate the new start angle
-    const newStartAngle = props.initialAngle ?? (props.semiCircle ? -pi : 0)
+    const newStartAngle = initialAngle ?? (props.semiCircle ? -pi : 0)
     if (newSelectedIndex !== -1) {
       // it was !== 0 here before, which would not work, it's either !==-1 or >=0
       // This could be used to replace the for loop that was used before
@@ -128,11 +132,11 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     } else {
       setStartAngle(newStartAngle)
     }
-  }, [props.data, props.initialAngle, props.semiCircle])
+  }, [props.data, initialAngle, props.semiCircle])
 
   useEffect(() => {
     if (selectedIndex !== -1) {
-      const newStartAngle = props.initialAngle ?? (props.semiCircle ? -pi : 0)
+      const newStartAngle = initialAngle ?? (props.semiCircle ? -pi : 0)
       let start = 0
       for (let i = 0; i < selectedIndex; i++) {
         start += props.data[i].value
@@ -243,6 +247,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
     fontWeight,
     fontStyle,
     tooltipSelectedIndex,
-    setTooltipSelectedIndex
+    setTooltipSelectedIndex,
+    rotatable
   }
 }

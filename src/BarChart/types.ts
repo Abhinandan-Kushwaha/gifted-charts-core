@@ -452,6 +452,10 @@ export interface lineConfigType {
   focusedDataPointIndex?: number
   showDataPointLabelOnFocus?: boolean
 }
+
+export type lineConfigWithSetFocusedDataPointIndexType = lineConfigType & {
+  setFocusedDataPointIndex: (i: number) => void
+}
 export interface defaultLineConfigType {
   initialSpacing: number
   curved: boolean
@@ -485,6 +489,7 @@ export interface defaultLineConfigType {
   focusedDataPointColor: ColorValue
   focusedDataPointRadius: number
   showDataPointLabelOnFocus: boolean
+  setFocusedDataPointIndex: (i: number) => void
 }
 interface arrowType {
   length?: number

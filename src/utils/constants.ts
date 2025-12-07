@@ -249,7 +249,8 @@ export const defaultLineConfig: defaultLineConfigType = {
   focusEnabled: false,
   focusedDataPointColor: LineDefaults.focusedDataPointColor,
   focusedDataPointRadius: LineDefaults.dataPointsRadius,
-  showDataPointLabelOnFocus: LineDefaults.showDataPointLabelOnFocus
+  showDataPointLabelOnFocus: LineDefaults.showDataPointLabelOnFocus,
+  setFocusedDataPointIndex: () => {}
 }
 
 export const defaultPointerConfig = {
@@ -294,14 +295,14 @@ export const defaultPointerConfig = {
 // Pie chart specific
 
 export const pieColors = [
-  'cyan',
-  'green',
-  'orange',
-  'purple',
-  '#bbff00',
-  'red',
-  'blue',
-  'pink'
+  '#ccc',
+  '#888',
+  '#bbb',
+  '#777',
+  '#aaa',
+  '#666',
+  '#999',
+  '#555'
 ]
 
 export const populationDefaults = {
