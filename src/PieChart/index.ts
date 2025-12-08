@@ -139,7 +139,7 @@ export const usePieChart = (props: IPieChartPropsType): IusePieChart => {
       const newStartAngle = initialAngle ?? (props.semiCircle ? -pi : 0)
       let start = 0
       for (let i = 0; i < selectedIndex; i++) {
-        start += props.data[i].value
+        start += props.data[i]?.value ?? 0
       }
       if (total) {
         setStartAngle(newStartAngle + (2 * pi * start) / (total || 1))
