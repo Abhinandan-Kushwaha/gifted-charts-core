@@ -26,6 +26,20 @@ export const useRadarChart = (props: RadarChartProps) => {
     isClockWise = radarChartDefaults.isClockWise
   } = props
 
+  const chartContainerProps = {
+    height: props.chartContainerProps?.height ?? chartSize,
+    width: props.chartContainerProps?.width ?? chartSize,
+    shiftX:
+      props.chartContainerProps?.shiftX ??
+      radarChartDefaults.chartContainerProps.shiftX,
+    shiftY:
+      props.chartContainerProps?.shiftY ??
+      radarChartDefaults.chartContainerProps.shiftY,
+    backgroundColor:
+      props.chartContainerProps?.backgroundColor ??
+      radarChartDefaults.chartContainerProps.backgroundColor
+  }
+
   const labels =
     props.labels ??
     (dataSet?.[0] ?? data)?.map((_, index) => `Label${index + 1}`) ??
@@ -277,6 +291,7 @@ export const useRadarChart = (props: RadarChartProps) => {
     center,
     radius,
     chartSize,
+    chartContainerProps,
     noOfSections,
     polarToCartesian,
     labels,

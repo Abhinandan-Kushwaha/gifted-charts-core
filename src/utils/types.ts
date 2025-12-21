@@ -562,3 +562,11 @@ export interface ColorFromToY {
   to: number
   color: ColorValue
 }
+
+export interface RadarChartContainerProps {
+  height?: number
+  width?: number
+  shiftX?: number
+  shiftY?: number
+  backgroundColor?: ColorValue
+}

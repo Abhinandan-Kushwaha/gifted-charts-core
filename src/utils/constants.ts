@@ -411,6 +411,11 @@ export const radarChartDefaults = {
     showGradient: false,
     opacity: 0.7
   },
+  chartContainerProps: {
+    shiftX: 0,
+    shiftY: 0,
+    backgroundColor: 'transparent'
+  },
 
   asterLineStrokeDashArray: [4, 4],
   isAnimated: false,
