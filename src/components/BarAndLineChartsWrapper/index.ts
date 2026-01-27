@@ -86,7 +86,7 @@ export const useBarAndLineChartsWrapper = (
     roundToDigits: secondaryRoundToDigits,
     stepHeight: secondaryStepHeight,
     negativeStepHeight: secondaryNegativeStepHeight
-  } = axesAndRulesProps.secondaryYAxisConfig
+  } = axesAndRulesProps.secondaryYAxisConfig ?? {}
 
   const primaryYAxisHeightBelowOrigin =
     noOfSectionsBelowXAxis * negativeStepHeight
@@ -165,7 +165,7 @@ export const useBarAndLineChartsWrapper = (
   const negativeStepValue = axesAndRulesProps.negativeStepValue
   const roundToDigits = axesAndRulesProps.roundToDigits
 
-  const referenceLinesConfig = axesAndRulesProps.referenceLinesConfig
+  const referenceLinesConfig = axesAndRulesProps.referenceLinesConfig ?? {}
   const referenceLinesOverChartContent =
     referenceLinesConfig.referenceLinesOverChartContent ??
     AxesAndRulesDefaults.referenceLinesOverChartContent

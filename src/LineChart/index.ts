@@ -1779,7 +1779,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.noOfSectionsBelowXAxis ??
     Math.round(Math.ceil(-mostNegativeValue / stepValue))
 
-  let negativeStepValue = props.negativeStepValue ?? stepValue
+  const negativeStepValue = props.negativeStepValue ?? stepValue
 
   const axesAndRulesProps = getAxesAndRulesProps(
     props,

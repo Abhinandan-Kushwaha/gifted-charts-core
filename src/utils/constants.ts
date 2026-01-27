@@ -7,7 +7,8 @@ import { type FontStyle } from 'react-native-svg'
 export enum chartTypes {
   BAR,
   LINE,
-  LINE_BI_COLOR
+  LINE_BI_COLOR,
+  BUBBLE
 }
 
 export const defaultCurvature = 0.2
@@ -219,6 +220,15 @@ export const LineDefaults = {
   lowlightOpacity: 0.3
 }
 
+// Bubble chart specific
+
+export const BubbleDefaults = {
+  borderWidth: 0,
+  borderColor: '#333',
+  opacity: 0.8,
+  dataPointsColor: 'skyblue'
+}
+
 export const defaultLineConfig: defaultLineConfigType = {
   initialSpacing: BarDefaults.spacing, // gets updated to spacing before being used
   curved: false,
@@ -410,6 +420,11 @@ export const radarChartDefaults = {
     gradientColor: 'lightgray',
     showGradient: false,
     opacity: 0.7
+  },
+  chartContainerProps: {
+    shiftX: 0,
+    shiftY: 0,
+    backgroundColor: 'transparent'
   },
 
   asterLineStrokeDashArray: [4, 4],

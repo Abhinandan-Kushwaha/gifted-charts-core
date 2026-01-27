@@ -805,14 +805,20 @@ export const getAxesAndRulesProps = (
     }
   }
 
-  const secondaryNoOfSections = secondaryYAxis?.noOfSections ?? noOfSections
+  const secondaryNoOfSections =
+    props.secondaryYAxis ?? props.lineConfig?.isSecondary
+      ? secondaryYAxis?.noOfSections ?? noOfSections
+      : 0
 
   const secondaryStepValue =
     secondaryYAxis?.stepValue ??
-    (secondaryYAxis?.maxValue ?? secondaryMaxValue) / secondaryNoOfSections
+    (secondaryNoOfSections
+      ? (secondaryYAxis?.maxValue ?? secondaryMaxValue) / secondaryNoOfSections
+      : 0)
 
   const secondaryStepHeight =
-    secondaryYAxis?.stepHeight ?? containerHeight / secondaryNoOfSections
+    secondaryYAxis?.stepHeight ??
+    (secondaryNoOfSections ? containerHeight / secondaryNoOfSections : 0)
 
   const secondaryNegativeStepValue =
     secondaryYAxis?.negativeStepValue ?? secondaryStepValue

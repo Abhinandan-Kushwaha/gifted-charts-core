@@ -1,3 +1,5 @@
+import { RadarChartContainerProps } from '../utils/types'
+
 export interface GridConfig extends StrokeFillAndGradient {
   gridSections?: GridSectionConfig[]
 }
@@ -19,6 +21,7 @@ export interface RadarChartProps {
   maxValue?: number
   noOfSections?: number
   chartSize?: number
+  chartContainerProps?: RadarChartContainerProps
   labelConfig?: LabelConfig
   labelConfigArray?: LabelConfig[]
   labels?: string[]
