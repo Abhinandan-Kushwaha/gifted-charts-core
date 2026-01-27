@@ -7,7 +7,8 @@ import { type FontStyle } from 'react-native-svg'
 export enum chartTypes {
   BAR,
   LINE,
-  LINE_BI_COLOR
+  LINE_BI_COLOR,
+  BUBBLE
 }
 
 export const defaultCurvature = 0.2
@@ -217,6 +218,15 @@ export const LineDefaults = {
   strokeLinecap: 'butt' as Linecap,
   highlightEnabled: false,
   lowlightOpacity: 0.3
+}
+
+// Bubble chart specific
+
+export const BubbleDefaults = {
+  borderWidth: 0,
+  borderColor: '#333',
+  opacity: 0.8,
+  dataPointsColor: 'skyblue'
 }
 
 export const defaultLineConfig: defaultLineConfigType = {

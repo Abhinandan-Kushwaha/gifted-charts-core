@@ -180,6 +180,7 @@ export interface StackedBarChartPropsType {
   bounces?: boolean
   overScrollMode?: 'auto' | 'always' | 'never'
   onScrollEndDrag?: (event: any, direction: any) => void
+  rtl?: boolean
 }
 
 export interface StackedBarChartPropsTypeForWeb
