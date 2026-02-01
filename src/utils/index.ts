@@ -1201,6 +1201,61 @@ export const computeMaxAndMinItems = (
   return maxAndMinUtil(maxItem, minItem, roundToDigits, showFractionalValues)
 }
 
+export const computeMaxAndMinYForBubble = (
+  data: any[] | undefined,
+  extrapolateMissingValues: boolean,
+  roundToDigits?: number,
+  showFractionalValues?: boolean,
+  propsData?: any[]
+): MaxAndMin => {
+  if (!data?.length) {
+    return { maxItem: 0, minItem: 0 }
+  }
+  let maxItem = 0
+  let minItem = 0
+
+  data.forEach((item: any, index: number) => {
+    if (item.y > maxItem) {
+      maxItem = item.y
+    }
+    if (
+      item.y < minItem &&
+      (extrapolateMissingValues || propsData?.[index].y)
+    ) {
+      minItem = item.y
+    }
+  })
+
+  return maxAndMinUtil(maxItem, minItem, roundToDigits, showFractionalValues)
+}
+export const computeMaxAndMinXForBubble = (
+  data: any[] | undefined,
+  extrapolateMissingValues: boolean,
+  roundToDigits?: number,
+  showFractionalValues?: boolean,
+  propsData?: any[]
+): MaxAndMin => {
+  if (!data?.length) {
+    return { maxItem: 0, minItem: 0 }
+  }
+  let maxItem = 0
+  let minItem = 0
+
+  data.forEach((item: any, index: number) => {
+    if (item.x > maxItem) {
+      maxItem = item.x
+    }
+    if (
+      item.x < minItem &&
+      (extrapolateMissingValues || propsData?.[index].x)
+    ) {
+      minItem = item.x
+    }
+  })
+
+  return maxAndMinUtil(maxItem, minItem, roundToDigits, showFractionalValues)
+}
+
 export const getLabelTextUtil = (
   val: string,
   index: number,
@@ -1374,11 +1429,15 @@ export const getLineConfigForBarChart = (
 export const getNoOfSections = (
   noOfSections: number | undefined,
   maxValue: number | undefined,
-  stepValue: number | undefined
+  stepValue: number | undefined,
+  isX?: boolean
 ): number =>
   maxValue && stepValue
     ? maxValue / stepValue
-    : noOfSections ?? AxesAndRulesDefaults.noOfSections
+    : noOfSections ??
+      (isX
+        ? AxesAndRulesDefaults.xNoOfSections
+        : AxesAndRulesDefaults.noOfSections)
 
 export const getMaxValue = (
   maxValue: number | undefined,

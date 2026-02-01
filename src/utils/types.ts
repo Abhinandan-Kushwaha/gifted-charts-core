@@ -397,6 +397,7 @@ export interface BarAndLineChartsWrapperTypes {
   xAxisLabelsAtBottom: boolean
   onScrollEndDrag?: (event: any, direction: any) => void
   showVerticalLines?: boolean
+  xAxisLabelTexts?: string[]
 }
 
 export interface HorizontalStripConfig {
@@ -408,6 +409,15 @@ export interface HorizontalStripConfig {
   labelComponent?: Function
   labelComponentHeight?: number
   labelComponentWidth?: number
+}
+
+export interface RegressionLineConfig {
+  thickness?: number
+  color?: ColorValue
+  opacity?: number
+  strokeDashArray?: number[]
+  isAnimated?: boolean
+  animationDuration?: number
 }
 
 export interface Pointer {

@@ -38,12 +38,11 @@ export {
   type LineChartBicolorPropsTypeForWeb
 } from './LineChart/types'
 
-
 /************************************************************************************************************************
 /*****************************************              Bubble Chart              *****************************************
 /************************************************************************************************************************/
 
-export {useBubbleChart} from './BubbleChart'
+export { useBubbleChart } from './BubbleChart'
 export {
   type BubbleChartPropsType,
   type bubbleDataItem
@@ -150,6 +149,7 @@ export {
   BarDefaults,
   defaultLineConfig,
   LineDefaults,
+  BubbleDefaults,
   defaultPointerConfig,
   pieColors,
   populationDefaults,

@@ -75,7 +75,8 @@ export const useBarAndLineChartsWrapper = (
     lowlightOpacity,
     xAxisLabelsAtBottom,
     floatingYAxisLabels,
-    allowFontScaling
+    allowFontScaling,
+    xAxisLabelTexts
   } = props
 
   const {
@@ -203,7 +204,10 @@ export const useBarAndLineChartsWrapper = (
 
   const verticalLinesAr = noOfVerticalLines
     ? [...Array(noOfVerticalLines).keys()]
-    : (stackData ?? data).map((item) => {
+    : (chartType === chartTypes.BUBBLE
+        ? xAxisLabelTexts ?? []
+        : stackData ?? data
+      ).map((item) => {
         const {
           showVerticalLine,
           verticalLineThickness,
