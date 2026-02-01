@@ -92,6 +92,7 @@ export const AxesAndRulesDefaults = {
   verticalLinesStrokeLinecap: 'butt',
 
   noOfSections: 10,
+  xNoOfSections: 5,
   containerHeight: 200,
   width: 200,
 
@@ -223,10 +224,25 @@ export const LineDefaults = {
 // Bubble chart specific
 
 export const BubbleDefaults = {
+  bubblesRadius: 10,
+  bubblesWidth: 20,
+  bubblesHeight: 20,
+  bubblesShape: 'circular',
+  showValuesAsBubbleLabels: false,
+  showBubbleOnFocus: false,
+  showBubbleLabelOnFocus: false,
+  labelFontSize: 10,
   borderWidth: 0,
   borderColor: '#333',
   opacity: 0.8,
-  dataPointsColor: 'skyblue'
+  bubblesColor: 'skyblue',
+  focusedBubbleColor: 'orange',
+  initialSpacing: 0,
+  regressionLineConfig: {
+    thickness: 1,
+    color: 'black',
+    opacity: 1
+  }
 }
 
 export const defaultLineConfig: defaultLineConfigType = {
