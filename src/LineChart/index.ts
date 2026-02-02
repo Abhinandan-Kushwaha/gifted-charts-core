@@ -202,9 +202,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const dataSet: DataSetNullSafe[] | undefined = useMemo(() => {
     if (!props.dataSet?.length) return undefined
     return props.dataSet?.map((dataSetItem) => {
+       const itemYAxisOffset = dataSetItem.isSecondary 
+        ? (props.secondaryYAxis?.yAxisOffset ?? 0)
+        : yAxisOffset;   
+
       const sanitisedData = getSanitisedData(
         dataSetItem.data,
-        dataSanitisationProps
+        { ...dataSanitisationProps, yAxisOffset: itemYAxisOffset }
       )
       return {
         ...dataSetItem,
