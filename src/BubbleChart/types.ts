@@ -175,13 +175,7 @@ export interface BubbleChartPropsType {
   areaGradientComponent?: () => any
   areaGradientId?: string
 
-  // textFontSize?: number
-  // textColor?: string
-  // textFontFamily?: string
-  // textFontWeight?: FontWeight
   hideOrigin?: boolean
-  // textShiftX?: number
-  // textShiftY?: number
   yAxisLabelTexts?: string[]
   xAxisLabelTexts?: string[]
   xAxisLabelTextStyle?: StyleProp<TextStyle>
@@ -203,6 +197,7 @@ export interface BubbleChartPropsType {
 
   formatYLabel?: (label: string) => string
   formatXLabel?: (label: string) => string
+  formatBubbleLabel?: (label: string) => string
   lineGradient?: boolean
   lineGradientComponent?: () => any
   lineGradientId?: string
