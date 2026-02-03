@@ -45,6 +45,8 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     props.yRoundToDigits ??
     (showFractionalYAxis ? indexOfFirstNonZeroDigit(yRange) + 1 : 0)
 
+  const bubblesRadius = props.bubblesRadius ?? BubbleDefaults.bubblesRadius
+
   const { maxItem: yMaxItem, minItem: yMinItem } = computeMaxAndMinYForBubble(
     data,
     false, // extrapolateMissingValues
@@ -97,10 +99,14 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   // const xStepHeight = props.xStepHeight ?? containerHeight / yNoOfSections
   const xStepValue = props.xStepValue ?? maxX / xNoOfSections
 
+
+  const initialSpacing = props.initialSpacing ?? BubbleDefaults.initialSpacing
+  const endSpacing = props.endSpacing ?? BubbleDefaults.endSpacing
+
   const xAxisLabelTexts =
     props.xAxisLabelTexts ??
     Array.from({ length: xNoOfSections + 1 }, (_, i) => {
-      if (i == 0) return ''
+      if (i === 0 && initialSpacing === 0) return ''
       const labelText = (xStepValue * i).toString()
       if (formatXLabel) {
         return formatXLabel(labelText)
@@ -123,12 +129,15 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   const horizontal = false
   const yAxisAtTop = false
 
-  const initialSpacing = props.initialSpacing ?? BubbleDefaults.initialSpacing
-
   const xAxisThickness =
     props.xAxisThickness ?? AxesAndRulesDefaults.xAxisThickness
 
-  const spacing = props.spacing ?? LineDefaults.spacing
+  const spacing =
+    props.spacing ??
+    (props.width
+      ? (props.width - initialSpacing - endSpacing) /
+        (xAxisLabelTexts.length - 1)
+      : BubbleDefaults.spacing)
 
   // let cumulativeSpacing: number[] = []
 
@@ -138,8 +147,6 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   //   spacingSum += item.spacing ?? space
   //   cumulativeSpacing.push(spacingSum)
   // })
-
-  const endSpacing = props.endSpacing ?? LineDefaults.endSpacing
 
   const totalWidth =
     initialSpacing + spacing * (xAxisLabelTexts.length - 1) + endSpacing
@@ -181,7 +188,6 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   //   const pointerConfig = props.pointerConfig
   const getPointerProps = props.getPointerProps ?? null
 
-  const bubblesRadius = props.bubblesRadius ?? BubbleDefaults.bubblesRadius
   const bubblesWidth = props.bubblesWidth ?? BubbleDefaults.bubblesWidth
   const extraWidthDueToBubble = props.hideBubbles
     ? 0
@@ -240,7 +246,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
               (props.data?.[index].r ?? BubbleDefaults.bubblesRadius),
             ((index + 1) * totalWidth) / (props.data?.length ?? 1)
           )
-    return val
+    return val + initialSpacing
   }
 
   const getY = (value: number): number => {
@@ -403,6 +409,8 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
       props.regressionLineConfig?.animationDuration ?? animationDuration
   }
 
+  const scatterChart = props.scatterChart ?? BubbleDefaults.scatterChart
+
   const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
     chartType: chartTypes.BUBBLE,
     containerHeight,
@@ -533,6 +541,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     regressionLineX1,
     regressionLineY1,
     regressionLineX2,
-    regressionLineY2
+    regressionLineY2,
+    scatterChart
   }
 }

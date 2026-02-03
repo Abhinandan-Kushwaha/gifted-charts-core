@@ -249,6 +249,7 @@ export interface BubbleChartPropsType {
   borderOpacity?: number
   showRegressionLine?: boolean
   regressionLineConfig?: RegressionLineConfig
+  scatterChart?: boolean
 }
 
 export interface bubbleDataItem {

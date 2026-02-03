@@ -238,11 +238,14 @@ export const BubbleDefaults = {
   bubblesColor: 'skyblue',
   focusedBubbleColor: 'orange',
   initialSpacing: 0,
+  endSpacing: 20,
+  spacing: 50,
   regressionLineConfig: {
     thickness: 1,
     color: 'black',
     opacity: 1
-  }
+  },
+  scatterChart: false
 }
 
 export const defaultLineConfig: defaultLineConfigType = {
