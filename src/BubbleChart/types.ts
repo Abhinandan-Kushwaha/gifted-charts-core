@@ -8,6 +8,7 @@ import {
 import { Linecap } from 'react-native-svg'
 import {
   CustomBackground,
+  DataSetForBubbleChart,
   RegressionLineConfig,
   RuleType,
   RulesConfig,
@@ -47,6 +48,7 @@ export interface BubbleChartPropsType {
   initialSpacing?: number
   endSpacing?: number
   data?: bubbleDataItem[]
+  dataSet?: DataSetForBubbleChart[]
   zIndex?: number
   thickness?: number
   strokeDashArray?: number[]
@@ -237,6 +239,7 @@ export interface BubbleChartPropsType {
   labelShiftY?: number
   labelComponent?: Function
   labelTextStyle?: Object
+  labelMaxLength?: number
   focusedLabelComponent?: Function
   spreadAreaData?: SpreadData[]
   spreadAreaColor?: ColorValue
@@ -320,4 +323,5 @@ export interface bubbleDataItem {
   opacity?: number
   showGradient?: boolean
   centerColorForGradient?: ColorValue
+  indexUsedInDevForDataSet?: number
 }

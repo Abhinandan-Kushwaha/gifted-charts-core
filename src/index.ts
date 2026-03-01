@@ -153,6 +153,7 @@ export {
   BubbleDefaults,
   defaultPointerConfig,
   pieColors,
+  defaultBubbleColors,
   populationDefaults,
   defaultAnimationDuration
 } from './utils/constants'
@@ -179,6 +180,7 @@ export {
   type LineProperties,
   type DataSet,
   type DataSetNullSafe,
+  type DataSetForBubbleChart,
   Framework,
   type XAxisConfig,
   type LineInBarChartPropsType,

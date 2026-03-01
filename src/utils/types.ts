@@ -6,6 +6,7 @@ import {
   type barDataItem,
   type stackDataItem
 } from '../BarChart/types'
+import { bubbleDataItem } from '../BubbleChart/types'
 
 export enum Framework {
   reactJS,
@@ -418,6 +419,17 @@ export interface RegressionLineConfig {
   strokeDashArray?: number[]
   isAnimated?: boolean
   animationDuration?: number
+  x1?: number
+  x2?: number
+  y1?: number
+  y2?: number
+}
+
+export interface RegressionLineCoordinates {
+  regressionLineX1: number
+  regressionLineY1: number
+  regressionLineX2: number
+  regressionLineY2: number
 }
 
 export interface Pointer {
@@ -547,6 +559,14 @@ export interface DataSet {
   hidePointers?: boolean
   spacing?: number
   renderTooltip?: Function
+}
+
+export interface DataSetForBubbleChart {
+  data: bubbleDataItem[]
+  showRegressionLine?: boolean
+  regressionLineConfig?: RegressionLineConfig
+  bubblesColor?: ColorValue
+  borderColor?: ColorValue
 }
 export interface DataSetNullSafe extends DataSet {
   data: lineDataItemNullSafe[]

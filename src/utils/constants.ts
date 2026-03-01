@@ -232,11 +232,12 @@ export const BubbleDefaults = {
   showBubbleOnFocus: false,
   showBubbleLabelOnFocus: false,
   labelFontSize: 10,
+  labelMaxLength: 16,
   borderWidth: 1,
-  borderColor: 'skyblue',
+  borderColor: 'black',
   opacity: 0.7,
   borderOpacity: 1,
-  bubblesColor: 'skyblue',
+  bubblesColor: 'black',
   focusedBubbleColor: 'orange',
   initialSpacing: 0,
   endSpacing: 4,
@@ -338,6 +339,19 @@ export const pieColors = [
   '#666',
   '#999',
   '#555'
+]
+
+export const defaultBubbleColors = [
+  '#7cb5ec',
+  '#434348',
+  '#90ed7d',
+  '#f7a35c',
+  '#8085e9',
+  '#f15c80',
+  '#e4d354',
+  '#2b908f',
+  '#f45b5b',
+  '#91e8e1'
 ]
 
 export const populationDefaults = {
