@@ -14,17 +14,31 @@ import {
   AxesAndRulesDefaults,
   BubbleDefaults,
   chartTypes,
+  defaultBubbleColors,
   LineDefaults
 } from '../utils/constants'
-import { BarAndLineChartsWrapperTypes } from '../utils/types'
-import { BubbleChartPropsType } from './types'
+import {
+  BarAndLineChartsWrapperTypes,
+  RegressionLineConfig,
+  RegressionLineCoordinates
+} from '../utils/types'
+import { BubbleChartPropsType, bubbleDataItem } from './types'
+import { Dimensions } from 'react-native'
 
 export interface extendedBubbleChartPropsType extends BubbleChartPropsType {
   parentWidth: number
 }
+const screenWidth = Dimensions.get('window').width
 
 export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
-  const { data = [], formatXLabel } = props
+  const { formatXLabel, dataSet } = props
+  let { data = [] } = props
+
+  if (dataSet) {
+    const emptyDataSet: bubbleDataItem[] = []
+
+    data = dataSet.reduce((acc, item) => [...acc, ...item.data], emptyDataSet)
+  }
 
   // For the sake of uniformity across other charts, allow value as an alternate to y
   for (const item of data) {
@@ -270,8 +284,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   const mostNegativeValueOnYAxis = yNegativeStepValue * noOfSectionsBelowXAxis
 
   const containsNegativeValue =
-    (props.mostNegativeY ?? 0) < 0 ||
-    props.data?.some((item) => (item.y ?? 0) < 0)
+    (props.mostNegativeY ?? 0) < 0 || data?.some((item) => (item.y ?? 0) < 0)
 
   /*******************************************************************************************
    * *************               RE - CALCULATE xScale & xStepValue                  *********
@@ -319,16 +332,19 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     rightMostReachingBubblesX = Math.max(rightX, rightMostReachingBubblesX)
   }
 
-  // if (autoRoundLabelsX)
-  //   leftMostReachingBubblesX = getIntegerizedValue(
-  //     Number(leftMostReachingBubblesX.toFixed(roundToDigits))
-  //   )
+  // this statement is to polish the leftMostReachingBubblesX to avoid being cut off by x axis
+  leftMostReachingBubblesX -=
+    Number(
+      (rightMostReachingBubblesX - leftMostReachingBubblesX) / xNoOfSections //.toFixed(roundToDigits)
+    ) / 5
 
   xStepValue =
     props.xStepValue ??
     Number(
       (rightMostReachingBubblesX - leftMostReachingBubblesX) / xNoOfSections //.toFixed(roundToDigits)
     )
+
+  xStepValue += xStepValue / 20 // this statement is to polish thexStepValue to avoid the leftmost bubble being cut off by x axis
 
   // if (autoRoundLabelsX) {
   //   xStepValue = getIntegerizedValue(xStepValue)
@@ -352,7 +368,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     })
 
   const getX = (index: number): number => {
-    const item = props.data?.[index]
+    const item = data?.[index]
     let val
     if (item?.x !== undefined) {
       val =
@@ -366,7 +382,8 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
       val =
         Math.min(
           totalWidth - (item?.r ?? BubbleDefaults.bubblesRadius),
-          (index * totalWidth) / (props.data?.length ?? 1)
+          (index * totalWidth) /
+            ((props.dataSet?.[0]?.data ?? props.data)?.length ?? 1)
         ) -
         leftMostReachingBubblesX +
         radius
@@ -413,17 +430,25 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     }
   }
 
+  const scatterChart = props.scatterChart ?? BubbleDefaults.scatterChart
+
   const hideBubbles = props.hideBubbles ?? false
   const bubblesShape = props.bubblesShape ?? BubbleDefaults.bubblesShape
 
   const bubblesHeight = props.bubblesHeight ?? BubbleDefaults.bubblesHeight
 
-  const bubblesColor = props.bubblesColor ?? BubbleDefaults.bubblesColor
+  const bubblesColor = scatterChart
+    ? props.bubblesColor ?? BubbleDefaults.bubblesColor
+    : props.bubblesColor
 
   const startIndex = 0
-  const endIndex = props.data?.length ?? 0
+  const endIndex = (props.dataSet?.[0]?.data ?? props.data)?.length ?? 0
 
   const labelFontSize = props.labelFontSize ?? BubbleDefaults.labelFontSize
+  const labelMaxLength = Math.max(
+    3,
+    props.labelMaxLength ?? BubbleDefaults.labelMaxLength
+  )
   const showValuesAsBubbleLabels =
     props.showValuesAsBubbleLabels ?? BubbleDefaults.showValuesAsBubbleLabels
 
@@ -438,13 +463,15 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   const rotateLabel = props.rotateLabel ?? false
 
   const borderWidth = props.borderWidth ?? BubbleDefaults.borderWidth
-  const borderColor = props.borderColor ?? BubbleDefaults.borderColor
+  const borderColor = scatterChart
+    ? props.borderColor ?? BubbleDefaults.borderColor
+    : props.borderColor
   const opacity = props.opacity ?? BubbleDefaults.opacity
   const borderOpacity = props.borderOpacity ?? BubbleDefaults.borderOpacity
 
   const showRegressionLine = props.showRegressionLine ?? false
 
-  const weightedRegression = () => {
+  const weightedRegression = (data: bubbleDataItem[]) => {
     if (!data) return { slope: 0, intercept: 0 }
     let sumW = 0
     let sumWX = 0
@@ -479,30 +506,6 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     return { slope, intercept }
   }
 
-  let regressionLineX1 = 0,
-    regressionLineY1 = 0,
-    regressionLineX2 = 0,
-    regressionLineY2 = 0
-  if (showRegressionLine) {
-    let slope = 0,
-      intercept = 0
-    const slopeIntercept = weightedRegression()
-    slope = slopeIntercept.slope
-    intercept = slopeIntercept.intercept
-
-    // Calculate Y values in data space first
-    const y1_data = slope * minX + intercept
-    const y2_data = slope * maxX + intercept
-
-    // Convert X coordinates to screen space
-    regressionLineX1 = minX * xScale
-    regressionLineX2 = maxX * xScale
-
-    // Convert Y coordinates to screen space using getY function
-    regressionLineY1 = getY(y1_data)
-    regressionLineY2 = getY(y2_data)
-  }
-
   const regressionLineConfig = {
     thickness:
       props.regressionLineConfig?.thickness ??
@@ -516,10 +519,118 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     strokeDashArray: props.regressionLineConfig?.strokeDashArray,
     isAnimated: props.regressionLineConfig?.isAnimated ?? isAnimated,
     animationDuration:
-      props.regressionLineConfig?.animationDuration ?? animationDuration
+      props.regressionLineConfig?.animationDuration ?? animationDuration,
+    x1: props.regressionLineConfig?.x1,
+    x2: props.regressionLineConfig?.x2,
+    y1: props.regressionLineConfig?.y1,
+    y2: props.regressionLineConfig?.y2
   }
 
-  const scatterChart = props.scatterChart ?? BubbleDefaults.scatterChart
+  const regressionLineCoordinates: RegressionLineCoordinates[] = []
+  const regressionLineConfigs: RegressionLineConfig[] = []
+  let regressionLineX1 = 0,
+    regressionLineY1 = 0,
+    regressionLineX2 = 0,
+    regressionLineY2 = 0
+  if (dataSet) {
+    dataSet?.forEach((item) => {
+      /************           Add default x values to each data item in case of DataSet           ************/
+      item.data.forEach((dataItem, index) => {
+        dataItem.indexUsedInDevForDataSet = index
+
+        if (!bubblesColor && !item.bubblesColor && !dataItem.bubbleColor) {
+          dataItem.bubbleColor =
+            defaultBubbleColors[index % defaultBubbleColors.length]
+        }
+        if (!borderColor && !item.borderColor && !dataItem.borderColor) {
+          dataItem.borderColor =
+            defaultBubbleColors[index % defaultBubbleColors.length]
+        }
+      })
+      /*******************************************************************************************************/
+
+      if (item.showRegressionLine) {
+        const currentRegressionLineConfig = item.regressionLineConfig
+        regressionLineConfigs.push({
+          thickness:
+            currentRegressionLineConfig?.thickness ??
+            regressionLineConfig.thickness,
+          color:
+            currentRegressionLineConfig?.color ?? regressionLineConfig.color,
+          opacity:
+            currentRegressionLineConfig?.opacity ??
+            regressionLineConfig.opacity,
+          strokeDashArray:
+            currentRegressionLineConfig?.strokeDashArray ??
+            regressionLineConfig.strokeDashArray,
+          isAnimated:
+            currentRegressionLineConfig?.isAnimated ??
+            regressionLineConfig.isAnimated,
+          animationDuration:
+            currentRegressionLineConfig?.animationDuration ??
+            regressionLineConfig.animationDuration,
+          x1: currentRegressionLineConfig?.x1 ?? regressionLineConfig.x1,
+          x2: currentRegressionLineConfig?.x2 ?? regressionLineConfig.x2,
+          y1: currentRegressionLineConfig?.y1 ?? regressionLineConfig.y1,
+          y2: currentRegressionLineConfig?.y2 ?? regressionLineConfig.y2
+        })
+
+        let regressionLineX1 = 0,
+          regressionLineY1 = 0,
+          regressionLineX2 = 0,
+          regressionLineY2 = 0
+
+        let slope = 0,
+          intercept = 0
+        const slopeIntercept = weightedRegression(item.data)
+        slope = slopeIntercept.slope
+        intercept = slopeIntercept.intercept
+
+        // Calculate Y values in data space first
+        const y1_data = slope * minX + intercept
+        const y2_data = slope * maxX + intercept
+
+        // Convert X coordinates to screen space
+        regressionLineX1 = regressionLineConfig.x1 ?? 0
+        regressionLineX2 =
+          regressionLineConfig.x2 ??
+          Math.min(screenWidth, props.width ?? totalWidth)
+
+        // Convert Y coordinates to screen space using getY function
+        regressionLineY1 = regressionLineConfig.y1 ?? getY(y1_data)
+        regressionLineY2 = regressionLineConfig.y2 ?? getY(y2_data)
+        regressionLineCoordinates.push({
+          regressionLineX1,
+          regressionLineX2,
+          regressionLineY1,
+          regressionLineY2
+        })
+      }
+    })
+  } else {
+    if (showRegressionLine) {
+      let slope = 0,
+        intercept = 0
+      const slopeIntercept = weightedRegression(data)
+      slope = slopeIntercept.slope
+      intercept = slopeIntercept.intercept
+
+      // Calculate Y values in data space first
+      const y1_data = slope * minX + intercept
+      const y2_data = slope * maxX + intercept
+
+      // Convert X coordinates to screen space
+      regressionLineX1 = regressionLineConfig.x1 ?? 0
+      regressionLineX2 =
+        regressionLineConfig.x2 ??
+        Math.min(screenWidth, props.width ?? totalWidth)
+
+      // Convert Y coordinates to screen space using getY function
+      regressionLineY1 = regressionLineConfig.y1 ?? getY(y1_data)
+      regressionLineY2 = regressionLineConfig.y2 ?? getY(y2_data)
+    }
+  }
+
   const showGradient =
     props.showGradient ?? (scatterChart ? false : BubbleDefaults.showGradient)
   const centerColorForGradient =
@@ -638,6 +749,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     minRadius,
     maxRadius,
     labelFontSize,
+    labelMaxLength,
     labelTextStyle: props.labelTextStyle,
     startIndex,
     endIndex,
@@ -656,10 +768,12 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     xAxisLabelTexts,
     showRegressionLine,
     regressionLineConfig,
+    regressionLineConfigs,
     regressionLineX1,
     regressionLineY1,
     regressionLineX2,
     regressionLineY2,
+    regressionLineCoordinates,
     scatterChart,
     extraWidthDueToBubble,
     showGradient,
