@@ -82,7 +82,9 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   )
 
   const initialSpacing = props.initialSpacing ?? BubbleDefaults.initialSpacing
-  const spacing = props.spacing ?? LineDefaults.spacing
+  const spacing =
+    props.spacing ??
+    (props.width ? props.width / xNoOfSections : LineDefaults.spacing)
 
   const showFractionalXAxis =
     props.showFractionalXAxis ??
@@ -367,8 +369,8 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
       return labelText
     })
 
-  const getX = (index: number): number => {
-    const item = data?.[index]
+  const getX = (index: number, spreadIndex?: number): number => {
+    const item = data?.[spreadIndex ?? index]
     let val
     if (item?.x !== undefined) {
       val =
@@ -506,6 +508,9 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     return { slope, intercept }
   }
 
+  const getAdjustedScaledX = (x: number) =>
+    (x - leftMostReachingBubblesX) * xScale + initialSpacing
+
   const regressionLineConfig = {
     thickness:
       props.regressionLineConfig?.thickness ??
@@ -538,11 +543,16 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
       item.data.forEach((dataItem, index) => {
         dataItem.indexUsedInDevForDataSet = index
 
-        if (!bubblesColor && !item.bubblesColor && !dataItem.bubbleColor) {
+        if (item.seriesBubblesColor) {
+          dataItem.bubbleColor = item.seriesBubblesColor
+        } else if (!bubblesColor && !dataItem.bubbleColor) {
           dataItem.bubbleColor =
             defaultBubbleColors[index % defaultBubbleColors.length]
         }
-        if (!borderColor && !item.borderColor && !dataItem.borderColor) {
+
+        if (item.seriesBubblesBorderColor) {
+          dataItem.borderColor = item.seriesBubblesBorderColor
+        } else if (!borderColor && !dataItem.borderColor) {
           dataItem.borderColor =
             defaultBubbleColors[index % defaultBubbleColors.length]
         }
@@ -551,7 +561,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
 
       if (item.showRegressionLine) {
         const currentRegressionLineConfig = item.regressionLineConfig
-        regressionLineConfigs.push({
+        const currentRegressionLineConfigModified = {
           thickness:
             currentRegressionLineConfig?.thickness ??
             regressionLineConfig.thickness,
@@ -573,7 +583,8 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
           x2: currentRegressionLineConfig?.x2 ?? regressionLineConfig.x2,
           y1: currentRegressionLineConfig?.y1 ?? regressionLineConfig.y1,
           y2: currentRegressionLineConfig?.y2 ?? regressionLineConfig.y2
-        })
+        }
+        regressionLineConfigs.push(currentRegressionLineConfigModified)
 
         let regressionLineX1 = 0,
           regressionLineY1 = 0,
@@ -591,14 +602,23 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
         const y2_data = slope * maxX + intercept
 
         // Convert X coordinates to screen space
-        regressionLineX1 = regressionLineConfig.x1 ?? 0
+        regressionLineX1 = getAdjustedScaledX(
+          currentRegressionLineConfigModified.x1 ?? 0
+        )
         regressionLineX2 =
-          regressionLineConfig.x2 ??
-          Math.min(screenWidth, props.width ?? totalWidth)
+          currentRegressionLineConfigModified.x2 !== undefined
+            ? getAdjustedScaledX(currentRegressionLineConfigModified.x2)
+            : Math.min(screenWidth, props.width ?? totalWidth)
 
         // Convert Y coordinates to screen space using getY function
-        regressionLineY1 = regressionLineConfig.y1 ?? getY(y1_data)
-        regressionLineY2 = regressionLineConfig.y2 ?? getY(y2_data)
+        regressionLineY1 =
+          currentRegressionLineConfigModified.y1 !== undefined
+            ? getY(currentRegressionLineConfigModified.y1)
+            : getY(y1_data)
+        regressionLineY2 =
+          currentRegressionLineConfigModified.y2 !== undefined
+            ? getY(currentRegressionLineConfigModified.y2)
+            : getY(y2_data)
         regressionLineCoordinates.push({
           regressionLineX1,
           regressionLineX2,
@@ -620,14 +640,19 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
       const y2_data = slope * maxX + intercept
 
       // Convert X coordinates to screen space
-      regressionLineX1 = regressionLineConfig.x1 ?? 0
+      regressionLineX1 = getAdjustedScaledX(regressionLineConfig.x1 ?? 0)
       regressionLineX2 =
-        regressionLineConfig.x2 ??
-        Math.min(screenWidth, props.width ?? totalWidth)
+        regressionLineConfig.x2 !== undefined
+          ? getAdjustedScaledX(regressionLineConfig.x2)
+          : Math.min(screenWidth, props.width ?? totalWidth)
 
       // Convert Y coordinates to screen space using getY function
-      regressionLineY1 = regressionLineConfig.y1 ?? getY(y1_data)
-      regressionLineY2 = regressionLineConfig.y2 ?? getY(y2_data)
+      regressionLineY1 = regressionLineConfig.y1
+        ? getY(regressionLineConfig.y1)
+        : getY(y1_data)
+      regressionLineY2 = regressionLineConfig.y2
+        ? getY(regressionLineConfig.y2)
+        : getY(y2_data)
     }
   }
 

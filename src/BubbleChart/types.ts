@@ -40,7 +40,6 @@ export interface BubbleChartPropsType {
   // xSectionColors?: ColorValue[]
   maxX?: number
   mostNegativeX?: number
-  xStepHeight?: number
   xStepValue?: number
   showFractionalXAxis?: boolean
   xRoundToDigits?: number
@@ -249,6 +248,7 @@ export interface BubbleChartPropsType {
   borderOpacity?: number
   showRegressionLine?: boolean
   regressionLineConfig?: RegressionLineConfig
+  regressionLinesBehindBubbles?: boolean
   scatterChart?: boolean
   autoRoundLabels?: boolean
   autoRoundLabelsX?: boolean
@@ -278,7 +278,7 @@ export interface bubbleDataItem {
   bubbleHeight?: number
   bubbleWidth?: number
   r?: number
-  bubbleColor?: string
+  bubbleColor?: ColorValue
   bubbleShape?: string
   customBubble?: Function
 
