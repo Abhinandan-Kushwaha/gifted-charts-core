@@ -357,10 +357,13 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   /*******************************************************************************************
    *******************************************************************************************/
 
+  const initialX =
+    props.xAxisOffset ??
+    Math.max(props.minX ?? -Infinity, leftMostReachingBubblesX)
   const xAxisLabelTexts =
     props.xAxisLabelTexts ??
     Array.from({ length: xNoOfSections + 1 }, (_, i) => {
-      const labelText = (leftMostReachingBubblesX + xStepValue * i)
+      const labelText = (initialX + xStepValue * i)
         .toFixed(xRoundToDigits)
         .toString()
       if (formatXLabel) {
@@ -373,8 +376,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     const item = data?.[spreadIndex ?? index]
     let val
     if (item?.x !== undefined) {
-      val =
-        ((item?.x ?? 0) - leftMostReachingBubblesX) * xScale + initialSpacing
+      val = ((item?.x ?? 0) - initialX) * xScale + initialSpacing
     } else {
       const radius = withinMinMaxRange(
         item?.r ?? bubblesRadius,
@@ -387,7 +389,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
           (index * totalWidth) /
             ((props.dataSet?.[0]?.data ?? props.data)?.length ?? 1)
         ) -
-        leftMostReachingBubblesX +
+        initialX +
         radius
     }
     return val
@@ -509,7 +511,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   }
 
   const getAdjustedScaledX = (x: number) =>
-    (x - leftMostReachingBubblesX) * xScale + initialSpacing
+    (x - initialX) * xScale + initialSpacing
 
   const regressionLineConfig = {
     thickness:

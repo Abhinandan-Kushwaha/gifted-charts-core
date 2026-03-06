@@ -231,7 +231,7 @@ export const BubbleDefaults = {
   showValuesAsBubbleLabels: false,
   showBubbleOnFocus: false,
   showBubbleLabelOnFocus: false,
-  labelFontSize: 10,
+  labelFontSize: 9,
   labelMaxLength: 16,
   borderWidth: 1,
   borderColor: 'black',
