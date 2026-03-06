@@ -565,8 +565,8 @@ export interface DataSetForBubbleChart {
   data: bubbleDataItem[]
   showRegressionLine?: boolean
   regressionLineConfig?: RegressionLineConfig
-  bubblesColor?: ColorValue
-  borderColor?: ColorValue
+  seriesBubblesColor?: ColorValue
+  seriesBubblesBorderColor?: ColorValue
 }
 export interface DataSetNullSafe extends DataSet {
   data: lineDataItemNullSafe[]
