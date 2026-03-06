@@ -39,6 +39,8 @@ export interface BubbleChartPropsType {
   xNoOfSections?: number
   // xSectionColors?: ColorValue[]
   maxX?: number
+  minX?: number
+  
   mostNegativeX?: number
   xStepValue?: number
   showFractionalXAxis?: boolean
@@ -134,6 +136,7 @@ export interface BubbleChartPropsType {
   yAxisIndicesColor?: ColorValue
   yAxisSide?: yAxisSides
   yAxisOffset?: number
+  xAxisOffset?: number
 
   yAxisThickness?: number
   yAxisColor?: ColorValue
