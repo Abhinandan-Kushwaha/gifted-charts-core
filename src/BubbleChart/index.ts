@@ -23,6 +23,11 @@ import {
   RegressionLineCoordinates
 } from '../utils/types'
 import { BubbleChartPropsType, bubbleDataItem } from './types'
+import {
+  computeAxisSections,
+  getBubbleMode,
+  getNormalizedXAxisLayout
+} from '../utils/bubbleChartUtils'
 import { Dimensions } from 'react-native'
 
 export interface extendedBubbleChartPropsType extends BubbleChartPropsType {
@@ -69,22 +74,53 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   const maxRadius =
     props.maxRadius ?? Math.min(containerHeight, props.width ?? Infinity) / 5
 
+  // ── Auto axis computation ────────────────────────────────────────────────
+  // Build a series array from whatever data the caller provided so that
+  // computeAxisSections / getNormalizedXAxisLayout can work with it.
+  // Explicit props always take precedence via the ?? fallbacks below.
+  const seriesForAxisCalc = dataSet
+    ? dataSet.map(s => ({
+        data: s.data.map(item => ({
+          x: item.x ?? 0,
+          y: item.y ?? 0,
+          r: item.r
+        }))
+      }))
+    : [{ data: data.map(item => ({ x: item.x ?? 0, y: item.y ?? 0, r: item.r })) }]
+
+  const isBubbleMode = getBubbleMode(
+    seriesForAxisCalc,
+    props.scatterChart ? 'scatter' : 'bubble'
+  )
+
+  const derivedAxes = computeAxisSections(seriesForAxisCalc, props.width)
+
+  const derivedXLayout = getNormalizedXAxisLayout({
+    normalizedAxes: derivedAxes,
+    series: seriesForAxisCalc,
+    bubbleMode: isBubbleMode,
+    chartWidth: props.width ?? screenWidth,
+    minBubbleRadius: minRadius,
+    maxBubbleRadius: maxRadius
+  })
+  // ─────────────────────────────────────────────────────────────────────────
+
   let xRange =
     Math.max(...data.map((i: any) => Math.max(i.x ?? 0, 0))) - // find the largest +ve number
       Math.min(...data.map((i: any) => Math.max(i.x ?? 0, 0))) || // find the smallest +ve number
     data.length
 
   const xNoOfSections = getNoOfSections(
-    props.xNoOfSections,
+    props.xNoOfSections ?? derivedXLayout.xNoOfSections,
     props.maxX,
     props.xStepValue,
     true
   )
 
-  const initialSpacing = props.initialSpacing ?? BubbleDefaults.initialSpacing
+  const initialSpacing = props.initialSpacing ?? derivedXLayout.initialSpacing
   const spacing =
     props.spacing ??
-    (props.width ? props.width / xNoOfSections : LineDefaults.spacing)
+    (props.width ? derivedXLayout.spacing : LineDefaults.spacing)
 
   const showFractionalXAxis =
     props.showFractionalXAxis ??
@@ -93,7 +129,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     props.xRoundToDigits ??
     (showFractionalXAxis ? indexOfFirstNonZeroDigit(xRange) + 1 : 0)
 
-  const endSpacing = props.endSpacing ?? BubbleDefaults.endSpacing
+  const endSpacing = props.endSpacing ?? derivedXLayout.endSpacing
 
   const totalWidth = initialSpacing + spacing * xNoOfSections + endSpacing
 
