@@ -224,6 +224,7 @@ export const LineDefaults = {
 // Bubble chart specific
 
 export const BubbleDefaults = {
+  yNoOfSections: 5,
   bubblesRadius: 10,
   bubblesWidth: 20,
   bubblesHeight: 20,

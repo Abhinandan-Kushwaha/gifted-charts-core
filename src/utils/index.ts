@@ -1430,6 +1430,7 @@ export const getNoOfSections = (
   noOfSections: number | undefined,
   maxValue: number | undefined,
   stepValue: number | undefined,
+  defaultNoOfSections?: number,
   isX?: boolean
 ): number =>
   maxValue && stepValue
@@ -1437,7 +1438,7 @@ export const getNoOfSections = (
     : noOfSections ??
       (isX
         ? AxesAndRulesDefaults.xNoOfSections
-        : AxesAndRulesDefaults.noOfSections)
+        : defaultNoOfSections ?? AxesAndRulesDefaults.noOfSections)
 
 export const getMaxValue = (
   maxValue: number | undefined,
@@ -1986,16 +1987,21 @@ export const withinMinMaxRange = (
   minVal: number
 ) => Math.min(maxVal, Math.max(minVal, val))
 
-export const getIntegerizedValue = (value: number) => {
-  const decimals = value.toString().split('.')[1]?.length || 0
-  const factor = 10 ** decimals
-  const integerizedValue = value * factor
-  const lastDigit = integerizedValue % 10
-  if (integerizedValue > 10 && lastDigit !== 0 && lastDigit !== 5) {
-    const roundedIntegerized = Math.round(integerizedValue / 5) * 5
+export function getNiceStepValue(stepValue: number) {
+  if (stepValue === 0) return 0
 
-    const ans = roundedIntegerized / factor
-    return ans
+  const sign = stepValue < 0 ? -1 : 1
+  const abs = Math.abs(stepValue)
+
+  let result
+
+  if (abs < 10) {
+    // Round UP to nearest 0.5
+    result = Math.ceil(abs * 2) / 2
+  } else {
+    // Round UP to nearest integer
+    result = Math.ceil(abs)
   }
-  return value
+
+  return sign * result
 }

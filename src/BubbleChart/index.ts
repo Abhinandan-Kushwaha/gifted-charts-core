@@ -4,8 +4,8 @@ import {
   computeMaxAndMinYForBubble,
   getAxesAndRulesProps,
   getExtendedContainerHeightWithPadding,
-  getIntegerizedValue,
   getMaxValue,
+  getNiceStepValue,
   getNoOfSections,
   indexOfFirstNonZeroDigit,
   withinMinMaxRange
@@ -48,7 +48,8 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   const yNoOfSections = getNoOfSections(
     props.yNoOfSections,
     props.maxY,
-    props.yStepValue
+    props.yStepValue,
+    BubbleDefaults.yNoOfSections
   )
   const containerHeight =
     props.height ??
@@ -59,9 +60,9 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     Math.max(...data.map((i: any) => Math.max(i.y, 0))) - // find the largest +ve number
     Math.min(...data.map((i: any) => Math.max(i.y, 0))) // find the smallest +ve number
 
-  const showFractionalYAxis =
+  let showFractionalYAxis =
     props.showFractionalYAxis ?? (isFinite(yRange) && yRange <= 1)
-  const roundToDigits =
+  let roundToDigits =
     props.yRoundToDigits ??
     (showFractionalYAxis ? indexOfFirstNonZeroDigit(yRange) + 1 : 0)
 
@@ -78,6 +79,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     props.xNoOfSections,
     props.maxX,
     props.xStepValue,
+    undefined,
     true
   )
 
@@ -146,7 +148,14 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     props.autoRoundLabels ??
     BubbleDefaults.autoRoundLabelsY
   if (autoRoundLabelsY) {
-    yStepValue = getIntegerizedValue(yStepValue)
+    yStepValue = getNiceStepValue(yStepValue)
+    const yStepValString = yStepValue.toString()
+    if (yStepValString.includes('.') && !yStepValString.endsWith('0')) {
+      showFractionalYAxis = true
+      roundToDigits =
+        props.yRoundToDigits ??
+        (showFractionalYAxis ? indexOfFirstNonZeroDigit(yStepValue) + 1 : 0)
+    }
     maxY = yStepValue * yNoOfSections
   }
 
@@ -349,7 +358,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   xStepValue += xStepValue / 20 // this statement is to polish thexStepValue to avoid the leftmost bubble being cut off by x axis
 
   // if (autoRoundLabelsX) {
-  //   xStepValue = getIntegerizedValue(xStepValue)
+  //   xStepValue = getNiceStepValue(xStepValue)
   //   maxX = xStepValue * xNoOfSections
   // }
 
