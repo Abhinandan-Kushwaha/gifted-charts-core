@@ -56,7 +56,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     focusedBarIndex,
     negativeStepValue: nsv,
     autoCenterTooltip,
-    floatingYAxisLabels
+    floatingYAxisLabels,
+    disableForeignObject = BarDefaults.disableForeignObject
   } = props
   const negativeStepValue = nsv ? Math.abs(nsv) : undefined
   const allowFontScaling =
@@ -306,7 +307,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }
       totalWidth +=
         (stackItem.stacks[0].barWidth ?? props.barWidth ?? defaultBarWidth) +
-        (index === dataLength - 1 ? 0 : stackItem.spacing ?? spacing)
+        (index === dataLength - 1 ? 0 : (stackItem.spacing ?? spacing))
     })
   } else {
     data.forEach((item, index) => {
@@ -330,7 +331,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       }
       totalWidth +=
         (item.barWidth ?? props.barWidth ?? defaultBarWidth) +
-        (index === dataLength - 1 ? spacing : item.spacing ?? spacing)
+        (index === dataLength - 1 ? spacing : (item.spacing ?? spacing))
     })
   }
 
@@ -551,16 +552,16 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
 
   const yAxisExtraHeightAtTop = props.trimYAxisAtTop
     ? 0
-    : props.yAxisExtraHeight ?? containerHeight / 20
+    : (props.yAxisExtraHeight ?? containerHeight / 20)
 
   const barInnerComponent = props.barInnerComponent
 
   const localYAxisOffset1 = lineConfig.isSecondary
-    ? (props.secondaryYAxis as secondaryYAxisType)?.yAxisOffset ?? 0
-    : yAxisOffset ?? 0
+    ? ((props.secondaryYAxis as secondaryYAxisType)?.yAxisOffset ?? 0)
+    : (yAxisOffset ?? 0)
   const localYAxisOffset2 = lineConfig2.isSecondary
-    ? (props.secondaryYAxis as secondaryYAxisType)?.yAxisOffset ?? 0
-    : yAxisOffset ?? 0
+    ? ((props.secondaryYAxis as secondaryYAxisType)?.yAxisOffset ?? 0)
+    : (yAxisOffset ?? 0)
 
   useEffect(() => {
     if (showLine) {
@@ -583,8 +584,11 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
           const currentValue = props.lineData
             ? props.lineData[i].value
             : stackData
-            ? stackData[i].stacks.reduce((total, item) => total + item.value, 0)
-            : data[i].value
+              ? stackData[i].stacks.reduce(
+                  (total, item) => total + item.value,
+                  0
+                )
+              : data[i].value
           pp +=
             'L' +
             getXForLineInBar(
@@ -641,8 +645,11 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
           const currentValue = props.lineData
             ? props.lineData[i].value
             : stackData
-            ? stackData[i].stacks.reduce((total, item) => total + item.value, 0)
-            : data[i].value
+              ? stackData[i].stacks.reduce(
+                  (total, item) => total + item.value,
+                  0
+                )
+              : data[i].value
           p1Array.push([
             getXForLineInBar(
               i,
@@ -999,7 +1006,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     onScrollEndDrag: props.onScrollEndDrag,
     floatingYAxisLabels,
     allowFontScaling,
-    showVerticalLines: props.showVerticalLines
+    showVerticalLines: props.showVerticalLines,
+    disableForeignObject
   }
 
   return {
@@ -1114,6 +1122,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     yAxisExtraHeightAtTop,
     selectedStackIndex,
     setSelectedStackIndex,
-    allowFontScaling
+    allowFontScaling,
+    disableForeignObject
   }
 }

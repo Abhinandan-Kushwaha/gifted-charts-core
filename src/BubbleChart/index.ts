@@ -31,7 +31,11 @@ export interface extendedBubbleChartPropsType extends BubbleChartPropsType {
 const screenWidth = Dimensions.get('window').width
 
 export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
-  const { formatXLabel, dataSet } = props
+  const {
+    formatXLabel,
+    dataSet,
+    disableForeignObject = BubbleDefaults.disableForeignObject
+  } = props
   let { data = [] } = props
 
   if (dataSet) {
@@ -442,7 +446,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
   const bubblesHeight = props.bubblesHeight ?? BubbleDefaults.bubblesHeight
 
   const bubblesColor = scatterChart
-    ? props.bubblesColor ?? BubbleDefaults.bubblesColor
+    ? (props.bubblesColor ?? BubbleDefaults.bubblesColor)
     : props.bubblesColor
 
   const startIndex = 0
@@ -468,7 +472,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
 
   const borderWidth = props.borderWidth ?? BubbleDefaults.borderWidth
   const borderColor = scatterChart
-    ? props.borderColor ?? BubbleDefaults.borderColor
+    ? (props.borderColor ?? BubbleDefaults.borderColor)
     : props.borderColor
   const opacity = props.opacity ?? BubbleDefaults.opacity
   const borderOpacity = props.borderOpacity ?? BubbleDefaults.borderOpacity
@@ -742,7 +746,8 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     onScrollEndDrag: props.onScrollEndDrag,
     allowFontScaling,
     showVerticalLines: props.showVerticalLines,
-    xAxisLabelTexts
+    xAxisLabelTexts,
+    disableForeignObject
   }
   return {
     data,
@@ -804,6 +809,7 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     scatterChart,
     extraWidthDueToBubble,
     showGradient,
-    centerColorForGradient
+    centerColorForGradient,
+    disableForeignObject
   }
 }

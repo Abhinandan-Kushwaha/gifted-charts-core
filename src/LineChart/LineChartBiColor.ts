@@ -51,6 +51,8 @@ export const useLineChartBiColor = (
   const allowFontScaling =
     props.allowFontScaling ?? AxesAndRulesDefaults.allowFontScaling
 
+  const disableForeignObject =
+    props.disableForeignObject ?? LineDefaults.disableForeignObject
   const scrollToEnd = props.scrollToEnd ?? LineDefaults.scrollToEnd
   const scrollAnimation = props.scrollAnimation ?? LineDefaults.scrollAnimation
   const scrollEventThrottle =
@@ -412,7 +414,7 @@ export const useLineChartBiColor = (
 
   const yAxisExtraHeightAtTop = props.trimYAxisAtTop
     ? 0
-    : props.yAxisExtraHeight ?? containerHeight / 20
+    : (props.yAxisExtraHeight ?? containerHeight / 20)
 
   const horizontal = false
   const yAxisAtTop = false
@@ -444,7 +446,7 @@ export const useLineChartBiColor = (
     }
     horizSections.push({
       value: props.yAxisLabelTexts
-        ? props.yAxisLabelTexts[noOfSections - i] ?? value.toString()
+        ? (props.yAxisLabelTexts[noOfSections - i] ?? value.toString())
         : value.toString()
     })
   }
@@ -455,7 +457,7 @@ export const useLineChartBiColor = (
 
   const extraWidthDueToDataPoint = props.hideDataPoints
     ? 0
-    : dataPointsRadius ?? dataPointsWidth
+    : (dataPointsRadius ?? dataPointsWidth)
 
   const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
     chartType: chartTypes.LINE_BI_COLOR,
@@ -546,7 +548,8 @@ export const useLineChartBiColor = (
     onScrollEndDrag: props.onScrollEndDrag,
     floatingYAxisLabels: props.floatingYAxisLabels,
     allowFontScaling,
-    showVerticalLines: props.showVerticalLines
+    showVerticalLines: props.showVerticalLines,
+    disableForeignObject
   }
 
   return {

@@ -9,7 +9,6 @@ import {
   defaultPointerConfig
 } from '../utils/constants'
 import {
-  adjustToOffset,
   colorsToLowerCase,
   computeMaxAndMinItems,
   getAllArrowProperties,
@@ -17,7 +16,6 @@ import {
   getAxesAndRulesProps,
   getCurvePathWithSegments,
   getExtendedContainerHeightWithPadding,
-  getInterpolatedData,
   getLineSegmentsDueToNoExtrapolation,
   getLineSegmentsForMissingValues,
   getMaxValue,
@@ -54,6 +52,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     showDataPointsForMissingValues,
     interpolateMissingValues = true,
     extrapolateMissingValues = true,
+    disableForeignObject = LineDefaults.disableForeignObject,
     yAxisOffset,
     parentWidth,
     renderTooltip,
@@ -228,7 +227,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.onDataChangeAnimationDuration ?? 400
   const animateTogether = colors
     ? true
-    : props.animateTogether ?? LineDefaults.animateTogether
+    : (props.animateTogether ?? LineDefaults.animateTogether)
   const renderDataPointsAfterAnimationEnds =
     props.renderDataPointsAfterAnimationEnds ??
     LineDefaults.renderDataPointsAfterAnimationEnds
@@ -268,28 +267,28 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const lineSegments = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data)
     : !extrapolateMissingValues
-    ? getLineSegmentsDueToNoExtrapolation(props.data)
-    : colorsToLowerCase(props.lineSegments)
+      ? getLineSegmentsDueToNoExtrapolation(props.data)
+      : colorsToLowerCase(props.lineSegments)
   const lineSegments2 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data2)
     : !extrapolateMissingValues
-    ? getLineSegmentsDueToNoExtrapolation(props.data2)
-    : colorsToLowerCase(props.lineSegments2)
+      ? getLineSegmentsDueToNoExtrapolation(props.data2)
+      : colorsToLowerCase(props.lineSegments2)
   const lineSegments3 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data3)
     : !extrapolateMissingValues
-    ? getLineSegmentsDueToNoExtrapolation(props.data3)
-    : colorsToLowerCase(props.lineSegments3)
+      ? getLineSegmentsDueToNoExtrapolation(props.data3)
+      : colorsToLowerCase(props.lineSegments3)
   const lineSegments4 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data4)
     : !extrapolateMissingValues
-    ? getLineSegmentsDueToNoExtrapolation(props.data4)
-    : colorsToLowerCase(props.lineSegments4)
+      ? getLineSegmentsDueToNoExtrapolation(props.data4)
+      : colorsToLowerCase(props.lineSegments4)
   const lineSegments5 = !interpolateMissingValues
     ? getLineSegmentsForMissingValues(props.data5)
     : !extrapolateMissingValues
-    ? getLineSegmentsDueToNoExtrapolation(props.data5)
-    : colorsToLowerCase(props.lineSegments5)
+      ? getLineSegmentsDueToNoExtrapolation(props.data5)
+      : colorsToLowerCase(props.lineSegments5)
 
   const highlightedRange = props.highlightedRange
 
@@ -651,7 +650,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const mostNegativeValue = props.mostNegativeValue ?? minItem
 
   const overflowTop =
-    props.overflowTop ?? props.secondaryXAxis
+    (props.overflowTop ?? props.secondaryXAxis)
       ? AxesAndRulesDefaults.overflowTopWithSecondaryXAxis
       : AxesAndRulesDefaults.overflowTop
 
@@ -857,7 +856,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const yAxisExtraHeightAtTop = props.trimYAxisAtTop
     ? 0
-    : props.yAxisExtraHeight ?? containerHeight / 20
+    : (props.yAxisExtraHeight ?? containerHeight / 20)
 
   const addLeadingAndTrailingPathForAreaFill = (
     initialPath: string,
@@ -978,8 +977,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
         const setSegments = !interpolateMissingValues
           ? getLineSegmentsForMissingValues(props.dataSet?.[index].data)
           : !extrapolateMissingValues
-          ? getLineSegmentsDueToNoExtrapolation(props.dataSet?.[index].data)
-          : set.lineSegments
+            ? getLineSegmentsDueToNoExtrapolation(props.dataSet?.[index].data)
+            : set.lineSegments
         if (set.curved ?? props.curved) {
           const pArray: number[][] = []
           for (let i = 0; i < set.data.length; i++) {
@@ -2158,7 +2157,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
 
   const extraWidthDueToDataPoint = props.hideDataPoints
     ? 0
-    : dataPointsRadius ?? dataPointsWidth
+    : (dataPointsRadius ?? dataPointsWidth)
 
   const barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes = {
     chartType: chartTypes.LINE,
@@ -2239,7 +2238,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     xAxisLabelsAtBottom,
     onScrollEndDrag: props.onScrollEndDrag,
     allowFontScaling,
-    showVerticalLines: props.showVerticalLines
+    showVerticalLines: props.showVerticalLines,
+    disableForeignObject
   }
   let pointerItemLocal: any[] = []
   if (pointerConfig) {
@@ -2665,7 +2665,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     renderTooltip5,
     renderTooltipSecondary,
     pointerItemLocal,
-    allowFontScaling
+    allowFontScaling,
+    disableForeignObject
     // oldPoints
   }
 }

@@ -161,7 +161,8 @@ export const BarDefaults = {
   renderTooltipConditions: ['onClick', 'onHover'],
   highlightEnabled: false,
   lowlightOpacity: 0.3,
-  stackHighlightEnabled: false
+  stackHighlightEnabled: false,
+  disableForeignObject: false
 }
 
 // Line chart specific
@@ -218,7 +219,8 @@ export const LineDefaults = {
   endReachedOffset: defaultEndReachedOffset,
   strokeLinecap: 'butt' as Linecap,
   highlightEnabled: false,
-  lowlightOpacity: 0.3
+  lowlightOpacity: 0.3,
+  disableForeignObject: false
 }
 
 // Bubble chart specific
@@ -252,7 +254,8 @@ export const BubbleDefaults = {
   autoRoundLabelsY: false,
   autoRoundLabelsX: false,
   showGradient: true,
-  centerColorForGradient: 'white'
+  centerColorForGradient: 'white',
+  disableForeignObject: false
 }
 
 export const defaultLineConfig: defaultLineConfigType = {

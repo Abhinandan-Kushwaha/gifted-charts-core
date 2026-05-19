@@ -40,7 +40,7 @@ export interface BubbleChartPropsType {
   // xSectionColors?: ColorValue[]
   maxX?: number
   minX?: number
-  
+
   mostNegativeX?: number
   xStepValue?: number
   showFractionalXAxis?: boolean
@@ -258,6 +258,7 @@ export interface BubbleChartPropsType {
   autoRoundLabelsY?: boolean
   showGradient?: boolean
   centerColorForGradient?: ColorValue
+  disableForeignObject?: boolean
 }
 
 export interface bubbleDataItem {
