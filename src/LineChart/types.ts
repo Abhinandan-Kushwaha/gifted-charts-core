@@ -1,4 +1,10 @@
-import { GestureResponderEvent, StyleProp, TextStyle, ViewStyle, type ColorValue } from 'react-native'
+import {
+  GestureResponderEvent,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+  type ColorValue
+} from 'react-native'
 import { type yAxisSides } from '../utils/constants'
 import {
   XAxisConfig,
@@ -384,6 +390,7 @@ export interface LineChartPropsType {
   spreadAreaData?: SpreadData[]
   spreadAreaColor?: ColorValue
   spreadAreaOpacity?: number
+  disableForeignObject?: boolean // https://github.com/Abhinandan-Kushwaha/react-native-gifted-charts/issues/1100
 }
 
 export interface lineDataItem {
@@ -575,10 +582,10 @@ export interface LineChartBicolorPropsType {
   verticalLinesSpacing?: number
   hideAxesAndRules?: boolean
   areaChart?: boolean
-  
-  spreadAreaData?: SpreadData[];
-  spreadAreaColor?: ColorValue;
-  spreadAreaOpacity?: number;
+
+  spreadAreaData?: SpreadData[]
+  spreadAreaColor?: ColorValue
+  spreadAreaOpacity?: number
 
   disableScroll?: boolean
   showScrollIndicator?: boolean
@@ -679,6 +686,7 @@ export interface LineChartBicolorPropsType {
   trimYAxisAtTop?: boolean
   floatingYAxisLabels?: boolean
   allowFontScaling?: boolean
+  disableForeignObject?: boolean
 }
 
 export interface LineChartPropsTypeForWeb extends LineChartPropsType {
@@ -687,8 +695,7 @@ export interface LineChartPropsTypeForWeb extends LineChartPropsType {
   onMouseLeave?: Function
 }
 
-export interface LineChartBicolorPropsTypeForWeb
-  extends LineChartBicolorPropsType {
+export interface LineChartBicolorPropsTypeForWeb extends LineChartBicolorPropsType {
   onContextMenu?: Function
   onMouseEnter?: Function
   onMouseLeave?: Function

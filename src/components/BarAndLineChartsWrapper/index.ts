@@ -76,7 +76,8 @@ export const useBarAndLineChartsWrapper = (
     xAxisLabelsAtBottom,
     floatingYAxisLabels,
     allowFontScaling,
-    xAxisLabelTexts
+    xAxisLabelTexts,
+    disableForeignObject
   } = props
 
   const {
@@ -205,8 +206,8 @@ export const useBarAndLineChartsWrapper = (
   const verticalLinesAr = noOfVerticalLines
     ? [...Array(noOfVerticalLines).keys()]
     : (chartType === chartTypes.BUBBLE
-        ? xAxisLabelTexts ?? []
-        : stackData ?? data
+        ? (xAxisLabelTexts ?? [])
+        : (stackData ?? data)
       ).map((item) => {
         const {
           showVerticalLine,
@@ -346,13 +347,13 @@ export const useBarAndLineChartsWrapper = (
     containerHeightIncludingBelowXAxis,
     lineConfig,
     maxValue: lineConfig?.isSecondary
-      ? secondaryYAxis?.maxValue ?? maxValue
+      ? (secondaryYAxis?.maxValue ?? maxValue)
       : maxValue,
     animatedWidth,
     lineBehindBars,
     points,
     arrowPoints,
-    data: lineData?.length ? lineData : stackData ?? data,
+    data: lineData?.length ? lineData : (stackData ?? data),
     totalWidth,
     barWidth,
     labelsExtraHeight,
@@ -360,11 +361,12 @@ export const useBarAndLineChartsWrapper = (
     xAxisLabelsVerticalShift,
     selectedIndex,
     yAxisOffset: lineConfig?.isSecondary
-      ? secondaryYAxis?.yAxisOffset ?? 0
-      : yAxisOffset ?? 0,
+      ? (secondaryYAxis?.yAxisOffset ?? 0)
+      : (yAxisOffset ?? 0),
     strokeDashArray: lineConfig?.strokeDashArray ?? [0, 0],
     highlightEnabled,
-    lowlightOpacity
+    lowlightOpacity,
+    disableForeignObject
   }
   const lineInBarChartProps2: LineInBarChartPropsType = {
     ...lineInBarChartProps,
@@ -372,8 +374,8 @@ export const useBarAndLineChartsWrapper = (
     points: points2,
     data: lineData2 ?? [],
     yAxisOffset: lineConfig2?.isSecondary
-      ? secondaryYAxis?.yAxisOffset ?? 0
-      : yAxisOffset ?? 0
+      ? (secondaryYAxis?.yAxisOffset ?? 0)
+      : (yAxisOffset ?? 0)
   }
 
   const verticalLinesProps = {
@@ -431,8 +433,8 @@ export const useBarAndLineChartsWrapper = (
           ? (props.width ? -98 - endSpacing : -75 - endSpacing) -
             difBwWidthHeight
           : props.width
-          ? difBwWidthHeight
-          : difBwWidthHeight - 40) /
+            ? difBwWidthHeight
+            : difBwWidthHeight - 40) /
           2 +
         (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52)
     }
@@ -447,8 +449,8 @@ export const useBarAndLineChartsWrapper = (
     (rtl
       ? (props.width ? -98 - endSpacing : -75 - endSpacing) - difBwWidthHeight
       : props.width
-      ? difBwWidthHeight
-      : difBwWidthHeight - 40) /
+        ? difBwWidthHeight
+        : difBwWidthHeight - 40) /
       2 +
     (yAxisAtTop ? (rtl ? (props.width ? 12 : 40) : 12) : 52)
   })`

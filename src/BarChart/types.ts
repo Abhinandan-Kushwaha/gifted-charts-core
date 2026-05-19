@@ -401,6 +401,7 @@ export interface BarChartPropsType {
   parentWidth?: number
   secondaryXAxis?: XAxisConfig
   onBackgroundPress?: Function
+  disableForeignObject?: boolean // https://github.com/Abhinandan-Kushwaha/react-native-gifted-charts/issues/1100
 }
 
 export interface FocusedBarConfig {

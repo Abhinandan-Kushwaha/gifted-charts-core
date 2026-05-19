@@ -181,6 +181,7 @@ export interface LineInBarChartPropsType {
   strokeDashArray: number[]
   highlightEnabled: boolean
   lowlightOpacity: number
+  disableForeignObject: boolean
 }
 
 export interface DataPointProps {
@@ -197,6 +198,7 @@ export interface DataPointProps {
   opacity: number
   svgHeight: number
   totalWidth: number
+  disableForeignObject: boolean
 }
 
 export interface referenceConfigType {
@@ -399,6 +401,7 @@ export interface BarAndLineChartsWrapperTypes {
   onScrollEndDrag?: (event: any, direction: any) => void
   showVerticalLines?: boolean
   xAxisLabelTexts?: string[]
+  disableForeignObject: boolean
 }
 
 export interface HorizontalStripConfig {
