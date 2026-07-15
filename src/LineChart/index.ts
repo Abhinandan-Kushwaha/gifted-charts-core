@@ -978,7 +978,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
           ? getLineSegmentsForMissingValues(props.dataSet?.[index].data)
           : !extrapolateMissingValues
             ? getLineSegmentsDueToNoExtrapolation(props.dataSet?.[index].data)
-            : set.lineSegments
+            : colorsToLowerCase(set.lineSegments)
         if (set.curved ?? props.curved) {
           const pArray: number[][] = []
           for (let i = 0; i < set.data.length; i++) {
