@@ -12,7 +12,6 @@ export const useRenderStackBars = (props: IStackedBarChartPropsType) => {
     index,
     containerHeight = 200,
     containerHeightIncludingBelowXAxis,
-    maxValue,
     propSpacing,
     initialSpacing,
     stackData,
@@ -94,11 +93,9 @@ export const useRenderStackBars = (props: IStackedBarChartPropsType) => {
     for (let i = 0; i < index; i++) {
       const valueOnIndex = item.stacks[i].value
       if (isNegative && valueOnIndex <= 0) {
-        position +=
-          (valueOnIndex * (containerHeight ?? 200)) / (maxValue || 200)
+        position += valueOnIndex * negativeHeightFactor
       } else if (!isNegative && valueOnIndex >= 0) {
-        position +=
-          (valueOnIndex * (containerHeight ?? 200)) / (maxValue || 200)
+        position += valueOnIndex * heightFactor
       }
     }
     return position
