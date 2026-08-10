@@ -183,8 +183,7 @@ export interface StackedBarChartPropsType {
   rtl?: boolean
 }
 
-export interface StackedBarChartPropsTypeForWeb
-  extends StackedBarChartPropsType {
+export interface StackedBarChartPropsTypeForWeb extends StackedBarChartPropsType {
   onContextMenu?: Function
   onMouseEnter?: Function
   onMouseLeave?: Function
@@ -323,7 +322,9 @@ export interface BarChartPropsType {
   intactTopLabel?: boolean
   showValuesAsTopLabel?: boolean
   topLabelContainerStyle?: StyleProp<ViewStyle>
+  bottomLabelContainerStyle?: StyleProp<ViewStyle> // only for candleStick chart
   topLabelTextStyle?: StyleProp<TextStyle>
+  bottomLabelTextStyle?: StyleProp<TextStyle> // only for candleStick chart
 
   horizSections?: sectionType[]
   barBorderWidth?: number
@@ -502,12 +503,13 @@ interface arrowType {
   showArrowBase?: boolean
 }
 
-interface sectionType {
+export interface sectionType {
   value: string
 }
 
 export interface barDataItem {
   value?: number
+  lowerValue?: number // only for candleStick chart
   onPress?: any
   onLongPress?: any
   onPressOut?: any
@@ -524,7 +526,9 @@ export interface barDataItem {
   barBorderColor?: ColorValue
   labelTextStyle?: StyleProp<TextStyle>
   topLabelComponent?: Function
+  bottomLabelComponent?: Function // only for candleStick chart
   topLabelContainerStyle?: StyleProp<ViewStyle>
+  bottomLabelContainerStyle?: StyleProp<ViewStyle> // only for candleStick chart
   disablePress?: any
   capThickness?: number
   capColor?: ColorValue
@@ -589,8 +593,11 @@ export interface Animated2DWithGradientPropsType {
   horizontal: boolean
   intactTopLabel: boolean
   showValuesAsTopLabel: boolean
+  showValuesAsBottomLabel?: boolean
   topLabelContainerStyle?: StyleProp<ViewStyle>
+  bottomLabelContainerStyle?: StyleProp<ViewStyle> // only for candleStick chart
   topLabelTextStyle?: StyleProp<TextStyle>
+  bottomLabelTextStyle?: StyleProp<TextStyle> // only for candleStick chart
   barBorderWidth?: number
   barBorderColor: ColorValue
   barBorderRadius?: number
@@ -608,9 +615,11 @@ export interface Animated2DWithGradientPropsType {
   commonStyleForBar?: ViewStyle[]
   barStyleWithBackground?: ViewStyle[]
   yAxisOffset: number
+  isCandleStickChart?: boolean
 }
 
 export interface RenderBarsPropsType {
+  isCandleStickChart?: boolean
   style?: StyleProp<ViewStyle>
   width?: number
   height?: number
@@ -666,6 +675,7 @@ export interface RenderBarsPropsType {
   rtl: boolean
   intactTopLabel: boolean
   showValuesAsTopLabel?: boolean
+  showValuesAsBottomLabel?: boolean
   barBorderWidth?: number
   barBorderColor: ColorValue
   barBorderRadius?: number
@@ -776,7 +786,9 @@ export interface CommonPropsFor2dand3dBarsType {
   intactTopLabel: boolean
   showValuesAsTopLabel: boolean
   topLabelContainerStyle: StyleProp<ViewStyle>
+  bottomLabelContainerStyle: StyleProp<ViewStyle>
   topLabelTextStyle: StyleProp<TextStyle>
+  bottomLabelTextStyle: StyleProp<TextStyle>
   yAxisOffset: number
 }
 

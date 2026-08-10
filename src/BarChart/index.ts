@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
-  type lineConfigType,
   type barDataItem,
   type stackDataItem,
   BarChartPropsTypeForWeb,
@@ -178,11 +177,6 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const isAnimated = props.isAnimated ?? BarDefaults.isAnimated
   const animationDuration =
     props.animationDuration ?? BarDefaults.animationDuration
-
-  // const secondaryData = getSecondaryDataWithOffsetIncluded(
-  //   props.secondaryData,
-  //   props.secondaryYAxis
-  // )
 
   const lineData = useMemo(() => {
     if (!props.lineData) {
@@ -372,13 +366,6 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     secondaryRoundToDigits,
     showSecondaryFractionalValues
   )
-
-  // const secondaryMaxValue = lineConfig.isSecondary
-  //   ? typeof props.secondaryYAxis !== 'boolean'
-  //     ? (props.secondaryYAxis as secondaryYAxisType).maxValue ??
-  //       secondaryMaxAndMin.maxItem
-  //     : secondaryMaxAndMin.maxItem
-  //   : maxValue
 
   const secondaryMaxValue = getMaxValue(
     (props.secondaryYAxis as secondaryYAxisType)?.maxValue,
@@ -854,6 +841,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       showValuesAsTopLabel: props.showValuesAsTopLabel,
       topLabelContainerStyle: props.topLabelContainerStyle,
       topLabelTextStyle: props.topLabelTextStyle,
+      bottomLabelTextStyle: props.bottomLabelTextStyle,
       barBorderWidth: props.barBorderWidth,
       barBorderColor,
       barBorderRadius: props.barBorderRadius,

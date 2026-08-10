@@ -86,6 +86,7 @@ export const AxesAndRulesDefaults = {
   verticalLinesColor: 'lightgray',
   verticalLinesStrokeDashArray: '',
   verticalLinesShift: 0,
+  verticalLinesMarginBottom: 0,
   verticalLinesZIndex: -1,
   verticalLinesSpacing: 0,
   verticalLinesUptoDataPoint: false,
@@ -256,6 +257,16 @@ export const BubbleDefaults = {
   showGradient: true,
   centerColorForGradient: 'white',
   disableForeignObject: false
+}
+
+export const CandleStickDefaults = {
+  bullishColor: 'lightgreen',
+  bearishColor: 'pink',
+  bullishBorderColor: 'green',
+  bearishBorderColor: 'red',
+  borderWidth: 1,
+  barWidth: 10,
+  spacing: 10
 }
 
 export const defaultLineConfig: defaultLineConfigType = {
