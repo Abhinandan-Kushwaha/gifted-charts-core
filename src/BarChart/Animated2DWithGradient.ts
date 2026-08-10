@@ -23,6 +23,7 @@ interface Animated2dWithGradientPropsType extends BarChartPropsType {
   patternId?: string
   barStyle?: object
   intactTopLabel: boolean
+  isCandleStickChart?: boolean
 }
 
 interface IgetPropsForAnimated2DWithGradientReturnType {
@@ -56,6 +57,7 @@ export const getPropsForAnimated2DWithGradient = (
     intactTopLabel,
     showValuesAsTopLabel,
     topLabelContainerStyle,
+    bottomLabelContainerStyle,
     topLabelTextStyle,
     roundedBottom,
     cappedBars,
@@ -77,8 +79,8 @@ export const getPropsForAnimated2DWithGradient = (
   const itemOrPropsBarBorderRadius =
     item.barBorderRadius ?? barBorderRadius ?? 0
   const localBarBorderRadius =
-    isFocused ?? false
-      ? focusedBarConfig?.borderRadius ?? itemOrPropsBarBorderRadius
+    (isFocused ?? false)
+      ? (focusedBarConfig?.borderRadius ?? itemOrPropsBarBorderRadius)
       : itemOrPropsBarBorderRadius
   const localBarWidth = getBarWidth(
     isFocused,
@@ -138,9 +140,9 @@ export const getPropsForAnimated2DWithGradient = (
   if (cappedBars ?? false) {
     commonStyleForBar.push({
       borderTopLeftRadius:
-        item.capRadius === 0 ? 0 : item.capRadius ?? capRadius ?? 0,
+        item.capRadius === 0 ? 0 : (item.capRadius ?? capRadius ?? 0),
       borderTopRightRadius:
-        item.capRadius === 0 ? 0 : item.capRadius ?? capRadius ?? 0
+        item.capRadius === 0 ? 0 : (item.capRadius ?? capRadius ?? 0)
     })
   }
 
@@ -160,7 +162,7 @@ export const getPropsForAnimated2DWithGradient = (
   const commonPropsFor2dAnd3dBars: CommonPropsFor2dand3dBarsType = {
     barBackgroundPattern: item.barBackgroundPattern ?? barBackgroundPattern,
     barInnerComponent: isFocused
-      ? focusedBarConfig?.barInnerComponent ?? barInnerComponent
+      ? (focusedBarConfig?.barInnerComponent ?? barInnerComponent)
       : barInnerComponent,
     patternId: item.patternId ?? patternId,
     barWidth: localBarWidth,
@@ -171,16 +173,18 @@ export const getPropsForAnimated2DWithGradient = (
     frontColor: localFrontColor,
     showGradient: item.showGradient ?? showGradient ?? false,
     gradientColor: isFocused
-      ? focusedBarConfig?.gradientColor ?? localGradientColor
+      ? (focusedBarConfig?.gradientColor ?? localGradientColor)
       : localGradientColor,
     opacity: isFocused
-      ? focusedBarConfig?.opacity ?? localOpacity
+      ? (focusedBarConfig?.opacity ?? localOpacity)
       : localOpacity,
     height: barHeight,
     intactTopLabel,
     showValuesAsTopLabel: showValuesAsTopLabel ?? false,
     topLabelContainerStyle,
+    bottomLabelContainerStyle,
     topLabelTextStyle,
+    bottomLabelTextStyle: props.bottomLabelTextStyle,
     yAxisOffset: yAxisOffset ?? 0
   }
 

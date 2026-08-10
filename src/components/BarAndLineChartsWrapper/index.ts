@@ -188,6 +188,9 @@ export const useBarAndLineChartsWrapper = (
   const verticalLinesShift =
     axesAndRulesProps.verticalLinesShift ??
     AxesAndRulesDefaults.verticalLinesShift
+  const verticalLinesMarginBottom =
+    axesAndRulesProps.verticalLinesMarginBottom ??
+    AxesAndRulesDefaults.verticalLinesMarginBottom
   const verticalLinesZIndex =
     axesAndRulesProps.verticalLinesZIndex ??
     AxesAndRulesDefaults.verticalLinesZIndex
@@ -216,6 +219,7 @@ export const useBarAndLineChartsWrapper = (
           verticalLineColor,
           verticalLineStrokeDashArray,
           verticalLineShift,
+          verticalLineMarginBottom,
           verticalLineZIndex,
           verticalLineSpacing,
           verticalLineStrokeLinecap
@@ -227,6 +231,7 @@ export const useBarAndLineChartsWrapper = (
           verticalLineColor,
           verticalLineStrokeDashArray,
           verticalLineShift,
+          verticalLineMarginBottom,
           verticalLineZIndex,
           verticalLineSpacing,
           verticalLineStrokeLinecap
@@ -390,6 +395,7 @@ export const useBarAndLineChartsWrapper = (
     verticalLinesColor,
     verticalLinesStrokeDashArray,
     verticalLinesShift,
+    verticalLinesMarginBottom,
     verticalLinesUptoDataPoint,
     verticalLinesStrokeLinecap,
     xAxisThickness,
