@@ -1,6 +1,7 @@
 import { getStrokeDashArray } from '../utils'
 import { AxesAndRulesDefaults, populationDefaults } from '../utils/constants'
 import { Framework, type Linecap } from '../utils/types'
+import type { UsePopulationPyramidReturnType } from './types'
 import {
   type extendedPopulationPyramidPropsType,
   type RulesPropsType
@@ -8,7 +9,7 @@ import {
 
 export const usePopulationPyramid = (
   props: extendedPopulationPyramidPropsType
-) => {
+): UsePopulationPyramidReturnType => {
   const {
     framework,
     height = populationDefaults.height,
@@ -134,25 +135,25 @@ export const usePopulationPyramid = (
   } = props
 
   if (framework === Framework.reactJS) {
-    yAxisColor = yAxisColor.toString()
-    xAxisColor = xAxisColor.toString()
-    xAxisIndicesColor = xAxisIndicesColor.toString()
-    xAxisLabelColor = xAxisLabelColor.toString()
-    verticalLinesColor = verticalLinesColor.toString()
-    yAxisIndicesColor = yAxisIndicesColor.toString()
-    yAxisLabelColor = yAxisLabelColor.toString()
-    rulesColor = rulesColor.toString()
-    leftBarLabelColor = leftBarLabelColor.toString()
-    rightBarLabelColor = rightBarLabelColor.toString()
-    midAxisLabelColor = midAxisLabelColor.toString()
-    leftBarColor = leftBarColor.toString()
-    rightBarColor = rightBarColor.toString()
-    leftBarBorderColor = leftBarBorderColor.toString()
-    rightBarBorderColor = rightBarBorderColor.toString()
-    leftSurplusColor = leftSurplusColor.toString()
-    leftSurplusBorderColor = leftSurplusBorderColor.toString()
-    rightSurplusColor = rightSurplusColor.toString()
-    rightSurplusBorderColor = rightSurplusBorderColor.toString()
+    yAxisColor = (yAxisColor ?? "").toString()
+    xAxisColor = (xAxisColor ?? "").toString()
+    xAxisIndicesColor = (xAxisIndicesColor ?? "").toString()
+    xAxisLabelColor = (xAxisLabelColor ?? "").toString()
+    verticalLinesColor = (verticalLinesColor ?? "").toString()
+    yAxisIndicesColor = (yAxisIndicesColor ?? "").toString()
+    yAxisLabelColor = (yAxisLabelColor ?? "").toString()
+    rulesColor = (rulesColor ?? "").toString()
+    leftBarLabelColor = (leftBarLabelColor ?? "").toString()
+    rightBarLabelColor = (rightBarLabelColor ?? "").toString()
+    midAxisLabelColor = (midAxisLabelColor ?? "").toString()
+    leftBarColor = (leftBarColor ?? "").toString()
+    rightBarColor = (rightBarColor ?? "").toString()
+    leftBarBorderColor = (leftBarBorderColor ?? "").toString()
+    rightBarBorderColor = (rightBarBorderColor ?? "").toString()
+    leftSurplusColor = (leftSurplusColor ?? "").toString()
+    leftSurplusBorderColor = (leftSurplusBorderColor ?? "").toString()
+    rightSurplusColor = (rightSurplusColor ?? "").toString()
+    rightSurplusBorderColor = (rightSurplusBorderColor ?? "").toString()
   }
 
   const yAxisLabelWidth = hideYAxisText

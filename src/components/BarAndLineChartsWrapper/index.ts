@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import {
   AxesAndRulesDefaults,
   BarDefaults,
-  chartTypes
+  chartTypes,
+  LineDefaults
 } from '../../utils/constants'
 import {
   LineInBarChartPropsType,
@@ -77,7 +78,8 @@ export const useBarAndLineChartsWrapper = (
     floatingYAxisLabels,
     allowFontScaling,
     xAxisLabelTexts,
-    disableForeignObject
+    disableForeignObject,
+    principalCumulativeSpacing
   } = props
 
   const {
@@ -388,6 +390,7 @@ export const useBarAndLineChartsWrapper = (
     verticalLinesAr,
     verticalLinesSpacing,
     spacing: lineConfig?.spacing ?? spacing,
+    alignVerticalLinesWithXValues: props.alignVerticalLinesWithXValues ?? LineDefaults.alignVerticalLinesWithXValues,
     initialSpacing,
     verticalLinesZIndex,
     verticalLinesHeight,
@@ -409,7 +412,8 @@ export const useBarAndLineChartsWrapper = (
     containerHeightIncludingBelowXAxis,
     yAxisLabelWidth,
     totalWidth,
-    xAxisLabelsVerticalShift
+    xAxisLabelsVerticalShift,
+    spacingArray: principalCumulativeSpacing
   }
 
   const actualContainerHeight =

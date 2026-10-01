@@ -549,7 +549,8 @@ export const useLineChartBiColor = (
     floatingYAxisLabels: props.floatingYAxisLabels,
     allowFontScaling,
     showVerticalLines: props.showVerticalLines,
-    disableForeignObject
+    disableForeignObject,
+    principalCumulativeSpacing: []
   }
 
   return {

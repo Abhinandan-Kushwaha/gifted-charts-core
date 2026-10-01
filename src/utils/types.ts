@@ -402,6 +402,8 @@ export interface BarAndLineChartsWrapperTypes {
   showVerticalLines?: boolean
   xAxisLabelTexts?: string[]
   disableForeignObject: boolean
+  alignVerticalLinesWithXValues?: boolean
+  principalCumulativeSpacing: number[]
 }
 
 export interface HorizontalStripConfig {

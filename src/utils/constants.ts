@@ -221,7 +221,8 @@ export const LineDefaults = {
   strokeLinecap: 'butt' as Linecap,
   highlightEnabled: false,
   lowlightOpacity: 0.3,
-  disableForeignObject: false
+  disableForeignObject: false,
+  alignVerticalLinesWithXValues: false
 }
 
 // Bubble chart specific

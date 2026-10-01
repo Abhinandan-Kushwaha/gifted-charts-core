@@ -1,13 +1,15 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import {
   defaultLabelLineConfig,
   emptyExternaLabelProperties,
   getTextSizeForPieLabels
 } from '../utils'
-import { type PieChartMainProps, type pieDataItem } from './types'
+import { PieChartMainReturnType, type PieChartMainProps, type pieDataItem } from './types'
 import { PieTooltipDefaults } from '../utils/constants'
 
-export const getPieChartMainProps = (props: PieChartMainProps) => {
+export const getPieChartMainProps = (
+  props: PieChartMainProps
+): PieChartMainReturnType => {
   const {
     isThreeD,
     isBiggerPie,

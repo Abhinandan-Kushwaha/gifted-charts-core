@@ -1,6 +1,6 @@
 import { useBarChart } from '../BarChart'
 import { CandleStickDefaults } from '../utils/constants'
-import { CandleStickChartPropsType } from './types'
+import { CandleStickChartPropsType, UseCandleStickChartReturnType } from './types'
 
 interface extendedCandleStickChartPropsType extends CandleStickChartPropsType {
   parentWidth: number
@@ -8,7 +8,7 @@ interface extendedCandleStickChartPropsType extends CandleStickChartPropsType {
 
 export const useCandleStickChart = (
   props: extendedCandleStickChartPropsType
-) => {
+): UseCandleStickChartReturnType => {
   const spacing = props.spacing ?? CandleStickDefaults.spacing
   const bullishColor = props.bullishColor ?? CandleStickDefaults.bullishColor
   const bearishColor = props.bearishColor ?? CandleStickDefaults.bearishColor
@@ -55,15 +55,6 @@ export const useCandleStickChart = (
       const { open, close, high, low } = item
       const bigger = Math.max(open, close)
       const smaller = Math.min(open, close)
-
-      //   const heightFactor = item.isSecondary
-      //     ? item.value < 0
-      //       ? (secondaryNegativeStepHeight ?? secondaryStepHeight) /
-      //         (secondaryNegativeStepValue ?? secondaryStepValue)
-      //       : secondaryStepHeight / secondaryStepValue
-      //     : item.value < 0
-      //       ? negativeStepHeight / negativeStepValue
-      //       : stepHeight / stepValue
 
       const heightFactor = stepHeight / stepValue
 

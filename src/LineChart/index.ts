@@ -29,16 +29,16 @@ import {
 } from '../utils'
 import {
   lineDataItemNullSafe,
+  UseLineChartReturnType,
   type IDataSanitisationProps,
   type LineChartPropsType,
   type lineDataItem
 } from './types'
 import {
-  type BarAndLineChartsWrapperTypes,
-  EdgePosition,
   type LineSegment,
-  DataSetNullSafe
+  type BarAndLineChartsWrapperTypes,
 } from '../utils/types'
+import { EdgePosition } from '../utils/types'
 
 export interface extendedLineChartPropsType extends LineChartPropsType {
   // heightValue: Animated.Value
@@ -47,7 +47,9 @@ export interface extendedLineChartPropsType extends LineChartPropsType {
   parentWidth: number
 }
 
-export const useLineChart = (props: extendedLineChartPropsType) => {
+export const useLineChart = (
+  props: extendedLineChartPropsType
+): UseLineChartReturnType => {
   const {
     showDataPointsForMissingValues,
     interpolateMissingValues = true,
@@ -168,23 +170,23 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     onlyPositive,
     yAxisOffset
   }
-  const data = useMemo(
+  const data: lineDataItemNullSafe[] = useMemo<lineDataItemNullSafe[]>(
     () => getSanitisedData(props.data, dataSanitisationProps),
     [yAxisOffset, props.data]
   )
-  const data2 = useMemo(
+  const data2: lineDataItemNullSafe[] = useMemo<lineDataItemNullSafe[]>(
     () => getSanitisedData(props.data2, dataSanitisationProps),
     [yAxisOffset, props.data2]
   )
-  const data3 = useMemo(
+  const data3: lineDataItemNullSafe[] = useMemo<lineDataItemNullSafe[]>(
     () => getSanitisedData(props.data3, dataSanitisationProps),
     [yAxisOffset, props.data3]
   )
-  const data4 = useMemo(
+  const data4: lineDataItemNullSafe[] = useMemo<lineDataItemNullSafe[]>(
     () => getSanitisedData(props.data4, dataSanitisationProps),
     [yAxisOffset, props.data4]
   )
-  const data5 = useMemo(
+  const data5: lineDataItemNullSafe[] = useMemo<lineDataItemNullSafe[]>(
     () => getSanitisedData(props.data5, dataSanitisationProps),
     [yAxisOffset, props.data5]
   )
@@ -198,19 +200,140 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       onlyPositive
     ) ?? []
 
-  const dataSet: DataSetNullSafe[] | undefined = useMemo(() => {
-    if (!props.dataSet?.length) return undefined
-    return props.dataSet?.map((dataSetItem) => {
-      const sanitisedData = getSanitisedData(
-        dataSetItem.data,
-        dataSanitisationProps
-      )
+  const { dataSet, doAllPointsInDataSetHaveX, minXValFromDataSet, maxXValFromDataSet, maxLFromDataSet } = useMemo(() => {
+    if (!props.dataSet?.length) {
       return {
-        ...dataSetItem,
-        data: sanitisedData
+        dataSet: undefined,
+        doAllPointsInDataSetHaveX: false,
+        minXValFromDataSet: Infinity,
+        maxXValFromDataSet: -Infinity,
+        maxLFromDataSet: -Infinity
       }
-    })
+    }
+    let doAllPointsHaveXLocal = true
+    let minXVal = Infinity
+    let maxXVal = -Infinity
+    let maxL = -Infinity
+    return {
+      dataSet: props.dataSet?.map((dataSetItem) => {
+        minXVal = Math.min(minXVal, ...dataSetItem.data.map(point => point.x ?? Infinity))
+        maxXVal = Math.max(maxXVal, ...dataSetItem.data.map(point => point.x ?? -Infinity))
+        maxL = Math.max(maxL, dataSetItem.data.length)
+        if (doAllPointsHaveXLocal) {
+          if (dataSetItem.data.some(point => point.x === undefined)) {
+            doAllPointsHaveXLocal = false
+          }
+        }
+        const sanitisedData = getSanitisedData(
+          dataSetItem.data,
+          dataSanitisationProps
+        )
+        return {
+          ...dataSetItem,
+          data: sanitisedData
+        }
+
+      }),
+      doAllPointsInDataSetHaveX: doAllPointsHaveXLocal,
+      minXValFromDataSet: minXVal,
+      maxXValFromDataSet: maxXVal,
+      maxLFromDataSet: maxL
+    }
   }, [yAxisOffset, props.dataSet])
+
+  /****************************************************************************************************/
+  /***************        Determine doAllPointsHaveX, minXValue, maxXValue & maxL     *****************/
+  /****************************************************************************************************/
+
+  const [minXValue, maxXValue, maxDataLength, doAllPointsHaveX] = useMemo(() => {
+    if (dataSet) {
+      return [minXValFromDataSet, maxXValFromDataSet, maxLFromDataSet, doAllPointsInDataSetHaveX]
+    }
+    let minX = Infinity
+    let maxX = -Infinity
+    let doAllPointsHaveXLocal = true
+    data.forEach(item => {
+      if (doAllPointsHaveXLocal && item.x === undefined) {
+        doAllPointsHaveXLocal = false
+      }
+      minX = Math.min(minX, item.x ?? Infinity)
+      maxX = Math.max(maxX, item.x ?? -Infinity)
+    })
+    data2.forEach(item => {
+      if (doAllPointsHaveXLocal && item.x === undefined) {
+        doAllPointsHaveXLocal = false
+      }
+      minX = Math.min(minX, item.x ?? Infinity)
+      maxX = Math.max(maxX, item.x ?? -Infinity)
+    })
+    data3.forEach(item => {
+      if (doAllPointsHaveXLocal && item.x === undefined) {
+        doAllPointsHaveXLocal = false
+      }
+      minX = Math.min(minX, item.x ?? Infinity)
+      maxX = Math.max(maxX, item.x ?? -Infinity)
+    })
+    data4.forEach(item => {
+      if (doAllPointsHaveXLocal && item.x === undefined) {
+        doAllPointsHaveXLocal = false
+      }
+      minX = Math.min(minX, item.x ?? Infinity)
+      maxX = Math.max(maxX, item.x ?? -Infinity)
+    })
+    data5.forEach(item => {
+      if (doAllPointsHaveXLocal && item.x === undefined) {
+        doAllPointsHaveXLocal = false
+      }
+      minX = Math.min(minX, item.x ?? Infinity)
+      maxX = Math.max(maxX, item.x ?? -Infinity)
+    })
+    secondaryData.forEach(item => {
+      if (doAllPointsHaveXLocal && item.x === undefined) {
+        doAllPointsHaveXLocal = false
+      }
+      minX = Math.min(minX, item.x ?? Infinity)
+      maxX = Math.max(maxX, item.x ?? -Infinity)
+    })
+
+    const maxLength = Math.max(data.length, data2.length, data3.length, data4.length, data5.length, secondaryData.length)
+
+    return [minX, maxX, maxLength, doAllPointsHaveXLocal]
+  }, [dataSet, data, data2, data3, data4, data5, secondaryData])
+
+  /****************************************************************************************************/
+
+
+  /************************************************************/
+  /***************           Sorting             **************/
+  /***  It will happen only if all points have an X value   ***/
+  /************************************************************/
+
+  if (doAllPointsHaveX) {
+    if (dataSet?.length) {
+      dataSet.forEach(set => {
+        set.data.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+      })
+    }
+    else {
+      data.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+      if (data2?.length) {
+        data2.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+      }
+      if (data3?.length) {
+        data3.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+      }
+      if (data4?.length) {
+        data4.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+      }
+      if (data5?.length) {
+        data5.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+      }
+      if (secondaryData?.length) {
+        secondaryData.sort((a, b) => (a.x ?? 0) - (b.x ?? 0))
+      }
+    }
+  }
+  /************************************************************/
 
   const data0 = dataSet?.[0]?.data
 
@@ -310,7 +433,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     props.spacing ??
     (adjustToWidth
       ? ((props.width ?? parentWidth - yAxisLabelWidth) - initialSpacing) /
-        Math.max((data0 ?? data).length - 1, 1)
+      Math.max((data0 ?? data).length - 1, 1)
       : LineDefaults.spacing)
 
   const xAxisThickness =
@@ -497,6 +620,20 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     cumulativeSpacingSecondary: number[] = []
   let cumulativeSpacingForSet: number[][] = [[]] // Array(dataSet?.length ?? 0).fill([])
 
+  const xOffset = props.xOffset ?? minXValue
+
+  const xScale = useMemo(() => {
+    if (props.xScale) return props.xScale
+
+    const xStepWidth = (maxXValue - minXValue) / maxDataLength
+    return spacing / xStepWidth
+  }, [props.xScale, maxXValue, minXValue, maxDataLength])
+
+  const getScaledX = (x?: number) => {
+    if (x == undefined) return 0
+    return (x - xOffset) * xScale
+  }
+
   const strips: any = {}
   if (dataSet?.length) {
     dataSet.forEach((set, key) => {
@@ -513,7 +650,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       const localCumulativeSum: number[] = []
       set.data.forEach((item, index) => {
         spacingSum += item.spacing ?? space
-        localCumulativeSum.push(spacingSum)
+        localCumulativeSum.push(doAllPointsHaveX ? (getScaledX(item.x)) : spacingSum)
         if (item.showStrip) {
           strips[key] = strips[key] ?? {}
           strips[key][index] = { item, index, key }
@@ -528,7 +665,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     let spacingSum = 0
     let space = props.spacing1 ?? spacing
     data.forEach((item, index) => {
-      spacingSum += item.spacing ?? space
+      if (doAllPointsHaveX) {
+        spacingSum = getScaledX(item.x)
+      }
+      else {
+        spacingSum += item.spacing ?? space
+      }
       cumulativeSpacing1.push(spacingSum)
       if (item.showStrip) {
         strips[0] = strips[0] ?? {}
@@ -543,7 +685,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       spacingSum = 0
       space = props.spacing2 ?? spacing
       data2.forEach((item, index) => {
-        spacingSum += item.spacing ?? space
+        if (doAllPointsHaveX) {
+          spacingSum = getScaledX(item.x)
+        }
+        else {
+          spacingSum += item.spacing ?? space
+        }
         cumulativeSpacing2.push(spacingSum)
         if (item.showStrip) {
           strips[1] = strips[1] ?? {}
@@ -559,7 +706,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       spacingSum = 0
       space = props.spacing3 ?? spacing
       data3.forEach((item, index) => {
-        spacingSum += item.spacing ?? space
+        if (doAllPointsHaveX) {
+          spacingSum = getScaledX(item.x)
+        }
+        else {
+          spacingSum += item.spacing ?? space
+        }
         cumulativeSpacing3.push(spacingSum)
         if (item.showStrip) {
           strips[2] = strips[2] ?? {}
@@ -575,7 +727,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       spacingSum = 0
       space = props.spacing4 ?? spacing
       data4.forEach((item, index) => {
-        spacingSum += item.spacing ?? space
+        if (doAllPointsHaveX) {
+          spacingSum = getScaledX(item.x)
+        }
+        else {
+          spacingSum += item.spacing ?? space
+        }
         cumulativeSpacing4.push(spacingSum)
         if (item.showStrip) {
           strips[3] = strips[3] ?? {}
@@ -591,7 +748,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       spacingSum = 0
       space = props.spacing5 ?? spacing
       data5.forEach((item, index) => {
-        spacingSum += item.spacing ?? space
+        if (doAllPointsHaveX) {
+          spacingSum = getScaledX(item.x)
+        }
+        else {
+          spacingSum += item.spacing ?? space
+        }
         cumulativeSpacing5.push(spacingSum)
         if (item.showStrip) {
           strips[4] = strips[4] ?? {}
@@ -607,7 +769,12 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
       spacingSum = 0
       space = props.secondaryLineConfig?.spacing ?? spacing
       secondaryData.forEach((item) => {
-        spacingSum += item.spacing ?? space
+        if (doAllPointsHaveX) {
+          spacingSum = getScaledX(item.x)
+        }
+        else {
+          spacingSum += item.spacing ?? space
+        }
         cumulativeSpacingSecondary.push(spacingSum)
       })
       if (maxSpacingSum < spacingSum) {
@@ -624,7 +791,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     mergedPrimaryDataArrays = [...mergedSecondaryDataArrays]
   }
 
-  const totalWidth = initialSpacing + maxSpacingSum + endSpacing
+  const totalWidth = initialSpacing + maxSpacingSum + endSpacing + (doAllPointsHaveX ? spacing / 2 : 0)
 
   const valuesRange =
     Math.max(...mergedPrimaryDataArrays.map((i) => Math.max(i.value, 0))) - // find the largest +ve number
@@ -901,13 +1068,13 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     return isLast && !(around || before)
       ? ' '
       : ' L' +
-          (getX(spacingArray, index) +
-            (around ? (isLast ? 0 : spacing / 2) : before ? 0 : spacing)) +
-          ' ' +
-          (isSecondary
-            ? getSecondaryY(data[index].value)
-            : getY(data[index].value)) +
-          ' '
+      (getX(spacingArray, index) +
+        (around ? (isLast ? 0 : spacing / 2) : before ? 0 : spacing)) +
+      ' ' +
+      (isSecondary
+        ? getSecondaryY(data[index].value)
+        : getY(data[index].value)) +
+      ' '
   }
   const getStepPath = (
     data: lineDataItemNullSafe[],
@@ -1806,7 +1973,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const mostNegativeValueOnYAxis = negativeStepValue * noOfSectionsBelowXAxis
 
   const getX = (spacingArray: number[], index: number): number =>
-    initialSpacing + (index ? spacingArray[index - 1] : 0)
+    initialSpacing + (doAllPointsHaveX ? spacingArray[index] : (index ? spacingArray[index - 1] : 0))
 
   const getY = (value: number): number => {
     if (containsNegativeValue && value < 0 && stepValue !== negativeStepValue) {
@@ -1972,9 +2139,9 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
   const getPointerY = (value: number): number =>
     value || value === 0
       ? containerHeight -
-        (value * containerHeight) / maxValue -
-        (pointerRadius || pointerHeight / 2) +
-        10
+      (value * containerHeight) / maxValue -
+      (pointerRadius || pointerHeight / 2) +
+      10
       : 0
 
   const initialisePointers = (): void => {
@@ -2239,7 +2406,8 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     onScrollEndDrag: props.onScrollEndDrag,
     allowFontScaling,
     showVerticalLines: props.showVerticalLines,
-    disableForeignObject
+    disableForeignObject,
+    principalCumulativeSpacing: dataSet?.length ? cumulativeSpacingForSet[0] : cumulativeSpacing1
   }
   let pointerItemLocal: any[] = []
   if (pointerConfig) {
@@ -2666,7 +2834,7 @@ export const useLineChart = (props: extendedLineChartPropsType) => {
     renderTooltipSecondary,
     pointerItemLocal,
     allowFontScaling,
-    disableForeignObject
-    // oldPoints
+    disableForeignObject,
+    doAllPointsHaveX
   }
 }

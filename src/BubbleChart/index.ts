@@ -18,11 +18,11 @@ import {
   LineDefaults
 } from '../utils/constants'
 import {
-  BarAndLineChartsWrapperTypes,
-  RegressionLineConfig,
-  RegressionLineCoordinates
+  type BarAndLineChartsWrapperTypes,
+  type RegressionLineConfig,
+  type RegressionLineCoordinates
 } from '../utils/types'
-import { BubbleChartPropsType, bubbleDataItem } from './types'
+import { UseBubbleChartReturnType, type BubbleChartPropsType, type bubbleDataItem } from './types'
 import { Dimensions } from 'react-native'
 
 export interface extendedBubbleChartPropsType extends BubbleChartPropsType {
@@ -30,7 +30,9 @@ export interface extendedBubbleChartPropsType extends BubbleChartPropsType {
 }
 const screenWidth = Dimensions.get('window').width
 
-export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
+export const useBubbleChart = (
+  props: extendedBubbleChartPropsType
+): UseBubbleChartReturnType => {
   const {
     formatXLabel,
     dataSet,
@@ -747,7 +749,8 @@ export const useBubbleChart = (props: extendedBubbleChartPropsType) => {
     allowFontScaling,
     showVerticalLines: props.showVerticalLines,
     xAxisLabelTexts,
-    disableForeignObject
+    disableForeignObject,
+    principalCumulativeSpacing:[]
   }
   return {
     data,
