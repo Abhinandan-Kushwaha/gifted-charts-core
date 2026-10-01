@@ -24,8 +24,12 @@ import {
   type IntersectionAreaConfig,
   CustomBackground,
   SpreadData,
-  ColorFromToY
+  ColorFromToY,
+  DataSetNullSafe,
+  PointerEvents,
+  BarAndLineChartsWrapperTypes
 } from '../utils/types'
+import { barDataItemNullSafe } from '../BarChart/types'
 
 export interface LineChartPropsType {
   height?: number
@@ -41,6 +45,8 @@ export interface LineChartPropsType {
   spacing?: number
   initialSpacing?: number
   endSpacing?: number
+  xOffset?: number
+  xScale?: number
   data?: lineDataItem[]
   data2?: lineDataItem[]
   data3?: lineDataItem[]
@@ -391,10 +397,13 @@ export interface LineChartPropsType {
   spreadAreaColor?: ColorValue
   spreadAreaOpacity?: number
   disableForeignObject?: boolean // https://github.com/Abhinandan-Kushwaha/react-native-gifted-charts/issues/1100
+  alignVerticalLinesWithXValues?: boolean
 }
 
 export interface lineDataItem {
   value?: number
+  originalValue?: number
+  x?: number
   label?: string
   labelComponent?: Function
   labelTextStyle?: StyleProp<TextStyle>
@@ -467,6 +476,7 @@ interface sectionType {
 
 export interface bicolorLineDataItem {
   value: number
+  x?: number
   label?: string
   labelComponent?: Function
   labelTextStyle?: StyleProp<TextStyle>
@@ -707,3 +717,476 @@ export interface IDataSanitisationProps {
   onlyPositive: boolean | undefined
   yAxisOffset: number | undefined
 }
+
+
+type LineChartStateSetter<T> = import('react').Dispatch<
+  import('react').SetStateAction<T>
+>
+
+export interface secondaryLineConfigTypeNullSafe extends secondaryLineConfigType {
+  zIndex: number
+  color: ColorValue
+  startFillColor: string
+  endFillColor: string
+  startOpacity: number
+  endOpacity: number
+  strokeLinecap: 'butt' | 'round' | 'square'
+}
+
+
+export type UseLineChartReturnType = {
+  curveType: CurveType
+  pointerItem: lineDataItem | undefined
+  pointerItem2: lineDataItem | undefined
+  pointerItem3: lineDataItem | undefined
+  pointerItem4: lineDataItem | undefined
+  pointerItem5: lineDataItem | undefined
+  secondaryPointerItem: lineDataItem | undefined
+  pointerItemsForSet: lineDataItem[]
+  secondaryPointerItemsForSet: lineDataItem[]
+  data: lineDataItemNullSafe[]
+  data2: lineDataItemNullSafe[]
+  data3: lineDataItemNullSafe[]
+  data4: lineDataItemNullSafe[]
+  data5: lineDataItemNullSafe[]
+  secondaryData: lineDataItemNullSafe[] | barDataItemNullSafe[]
+  dataSet: DataSetNullSafe[] | undefined
+  data0: lineDataItemNullSafe[] | undefined
+  lineSegments: LineSegment[] | undefined
+  lineSegments2: LineSegment[] | undefined
+  lineSegments3: LineSegment[] | undefined
+  lineSegments4: LineSegment[] | undefined
+  lineSegments5: LineSegment[] | undefined
+  highlightedRange: HighlightedRange | undefined
+  edgePosition: EdgePosition
+  colors: ColorFromToY[] | undefined
+  secondaryLineConfig: secondaryLineConfigTypeNullSafe
+  horizSections: { value: string }[]
+  arrowStrokeColorsFromSet: ColorValue[] | undefined
+  arrowFillColorsFromSet: ColorValue[] | undefined
+  showArrowBasesFromSet: boolean[] | undefined
+  horizontalRulesStyle: LineChartPropsType['horizontalRulesStyle']
+  pointerConfig: Pointer | undefined
+  getPointerProps: Function | null
+  pointerComponent: Function | null
+  pointerLabelComponent: Function | null
+  pointerEvents: PointerEvents | undefined
+  stripHeight: number | undefined
+  stripColor: LineChartPropsType['stripColor']
+  barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes
+  cumulativeSpacingForSet: number[][]
+  strips: Record<
+    number,
+    Record<number, { item: lineDataItemNullSafe; index: number; key: number }>
+  >
+  renderTooltip: Function | undefined
+  renderTooltip1: Function | undefined
+  renderTooltip2: Function | undefined
+  renderTooltip3: Function | undefined
+  renderTooltip4: Function | undefined
+  renderTooltip5: Function | undefined
+  renderTooltipSecondary: Function | undefined
+  pointerItemLocal: Array<Partial<lineDataItem> & { value?: number }>
+  getIsNthAreaChart: (n: number) => boolean
+  getX: (spacingArray: number[], index: number) => number
+  getY: (value: number) => number
+  getSecondaryY: (value: number) => number
+  addLeadingAndTrailingPathForAreaFill: (
+    initialPath: string,
+    value: number,
+    dataLength: number
+  ) => string
+  getNextPoint: (
+    data: lineDataItemNullSafe[],
+    index: number,
+    around: boolean,
+    before: boolean,
+    spacingArray: number[],
+    isSecondary?: boolean
+  ) => string
+  getStepPath: (
+    data: lineDataItemNullSafe[],
+    index: number,
+    spacingArray: number[],
+    lineSegment: LineSegment[] | undefined,
+    isSecondary?: boolean
+  ) => string
+  getSegmentPath: (
+    data: lineDataItemNullSafe[],
+    index: number,
+    lineSegment: LineSegment[] | undefined,
+    startIndex: number,
+    endIndex: number,
+    spacingArray: number[],
+    isSecondary?: boolean
+  ) => string
+  getPointerY: (value: number) => number
+  initialisePointers: () => void
+  handleFocus: (
+    index: number,
+    item: lineDataItemNullSafe,
+    locationY: number,
+    onStripPress: Function
+  ) => void
+  handleUnFocus: () => void
+} & Record<
+  | 'curvature'
+  | 'scrollX'
+  | 'pointerIndex'
+  | 'pointerX'
+  | 'pointerY'
+  | 'pointerY2'
+  | 'pointerY3'
+  | 'pointerY4'
+  | 'pointerY5'
+  | 'secondaryPointerY'
+  | 'responderStartTime'
+  | 'selectedIndex'
+  | 'noOfSections'
+  | 'containerHeight'
+  | 'scrollEventThrottle'
+  | 'labelsExtraHeight'
+  | 'animationDuration'
+  | 'onDataChangeAnimationDuration'
+  | 'startIndex1'
+  | 'startIndex2'
+  | 'endIndex1'
+  | 'endIndex2'
+  | 'startIndex3'
+  | 'endIndex3'
+  | 'startIndex4'
+  | 'endIndex4'
+  | 'startIndex5'
+  | 'endIndex5'
+  | 'initialSpacing'
+  | 'endSpacing'
+  | 'thickness'
+  | 'yAxisLabelWidth'
+  | 'spacing'
+  | 'xAxisThickness'
+  | 'dataPointsHeight1'
+  | 'dataPointsWidth1'
+  | 'dataPointsRadius1'
+  | 'dataPointsHeight2'
+  | 'dataPointsWidth2'
+  | 'dataPointsRadius2'
+  | 'dataPointsHeight3'
+  | 'dataPointsWidth3'
+  | 'dataPointsRadius3'
+  | 'dataPointsHeight4'
+  | 'dataPointsWidth4'
+  | 'dataPointsRadius4'
+  | 'dataPointsHeight5'
+  | 'dataPointsWidth5'
+  | 'dataPointsRadius5'
+  | 'textFontSize1'
+  | 'textFontSize2'
+  | 'textFontSize3'
+  | 'textFontSize4'
+  | 'textFontSize5'
+  | 'totalWidth'
+  | 'maxValue'
+  | 'mostNegativeValue'
+  | 'overflowTop'
+  | 'extendedContainerHeight'
+  | 'secondaryMaxValue'
+  | 'heightUptoXaxis'
+  | 'thickness1'
+  | 'thickness2'
+  | 'thickness3'
+  | 'thickness4'
+  | 'thickness5'
+  | 'zIndex1'
+  | 'zIndex2'
+  | 'zIndex3'
+  | 'zIndex4'
+  | 'zIndex5'
+  | 'startOpacity'
+  | 'endOpacity'
+  | 'startOpacity1'
+  | 'endOpacity1'
+  | 'startOpacity2'
+  | 'endOpacity2'
+  | 'startOpacity3'
+  | 'endOpacity3'
+  | 'startOpacity4'
+  | 'endOpacity4'
+  | 'startOpacity5'
+  | 'endOpacity5'
+  | 'arrowLength1'
+  | 'arrowWidth1'
+  | 'arrowStrokeWidth1'
+  | 'arrowLength2'
+  | 'arrowWidth2'
+  | 'arrowStrokeWidth2'
+  | 'arrowLength3'
+  | 'arrowWidth3'
+  | 'arrowStrokeWidth3'
+  | 'arrowLength4'
+  | 'arrowWidth4'
+  | 'arrowStrokeWidth4'
+  | 'arrowLength5'
+  | 'arrowWidth5'
+  | 'arrowStrokeWidth5'
+  | 'stepHeight'
+  | 'stepValue'
+  | 'noOfSectionsBelowXAxis'
+  | 'xAxisIndicesHeight'
+  | 'xAxisIndicesWidth'
+  | 'xAxisTextNumberOfLines'
+  | 'xAxisLabelsVerticalShift'
+  | 'roundToDigits'
+  | 'pointerHeight'
+  | 'pointerWidth'
+  | 'pointerRadius'
+  | 'pointerStripHeight'
+  | 'pointerStripWidth'
+  | 'shiftPointerLabelX'
+  | 'shiftPointerLabelY'
+  | 'pointerLabelWidth'
+  | 'pointerLabelHeight'
+  | 'pointerVanishDelay'
+  | 'activatePointersDelay'
+  | 'initialPointerIndex'
+  | 'initialPointerAppearDelay'
+  | 'stripWidth'
+  | 'stripOpacity'
+  | 'delayBeforeUnFocus'
+  | 'containerHeightIncludingBelowXAxis'
+  | 'yAxisExtraHeightAtTop'
+  | 'selectedLineNumber'
+  | 'lastLineNumber'
+  | 'focusProximity',
+  number
+> & Record<
+  | 'arrow1Points'
+  | 'arrow2Points'
+  | 'arrow3Points'
+  | 'arrow4Points'
+  | 'arrow5Points'
+  | 'secondaryArrowPoints'
+  | 'points'
+  | 'points2'
+  | 'points3'
+  | 'points4'
+  | 'points5'
+  | 'secondaryPoints'
+  | 'fillPoints'
+  | 'fillPoints2'
+  | 'fillPoints3'
+  | 'fillPoints4'
+  | 'fillPoints5'
+  | 'secondaryFillPoints'
+  | 'dataPointsColor1'
+  | 'dataPointsShape1'
+  | 'dataPointsColor2'
+  | 'dataPointsShape2'
+  | 'dataPointsColor3'
+  | 'dataPointsShape3'
+  | 'dataPointsColor4'
+  | 'dataPointsShape4'
+  | 'dataPointsColor5'
+  | 'dataPointsShape5'
+  | 'textColor1'
+  | 'textColor2'
+  | 'textColor3'
+  | 'textColor4'
+  | 'textColor5'
+  | 'color1'
+  | 'color2'
+  | 'color3'
+  | 'color4'
+  | 'color5'
+  | 'startFillColor1'
+  | 'endFillColor1'
+  | 'startFillColor2'
+  | 'endFillColor2'
+  | 'startFillColor3'
+  | 'endFillColor3'
+  | 'startFillColor4'
+  | 'endFillColor4'
+  | 'startFillColor5'
+  | 'endFillColor5'
+  | 'gradientDirection'
+  | 'lineGradientDirection'
+  | 'lineGradientStartColor'
+  | 'lineGradientEndColor',
+  string
+> & Record<
+  | 'setScrollX'
+  | 'setPointerIndex'
+  | 'setPointerX'
+  | 'setPointerY'
+  | 'setPointerY2'
+  | 'setPointerY3'
+  | 'setPointerY4'
+  | 'setPointerY5'
+  | 'setSecondaryPointerY'
+  | 'setResponderStartTime'
+  | 'setSelectedIndex'
+  | 'setSelectedLineNumber',
+  LineChartStateSetter<number>
+> & Record<
+  | 'setArrow1Points'
+  | 'setArrow2Points'
+  | 'setArrow3Points'
+  | 'setArrow4Points'
+  | 'setArrow5Points'
+  | 'setSecondaryArrowPoints'
+  | 'setPoints'
+  | 'setPoints2'
+  | 'setPoints3'
+  | 'setPoints4'
+  | 'setPoints5'
+  | 'setSecondaryPoints'
+  | 'setFillPoints'
+  | 'setFillPoints2'
+  | 'setFillPoints3'
+  | 'setFillPoints4'
+  | 'setFillPoints5'
+  | 'setSecondaryFillPoints',
+  LineChartStateSetter<string>
+> & Record<
+  | 'setPointerItem'
+  | 'setPointerItem2'
+  | 'setPointerItem3'
+  | 'setPointerItem4'
+  | 'setPointerItem5'
+  | 'setSecondaryPointerItem',
+  LineChartStateSetter<lineDataItem | undefined>
+> & Record<
+  | 'pointerYsForDataSet'
+  | 'cumulativeSpacing1'
+  | 'cumulativeSpacing2'
+  | 'cumulativeSpacing3'
+  | 'cumulativeSpacing4'
+  | 'cumulativeSpacing5'
+  | 'cumulativeSpacingSecondary',
+  number[]
+> & Record<
+  | 'responderActive'
+  | 'scrollToEnd'
+  | 'scrollAnimation'
+  | 'animateTogether'
+  | 'renderDataPointsAfterAnimationEnds'
+  | 'animateOnDataChange'
+  | 'adjustToWidth'
+  | 'stepChart'
+  | 'stepChart1'
+  | 'stepChart2'
+  | 'stepChart3'
+  | 'stepChart4'
+  | 'stepChart5'
+  | 'showValuesAsDataPointsText'
+  | 'rotateLabel'
+  | 'isAnimated'
+  | 'hidePointers'
+  | 'hideDataPoints1'
+  | 'hideDataPoints2'
+  | 'hideDataPoints3'
+  | 'hideDataPoints4'
+  | 'hideDataPoints5'
+  | 'showArrowBase1'
+  | 'showArrowBase2'
+  | 'showArrowBase3'
+  | 'showArrowBase4'
+  | 'showArrowBase5'
+  | 'showXAxisIndices'
+  | 'xAxisLabelsAtBottom'
+  | 'showFractionalValues'
+  | 'horizontal'
+  | 'yAxisAtTop'
+  | 'showPointerStrip'
+  | 'pointerStripUptoDataPoint'
+  | 'stripOverPointer'
+  | 'autoAdjustPointerLabelPosition'
+  | 'activatePointersOnLongPress'
+  | 'activatePointersInstantlyOnTouch'
+  | 'persistPointer'
+  | 'resetPointerIndexOnRelease'
+  | 'hidePointer1'
+  | 'hidePointer2'
+  | 'hidePointer3'
+  | 'hidePointer4'
+  | 'hidePointer5'
+  | 'hideSecondaryPointer'
+  | 'resetPointerOnDataChange'
+  | 'hidePointerDataPointForMissingValues'
+  | 'disableScroll'
+  | 'showScrollIndicator'
+  | 'focusEnabled'
+  | 'showDataPointOnFocus'
+  | 'showStripOnFocus'
+  | 'showTextOnFocus'
+  | 'showDataPointLabelOnFocus'
+  | 'unFocusOnPressOut'
+  | 'lineGradient'
+  | 'focusTogether'
+  | 'allowFontScaling'
+  | 'disableForeignObject'
+  | 'doAllPointsHaveX',
+  boolean
+> & Record<'setPointerYsForDataSet', LineChartStateSetter<number[]>> & Record<
+  'setResponderActive',
+  LineChartStateSetter<boolean>
+> & Record<
+  'pointsFromSet' | 'fillPointsFromSet' | 'arrowPointsFromSet',
+  string[]
+> & Record<
+  'setPointsFromSet' | 'setFillPointsFromSet' | 'setArrowPointsFromSet',
+  LineChartStateSetter<string[]>
+> & Record<
+  'setPointerItemsForSet' | 'setSecondaryPointerItemsForSet',
+  LineChartStateSetter<lineDataItem[]>
+> & Record<
+  'lineSegments' | 'lineSegments2' | 'lineSegments3' | 'lineSegments4' | 'lineSegments5',
+  LineSegment[] | undefined
+> & Record<
+  | 'areaChart'
+  | 'areaChart1'
+  | 'areaChart2'
+  | 'areaChart3'
+  | 'areaChart4'
+  | 'areaChart5'
+  | 'atLeastOneAreaChart'
+  | 'stripOverDataPoints',
+  boolean | undefined
+> & Record<
+  | 'strokeDashArray1'
+  | 'strokeDashArray2'
+  | 'strokeDashArray3'
+  | 'strokeDashArray4'
+  | 'strokeDashArray5'
+  | 'arrowLengthsFromSet'
+  | 'arrowWidthsFromSet'
+  | 'arrowStrokeWidthsFromSet'
+  | 'stripStrokeDashArray',
+  number[] | undefined
+> & Record<
+  'strokeLinecap1' | 'strokeLinecap2' | 'strokeLinecap3' | 'strokeLinecap4' | 'strokeLinecap5',
+  Linecap
+> & Record<
+  | 'arrowStrokeColor1'
+  | 'arrowFillColor1'
+  | 'arrowStrokeColor2'
+  | 'arrowFillColor2'
+  | 'arrowStrokeColor3'
+  | 'arrowFillColor3'
+  | 'arrowStrokeColor4'
+  | 'arrowFillColor4'
+  | 'arrowStrokeColor5'
+  | 'arrowFillColor5',
+  ColorValue
+> & Record<
+  'xAxisIndicesColor' | 'pointerColor' | 'pointerStripColor',
+  ColorValue
+> & Record<
+  | 'renderTooltip'
+  | 'renderTooltip1'
+  | 'renderTooltip2'
+  | 'renderTooltip3'
+  | 'renderTooltip4'
+  | 'renderTooltip5'
+  | 'renderTooltipSecondary',
+  Function | undefined
+>

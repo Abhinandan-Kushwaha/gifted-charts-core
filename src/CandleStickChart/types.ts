@@ -1,4 +1,4 @@
-import { ColorValue, StyleProp, ViewStyle } from 'react-native'
+import { type ColorValue, StyleProp, ViewStyle } from 'react-native'
 import { BarChartPropsType, barDataItem } from '../BarChart/types'
 
 export interface candleStickDataItem extends Omit<
@@ -33,4 +33,30 @@ export interface CandleStickChartPropsType extends Omit<
   bearishBorderRadius?: number
   bullishVerticalLineColor?: ColorValue
   bearishVerticalLineColor?: ColorValue
+}
+
+interface candleStickDataItemForReturn extends candleStickDataItem {
+  value: number
+  lowerValue: number
+  barMarginBottom: number
+  showVerticalLine: boolean
+  verticalLineHeight: number
+  verticalLineMarginBottom: number
+  verticalLineColor: ColorValue
+  frontColor: ColorValue
+  barBorderColor: ColorValue
+  barBorderWidth: number
+  barWidth: number
+  spacing: number
+}
+
+interface propsCastedToBarChartProps extends Omit<CandleStickChartPropsType, 'data'> {
+  parentWidth: number,
+  isCandleStickChart: boolean
+  spacing: number
+  data: candleStickDataItemForReturn[]
+}
+
+export interface UseCandleStickChartReturnType {
+  propsCastedToBarChartProps: propsCastedToBarChartProps
 }

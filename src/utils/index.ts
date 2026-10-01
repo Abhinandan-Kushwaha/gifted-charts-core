@@ -1527,14 +1527,14 @@ export const getInterpolatedData = (
   showDataPointsForMissingValues?: boolean,
   interpolateMissingValues?: boolean,
   onlyPositive?: boolean
-): lineDataItemNullSafe[] => {
+): lineDataItemNullSafe[] => { // apart from interpolating missing values, this function also adds the originalValue property to each data item
   if (!interpolateMissingValues) {
     return dataParam.map((item) => {
       if (typeof item.value !== 'number') {
-        if (showDataPointsForMissingValues) return { ...item, value: 0 }
-        return { ...item, value: 0, hideDataPoint: true }
+        if (showDataPointsForMissingValues) return { ...item, originalValue: item.value, value: 0 }
+        return { ...item, originalValue: item.value, value: 0, hideDataPoint: true }
       }
-      return { ...item, value: item.value ?? 0 }
+      return { ...item, originalValue: item.value, value: item.value ?? 0 }
     })
   }
   // if (!interpolateMissingValues) return dataParam
@@ -1559,6 +1559,7 @@ export const getInterpolatedData = (
       if (!showDataPointsForMissingValues && typeof item.value !== 'number') {
         item.hideDataPoint = true
       }
+      item.originalValue = item.value
       item.value = numericValue
     })
     return data
@@ -1566,6 +1567,7 @@ export const getInterpolatedData = (
   /**********************************************************************/
 
   data.forEach((item, index) => {
+    item.originalValue = item.value
     if (typeof item.value === 'number') return
     //  Cut the line in 2 halves-> pre and post
     //  Now there are 4 possibilities-

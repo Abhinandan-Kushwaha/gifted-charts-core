@@ -1,4 +1,5 @@
 import {
+  Animated,
   StyleProp,
   TextStyle,
   type ColorValue,
@@ -15,9 +16,12 @@ import {
   type referenceConfigType,
   type secondaryYAxisType,
   type Linecap,
-  CustomBackground
+  type CustomBackground,
+  type PointerEvents,
+  type HorizSectionsType,
+  type BarAndLineChartsWrapperTypes
 } from '../utils/types'
-import { type Component, type ReactNode } from 'react'
+import { Dispatch, SetStateAction, type Component, type ReactNode } from 'react'
 import { type lineDataItem } from '../LineChart/types'
 
 export interface stackDataItem {
@@ -94,7 +98,7 @@ export interface StackedBarChartPropsType {
   topLabelContainerStyle?: StyleProp<ViewStyle>
   topLabelTextStyle?: StyleProp<TextStyle>
   opacity?: number
-  label: string
+  label?: string
   labelTextStyle?: StyleProp<TextStyle>
   autoShiftLabelsForNegativeStacks?: boolean
   labelsDistanceFromXaxis?: number
@@ -509,6 +513,7 @@ export interface sectionType {
 
 export interface barDataItem {
   value?: number
+  x?: number
   lowerValue?: number // only for candleStick chart
   onPress?: any
   onLongPress?: any
@@ -797,4 +802,286 @@ export interface BarChartPropsTypeForWeb extends BarChartPropsType {
   onMouseEnter?: Function
   onMouseLeave?: Function
   renderTooltipConditions?: string[]
+}
+
+
+type BarChartCommonRenderPropsKeys =
+  | 'index'
+  | 'containerHeight'
+  | 'containerHeightIncludingBelowXAxis'
+  | 'maxValue'
+  | 'spacing'
+  | 'propSpacing'
+  | 'xAxisThickness'
+  | 'barWidth'
+  | 'opacity'
+  | 'disablePress'
+  | 'rotateLabel'
+  | 'showXAxisIndices'
+  | 'xAxisIndicesHeight'
+  | 'xAxisIndicesWidth'
+  | 'xAxisIndicesColor'
+  | 'labelsDistanceFromXaxis'
+  | 'horizontal'
+  | 'rtl'
+  | 'intactTopLabel'
+  | 'showValuesAsTopLabel'
+  | 'topLabelContainerStyle'
+  | 'topLabelTextStyle'
+  | 'barBorderWidth'
+  | 'barBorderColor'
+  | 'barBorderRadius'
+  | 'barBorderTopLeftRadius'
+  | 'barBorderTopRightRadius'
+  | 'barBorderBottomLeftRadius'
+  | 'barBorderBottomRightRadius'
+  | 'barInnerComponent'
+  | 'color'
+  | 'showGradient'
+  | 'gradientColor'
+  | 'barBackgroundPattern'
+  | 'patternId'
+  | 'onPress'
+  | 'onLongPress'
+  | 'onPressOut'
+  | 'onContextMenu'
+  | 'onMouseEnter'
+  | 'onMouseLeave'
+  | 'focusBarOnPress'
+  | 'xAxisTextNumberOfLines'
+  | 'xAxisLabelsHeight'
+  | 'xAxisLabelsVerticalShift'
+  | 'renderTooltip'
+  | 'renderTooltipConditions'
+  | 'leftShiftForTooltip'
+  | 'autoCenterTooltip'
+  | 'initialSpacing'
+  | 'selectedIndex'
+  | 'setSelectedIndex'
+  | 'activeOpacity'
+  | 'noOfSectionsBelowXAxis'
+  | 'leftShiftForLastIndexTooltip'
+  | 'label'
+  | 'secondaryLabel'
+  | 'labelTextStyle'
+  | 'secondaryLabelTextStyle'
+  | 'pointerConfig'
+  | 'yAxisOffset'
+  | 'focusedBarIndex'
+  | 'stepHeight'
+  | 'stepValue'
+  | 'negativeStepHeight'
+  | 'negativeStepValue'
+  | 'secondaryXAxis'
+  | 'secondaryStepHeight'
+  | 'secondaryStepValue'
+  | 'secondaryNegativeStepHeight'
+  | 'secondaryNegativeStepValue'
+  | 'secondaryNoOfSectionsBelowXAxis'
+  | 'barMarginBottom'
+  | 'highlightEnabled'
+  | 'highlightedBarIndex'
+  | 'lowlightOpacity'
+
+type RequiredPresentProps<T, K extends keyof T> = {
+  [P in K]-?: Required<T>[P]
+}
+
+type BarChartCommonPropsMaybeUndefined =
+  | 'disablePress'
+  | 'labelsDistanceFromXaxis'
+  | 'showValuesAsTopLabel'
+  | 'topLabelContainerStyle'
+  | 'topLabelTextStyle'
+  | 'barBorderWidth'
+  | 'barBorderRadius'
+  | 'barBorderTopLeftRadius'
+  | 'barBorderTopRightRadius'
+  | 'barBorderBottomLeftRadius'
+  | 'barBorderBottomRightRadius'
+  | 'barInnerComponent'
+  | 'color'
+  | 'showGradient'
+  | 'gradientColor'
+  | 'barBackgroundPattern'
+  | 'patternId'
+  | 'onPress'
+  | 'onLongPress'
+  | 'onPressOut'
+  | 'onContextMenu'
+  | 'onMouseEnter'
+  | 'onMouseLeave'
+  | 'focusBarOnPress'
+  | 'xAxisLabelsHeight'
+  | 'autoCenterTooltip'
+  | 'pointerConfig'
+  | 'focusedBarIndex'
+  | 'secondaryXAxis'
+
+export type BarChartCommonPropsType = Omit<
+  Partial<RenderBarsPropsTypeForWeb>,
+  BarChartCommonRenderPropsKeys | BarChartCommonPropsMaybeUndefined | 'item'
+> &
+  RequiredPresentProps<
+    RenderBarsPropsTypeForWeb,
+    Exclude<BarChartCommonRenderPropsKeys, BarChartCommonPropsMaybeUndefined>
+  > & {
+    item: barDataItem | stackDataItem
+    disablePress: RenderBarsPropsTypeForWeb['disablePress']
+    labelsDistanceFromXaxis: RenderBarsPropsTypeForWeb['labelsDistanceFromXaxis']
+    showValuesAsTopLabel: RenderBarsPropsTypeForWeb['showValuesAsTopLabel']
+    topLabelContainerStyle: RenderBarsPropsTypeForWeb['topLabelContainerStyle']
+    topLabelTextStyle: RenderBarsPropsTypeForWeb['topLabelTextStyle']
+    barBorderWidth: RenderBarsPropsTypeForWeb['barBorderWidth']
+    barBorderRadius: RenderBarsPropsTypeForWeb['barBorderRadius']
+    barBorderTopLeftRadius: RenderBarsPropsTypeForWeb['barBorderTopLeftRadius']
+    barBorderTopRightRadius: RenderBarsPropsTypeForWeb['barBorderTopRightRadius']
+    barBorderBottomLeftRadius: RenderBarsPropsTypeForWeb['barBorderBottomLeftRadius']
+    barBorderBottomRightRadius: RenderBarsPropsTypeForWeb['barBorderBottomRightRadius']
+    barInnerComponent: RenderBarsPropsTypeForWeb['barInnerComponent']
+    color: RenderBarsPropsTypeForWeb['color']
+    showGradient: RenderBarsPropsTypeForWeb['showGradient']
+    gradientColor: RenderBarsPropsTypeForWeb['gradientColor']
+    barBackgroundPattern: RenderBarsPropsTypeForWeb['barBackgroundPattern']
+    patternId: RenderBarsPropsTypeForWeb['patternId']
+    onPress: RenderBarsPropsTypeForWeb['onPress']
+    onLongPress: RenderBarsPropsTypeForWeb['onLongPress']
+    onPressOut: RenderBarsPropsTypeForWeb['onPressOut']
+    onContextMenu: RenderBarsPropsTypeForWeb['onContextMenu']
+    onMouseEnter: RenderBarsPropsTypeForWeb['onMouseEnter']
+    onMouseLeave: RenderBarsPropsTypeForWeb['onMouseLeave']
+    focusBarOnPress: RenderBarsPropsTypeForWeb['focusBarOnPress']
+    xAxisLabelsHeight: RenderBarsPropsTypeForWeb['xAxisLabelsHeight']
+    autoCenterTooltip: RenderBarsPropsTypeForWeb['autoCenterTooltip']
+    pointerConfig: RenderBarsPropsTypeForWeb['pointerConfig']
+    focusedBarIndex: RenderBarsPropsTypeForWeb['focusedBarIndex']
+    secondaryXAxis: RenderBarsPropsTypeForWeb['secondaryXAxis']
+    bottomLabelTextStyle: BarChartPropsTypeForWeb['bottomLabelTextStyle']
+    focusedBarConfig: BarChartPropsTypeForWeb['focusedBarConfig']
+    xAxisLabelsAtBottom: boolean
+    yAxisExtraHeightAtTop: number
+    secondaryYAxis: secondaryYAxisType | boolean | undefined
+    stackHighlightEnabled: boolean
+  }
+
+export interface UseBarChartReturnType {
+  lineConfig: lineConfigWithSetFocusedDataPointIndexType
+  hidePointer1: boolean
+  pointerItem: barDataItem | stackDataItem | undefined
+  pointerY: number
+  pointerConfig: Pointer | undefined
+  pointerColor: import('react-native').ColorValue
+  pointerX: number
+  pointerComponent: Function | null
+  pointerHeight: number
+  pointerRadius: number
+  pointerWidth: number
+  autoAdjustPointerLabelPosition: boolean
+  pointerLabelWidth: number
+  activatePointersOnLongPress: boolean
+  yAxisLabelWidth: number
+  shiftPointerLabelX: number
+  pointerLabelHeight: number
+  pointerStripUptoDataPoint: boolean
+  pointerStripHeight: number
+  shiftPointerLabelY: number
+  showPointerStrip: boolean
+  pointerStripWidth: number
+  containerHeight: number
+  xAxisThickness: number
+  pointerStripColor: import('react-native').ColorValue
+  pointerEvents: PointerEvents | undefined
+  setResponderStartTime: Dispatch<SetStateAction<number>>
+  setPointerY: Dispatch<SetStateAction<number>>
+  setPointerItem: Dispatch<
+    SetStateAction<barDataItem | stackDataItem | undefined>
+  >
+  initialSpacing: number
+  spacing: number
+  data: barDataItemNullSafe[]
+  barWidth: number
+  setPointerX: Dispatch<SetStateAction<number>>
+  setPointerIndex: Dispatch<SetStateAction<number>>
+  maxValue: number
+  maxItem: number
+  responderStartTime: number
+  responderActive: boolean
+  setResponderActive: Dispatch<SetStateAction<boolean>>
+  activatePointersDelay: number
+  persistPointer: boolean
+  pointerVanishDelay: number
+  containerHeightIncludingBelowXAxis: number
+  extendedContainerHeight: number
+  totalWidth: number
+  stripBehindBars: boolean
+  noOfSectionsBelowXAxis: number
+  stepHeight: number
+  xAxisLabelsVerticalShift: number
+  xAxisLabelsAtBottom: boolean
+  labelsExtraHeight: number
+  stripOverPointer: boolean
+  pointerLabelComponent: Function | null
+  opacity: number
+  rotateLabel: boolean
+  showXAxisIndices: boolean
+  xAxisIndicesHeight: number
+  xAxisIndicesWidth: number
+  xAxisIndicesColor: import('react-native').ColorValue
+  autoShiftLabelsForNegativeStacks: boolean | undefined
+  horizontal: boolean
+  rtl: boolean
+  intactTopLabel: boolean
+  barBorderColor: import('react-native').ColorValue
+  barInnerComponent:
+    | ((item?: barDataItem | stackDataItem, index?: number) => ReactNode)
+    | undefined
+  xAxisTextNumberOfLines: number
+  selectedIndex: number[]
+  setSelectedIndex: Dispatch<SetStateAction<number[]>>
+  isAnimated: boolean
+  animationDuration: number
+  side: string
+  labelWidth: number
+  isThreeD: boolean
+  animatedHeight: Animated.Interpolation<'0%' | '100%'> | undefined
+  appearingOpacity: Animated.Interpolation<0 | 1> | undefined
+  autoShiftLabels: boolean
+  yAxisAtTop: boolean
+  disableScroll: boolean
+  showScrollIndicator: boolean
+  scrollToEnd: boolean
+  scrollAnimation: boolean
+  scrollEventThrottle: number
+  showLine: boolean
+  lineConfig2: lineConfigWithSetFocusedDataPointIndexType
+  lineData: (barDataItem | stackDataItem | lineDataItem)[]
+  lineData2: (barDataItem | stackDataItem | lineDataItem)[] | undefined
+  animatedWidth: Animated.Interpolation<number> | undefined
+  lineBehindBars: boolean
+  points: string
+  setPoints: Dispatch<SetStateAction<string>>
+  points2: string
+  setPoints2: Dispatch<SetStateAction<string>>
+  arrowPoints: string
+  setArrowPoints: Dispatch<SetStateAction<string>>
+  horizSections: HorizSectionsType
+  endSpacing: number
+  horizontalRulesStyle: BarChartPropsTypeForWeb['horizontalRulesStyle']
+  noOfSections: number
+  showFractionalValues: boolean
+  widthFromProps: number | undefined
+  stepValue: number
+  secondaryMaxValue: number
+  getPointerProps: Function | null
+  pointerIndex: number
+  getPropsCommonForBarAndStack: (
+    item: barDataItem | stackDataItem,
+    index: number
+  ) => BarChartCommonPropsType
+  barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes
+  yAxisExtraHeightAtTop: number
+  selectedStackIndex: number
+  setSelectedStackIndex: Dispatch<SetStateAction<number>>
+  allowFontScaling: boolean
+  disableForeignObject: boolean
 }

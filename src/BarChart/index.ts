@@ -1,10 +1,16 @@
-import { useEffect, useMemo, useState } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 import {
   type barDataItem,
   type stackDataItem,
+  type BarChartCommonPropsType,
   BarChartPropsTypeForWeb,
-  barDataItemNullSafe,
-  lineConfigWithSetFocusedDataPointIndexType
+  type barDataItemNullSafe,
+  lineConfigWithSetFocusedDataPointIndexType,
+  UseBarChartReturnType
 } from './types'
 import {
   getArrowPoints,
@@ -42,7 +48,9 @@ export interface extendedBarChartPropsType extends BarChartPropsTypeForWeb {
   secondaryYAxis?: secondaryYAxisType | boolean
 }
 
-export const useBarChart = (props: extendedBarChartPropsType) => {
+export const useBarChart = (
+  props: extendedBarChartPropsType
+): UseBarChartReturnType => {
   const {
     heightValue,
     widthValue,
@@ -124,9 +132,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
               value: Math.max(
                 // yAxisOffset is reduced from stackItems as long as their cumulative sum is less than yAxisOffset
                 (stackItem.value ?? 0) -
-                  (cumulativeSum < yAxisOffset
-                    ? yAxisOffset - cumulativeSum
-                    : 0),
+                (cumulativeSum < yAxisOffset
+                  ? yAxisOffset - cumulativeSum
+                  : 0),
                 0
               )
             }
@@ -209,20 +217,20 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
   const lineConfig: lineConfigWithSetFocusedDataPointIndexType =
     props.lineConfig
       ? getLineConfigForBarChart(
-          props.lineConfig,
-          initialSpacing,
-          focusedDataPointIndex,
-          setFocusedDataPointIndex
-        )
+        props.lineConfig,
+        initialSpacing,
+        focusedDataPointIndex,
+        setFocusedDataPointIndex
+      )
       : defaultLineConfig
   const lineConfig2: lineConfigWithSetFocusedDataPointIndexType =
     props.lineConfig2
       ? getLineConfigForBarChart(
-          props.lineConfig2,
-          initialSpacing,
-          focusedDataPointIndex2,
-          setFocusedDataPointIndex2
-        )
+        props.lineConfig2,
+        initialSpacing,
+        focusedDataPointIndex2,
+        setFocusedDataPointIndex2
+      )
       : defaultLineConfig
   const noOfSections = getNoOfSections(
     props.noOfSections,
@@ -572,9 +580,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
             ? props.lineData[i].value
             : stackData
               ? stackData[i].stacks.reduce(
-                  (total, item) => total + item.value,
-                  0
-                )
+                (total, item) => total + item.value,
+                0
+              )
               : data[i].value
           pp +=
             'L' +
@@ -633,9 +641,9 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
             ? props.lineData[i].value
             : stackData
               ? stackData[i].stacks.reduce(
-                  (total, item) => total + item.value,
-                  0
-                )
+                (total, item) => total + item.value,
+                0
+              )
               : data[i].value
           p1Array.push([
             getXForLineInBar(
@@ -774,7 +782,7 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
       const y =
         containerHeight -
         ((stackSum ?? data[initialPointerIndex].value) * containerHeight) /
-          maxValue -
+        maxValue -
         (pointerRadius ?? pointerHeight / 2) +
         10
       if (initialPointerAppearDelay) {
@@ -813,7 +821,10 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     outputRange: [0, initialSpacing + totalWidth]
   })
 
-  const getPropsCommonForBarAndStack = (item: any, index: number) => {
+  const getPropsCommonForBarAndStack = (
+    item: any,
+    index: number
+  ): BarChartCommonPropsType => {
     return {
       item,
       index,
@@ -995,7 +1006,8 @@ export const useBarChart = (props: extendedBarChartPropsType) => {
     floatingYAxisLabels,
     allowFontScaling,
     showVerticalLines: props.showVerticalLines,
-    disableForeignObject
+    disableForeignObject,
+    principalCumulativeSpacing: []
   }
 
   return {

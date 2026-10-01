@@ -7,9 +7,11 @@ import {
 } from 'react-native'
 import { Linecap } from 'react-native-svg'
 import {
+  BarAndLineChartsWrapperTypes,
   CustomBackground,
   DataSetForBubbleChart,
   RegressionLineConfig,
+  RegressionLineCoordinates,
   RuleType,
   RulesConfig,
   SpreadData,
@@ -17,6 +19,7 @@ import {
   referenceConfigType
 } from '../utils/types'
 import { yAxisSides } from '../utils/constants'
+import { Dispatch, SetStateAction } from 'react'
 
 interface sectionType {
   value: string
@@ -328,4 +331,68 @@ export interface bubbleDataItem {
   showGradient?: boolean
   centerColorForGradient?: ColorValue
   indexUsedInDevForDataSet?: number
+}
+
+export interface UseBubbleChartReturnType {
+  data: bubbleDataItem[]
+  totalWidth: number
+  animationDuration: number
+  containerHeightIncludingBelowXAxis: number
+  getY: (value: number) => number
+  barAndLineChartsWrapperProps: BarAndLineChartsWrapperTypes
+  getX: (index: number, spreadIndex?: number) => number
+  maxValue: number
+  selectedIndex: number
+  setSelectedIndex: Dispatch<SetStateAction<number>>
+  showTextOnFocus: boolean
+  focusEnabled: boolean
+  focusTogether: boolean
+  selectedLineNumber: number
+  lastLineNumber: number
+  initialSpacing: number
+  spacing: number
+  containerHeight: number
+  handleFocus: (index: number) => void
+  handleUnFocus: () => void
+  isAnimated: boolean
+  showBubbleOnFocus: boolean
+  showBubbleLabelOnFocus: boolean
+  bubblesShape: string
+  bubblesWidth: number
+  bubblesHeight: number
+  bubblesColor: string | undefined
+  bubblesRadius: number
+  minRadius: number
+  maxRadius: number
+  labelFontSize: number
+  labelMaxLength: number
+  labelTextStyle: Object | undefined
+  startIndex: number
+  endIndex: number
+  showValuesAsBubbleLabels: boolean
+  hideBubbles: boolean
+  xAxisLabelsVerticalShift: number
+  labelsExtraHeight: number
+  xAxisThickness: number
+  xAxisTextNumberOfLines: number
+  rotateLabel: boolean
+  allowFontScaling: boolean
+  borderWidth: number
+  borderColor: ColorValue | undefined
+  opacity: number
+  borderOpacity: number
+  xAxisLabelTexts: string[]
+  showRegressionLine: boolean
+  regressionLineConfig: RegressionLineConfig
+  regressionLineConfigs: RegressionLineConfig[]
+  regressionLineX1: number
+  regressionLineY1: number
+  regressionLineX2: number
+  regressionLineY2: number
+  regressionLineCoordinates: RegressionLineCoordinates[]
+  scatterChart: boolean
+  extraWidthDueToBubble: number
+  showGradient: boolean
+  centerColorForGradient: ColorValue
+  disableForeignObject: boolean
 }

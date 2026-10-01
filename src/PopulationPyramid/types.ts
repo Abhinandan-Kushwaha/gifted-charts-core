@@ -258,3 +258,142 @@ export type TPopulationPyramidPropsType =
 export type extendedPopulationPyramidPropsType = TPopulationPyramidPropsType & {
   screenWidth: number
 }
+
+
+export type UsePopulationPyramidReturnType = {
+  data: popnPyramidDataItem[] | popnPyramidDataItemReactJS[]
+  xAxisType: string | RuleTypes
+  verticalLinesType: string | RuleTypes
+  rulesType: string | RuleTypes
+  xAxisLabelFontStyle: FontStyle
+  yAxisLabelFontStyle: FontStyle
+  leftBarLabelFontStyle: FontStyle
+  rightBarLabelFontStyle: FontStyle
+  midAxisLabelFontStyle: FontStyle
+  xAxisLabelFontWeight: FontWeight
+  yAxisLabelFontWeight: FontWeight
+  leftBarLabelFontWeight: FontWeight
+  rightBarLabelFontWeight: FontWeight
+  midAxisLabelFontWeight: FontWeight
+  verticalLinesStrokeDashArray: string | number[]
+  yAxisLabelTexts: string[]
+  yAxisLineProps: RulesPropsType
+  midAxisLineCommonProps: RulesPropsType
+  verticalLinesCommonProps: RulesPropsType
+  xAxisIndicesCommonProps: {
+    y1: number
+    y2: number
+    stroke: ColorValue
+    strokeWidth: number
+  }
+  xAxisLabelsCommonProps: {
+    y: number
+    stroke: ColorValue
+    fontSize: number
+    fontStyle: FontStyle
+    fontWeight: FontWeight
+    fontFamily: string
+  }
+  formatXAxisLabels: ((label: string) => string) | undefined
+  formatBarLabels: ((label: string) => string) | undefined
+  getXLabel: (index: number) => string
+} & Record<
+  | 'height'
+  | 'width'
+  | 'verticalMarginBetweenBars'
+  | 'yAxisThickness'
+  | 'xAxisThickness'
+  | 'xAxisNoOfSections'
+  | 'xAxisIndicesWidth'
+  | 'xAxisIndicesHeight'
+  | 'xAxisIndicesShiftY'
+  | 'xAxisLabelFontSize'
+  | 'xAxisLabelShiftX'
+  | 'xAxisLabelShiftY'
+  | 'verticalLinesThickness'
+  | 'yAxisIndicesWidth'
+  | 'yAxisIndicesHeight'
+  | 'yAxisLabelFontSize'
+  | 'yAxisLabelTextMarginRight'
+  | 'rulesThickness'
+  | 'dashWidth'
+  | 'dashGap'
+  | 'leftBarLabelWidth'
+  | 'leftBarLabelFontSize'
+  | 'rightBarLabelWidth'
+  | 'rightBarLabelFontSize'
+  | 'midAxisLabelWidth'
+  | 'midAxisLabelFontSize'
+  | 'leftBarBorderWidth'
+  | 'rightBarBorderWidth'
+  | 'leftBarBorderRadius'
+  | 'rightBarBorderRadius'
+  | 'leftSurplusBorderWidth'
+  | 'rightSurplusBorderWidth'
+  | 'yAxisLabelWidth'
+  | 'noOfSections'
+  | 'containerHeight'
+  | 'stepHeight'
+  | 'xAxisLabelsHeight'
+  | 'containerHeightWithXaxisLabels'
+  | 'mid'
+  | 'leftMax'
+  | 'rightMax'
+  | 'max'
+  | 'xAxisRoundToDigits'
+  | 'midAxisAndLabelWidth'
+  | 'barWidthFactor'
+  | 'leftXAfterMid'
+  | 'rightXAfterMid'
+  | 'xAxisLabelY',
+  number
+> & Record<
+  | 'barsMapToYAxisSections'
+  | 'hideRules'
+  | 'hideYAxisText'
+  | 'showXAxisIndices'
+  | 'showXAxisLabelTexts'
+  | 'showVerticalLines'
+  | 'showYAxisIndices'
+  | 'showValuesAsBarLabels'
+  | 'showMidAxis'
+  | 'allCornersRounded'
+  | 'showSurplus'
+  | 'showSurplusLeft'
+  | 'showSurplusRight',
+  boolean
+> & Record<
+  | 'yAxisColor'
+  | 'xAxisColor'
+  | 'xAxisIndicesColor'
+  | 'xAxisLabelColor'
+  | 'verticalLinesColor'
+  | 'yAxisIndicesColor'
+  | 'yAxisLabelColor'
+  | 'rulesColor'
+  | 'leftBarLabelColor'
+  | 'rightBarLabelColor'
+  | 'midAxisLabelColor'
+  | 'leftBarColor'
+  | 'rightBarColor'
+  | 'leftBarBorderColor'
+  | 'rightBarBorderColor'
+  | 'leftSurplusColor'
+  | 'leftSurplusBorderColor'
+  | 'rightSurplusColor'
+  | 'rightSurplusBorderColor',
+  ColorValue
+> & Record<
+  | 'xAxisLabelFontFamily'
+  | 'xAxisLabelPrefix'
+  | 'xAxisLabelSuffix'
+  | 'yAxisLabelFontFamily'
+  | 'leftBarLabelFontFamily'
+  | 'leftBarLabelPrefix'
+  | 'leftBarLabelSuffix'
+  | 'rightBarLabelFontFamily'
+  | 'rightBarLabelPrefix'
+  | 'rightBarLabelSuffix'
+  | 'midAxisLabelFontFamily',
+  string
+>

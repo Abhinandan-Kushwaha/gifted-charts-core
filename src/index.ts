@@ -200,5 +200,6 @@ export {
   type LabelLineConfig,
   type TooltipProps,
   type SpreadData,
-  type ColorFromToY
+  type ColorFromToY,
+  type RegressionLineConfig
 } from './utils/types'
