@@ -1047,6 +1047,7 @@ export const useBarChart = (
     setPointerX,
     setPointerIndex,
     maxValue,
+    mostNegativeValue,
     maxItem,
     responderStartTime,
     responderActive,

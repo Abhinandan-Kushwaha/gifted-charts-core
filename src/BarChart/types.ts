@@ -1003,6 +1003,7 @@ export interface UseBarChartReturnType {
   setPointerX: Dispatch<SetStateAction<number>>
   setPointerIndex: Dispatch<SetStateAction<number>>
   maxValue: number
+  mostNegativeValue: number
   maxItem: number
   responderStartTime: number
   responderActive: boolean

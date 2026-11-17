@@ -23,6 +23,7 @@ export interface StripAndLabelProps {
   showPointerStrip: boolean
   pointerStripWidth: number
   containerHeight: number
+  containerHeightIncludingBelowXAxis: number,
   xAxisThickness: number
   pointerStripColor: ColorValue
   pointerConfig?: Pointer
