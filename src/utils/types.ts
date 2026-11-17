@@ -107,7 +107,7 @@ export interface secondaryYAxisType {
 export interface TooltipProps {
   barHeight: number
   barWidth: number
-  item: any
+  item: barDataItem | stackDataItem
   index: number
   isLast: boolean
   leftSpacing: number
